@@ -13,9 +13,11 @@
 		8D1BB530273EF97700677EF7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D1BB52E273EF97700677EF7 /* Main.storyboard */; };
 		8D1BB532273EF97900677EF7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D1BB531273EF97900677EF7 /* Assets.xcassets */; };
 		8D1BB535273EF97900677EF7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D1BB533273EF97900677EF7 /* LaunchScreen.storyboard */; };
+		A5992F72F46083A75BA57786 /* Pods_BallroomBuySell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		09779C0BEDEA96E86099060F /* Pods-BallroomBuySell.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BallroomBuySell.release.xcconfig"; path = "Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell.release.xcconfig"; sourceTree = "<group>"; };
 		8D1BB525273EF97700677EF7 /* BallroomBuySell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BallroomBuySell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D1BB528273EF97700677EF7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D1BB52A273EF97700677EF7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +26,8 @@
 		8D1BB531273EF97900677EF7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8D1BB534273EF97900677EF7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8D1BB536273EF97900677EF7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BallroomBuySell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFF8202CE7EC04C8D430A991 /* Pods-BallroomBuySell.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BallroomBuySell.debug.xcconfig"; path = "Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5992F72F46083A75BA57786 /* Pods_BallroomBuySell.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +47,8 @@
 			children = (
 				8D1BB527273EF97700677EF7 /* BallroomBuySell */,
 				8D1BB526273EF97700677EF7 /* Products */,
+				C0DF630F21E473235DEE8AD0 /* Pods */,
+				DF3997E9CC3FC28F87C1153E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +74,24 @@
 			path = BallroomBuySell;
 			sourceTree = "<group>";
 		};
+		C0DF630F21E473235DEE8AD0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EFF8202CE7EC04C8D430A991 /* Pods-BallroomBuySell.debug.xcconfig */,
+				09779C0BEDEA96E86099060F /* Pods-BallroomBuySell.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		DF3997E9CC3FC28F87C1153E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,9 +99,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8D1BB539273EF97900677EF7 /* Build configuration list for PBXNativeTarget "BallroomBuySell" */;
 			buildPhases = (
+				629DED7F9B5837E7FACC53D8 /* [CP] Check Pods Manifest.lock */,
 				8D1BB521273EF97700677EF7 /* Sources */,
 				8D1BB522273EF97700677EF7 /* Frameworks */,
 				8D1BB523273EF97700677EF7 /* Resources */,
+				20DE48163DE5606D01752C48 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -131,6 +158,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		20DE48163DE5606D01752C48 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		629DED7F9B5837E7FACC53D8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BallroomBuySell-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D1BB521273EF97700677EF7 /* Sources */ = {
@@ -283,6 +352,7 @@
 		};
 		8D1BB53A273EF97900677EF7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EFF8202CE7EC04C8D430A991 /* Pods-BallroomBuySell.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -301,6 +371,7 @@
 		};
 		8D1BB53B273EF97900677EF7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 09779C0BEDEA96E86099060F /* Pods-BallroomBuySell.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
