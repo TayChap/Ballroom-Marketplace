@@ -22,6 +22,7 @@
 		8D9D452B277A28A2004C5565 /* Authentication.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D452A277A28A2004C5565 /* Authentication.storyboard */; };
 		8D9D452E277A2BFE004C5565 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D452D277A2BFE004C5565 /* NavigationController.swift */; };
 		8D9D4530277A37C8004C5565 /* BuyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D452F277A37C8004C5565 /* BuyVC.swift */; };
+		8D9D4532277A53D0004C5565 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D4531277A53D0004C5565 /* GoogleService-Info.plist */; };
 		A5992F72F46083A75BA57786 /* Pods_BallroomBuySell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 		8D9D452A277A28A2004C5565 /* Authentication.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Authentication.storyboard; sourceTree = "<group>"; };
 		8D9D452D277A2BFE004C5565 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		8D9D452F277A37C8004C5565 /* BuyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyVC.swift; sourceTree = "<group>"; };
+		8D9D4531277A53D0004C5565 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BallroomBuySell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF8202CE7EC04C8D430A991 /* Pods-BallroomBuySell.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BallroomBuySell.debug.xcconfig"; path = "Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -83,9 +85,10 @@
 		8D1BB527273EF97700677EF7 /* BallroomBuySell */ = {
 			isa = PBXGroup;
 			children = (
-				8D9D452C277A2BDF004C5565 /* CustomClasses */,
 				8D9D44EB2770C599004C5565 /* AppDelegate */,
+				8D9D452C277A2BDF004C5565 /* CustomClasses */,
 				8D9D44E72770C537004C5565 /* Extensions */,
+				8D9D4531277A53D0004C5565 /* GoogleService-Info.plist */,
 				8D9D451827721FB5004C5565 /* Managers */,
 				8D9D451527721F66004C5565 /* Protocols */,
 				8D9D44E92770C55C004C5565 /* Resources */,
@@ -306,6 +309,7 @@
 				8D1BB532273EF97900677EF7 /* Assets.xcassets in Resources */,
 				8D1BB530273EF97700677EF7 /* Main.storyboard in Resources */,
 				8D9D452B277A28A2004C5565 /* Authentication.storyboard in Resources */,
+				8D9D4532277A53D0004C5565 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
