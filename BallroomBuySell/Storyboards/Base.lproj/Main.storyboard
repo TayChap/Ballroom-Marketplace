@@ -44,10 +44,10 @@
             </objects>
             <point key="canvasLocation" x="-510" y="611"/>
         </scene>
-        <!--View Controller-->
+        <!--BuyVC-->
         <scene sceneID="0Fl-p4-Xbc">
             <objects>
-                <viewController id="tzZ-SI-Im0" sceneMemberID="viewController">
+                <viewController id="tzZ-SI-Im0" customClass="BuyVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="h3t-LV-88g">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -110,10 +110,10 @@
             </objects>
             <point key="canvasLocation" x="464" y="1357"/>
         </scene>
-        <!--View Controller-->
+        <!--ProfileVC-->
         <scene sceneID="Jg9-zn-5Eu">
             <objects>
-                <viewController id="vnn-B4-q01" sceneMemberID="viewController">
+                <viewController id="vnn-B4-q01" customClass="ProfileVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="e70-BN-EAF">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
