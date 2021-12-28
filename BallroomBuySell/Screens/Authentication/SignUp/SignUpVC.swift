@@ -20,7 +20,9 @@ class SignUpVC: UIViewController, ViewControllerProtocol {
     
     // MARK: - IBActions
     @IBAction func testDismiss(_ sender: Any) {
-        dismiss()
+        AuthenticationManager().createUser(email: "hi@gmail.com", password: "test123") {
+            self.dismiss()
+        }
     }
     
     // MARK: - ViewControllerProtocol

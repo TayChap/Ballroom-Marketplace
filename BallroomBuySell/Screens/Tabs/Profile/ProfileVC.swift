@@ -12,8 +12,12 @@ class ProfileVC: UIViewController, ViewControllerProtocol {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // TODO! if not logged in
-        presentViewController(LoginVC.createViewController())
+        guard let user = AuthenticationManager().user else {
+            presentViewController(LoginVC.createViewController())
+            return
+        }
+        
+        // TODO! initialize table
     }
     
     // MARK: - ViewControllerProtocol
