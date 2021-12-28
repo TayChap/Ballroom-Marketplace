@@ -180,8 +180,8 @@
 		8D9D451827721FB5004C5565 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				8D9D451927721FCD004C5565 /* StoryboardManager.swift */,
 				8D9D4535277B92DB004C5565 /* AuthenticationManager.swift */,
+				8D9D451927721FCD004C5565 /* StoryboardManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
