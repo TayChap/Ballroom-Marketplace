@@ -7,7 +7,8 @@
 
 import UIKit
 
-class SignUpVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UITableViewDataSource {
+class SignUpVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol, TextFieldCellDelegate {
+    @IBOutlet weak var signUpButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     private var vm: SignUpVM!
     
@@ -27,6 +28,13 @@ class SignUpVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, U
         vm.viewDidLoad(tableView)
     }
     
+    // MARK: - IBActions
+    @IBAction func signUpButtonClicked(_ sender: Any) {
+        AuthenticationManager().createUser(email: "hi2@gmail.com", password: "test123", displayName: "cool test name") {
+            self.dismiss()
+        }
+    }
+    
     // MARK: - Table Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         vm.tableView(tableView, numberOfRowsInSection: section)
@@ -38,10 +46,15 @@ class SignUpVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, U
     
     // MARK: - ViewControllerProtocol
     func dismiss() {
-//        AuthenticationManager().createUser(email: "hi2@gmail.com", password: "test123", displayName: "cool test name") {
-//            self.dismiss()
-//        }
-        
         dismiss(animated: true)
+    }
+    
+    // MARK: - TextFieldCell Delegate
+    func textFieldUpdated(_ newText: String, for cell: TextFieldTableCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+        
+        vm.setData(newText, at: indexPath)
     }
 }

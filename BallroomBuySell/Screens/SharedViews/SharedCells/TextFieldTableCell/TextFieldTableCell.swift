@@ -7,31 +7,31 @@
 
 import UIKit
 
-protocol TextFieldCellDelegate {
-    
+protocol TextFieldCellDelegate: AnyObject { // AnyObject because it must be a class for weak delegate reference
+    func textFieldUpdated(_ newText: String, for cell: TextFieldTableCell)
 }
 
 class TextFieldTableCell: UITableViewCell, TableCellProtocol, UITextFieldDelegate {
     enum InputType {
-        case standard, passwordMasked, passwordUnmasked , email
+        case standard, password, email
         
         var keyboardType: UIKeyboardType {
             switch self {
-            case .standard, .passwordMasked, .passwordUnmasked: return .default
+            case .standard, .password: return .default
             case .email: return .emailAddress
             }
         }
         
         var autoCapitalization: UITextAutocapitalizationType {
             switch self {
-            case .passwordMasked, .passwordUnmasked, .email: return .none
+            case .password, .email: return .none
             default: return .sentences
             }
         }
         
         var autocorrectionType: UITextAutocorrectionType {
             switch self {
-            case .passwordMasked, .passwordUnmasked, .email: return .no
+            case .password, .email: return .no
             default: return .yes
             }
         }
@@ -40,10 +40,9 @@ class TextFieldTableCell: UITableViewCell, TableCellProtocol, UITextFieldDelegat
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
-    // TODO! add action button for mask / unmask
     @IBOutlet weak var underlineView: UIView!
     
-    var delegate: TextFieldCellDelegate?
+    weak var delegate: TextFieldCellDelegate? // weak to prevent strong reference cycle
     
     // MARK: - Lifecycle Methods
     static func registerCell(_ tableView: UITableView) {
@@ -70,17 +69,12 @@ class TextFieldTableCell: UITableViewCell, TableCellProtocol, UITextFieldDelegat
         
         textField.text = dm.detail
         textField.keyboardType = dm.type.keyboardType
-        textField.isSecureTextEntry = dm.type == .passwordMasked
+        textField.isSecureTextEntry = dm.type == .password
         textField.textContentType = .oneTimeCode // force disable strong password
         textField.autocorrectionType = dm.type.autocorrectionType
         textField.autocapitalizationType = dm.type.autoCapitalization
         textField.returnKeyType = dm.returnKeyType
         textField.delegate = self
-        
-//        if let actionImage = dm.actionButtonImage {
-//            actionButton.isHidden = false
-//            actionButton.setImage(actionImage)
-//        }
     }
     
     func clearContent() {
@@ -90,5 +84,15 @@ class TextFieldTableCell: UITableViewCell, TableCellProtocol, UITextFieldDelegat
     }
     
     // MARK: - TextFieldDelegate
-    // ...
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard
+            let text = textField.text,
+            let textRange = Range(range, in: text)
+        else {
+            return false
+        }
+        
+        delegate?.textFieldUpdated(text.replacingCharacters(in: textRange, with: string), for: self)
+        return true
+    }
 }

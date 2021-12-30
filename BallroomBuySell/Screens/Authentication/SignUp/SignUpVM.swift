@@ -20,9 +20,25 @@ struct SignUpVM {
             case .password: return "password"
             }
         }
+        
+        var type: TextFieldTableCell.InputType {
+            switch self {
+            case .email: return .email
+            case .name: return .standard
+            case .password: return .password
+            }
+        }
+        
+        var returnKeyType: UIReturnKeyType {
+            switch self {
+            case .password: return .done
+            default: return .next
+            }
+        }
     }
     
     private weak var delegate: ViewControllerProtocol? // TODO! potentially remove
+    private var dm = [String].init(repeating: "", count: SignUpItem.allCases.count)
     
     // MARK: - Lifecycle Methods
     init(_ owner: ViewControllerProtocol) {
@@ -44,17 +60,17 @@ struct SignUpVM {
         }
         
         let cellData = SignUpItem.allCases[indexPath.row]
-        cell.configureCell(TextFieldCellDM(type: .standard,
+        cell.configureCell(TextFieldCellDM(type: cellData.type,
                                            title: cellData.text,
-                                           detail: "ok ok",
+                                           detail: dm[indexPath.row],
                                            returnKeyType: .done))
         
         cell.delegate = owner as? TextFieldCellDelegate
         return cell
     }
     
-    // MARK: - StandardTextField Delegate
-    mutating func textFieldUpdated(_ newText: String) {
-        // TODO!
+    // MARK: - Public Helpers
+    mutating func setData(_ data: String, at indexPath: IndexPath) {
+        dm[indexPath.row] = data
     }
 }
