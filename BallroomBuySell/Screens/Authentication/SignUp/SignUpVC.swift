@@ -7,7 +7,10 @@
 
 import UIKit
 
-class SignUpVC: UIViewController, ViewControllerProtocol {
+class SignUpVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet weak var tableView: UITableView!
+    private var vm: SignUpVM!
+    
     // MARK: - Lifecycle Methods
     static func createViewController() -> UIViewController {
         guard let vc = StoryboardManager().getAuthentication().instantiateViewController(withIdentifier: String(describing: SignUpVC.self)) as? SignUpVC else {
@@ -15,18 +18,30 @@ class SignUpVC: UIViewController, ViewControllerProtocol {
             return UIViewController()
         }
         
+        vc.vm = SignUpVM(vc)
         return vc
     }
     
-    // MARK: - IBActions
-    @IBAction func testDismiss(_ sender: Any) {
-        AuthenticationManager().createUser(email: "hi2@gmail.com", password: "test123", displayName: "cool test name") {
-            self.dismiss()
-        }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        vm.viewDidLoad(tableView)
+    }
+    
+    // MARK: - Table Methods
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        vm.tableView(tableView, numberOfRowsInSection: section)
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        vm.tableView(tableView, cellForRowAt: indexPath, self)
     }
     
     // MARK: - ViewControllerProtocol
     func dismiss() {
+//        AuthenticationManager().createUser(email: "hi2@gmail.com", password: "test123", displayName: "cool test name") {
+//            self.dismiss()
+//        }
+        
         dismiss(animated: true)
     }
 }
