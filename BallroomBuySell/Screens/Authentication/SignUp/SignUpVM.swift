@@ -10,13 +10,13 @@ import UIKit
 struct SignUpVM {
     enum SignUpItem: CaseIterable {
         case email
-        case name
+        case displayName
         case password
         
         var text: String {
             switch self {
             case .email: return "email"
-            case .name: return "name"
+            case .displayName: return "name"
             case .password: return "password"
             }
         }
@@ -24,7 +24,7 @@ struct SignUpVM {
         var type: TextFieldTableCell.InputType {
             switch self {
             case .email: return .email
-            case .name: return .standard
+            case .displayName: return .standard
             case .password: return .password
             }
         }
@@ -37,16 +37,34 @@ struct SignUpVM {
         }
     }
     
-    private weak var delegate: ViewControllerProtocol? // TODO! potentially remove
-    private var dm = [String].init(repeating: "", count: SignUpItem.allCases.count)
+    private var dm = [SignUpItem: String]()
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol) {
-        delegate = owner
+    init() {
+        for item in SignUpItem.allCases {
+            dm[item] = ""
+        }
     }
     
     func viewDidLoad(_ tableView: UITableView) {
         TextFieldTableCell.registerCell(tableView)
+    }
+    
+    // MARK: - IBActions
+    func signUpButtonClicked(_ delegate: ViewControllerProtocol, _ enableButton: () -> Void) {
+        guard // validity of email and password checked on server side
+            let email = dm[SignUpItem.email],
+            let password = dm[SignUpItem.password],
+            let displayName = dm[SignUpItem.displayName], !displayName.isEmpty
+        else {
+            return // TODO! please fill out all required fields
+        }
+        
+        AuthenticationManager().createUser(email: email,
+                                           password: password,
+                                           displayName: displayName) {
+            delegate.dismiss()
+        }
     }
     
     // MARK: - Table Methods
@@ -62,7 +80,7 @@ struct SignUpVM {
         let cellData = SignUpItem.allCases[indexPath.row]
         cell.configureCell(TextFieldCellDM(type: cellData.type,
                                            title: cellData.text,
-                                           detail: dm[indexPath.row],
+                                           detail: dm[cellData] ?? "",
                                            returnKeyType: .done))
         
         cell.delegate = owner as? TextFieldCellDelegate
@@ -71,6 +89,6 @@ struct SignUpVM {
     
     // MARK: - Public Helpers
     mutating func setData(_ data: String, at indexPath: IndexPath) {
-        dm[indexPath.row] = data
+        dm[SignUpItem.allCases[indexPath.row]] = data
     }
 }

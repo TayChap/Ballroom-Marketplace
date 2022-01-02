@@ -10,7 +10,7 @@ import UIKit
 class SignUpVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol, TextFieldCellDelegate {
     @IBOutlet weak var signUpButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
-    private var vm: SignUpVM!
+    private var vm = SignUpVM()
     
     // MARK: - Lifecycle Methods
     static func createViewController() -> UIViewController {
@@ -19,7 +19,6 @@ class SignUpVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vi
             return UIViewController()
         }
         
-        vc.vm = SignUpVM(vc)
         return vc
     }
     
@@ -29,9 +28,10 @@ class SignUpVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vi
     }
     
     // MARK: - IBActions
-    @IBAction func signUpButtonClicked(_ sender: Any) {
-        AuthenticationManager().createUser(email: "hi2@gmail.com", password: "test123", displayName: "cool test name") {
-            self.dismiss()
+    @IBAction func signUpButtonClicked() {
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        vm.signUpButtonClicked(self) {
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
         }
     }
     
