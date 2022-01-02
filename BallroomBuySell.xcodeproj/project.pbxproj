@@ -31,6 +31,9 @@
 		8D9D4543277CE193004C5565 /* TextFieldTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D4542277CE193004C5565 /* TextFieldTableCell.xib */; };
 		8D9D4545277D1573004C5565 /* SignUpVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D4544277D1573004C5565 /* SignUpVM.swift */; };
 		8D9D4547277D15AD004C5565 /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D4546277D15AD004C5565 /* LoginVM.swift */; };
+		8D9D455327822B85004C5565 /* ButtonTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D455227822B85004C5565 /* ButtonTableCell.swift */; };
+		8D9D455527822B91004C5565 /* ButtonTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D455427822B91004C5565 /* ButtonTableCell.xib */; };
+		8D9D45592782302C004C5565 /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45582782302C004C5565 /* UIButton.swift */; };
 		A5992F72F46083A75BA57786 /* Pods_BallroomBuySell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +67,9 @@
 		8D9D4542277CE193004C5565 /* TextFieldTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextFieldTableCell.xib; sourceTree = "<group>"; };
 		8D9D4544277D1573004C5565 /* SignUpVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVM.swift; sourceTree = "<group>"; };
 		8D9D4546277D15AD004C5565 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
+		8D9D455227822B85004C5565 /* ButtonTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTableCell.swift; sourceTree = "<group>"; };
+		8D9D455427822B91004C5565 /* ButtonTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ButtonTableCell.xib; sourceTree = "<group>"; };
+		8D9D45582782302C004C5565 /* UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIButton.swift; path = ../../../../UIButton.swift; sourceTree = "<group>"; };
 		B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BallroomBuySell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF8202CE7EC04C8D430A991 /* Pods-BallroomBuySell.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BallroomBuySell.debug.xcconfig"; path = "Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -118,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				8D9D44EC2770C64A004C5565 /* UIViewController.swift */,
+				8D9D45582782302C004C5565 /* UIButton.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -251,6 +258,7 @@
 		8D9D453A277CDDD6004C5565 /* SharedCells */ = {
 			isa = PBXGroup;
 			children = (
+				8D9D455127822B66004C5565 /* ButtonTableCell */,
 				8D9D453B277CDDE6004C5565 /* TextFieldTableCell */,
 			);
 			path = SharedCells;
@@ -264,6 +272,15 @@
 				8D9D4542277CE193004C5565 /* TextFieldTableCell.xib */,
 			);
 			path = TextFieldTableCell;
+			sourceTree = "<group>";
+		};
+		8D9D455127822B66004C5565 /* ButtonTableCell */ = {
+			isa = PBXGroup;
+			children = (
+				8D9D455227822B85004C5565 /* ButtonTableCell.swift */,
+				8D9D455427822B91004C5565 /* ButtonTableCell.xib */,
+			);
+			path = ButtonTableCell;
 			sourceTree = "<group>";
 		};
 		C0DF630F21E473235DEE8AD0 /* Pods */ = {
@@ -344,6 +361,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D9D455527822B91004C5565 /* ButtonTableCell.xib in Resources */,
 				8D1BB535273EF97900677EF7 /* LaunchScreen.storyboard in Resources */,
 				8D9D450927711E44004C5565 /* Localizable.strings in Resources */,
 				8D1BB532273EF97900677EF7 /* Assets.xcassets in Resources */,
@@ -405,9 +423,11 @@
 			files = (
 				8D9D4524277231D7004C5565 /* SignUpVC.swift in Sources */,
 				8D9D451F277228EF004C5565 /* ProfileVC.swift in Sources */,
+				8D9D455327822B85004C5565 /* ButtonTableCell.swift in Sources */,
 				8D9D4545277D1573004C5565 /* SignUpVM.swift in Sources */,
 				8D9D453F277CDE09004C5565 /* TextFieldTableCell.swift in Sources */,
 				8D9D4536277B92DB004C5565 /* AuthenticationManager.swift in Sources */,
+				8D9D45592782302C004C5565 /* UIButton.swift in Sources */,
 				8D9D451727721F77004C5565 /* ViewControllerProtocol.swift in Sources */,
 				8D9D4538277BB14C004C5565 /* SellVC.swift in Sources */,
 				8D9D452127723068004C5565 /* LoginVC.swift in Sources */,

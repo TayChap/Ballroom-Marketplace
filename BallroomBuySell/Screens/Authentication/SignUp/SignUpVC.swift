@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SignUpVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol, TextFieldCellDelegate {
+class SignUpVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, TextFieldCellDelegate {
     @IBOutlet weak var signUpButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     private var vm = SignUpVM()
@@ -31,7 +31,7 @@ class SignUpVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vi
     @IBAction func signUpButtonClicked() {
         navigationItem.rightBarButtonItem?.isEnabled = false
         vm.signUpButtonClicked(self) {
-            self.navigationItem.rightBarButtonItem?.isEnabled = true
+            signUpButton.isEnabled = true
         }
     }
     
@@ -49,7 +49,7 @@ class SignUpVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vi
         dismiss(animated: true)
     }
     
-    // MARK: - TextFieldCell Delegate
+    // MARK: - TextFieldCellDelegate
     func textFieldUpdated(_ newText: String, for cell: TextFieldTableCell) {
         guard let indexPath = tableView.indexPath(for: cell) else {
             return

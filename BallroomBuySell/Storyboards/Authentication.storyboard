@@ -32,20 +32,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h14-hu-CyJ">
-                                <rect key="frame" x="184" y="185" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1pm-up-APN">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
-                                    <action selector="testPush:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="B8m-my-B4T"/>
+                                    <outlet property="dataSource" destination="Y6W-OH-hqX" id="GCM-SJ-utD"/>
+                                    <outlet property="delegate" destination="Y6W-OH-hqX" id="URS-RO-IiD"/>
                                 </connections>
-                            </button>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="1pm-up-APN" secondAttribute="bottom" id="H7w-xU-lWI"/>
+                            <constraint firstItem="1pm-up-APN" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="bvb-I6-DiX"/>
+                            <constraint firstItem="1pm-up-APN" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="dqF-di-qFE"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="1pm-up-APN" secondAttribute="trailing" id="rnv-NY-lY6"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Mjm-xm-HNx"/>
+                    <navigationItem key="navigationItem" id="Mjm-xm-HNx">
+                        <barButtonItem key="leftBarButtonItem" image="xmark" catalog="system" id="95c-ps-5B9">
+                            <connections>
+                                <action selector="closeButtonClicked" destination="Y6W-OH-hqX" id="7Y8-nC-q1F"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="checkmark" catalog="system" id="tKo-XV-I0m">
+                            <connections>
+                                <action selector="loginButtonClicked" destination="Y6W-OH-hqX" id="lEv-H4-Xxp"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="closeButton" destination="95c-ps-5B9" id="Pv6-rN-zfI"/>
+                        <outlet property="loginButton" destination="tKo-XV-I0m" id="tNi-ib-rbG"/>
+                        <outlet property="tableView" destination="1pm-up-APN" id="4OO-c3-jQ3"/>
                         <segue destination="p0P-Jy-xTp" kind="show" id="C9S-li-K3s"/>
                     </connections>
                 </viewController>
@@ -66,7 +86,6 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="p0P-Jy-xTp" id="2gW-fh-V4C"/>
-                                    <outlet property="delegate" destination="p0P-Jy-xTp" id="csx-me-loN"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -98,6 +117,7 @@
     </scenes>
     <resources>
         <image name="checkmark" catalog="system" width="128" height="114"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
