@@ -15,7 +15,7 @@ class BuyVC: UIViewController, ViewControllerProtocol {
     
     // MARK: - IBActions
     @IBAction func sellButtonClicked() {
-        
+        pushViewController(SellVC.createViewController())
     }
     
     @IBAction func profileButtonClicked() {
@@ -24,7 +24,7 @@ class BuyVC: UIViewController, ViewControllerProtocol {
             return
         }
         
-        
+        // TODO! push profile
     }
     
     // MARK: - ViewControllerProtocol

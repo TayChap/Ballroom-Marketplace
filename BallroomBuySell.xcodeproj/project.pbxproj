@@ -34,6 +34,15 @@
 		8D9D455327822B85004C5565 /* ButtonTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D455227822B85004C5565 /* ButtonTableCell.swift */; };
 		8D9D455527822B91004C5565 /* ButtonTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D455427822B91004C5565 /* ButtonTableCell.xib */; };
 		8D9D45592782302C004C5565 /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45582782302C004C5565 /* UIButton.swift */; };
+		8D9D455C2787666A004C5565 /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D455B2787666A004C5565 /* PickerViewController.swift */; };
+		8D9D455E278767A4004C5565 /* PickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D455D278767A4004C5565 /* PickerViewController.xib */; };
+		8D9D456227876E54004C5565 /* PickerCellDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D456127876E54004C5565 /* PickerCellDM.swift */; };
+		8D9D456427876E61004C5565 /* PickerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D456327876E61004C5565 /* PickerTableCell.swift */; };
+		8D9D456627876E6F004C5565 /* PickerTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D456527876E6F004C5565 /* PickerTableCell.xib */; };
+		8D9D456827877820004C5565 /* PickerValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D456727877820004C5565 /* PickerValue.swift */; };
+		8D9D456A2787788A004C5565 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45692787788A004C5565 /* Date.swift */; };
+		8D9D456C278778C8004C5565 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D456B278778C8004C5565 /* DateFormatter.swift */; };
+		8D9D456E27877D4C004C5565 /* SellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D456D27877D4C004C5565 /* SellVM.swift */; };
 		A5992F72F46083A75BA57786 /* Pods_BallroomBuySell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +79,15 @@
 		8D9D455227822B85004C5565 /* ButtonTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTableCell.swift; sourceTree = "<group>"; };
 		8D9D455427822B91004C5565 /* ButtonTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ButtonTableCell.xib; sourceTree = "<group>"; };
 		8D9D45582782302C004C5565 /* UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIButton.swift; path = ../../../../UIButton.swift; sourceTree = "<group>"; };
+		8D9D455B2787666A004C5565 /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
+		8D9D455D278767A4004C5565 /* PickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PickerViewController.xib; sourceTree = "<group>"; };
+		8D9D456127876E54004C5565 /* PickerCellDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerCellDM.swift; sourceTree = "<group>"; };
+		8D9D456327876E61004C5565 /* PickerTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTableCell.swift; sourceTree = "<group>"; };
+		8D9D456527876E6F004C5565 /* PickerTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PickerTableCell.xib; sourceTree = "<group>"; };
+		8D9D456727877820004C5565 /* PickerValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerValue.swift; sourceTree = "<group>"; };
+		8D9D45692787788A004C5565 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		8D9D456B278778C8004C5565 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		8D9D456D27877D4C004C5565 /* SellVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellVM.swift; sourceTree = "<group>"; };
 		B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BallroomBuySell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF8202CE7EC04C8D430A991 /* Pods-BallroomBuySell.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BallroomBuySell.debug.xcconfig"; path = "Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -123,8 +141,10 @@
 		8D9D44E72770C537004C5565 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				8D9D44EC2770C64A004C5565 /* UIViewController.swift */,
+				8D9D45692787788A004C5565 /* Date.swift */,
+				8D9D456B278778C8004C5565 /* DateFormatter.swift */,
 				8D9D45582782302C004C5565 /* UIButton.swift */,
+				8D9D44EC2770C64A004C5565 /* UIViewController.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -182,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				8D9D4537277BB14C004C5565 /* SellVC.swift */,
+				8D9D456D27877D4C004C5565 /* SellVM.swift */,
 			);
 			path = Sell;
 			sourceTree = "<group>";
@@ -250,6 +271,7 @@
 		8D9D4539277CDDC7004C5565 /* SharedViews */ = {
 			isa = PBXGroup;
 			children = (
+				8D9D455A2787665B004C5565 /* CustomViews */,
 				8D9D453A277CDDD6004C5565 /* SharedCells */,
 			);
 			path = SharedViews;
@@ -259,6 +281,7 @@
 			isa = PBXGroup;
 			children = (
 				8D9D455127822B66004C5565 /* ButtonTableCell */,
+				8D9D456027876E3B004C5565 /* PickerTableCell */,
 				8D9D453B277CDDE6004C5565 /* TextFieldTableCell */,
 			);
 			path = SharedCells;
@@ -281,6 +304,34 @@
 				8D9D455427822B91004C5565 /* ButtonTableCell.xib */,
 			);
 			path = ButtonTableCell;
+			sourceTree = "<group>";
+		};
+		8D9D455A2787665B004C5565 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				8D9D455F278767B1004C5565 /* PickerViewController */,
+			);
+			path = CustomViews;
+			sourceTree = "<group>";
+		};
+		8D9D455F278767B1004C5565 /* PickerViewController */ = {
+			isa = PBXGroup;
+			children = (
+				8D9D455B2787666A004C5565 /* PickerViewController.swift */,
+				8D9D455D278767A4004C5565 /* PickerViewController.xib */,
+			);
+			path = PickerViewController;
+			sourceTree = "<group>";
+		};
+		8D9D456027876E3B004C5565 /* PickerTableCell */ = {
+			isa = PBXGroup;
+			children = (
+				8D9D456127876E54004C5565 /* PickerCellDM.swift */,
+				8D9D456327876E61004C5565 /* PickerTableCell.swift */,
+				8D9D456527876E6F004C5565 /* PickerTableCell.xib */,
+				8D9D456727877820004C5565 /* PickerValue.swift */,
+			);
+			path = PickerTableCell;
 			sourceTree = "<group>";
 		};
 		C0DF630F21E473235DEE8AD0 /* Pods */ = {
@@ -361,6 +412,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D9D456627876E6F004C5565 /* PickerTableCell.xib in Resources */,
 				8D9D455527822B91004C5565 /* ButtonTableCell.xib in Resources */,
 				8D1BB535273EF97900677EF7 /* LaunchScreen.storyboard in Resources */,
 				8D9D450927711E44004C5565 /* Localizable.strings in Resources */,
@@ -368,6 +420,7 @@
 				8D1BB530273EF97700677EF7 /* Main.storyboard in Resources */,
 				8D9D452B277A28A2004C5565 /* Authentication.storyboard in Resources */,
 				8D9D4543277CE193004C5565 /* TextFieldTableCell.xib in Resources */,
+				8D9D455E278767A4004C5565 /* PickerViewController.xib in Resources */,
 				8D9D4532277A53D0004C5565 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -423,19 +476,26 @@
 			files = (
 				8D9D4524277231D7004C5565 /* SignUpVC.swift in Sources */,
 				8D9D451F277228EF004C5565 /* ProfileVC.swift in Sources */,
+				8D9D456E27877D4C004C5565 /* SellVM.swift in Sources */,
 				8D9D455327822B85004C5565 /* ButtonTableCell.swift in Sources */,
 				8D9D4545277D1573004C5565 /* SignUpVM.swift in Sources */,
 				8D9D453F277CDE09004C5565 /* TextFieldTableCell.swift in Sources */,
 				8D9D4536277B92DB004C5565 /* AuthenticationManager.swift in Sources */,
 				8D9D45592782302C004C5565 /* UIButton.swift in Sources */,
+				8D9D456827877820004C5565 /* PickerValue.swift in Sources */,
 				8D9D451727721F77004C5565 /* ViewControllerProtocol.swift in Sources */,
 				8D9D4538277BB14C004C5565 /* SellVC.swift in Sources */,
 				8D9D452127723068004C5565 /* LoginVC.swift in Sources */,
+				8D9D455C2787666A004C5565 /* PickerViewController.swift in Sources */,
 				8D9D452E277A2BFE004C5565 /* NavigationController.swift in Sources */,
+				8D9D456227876E54004C5565 /* PickerCellDM.swift in Sources */,
+				8D9D456C278778C8004C5565 /* DateFormatter.swift in Sources */,
 				8D9D4530277A37C8004C5565 /* BuyVC.swift in Sources */,
+				8D9D456427876E61004C5565 /* PickerTableCell.swift in Sources */,
 				8D1BB529273EF97700677EF7 /* AppDelegate.swift in Sources */,
 				8D9D453D277CDDFB004C5565 /* TextFieldCellDM.swift in Sources */,
 				8D9D44ED2770C64A004C5565 /* UIViewController.swift in Sources */,
+				8D9D456A2787788A004C5565 /* Date.swift in Sources */,
 				8D9D4541277CDEFC004C5565 /* TableCellProtocol.swift in Sources */,
 				8D1BB52B273EF97700677EF7 /* SceneDelegate.swift in Sources */,
 				8D9D451A27721FCD004C5565 /* StoryboardManager.swift in Sources */,

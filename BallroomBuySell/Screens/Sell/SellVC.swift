@@ -7,9 +7,57 @@
 
 import UIKit
 
-class SellVC: UIViewController, ViewControllerProtocol {
-    // MARK: - Lifecycle Methods
+class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet weak var tableView: UITableView!
+    private var vm = SellVM()
     
+    // MARK: - Lifecycle Methods
+    static func createViewController() -> UIViewController {
+        guard let vc = StoryboardManager().getMain().instantiateViewController(withIdentifier: String(describing: SellVC.self)) as? SellVC else {
+            assertionFailure("Can't Find VC in Storyboard")
+            return UIViewController()
+        }
+        
+        return vc
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        vm.viewDidLoad(tableView)
+    }
+    
+    // MARK: - IBActions
     
     // MARK: - ViewControllerProtocol
+    func pushViewController(_ vc: UIViewController) {
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func dismiss() {
+        dismiss(animated: true)
+    }
+    
+    // MARK: - Table Methods
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        vm.tableView(tableView, numberOfRowsInSection: section)
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        vm.tableView(tableView, cellForRowAt: indexPath, self)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        vm.tableView(tableView, didSelectRowAt: indexPath, self)
+//        tableView.reloadData() // TODO! evaluate
+//        checkRequiredFields()
+    }
+    
+    // MARK: - TextFieldCellDelegate
+    func textFieldUpdated(_ newText: String, for cell: TextFieldTableCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+        
+        vm.setData(newText, at: indexPath)
+    }
 }
