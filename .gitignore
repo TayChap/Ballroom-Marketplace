@@ -30,16 +30,6 @@ playground.xcworkspace
 # Add this line if you want to avoid checking in source code from the Xcode workspace
 # *.xcworkspace
 
-# Carthage
-#
-# Add this line if you want to avoid checking in source code from Carthage dependencies.
-# Carthage/Checkouts
-Carthage/Build/
-
-# Accio dependency management
-Dependencies/
-.accio/
-
 # fastlane
 #
 # It is recommended to not store the screenshots in the git repo.
@@ -56,3 +46,6 @@ fastlane/test_output
 # After new code Injection tools there's a generated folder /iOSInjectionProject
 # https://github.com/johnno1962/injectionforxcode
 iOSInjectionProject/
+
+# Firebase
+GoogleService-Info.plist

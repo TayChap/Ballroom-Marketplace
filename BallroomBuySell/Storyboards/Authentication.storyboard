@@ -27,29 +27,49 @@
         <!--LoginVC-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="LoginVC" id="Y6W-OH-hqX" customClass="LoginVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h14-hu-CyJ">
-                                <rect key="frame" x="184" y="185" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1pm-up-APN">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
-                                    <action selector="testPush:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="B8m-my-B4T"/>
+                                    <outlet property="dataSource" destination="Y6W-OH-hqX" id="GCM-SJ-utD"/>
+                                    <outlet property="delegate" destination="Y6W-OH-hqX" id="URS-RO-IiD"/>
                                 </connections>
-                            </button>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="1pm-up-APN" secondAttribute="bottom" id="H7w-xU-lWI"/>
+                            <constraint firstItem="1pm-up-APN" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="bvb-I6-DiX"/>
+                            <constraint firstItem="1pm-up-APN" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="dqF-di-qFE"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="1pm-up-APN" secondAttribute="trailing" id="rnv-NY-lY6"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Mjm-xm-HNx"/>
+                    <navigationItem key="navigationItem" id="Mjm-xm-HNx">
+                        <barButtonItem key="leftBarButtonItem" image="xmark" catalog="system" id="95c-ps-5B9">
+                            <connections>
+                                <action selector="closeButtonClicked" destination="Y6W-OH-hqX" id="7Y8-nC-q1F"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="checkmark" catalog="system" id="tKo-XV-I0m">
+                            <connections>
+                                <action selector="loginButtonClicked" destination="Y6W-OH-hqX" id="lEv-H4-Xxp"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="closeButton" destination="95c-ps-5B9" id="Pv6-rN-zfI"/>
+                        <outlet property="loginButton" destination="tKo-XV-I0m" id="tNi-ib-rbG"/>
+                        <outlet property="tableView" destination="1pm-up-APN" id="4OO-c3-jQ3"/>
                         <segue destination="p0P-Jy-xTp" kind="show" id="C9S-li-K3s"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-951" y="131"/>
         </scene>
@@ -61,19 +81,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BmZ-Zo-0ED">
-                                <rect key="frame" x="184" y="676" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9k3-0z-tr3">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
-                                    <action selector="testDismiss:" destination="p0P-Jy-xTp" eventType="touchUpInside" id="qDN-J5-neT"/>
+                                    <outlet property="dataSource" destination="p0P-Jy-xTp" id="2gW-fh-V4C"/>
                                 </connections>
-                            </button>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="NhU-in-OYY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="NhU-in-OYY" firstAttribute="bottom" secondItem="9k3-0z-tr3" secondAttribute="bottom" id="36o-E2-cbo"/>
+                            <constraint firstItem="NhU-in-OYY" firstAttribute="trailing" secondItem="9k3-0z-tr3" secondAttribute="trailing" id="9ov-GK-UUy"/>
+                            <constraint firstItem="9k3-0z-tr3" firstAttribute="top" secondItem="NhU-in-OYY" secondAttribute="top" id="gDC-dt-pSa"/>
+                            <constraint firstItem="9k3-0z-tr3" firstAttribute="leading" secondItem="NhU-in-OYY" secondAttribute="leading" id="kjr-zX-rHW"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="cMr-r7-528"/>
+                    <navigationItem key="navigationItem" id="cMr-r7-528">
+                        <barButtonItem key="rightBarButtonItem" image="checkmark" catalog="system" id="HEc-DF-Yn9">
+                            <connections>
+                                <action selector="signUpButtonClicked" destination="p0P-Jy-xTp" id="rNm-PD-51K"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="signUpButton" destination="HEc-DF-Yn9" id="QU9-NH-R0B"/>
+                        <outlet property="tableView" destination="9k3-0z-tr3" id="6a0-cH-2P2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zAa-41-eJK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -81,6 +116,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="checkmark" catalog="system" width="128" height="114"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
