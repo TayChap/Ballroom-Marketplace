@@ -51,19 +51,22 @@ struct SignUpVM {
     }
     
     // MARK: - IBActions
-    func signUpButtonClicked(_ delegate: ViewControllerProtocol, _ enableButton: () -> Void) {
+    func signUpButtonClicked(_ delegate: ViewControllerProtocol, _ enableButton: @escaping () -> Void) {
         guard // validity of email and password checked on server side
             let email = dm[SignUpItem.email],
             let password = dm[SignUpItem.password],
             let displayName = dm[SignUpItem.displayName], !displayName.isEmpty
         else {
-            return // TODO! please fill out all required fields
+            delegate.showAlertWith(message: "req_fields") // TODO! localize
+            enableButton()
+            return
         }
         
-        AuthenticationManager().createUser(email: email,
-                                           password: password,
-                                           displayName: displayName) {
+        AuthenticationManager().createUser(email: email, password: password, displayName: displayName) {
             delegate.dismiss()
+        } onFail: { errorMessage in
+            delegate.showAlertWith(message: errorMessage)
+            enableButton()
         }
     }
     
@@ -82,7 +85,6 @@ struct SignUpVM {
                                            title: cellData.text,
                                            detail: dm[cellData] ?? "",
                                            returnKeyType: .done))
-        
         cell.delegate = owner as? TextFieldCellDelegate
         return cell
     }

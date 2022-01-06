@@ -26,13 +26,35 @@ struct AuthenticationManager {
         return User(email: email, displayName: displayName)
     }
     
-    func createUser(email: String, password: String, displayName: String, completion: @escaping () -> Void) {
+    func createUser(email: String, password: String, displayName: String, completion: @escaping () -> Void, onFail: @escaping (_ errorMessage: String) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            if let error = error {
+                onFail(getErrorMessage(error))
+                return
+            }
+            
+            // Update displayName after user created
             let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
             changeRequest?.displayName = displayName
             changeRequest?.commitChanges { error in
+                if let error = error {
+                    onFail(getErrorMessage(error))
+                    return
+                }
+                
                 completion()
             }
+        }
+    }
+    
+    func login(email: String, password: String, completion: @escaping () -> Void, onFail: @escaping (_ errorMessage: String) -> Void) {
+        Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+            if let error = error {
+                onFail(getErrorMessage(error))
+                return
+            }
+            
+            completion()
         }
     }
     
@@ -44,5 +66,10 @@ struct AuthenticationManager {
         } catch {
             onFail()
         }
+    }
+    
+    // MARK: - Private Helpers
+    private func getErrorMessage(_ error: Error) -> String {
+        error.localizedDescription // TODO! user facing errors
     }
 }

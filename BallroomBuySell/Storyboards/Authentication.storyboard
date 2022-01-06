@@ -101,7 +101,7 @@
                     <navigationItem key="navigationItem" id="cMr-r7-528">
                         <barButtonItem key="rightBarButtonItem" image="checkmark" catalog="system" id="HEc-DF-Yn9">
                             <connections>
-                                <action selector="signUpButtonClicked:" destination="p0P-Jy-xTp" id="9Yv-0w-pxi"/>
+                                <action selector="signUpButtonClicked" destination="p0P-Jy-xTp" id="rNm-PD-51K"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

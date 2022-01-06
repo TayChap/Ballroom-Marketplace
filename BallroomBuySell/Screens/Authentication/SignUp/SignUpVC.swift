@@ -31,7 +31,7 @@ class SignUpVC: UIViewController, UITableViewDataSource, ViewControllerProtocol,
     @IBAction func signUpButtonClicked() {
         navigationItem.rightBarButtonItem?.isEnabled = false
         vm.signUpButtonClicked(self) {
-            signUpButton.isEnabled = true
+            self.signUpButton.isEnabled = true
         }
     }
     

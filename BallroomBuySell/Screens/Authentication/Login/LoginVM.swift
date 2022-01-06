@@ -43,7 +43,6 @@ struct LoginVM {
     
     private var dm = [LoginItem: String]()
     
-    
     // MARK: - Lifecycle Methods
     init() {
         for item in LoginItem.allCases where item.hasData {
@@ -65,11 +64,11 @@ struct LoginVM {
             return
         }
         
-//        AuthenticationManager().createUser(email: email,
-//                                           password: password,
-//                                           displayName: displayName) {
-//            delegate.dismiss()
-//        }
+        AuthenticationManager().login(email: email, password: password) {
+            delegate.dismiss()
+        } onFail: { errorMessage in
+            delegate.showAlertWith(message: errorMessage)
+        }
     }
     
     // MARK: - Table Methods
