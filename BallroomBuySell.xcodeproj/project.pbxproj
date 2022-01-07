@@ -47,6 +47,10 @@
 		8D9D45732788D929004C5565 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45722788D929004C5565 /* User.swift */; };
 		8D9D45752788DF30004C5565 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45742788DF30004C5565 /* DatabaseManager.swift */; };
 		8D9D45772788E038004C5565 /* SaleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45762788E038004C5565 /* SaleItem.swift */; };
+		8D9D45792788F044004C5565 /* SaleItemCellStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45782788F044004C5565 /* SaleItemCellStructure.swift */; };
+		8D9D457D2788F0E4004C5565 /* SaleItemTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D457C2788F0E4004C5565 /* SaleItemTemplate.swift */; };
+		8D9D457F2788F5EF004C5565 /* SaleItemCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D457E2788F5EF004C5565 /* SaleItemCellType.swift */; };
+		8D9D4581278902BD004C5565 /* SaleItemPreviewCellStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D4580278902BD004C5565 /* SaleItemPreviewCellStructure.swift */; };
 		A5992F72F46083A75BA57786 /* Pods_BallroomBuySell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */; };
 /* End PBXBuildFile section */
 
@@ -96,6 +100,10 @@
 		8D9D45722788D929004C5565 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		8D9D45742788DF30004C5565 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		8D9D45762788E038004C5565 /* SaleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleItem.swift; sourceTree = "<group>"; };
+		8D9D45782788F044004C5565 /* SaleItemCellStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleItemCellStructure.swift; sourceTree = "<group>"; };
+		8D9D457C2788F0E4004C5565 /* SaleItemTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleItemTemplate.swift; sourceTree = "<group>"; };
+		8D9D457E2788F5EF004C5565 /* SaleItemCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleItemCellType.swift; sourceTree = "<group>"; };
+		8D9D4580278902BD004C5565 /* SaleItemPreviewCellStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleItemPreviewCellStructure.swift; sourceTree = "<group>"; };
 		B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BallroomBuySell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF8202CE7EC04C8D430A991 /* Pods-BallroomBuySell.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BallroomBuySell.debug.xcconfig"; path = "Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -228,7 +236,6 @@
 		8D9D451527721F66004C5565 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				8D9D45762788E038004C5565 /* SaleItem.swift */,
 				8D9D4540277CDEFC004C5565 /* TableCellProtocol.swift */,
 				8D9D451627721F77004C5565 /* ViewControllerProtocol.swift */,
 			);
@@ -349,9 +356,22 @@
 		8D9D45712788D914004C5565 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8D9D457A2788F048004C5565 /* SaleItem */,
 				8D9D45722788D929004C5565 /* User.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		8D9D457A2788F048004C5565 /* SaleItem */ = {
+			isa = PBXGroup;
+			children = (
+				8D9D45762788E038004C5565 /* SaleItem.swift */,
+				8D9D45782788F044004C5565 /* SaleItemCellStructure.swift */,
+				8D9D457E2788F5EF004C5565 /* SaleItemCellType.swift */,
+				8D9D457C2788F0E4004C5565 /* SaleItemTemplate.swift */,
+				8D9D4580278902BD004C5565 /* SaleItemPreviewCellStructure.swift */,
+			);
+			path = SaleItem;
 			sourceTree = "<group>";
 		};
 		C0DF630F21E473235DEE8AD0 /* Pods */ = {
@@ -495,13 +515,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D9D4524277231D7004C5565 /* SignUpVC.swift in Sources */,
+				8D9D457D2788F0E4004C5565 /* SaleItemTemplate.swift in Sources */,
 				8D9D451F277228EF004C5565 /* ProfileVC.swift in Sources */,
 				8D9D456E27877D4C004C5565 /* SellVM.swift in Sources */,
 				8D9D455327822B85004C5565 /* ButtonTableCell.swift in Sources */,
 				8D9D4545277D1573004C5565 /* SignUpVM.swift in Sources */,
 				8D9D453F277CDE09004C5565 /* TextFieldTableCell.swift in Sources */,
+				8D9D45792788F044004C5565 /* SaleItemCellStructure.swift in Sources */,
 				8D9D4536277B92DB004C5565 /* AuthenticationManager.swift in Sources */,
 				8D9D45592782302C004C5565 /* UIButton.swift in Sources */,
+				8D9D457F2788F5EF004C5565 /* SaleItemCellType.swift in Sources */,
 				8D9D45752788DF30004C5565 /* DatabaseManager.swift in Sources */,
 				8D9D456827877820004C5565 /* PickerValue.swift in Sources */,
 				8D9D451727721F77004C5565 /* ViewControllerProtocol.swift in Sources */,
@@ -521,6 +544,7 @@
 				8D9D456A2787788A004C5565 /* Date.swift in Sources */,
 				8D9D45772788E038004C5565 /* SaleItem.swift in Sources */,
 				8D9D4541277CDEFC004C5565 /* TableCellProtocol.swift in Sources */,
+				8D9D4581278902BD004C5565 /* SaleItemPreviewCellStructure.swift in Sources */,
 				8D1BB52B273EF97700677EF7 /* SceneDelegate.swift in Sources */,
 				8D9D451A27721FCD004C5565 /* StoryboardManager.swift in Sources */,
 				8D9D4547277D15AD004C5565 /* LoginVM.swift in Sources */,
