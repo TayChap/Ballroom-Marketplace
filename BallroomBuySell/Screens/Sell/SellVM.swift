@@ -13,6 +13,11 @@ struct SellVM {
         PickerTableCell.registerCell(tableView)
     }
     
+    // MARK: - IBActions
+    func doneButtonClicked() {
+        DatabaseManager().createItem()
+    }
+    
     // MARK: - Table Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         1

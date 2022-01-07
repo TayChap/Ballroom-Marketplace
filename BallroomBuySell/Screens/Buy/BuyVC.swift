@@ -10,21 +10,23 @@ import UIKit
 class BuyVC: UIViewController, ViewControllerProtocol {
     @IBOutlet weak var sellButton: UIBarButtonItem!
     @IBOutlet weak var profileButton: UIBarButtonItem!
+    private var vm: BuyVM!
     
     // MARK: - Lifecycle Methods
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        vm = BuyVM(self)
+        
+        //vm.viewDidLoad(tableView)
+    }
     
     // MARK: - IBActions
     @IBAction func sellButtonClicked() {
-        pushViewController(SellVC.createViewController())
+        vm.sellButtonClicked()
     }
     
     @IBAction func profileButtonClicked() {
-        guard let _ = AuthenticationManager().user else {
-            presentViewController(LoginVC.createViewController())
-            return
-        }
-        
-        // TODO! push profile
+        vm.profileButtonClicked()
     }
     
     // MARK: - ViewControllerProtocol

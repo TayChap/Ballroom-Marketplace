@@ -7,13 +7,7 @@
 
 import Firebase
 
-struct AuthenticationManager {
-    struct User {
-        let email: String
-        let displayName: String
-        // TODO! add optional profile image
-    }
-    
+struct AuthenticationManager {    
     var user: User? {
         guard
             let user = Auth.auth().currentUser,

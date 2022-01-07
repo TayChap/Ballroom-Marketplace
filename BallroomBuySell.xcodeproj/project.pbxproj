@@ -43,6 +43,10 @@
 		8D9D456A2787788A004C5565 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45692787788A004C5565 /* Date.swift */; };
 		8D9D456C278778C8004C5565 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D456B278778C8004C5565 /* DateFormatter.swift */; };
 		8D9D456E27877D4C004C5565 /* SellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D456D27877D4C004C5565 /* SellVM.swift */; };
+		8D9D45702788C3B3004C5565 /* BuyVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D456F2788C3B3004C5565 /* BuyVM.swift */; };
+		8D9D45732788D929004C5565 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45722788D929004C5565 /* User.swift */; };
+		8D9D45752788DF30004C5565 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45742788DF30004C5565 /* DatabaseManager.swift */; };
+		8D9D45772788E038004C5565 /* SaleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45762788E038004C5565 /* SaleItem.swift */; };
 		A5992F72F46083A75BA57786 /* Pods_BallroomBuySell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */; };
 /* End PBXBuildFile section */
 
@@ -88,6 +92,10 @@
 		8D9D45692787788A004C5565 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		8D9D456B278778C8004C5565 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		8D9D456D27877D4C004C5565 /* SellVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellVM.swift; sourceTree = "<group>"; };
+		8D9D456F2788C3B3004C5565 /* BuyVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyVM.swift; sourceTree = "<group>"; };
+		8D9D45722788D929004C5565 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		8D9D45742788DF30004C5565 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		8D9D45762788E038004C5565 /* SaleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleItem.swift; sourceTree = "<group>"; };
 		B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BallroomBuySell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF8202CE7EC04C8D430A991 /* Pods-BallroomBuySell.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BallroomBuySell.debug.xcconfig"; path = "Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -130,6 +138,7 @@
 				8D9D44E72770C537004C5565 /* Extensions */,
 				8D9D4531277A53D0004C5565 /* GoogleService-Info.plist */,
 				8D9D451827721FB5004C5565 /* Managers */,
+				8D9D45712788D914004C5565 /* Models */,
 				8D9D451527721F66004C5565 /* Protocols */,
 				8D9D44E92770C55C004C5565 /* Resources */,
 				8D9D44E82770C549004C5565 /* Screens */,
@@ -194,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				8D9D452F277A37C8004C5565 /* BuyVC.swift */,
+				8D9D456F2788C3B3004C5565 /* BuyVM.swift */,
 			);
 			path = Buy;
 			sourceTree = "<group>";
@@ -218,8 +228,9 @@
 		8D9D451527721F66004C5565 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				8D9D451627721F77004C5565 /* ViewControllerProtocol.swift */,
+				8D9D45762788E038004C5565 /* SaleItem.swift */,
 				8D9D4540277CDEFC004C5565 /* TableCellProtocol.swift */,
+				8D9D451627721F77004C5565 /* ViewControllerProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -229,6 +240,7 @@
 			children = (
 				8D9D4535277B92DB004C5565 /* AuthenticationManager.swift */,
 				8D9D451927721FCD004C5565 /* StoryboardManager.swift */,
+				8D9D45742788DF30004C5565 /* DatabaseManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -332,6 +344,14 @@
 				8D9D456727877820004C5565 /* PickerValue.swift */,
 			);
 			path = PickerTableCell;
+			sourceTree = "<group>";
+		};
+		8D9D45712788D914004C5565 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8D9D45722788D929004C5565 /* User.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		C0DF630F21E473235DEE8AD0 /* Pods */ = {
@@ -482,20 +502,24 @@
 				8D9D453F277CDE09004C5565 /* TextFieldTableCell.swift in Sources */,
 				8D9D4536277B92DB004C5565 /* AuthenticationManager.swift in Sources */,
 				8D9D45592782302C004C5565 /* UIButton.swift in Sources */,
+				8D9D45752788DF30004C5565 /* DatabaseManager.swift in Sources */,
 				8D9D456827877820004C5565 /* PickerValue.swift in Sources */,
 				8D9D451727721F77004C5565 /* ViewControllerProtocol.swift in Sources */,
 				8D9D4538277BB14C004C5565 /* SellVC.swift in Sources */,
 				8D9D452127723068004C5565 /* LoginVC.swift in Sources */,
 				8D9D455C2787666A004C5565 /* PickerViewController.swift in Sources */,
 				8D9D452E277A2BFE004C5565 /* NavigationController.swift in Sources */,
+				8D9D45702788C3B3004C5565 /* BuyVM.swift in Sources */,
 				8D9D456227876E54004C5565 /* PickerCellDM.swift in Sources */,
 				8D9D456C278778C8004C5565 /* DateFormatter.swift in Sources */,
 				8D9D4530277A37C8004C5565 /* BuyVC.swift in Sources */,
 				8D9D456427876E61004C5565 /* PickerTableCell.swift in Sources */,
 				8D1BB529273EF97700677EF7 /* AppDelegate.swift in Sources */,
+				8D9D45732788D929004C5565 /* User.swift in Sources */,
 				8D9D453D277CDDFB004C5565 /* TextFieldCellDM.swift in Sources */,
 				8D9D44ED2770C64A004C5565 /* UIViewController.swift in Sources */,
 				8D9D456A2787788A004C5565 /* Date.swift in Sources */,
+				8D9D45772788E038004C5565 /* SaleItem.swift in Sources */,
 				8D9D4541277CDEFC004C5565 /* TableCellProtocol.swift in Sources */,
 				8D1BB52B273EF97700677EF7 /* SceneDelegate.swift in Sources */,
 				8D9D451A27721FCD004C5565 /* StoryboardManager.swift in Sources */,

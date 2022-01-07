@@ -86,8 +86,15 @@
                             <constraint firstItem="X8D-d9-2Zi" firstAttribute="leading" secondItem="Aq2-1w-pVj" secondAttribute="leading" id="XmL-kF-ZeA"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="w2P-QN-ah2"/>
+                    <navigationItem key="navigationItem" id="w2P-QN-ah2">
+                        <barButtonItem key="rightBarButtonItem" image="checkmark" catalog="system" id="fzm-br-B4e">
+                            <connections>
+                                <action selector="doneButtonClicked" destination="5h3-fC-z8R" id="Ygj-zs-ZEA"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="doneButton" destination="fzm-br-B4e" id="Bt7-ef-eJx"/>
                         <outlet property="tableView" destination="X8D-d9-2Zi" id="M3u-CI-cdE"/>
                     </connections>
                 </viewController>
@@ -98,7 +105,7 @@
         <!--ProfileVC-->
         <scene sceneID="Jg9-zn-5Eu">
             <objects>
-                <viewController id="vnn-B4-q01" customClass="ProfileVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileVC" id="vnn-B4-q01" customClass="ProfileVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="e70-BN-EAF">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -113,6 +120,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="checkmark" catalog="system" width="128" height="114"/>
         <image name="mail" catalog="system" width="128" height="93"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
