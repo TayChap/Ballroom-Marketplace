@@ -10,25 +10,21 @@ import UIKit
 class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
-    private var vm = SellVM()
-    
-    private var user: User? // TODO! remove ?
+    private var vm: SellVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController(_ user: User) -> UIViewController {
+    static func createViewController(_ templates: [SaleItemTemplate]) -> UIViewController {
         guard let vc = StoryboardManager().getMain().instantiateViewController(withIdentifier: String(describing: SellVC.self)) as? SellVC else {
             assertionFailure("Can't Find VC in Storyboard")
             return UIViewController()
         }
         
-        vc.user = user
+        vc.vm = SellVM(vc, templates)
         return vc
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        title = user?.displayName ?? "no user" // TODO! remove
         
         vm.viewDidLoad(tableView)
     }

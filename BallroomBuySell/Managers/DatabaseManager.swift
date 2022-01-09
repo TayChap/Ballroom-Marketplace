@@ -28,15 +28,15 @@ struct DatabaseManager {
           }
     }
     
-    func getTemplates(_ completion: @escaping ([SaleItemTemplate]) -> Void) {
-        db.collection("templates").getDocuments { querySnapshot, error  in
+    func getDocuments<T: Decodable>(in collectionId: String, of _: T.Type, _ completion: @escaping ([T]?) -> Void) {
+        db.collection(collectionId).getDocuments { querySnapshot, error  in
             guard let docs = querySnapshot?.documents else {
                 return
             }
             
             return completion(docs.compactMap({ doc in
                 do {
-                    return try doc.data(as: SaleItemTemplate.self)
+                    return try doc.data(as: T.self)
                 } catch {
                     return nil
                 }
