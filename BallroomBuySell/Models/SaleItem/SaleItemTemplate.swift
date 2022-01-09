@@ -5,8 +5,8 @@
 //  Created by Taylor Chapman on 2022-01-07.
 //
 
-struct SaleItemTemplate {
+struct SaleItemTemplate: Codable {
     var name: String
-    var previewCellStructure: [SaleItemPreviewCellStructure]
-    var screenStructure: [SaleItemCellStructure]
+    //var previewCellStructure: [SaleItemPreviewCellStructure]
+    var cellStructure: [SaleItemCellStructure] // screenStructure
 }

@@ -10,12 +10,16 @@ import UIKit
 struct SellVM {
     // MARK: - Lifecycle Methods
     func viewDidLoad(_ tableView: UITableView) {
+        DatabaseManager().getTemplates { templates in
+                                            print("\(templates)")
+                                        } // TODO!
+        
         PickerTableCell.registerCell(tableView)
     }
     
     // MARK: - IBActions
     func doneButtonClicked() {
-        DatabaseManager().createItem()
+//        DatabaseManager().createItem()
     }
     
     // MARK: - Table Methods
