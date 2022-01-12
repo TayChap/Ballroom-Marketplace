@@ -8,14 +8,22 @@
 import UIKit
 
 struct SellVM {
+    weak var delegate: ViewControllerProtocol?
+    let templates: [SaleItemTemplate]
+    
     // MARK: - Lifecycle Methods
+    init(_ owner: ViewControllerProtocol, _ templates: [SaleItemTemplate]) {
+        delegate = owner
+        self.templates = templates
+    }
+    
     func viewDidLoad(_ tableView: UITableView) {
         PickerTableCell.registerCell(tableView)
     }
     
     // MARK: - IBActions
     func doneButtonClicked() {
-        DatabaseManager().createItem()
+//        DatabaseManager().createItem()
     }
     
     // MARK: - Table Methods

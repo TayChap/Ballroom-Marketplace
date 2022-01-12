@@ -31,8 +31,24 @@
                     <view key="view" contentMode="scaleToFill" id="h3t-LV-88g">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9iQ-qx-Ad8">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="tzZ-SI-Im0" id="ku6-60-ELo"/>
+                                    <outlet property="delegate" destination="tzZ-SI-Im0" id="fDU-c0-01e"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="JCk-OW-B8a"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="9iQ-qx-Ad8" firstAttribute="top" secondItem="JCk-OW-B8a" secondAttribute="top" id="etF-Id-B4q"/>
+                            <constraint firstItem="9iQ-qx-Ad8" firstAttribute="leading" secondItem="JCk-OW-B8a" secondAttribute="leading" id="ldr-bh-9bN"/>
+                            <constraint firstItem="JCk-OW-B8a" firstAttribute="bottom" secondItem="9iQ-qx-Ad8" secondAttribute="bottom" id="lkS-ej-M3V"/>
+                            <constraint firstItem="JCk-OW-B8a" firstAttribute="trailing" secondItem="9iQ-qx-Ad8" secondAttribute="trailing" id="q6M-UC-pJ7"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="fXu-5N-WRt">
                         <rightBarButtonItems>
@@ -52,6 +68,7 @@
                     <connections>
                         <outlet property="profileButton" destination="gnY-N4-36B" id="DO3-pa-5Nt"/>
                         <outlet property="sellButton" destination="IIH-Bz-4L8" id="TjO-H4-9vs"/>
+                        <outlet property="tableView" destination="9iQ-qx-Ad8" id="dQC-ED-DWA"/>
                         <segue destination="5h3-fC-z8R" kind="show" id="uVa-tl-VfJ"/>
                         <segue destination="vnn-B4-q01" kind="show" id="Emr-7T-WXn"/>
                     </connections>

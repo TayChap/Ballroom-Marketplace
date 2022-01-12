@@ -7,22 +7,34 @@
 
 import UIKit
 
-struct BuyVM {
+class BuyVM { // TODO! revisit to change to struct
     private weak var delegate: ViewControllerProtocol?
+    private var templates: [SaleItemTemplate]?
     
     // MARK: - Lifecycle Methods
     init(_ delegate: ViewControllerProtocol) {
         self.delegate = delegate
     }
     
+    func viewDidLoad(_ tableView: UITableView) {
+        TemplateManager().refreshTemplates { templates in
+            self.templates = templates
+        }
+    }
+    
     // MARK: - IBActions
     func sellButtonClicked() {
-        guard let user = AuthenticationManager().user else {
+        guard let _ = AuthenticationManager().user else {
             delegate?.presentViewController(LoginVC.createViewController())
             return
         }
         
-        delegate?.pushViewController(SellVC.createViewController(user))
+        guard let templates = templates else {
+            // TODO! present network error message
+            return
+        }
+        
+        delegate?.pushViewController(SellVC.createViewController(templates))
     }
     
     func profileButtonClicked() {
@@ -32,6 +44,19 @@ struct BuyVM {
         }
         
         delegate?.pushViewController(ProfileVC.createViewController(user))
+    }
+    
+    // MARK: - Table Methods
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
+        UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath, _ viewController: ViewControllerProtocol) {
+        // TODO!
     }
     
     // MARK: - Private Helpers

@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct StoryboardManager {
+struct StoryboardManager { // TODO! this is not really a "manager" since it doesn't do anything to the SB
     func getMain() -> UIStoryboard {
         getStoryboard("Main")
     }
