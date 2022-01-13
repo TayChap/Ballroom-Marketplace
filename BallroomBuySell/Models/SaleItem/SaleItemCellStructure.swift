@@ -6,7 +6,8 @@
 //
 
 struct SaleItemCellStructure: Codable {
-    var type: SaleItemCellType // UI element type
+    var type: SaleItemCellType
+    var inputType: InputType
     var serverKey: String // if empty, then front-end only
     var title: String
     var subtitle: String

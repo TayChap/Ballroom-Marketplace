@@ -8,16 +8,16 @@
 import UIKit
 
 struct SellVM {
-    private let dm = SaleDM()
+    private var dm = SaleItem()
     weak var delegate: ViewControllerProtocol?
-    let templates: [SaleItemTemplate]
+    let templates: [SaleItemTemplate] // TODO! evaluate how to manage this variable across the app
     var screenStructure: [SaleItemCellStructure]
     
     // MARK: - Lifecycle Methods
     init(_ owner: ViewControllerProtocol, _ templates: [SaleItemTemplate]) {
         delegate = owner
-        screenStructure = [] // TODO! template selector picker cell
         self.templates = templates
+        screenStructure = [SaleItemTemplate.getTemplateSelectorItem(templates)]
     }
     
     func viewDidLoad(_ tableView: UITableView) {
@@ -25,31 +25,46 @@ struct SellVM {
     }
     
     // MARK: - IBActions
-    func doneButtonClicked() {
-//        DatabaseManager().createItem()
+    mutating func doneButtonClicked() {
+        dm.dateAdded = Date()
+        //DatabaseManager().createItem()
     }
     
     // MARK: - Table Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        screenStructure.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
-        guard let cell = PickerTableCell.createCell(tableView) else {
-            return UITableViewCell()
-        }
+        let cellStructure = screenStructure[indexPath.row]
         
-        let pickerValues = [ [PickerValue.emptyEntry] + templates.map({ PickerValue(serverKey: $0.id, localizationKey: $0.name) }) ]
-        let selectedValue = [""]
-        cell.configureCell(PickerCellDM(titleText: "title",
-                                        selectedValues: selectedValue,
-                                        pickerValues: pickerValues,
-                                        showRequiredAsterisk: false))
-        cell.delegate = owner as? PickerCellDelegate
-        return cell
+        switch cellStructure.type {
+        case .picker:
+            guard let cell = PickerTableCell.createCell(tableView) else {
+                return UITableViewCell()
+            }
+            
+            cell.configureCell(PickerCellDM(titleText: cellStructure.title,
+                                            selectedValues: [dm.fields[cellStructure.serverKey] ?? ""],
+                                            pickerValues: [cellStructure.values],
+                                            showRequiredAsterisk: cellStructure.required))
+            cell.delegate = owner as? PickerCellDelegate
+            return cell
+        case .textField:
+            guard let cell = TextFieldTableCell.createCell(tableView) else {
+                return UITableViewCell()
+            }
+            
+            cell.configureCell(TextFieldCellDM(inputType: cellStructure.inputType,
+                                               title: cellStructure.title,
+                                               detail: dm.fields[cellStructure.serverKey] ?? "",
+                                               returnKeyType: .done))
+            cell.delegate = owner as? TextFieldCellDelegate
+            return cell
+        }
     }
     
-    mutating func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath, _ viewController: ViewControllerProtocol) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath, _ viewController: ViewControllerProtocol) {
         if let selectedCell = tableView.cellForRow(at: indexPath) as? PickerTableCell {
             let pickerVC = PickerViewController.createViewController(selectedCell)
             pickerVC.presentLayerIn(viewController: viewController, withDataSource: selectedCell)
@@ -58,6 +73,11 @@ struct SellVM {
     
     // MARK: - Public Helpers
     mutating func setData(_ data: String, at indexPath: IndexPath) {
-        //dm[LoginItem.allCases[indexPath.row]] = data TODO!
+        dm.fields[screenStructure[indexPath.row].serverKey] = data
+    }
+    
+    // MARK: - Private Helpers
+    private func getScreenStructure(_ template: SaleItemTemplate?) -> [SaleItemCellStructure] {
+        [SaleItemTemplate.getTemplateSelectorItem(templates)] + (template?.screenStructure ?? [])
     }
 }

@@ -52,7 +52,7 @@
 		8D9D4581278902BD004C5565 /* SaleItemPreviewCellStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D4580278902BD004C5565 /* SaleItemPreviewCellStructure.swift */; };
 		8D9D45832789F79D004C5565 /* TemplateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45822789F79D004C5565 /* TemplateManager.swift */; };
 		8D9D4585278A451A004C5565 /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D4584278A451A004C5565 /* UIButton.swift */; };
-		8D9D4587278F2E1E004C5565 /* SellDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D4586278F2E1E004C5565 /* SellDM.swift */; };
+		8D9D4589279096C6004C5565 /* InputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D4588279096C6004C5565 /* InputType.swift */; };
 		A5992F72F46083A75BA57786 /* Pods_BallroomBuySell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */; };
 /* End PBXBuildFile section */
 
@@ -107,7 +107,7 @@
 		8D9D4580278902BD004C5565 /* SaleItemPreviewCellStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleItemPreviewCellStructure.swift; sourceTree = "<group>"; };
 		8D9D45822789F79D004C5565 /* TemplateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateManager.swift; sourceTree = "<group>"; };
 		8D9D4584278A451A004C5565 /* UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
-		8D9D4586278F2E1E004C5565 /* SellDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellDM.swift; sourceTree = "<group>"; };
+		8D9D4588279096C6004C5565 /* InputType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputType.swift; sourceTree = "<group>"; };
 		B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BallroomBuySell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF8202CE7EC04C8D430A991 /* Pods-BallroomBuySell.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BallroomBuySell.debug.xcconfig"; path = "Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -223,7 +223,6 @@
 		8D9D451327721D44004C5565 /* Sell */ = {
 			isa = PBXGroup;
 			children = (
-				8D9D4586278F2E1E004C5565 /* SellDM.swift */,
 				8D9D4537277BB14C004C5565 /* SellVC.swift */,
 				8D9D456D27877D4C004C5565 /* SellVM.swift */,
 			);
@@ -363,6 +362,7 @@
 			isa = PBXGroup;
 			children = (
 				8D9D457A2788F048004C5565 /* SaleItem */,
+				8D9D4588279096C6004C5565 /* InputType.swift */,
 				8D9D45722788D929004C5565 /* User.swift */,
 			);
 			path = Models;
@@ -544,9 +544,9 @@
 				8D9D456427876E61004C5565 /* PickerTableCell.swift in Sources */,
 				8D1BB529273EF97700677EF7 /* AppDelegate.swift in Sources */,
 				8D9D45732788D929004C5565 /* User.swift in Sources */,
-				8D9D4587278F2E1E004C5565 /* SellDM.swift in Sources */,
 				8D9D453D277CDDFB004C5565 /* TextFieldCellDM.swift in Sources */,
 				8D9D4585278A451A004C5565 /* UIButton.swift in Sources */,
+				8D9D4589279096C6004C5565 /* InputType.swift in Sources */,
 				8D9D44ED2770C64A004C5565 /* UIViewController.swift in Sources */,
 				8D9D456A2787788A004C5565 /* Date.swift in Sources */,
 				8D9D45832789F79D004C5565 /* TemplateManager.swift in Sources */,

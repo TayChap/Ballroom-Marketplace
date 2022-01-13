@@ -12,31 +12,6 @@ protocol TextFieldCellDelegate: AnyObject { // AnyObject because it must be a cl
 }
 
 class TextFieldTableCell: UITableViewCell, TableCellProtocol, UITextFieldDelegate {
-    enum InputType {
-        case standard, password, email
-        
-        var keyboardType: UIKeyboardType {
-            switch self {
-            case .standard, .password: return .default
-            case .email: return .emailAddress
-            }
-        }
-        
-        var autoCapitalization: UITextAutocapitalizationType {
-            switch self {
-            case .password, .email: return .none
-            default: return .sentences
-            }
-        }
-        
-        var autocorrectionType: UITextAutocorrectionType {
-            switch self {
-            case .password, .email: return .no
-            default: return .yes
-            }
-        }
-    }
-    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
@@ -68,11 +43,11 @@ class TextFieldTableCell: UITableViewCell, TableCellProtocol, UITextFieldDelegat
         subtitleLabel.isHidden = dm.subtitle.isEmpty
         
         textField.text = dm.detail
-        textField.keyboardType = dm.type.keyboardType
-        textField.isSecureTextEntry = dm.type == .password
+        textField.keyboardType = dm.inputType.keyboardType
+        textField.isSecureTextEntry = dm.inputType == .password
         textField.textContentType = .oneTimeCode // force disable strong password
-        textField.autocorrectionType = dm.type.autocorrectionType
-        textField.autocapitalizationType = dm.type.autoCapitalization
+        textField.autocorrectionType = dm.inputType.autocorrectionType
+        textField.autocapitalizationType = dm.inputType.autoCapitalization
         textField.returnKeyType = dm.returnKeyType
         textField.delegate = self
     }
