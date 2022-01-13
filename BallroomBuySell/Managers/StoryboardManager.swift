@@ -7,16 +7,14 @@
 
 import UIKit
 
-struct StoryboardManager { // TODO! this is not really a "manager" since it doesn't do anything to the SB
-    func getMain() -> UIStoryboard {
-        getStoryboard("Main")
+struct StoryboardManager {
+    enum Storyboard: String {
+        case main = "Main"
+        case authentication = "Authentication"
     }
     
-    func getAuthentication() -> UIStoryboard {
-        getStoryboard("Authentication")
-    }
-    
-    private func getStoryboard(_ storyboardName: String) -> UIStoryboard{
-        UIStoryboard(name: storyboardName, bundle: nil)
+    // MARK: - Public Helpers
+    func getVC<T: ViewControllerProtocol>(from storyboard: Storyboard, of type: T.Type) -> T? {
+        UIStoryboard(name: storyboard.rawValue, bundle: nil).instantiateViewController(withIdentifier: String(describing: type)) as? T
     }
 }

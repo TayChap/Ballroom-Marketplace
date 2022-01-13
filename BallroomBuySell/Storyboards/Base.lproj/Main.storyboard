@@ -71,6 +71,7 @@
                         <outlet property="tableView" destination="9iQ-qx-Ad8" id="dQC-ED-DWA"/>
                         <segue destination="5h3-fC-z8R" kind="show" id="uVa-tl-VfJ"/>
                         <segue destination="vnn-B4-q01" kind="show" id="Emr-7T-WXn"/>
+                        <segue destination="1zS-R9-jag" kind="show" id="jgu-3A-7Ee"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rrh-YO-oUl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -134,6 +135,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B9R-P6-Hnz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="470" y="1357"/>
+        </scene>
+        <!--View ItemVC-->
+        <scene sceneID="QDx-Gg-cnA">
+            <objects>
+                <viewController storyboardIdentifier="ViewItemVC" id="1zS-R9-jag" customClass="ViewItemVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="iND-GM-8rs">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vrF-ai-dCS">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="1zS-R9-jag" id="JAH-W6-R5Z"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="yQr-ix-I2b"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="yQr-ix-I2b" firstAttribute="bottom" secondItem="vrF-ai-dCS" secondAttribute="bottom" id="A4L-jb-lcU"/>
+                            <constraint firstItem="vrF-ai-dCS" firstAttribute="leading" secondItem="yQr-ix-I2b" secondAttribute="leading" id="NaU-mZ-ybG"/>
+                            <constraint firstItem="yQr-ix-I2b" firstAttribute="trailing" secondItem="vrF-ai-dCS" secondAttribute="trailing" id="xJM-9e-Vzv"/>
+                            <constraint firstItem="vrF-ai-dCS" firstAttribute="top" secondItem="yQr-ix-I2b" secondAttribute="top" id="yFi-sG-Qlv"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="rx0-7D-HwU"/>
+                    <connections>
+                        <outlet property="tableView" destination="vrF-ai-dCS" id="CHm-XJ-Whv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wej-cv-DTQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="470" y="2148"/>
         </scene>
     </scenes>
     <resources>

@@ -1,5 +1,5 @@
 //
-//  SellVM.swift
+//  SaleItemVM.swift
 //  BallroomBuySell
 //
 //  Created by Taylor Chapman on 2022-01-06.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct SellVM {
+struct SaleItemVM {
     private var dm = SaleItem()
     weak var delegate: ViewControllerProtocol?
     let templates: [SaleItemTemplate] // TODO! evaluate how to manage this variable across the app

@@ -10,12 +10,11 @@ import UIKit
 class ProfileVC: UIViewController, ViewControllerProtocol {
     // MARK: - Lifecycle Methods
     static func createViewController(_ user: User) -> UIViewController {
-        guard let vc = StoryboardManager().getMain().instantiateViewController(withIdentifier: String(describing: ProfileVC.self)) as? ProfileVC else {
+        guard let vc = StoryboardManager().getVC(from: .main, of: self) else {
             assertionFailure("Can't Find VC in Storyboard")
             return UIViewController()
         }
         
-        // TODO! user
         return vc
     }
 }

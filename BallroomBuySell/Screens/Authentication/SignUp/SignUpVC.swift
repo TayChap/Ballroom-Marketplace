@@ -14,7 +14,7 @@ class SignUpVC: UIViewController, UITableViewDataSource, ViewControllerProtocol,
     
     // MARK: - Lifecycle Methods
     static func createViewController() -> UIViewController {
-        guard let vc = StoryboardManager().getAuthentication().instantiateViewController(withIdentifier: String(describing: SignUpVC.self)) as? SignUpVC else {
+        guard let vc = StoryboardManager().getVC(from: .authentication, of: self) else {
             assertionFailure("Can't Find VC in Storyboard")
             return UIViewController()
         }
