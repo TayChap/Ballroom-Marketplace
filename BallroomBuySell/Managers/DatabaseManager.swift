@@ -14,22 +14,22 @@ struct DatabaseManager {
     }
     
     // MARK: - Public Helpers
-    func createDocument<T: Codable>(_ collectionId: String, _ data: T, _ documentId: String? = nil) {
+    func createDocument<T: Codable>(_ collection: String, _ data: T, _ documentId: String? = nil) {
         do {
             guard let documentId = documentId else {
-                try db.collection(collectionId).document().setData(from: data)
+                try db.collection(collection).document().setData(from: data)
                 return
             }
             
-            try db.collection(collectionId).document(documentId).setData(from: data)
+            try db.collection(collection).document(documentId).setData(from: data)
           }
           catch {
             print(error)
           }
     }
     
-    func getDocuments<T: Decodable>(in collectionId: String, of _: T.Type, _ completion: @escaping ([T]?) -> Void) {
-        db.collection(collectionId).getDocuments { querySnapshot, error  in
+    func getDocuments<T: Decodable>(in collection: String, of _: T.Type, _ completion: @escaping ([T]?) -> Void) {
+        db.collection(collection).getDocuments { querySnapshot, error  in
             guard let docs = querySnapshot?.documents else {
                 return
             }
@@ -41,6 +41,24 @@ struct DatabaseManager {
                     return nil
                 }
             }))
+        }
+    }
+    
+    /// Firebase does not recommend deleting entire collections from mobile clients
+    /// This method is used to delete templates only
+    func deleteDocuments(in collection: String, _ completion: @escaping () -> Void) {
+        // TODO! add DEBUG flag here (not for release)
+        
+        db.collection(collection).getDocuments { querySnapshot, error  in
+            guard let docs = querySnapshot?.documents else {
+                return
+            }
+            
+            for doc in docs {
+                db.collection(collection).document(doc.documentID).delete()
+            }
+            
+            completion()
         }
     }
 }
