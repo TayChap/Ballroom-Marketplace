@@ -15,8 +15,8 @@ struct SaleItemTemplate: Codable {
     static func getTemplateSelectorItem(_ templates: [SaleItemTemplate]) -> SaleItemCellStructure {
         SaleItemCellStructure(type: .picker,
                               inputType: .standard,
-                              serverKey: "",
-                              title: "",
+                              serverKey: "type", // TODO! remove hardcode
+                              title: "template_selector_title",
                               subtitle: "",
                               placeholder: "",
                               required: true,

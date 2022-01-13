@@ -8,15 +8,12 @@
 import UIKit
 
 protocol PickerCellDelegate {
-    func pickerDoneClicked(_ pickerView: UIPickerView)
     func pickerValueUpdated(_ newValues: [String], for cell: PickerTableCell)
     func clearButtonClicked(for cell: PickerTableCell)
     func pickerTextUpdated(_ newValue: String, for cell: PickerTableCell)
 }
 
 extension PickerCellDelegate {
-    func pickerDoneClicked(_ pickerView: UIPickerView){}
-    func pickerValueUpdated(_ newValues: [String], for cell: PickerTableCell){}
     func clearButtonClicked(for cell: PickerTableCell){}
     func pickerTextUpdated(_ newValue: String, for cell: PickerTableCell){}
 }
@@ -137,8 +134,6 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
     }
     
     func pickerView(picker: UIPickerView, clickDoneForDataSource: PickerDelegate) {
-        delegate?.pickerDoneClicked(picker)
-        
         let numberOfComponents = picker.numberOfComponents
         var values = [String]()
         

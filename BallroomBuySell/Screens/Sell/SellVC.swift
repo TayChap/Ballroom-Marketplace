@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UITableViewDataSource {
+class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UITableViewDataSource, PickerCellDelegate, TextFieldCellDelegate {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     private var vm: SellVM!
@@ -44,6 +44,10 @@ class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UIT
         dismiss(animated: true)
     }
     
+    func reload() {
+        tableView.reloadData()
+    }
+    
     // MARK: - Table Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         vm.tableView(tableView, numberOfRowsInSection: section)
@@ -55,16 +59,25 @@ class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UIT
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         vm.tableView(tableView, didSelectRowAt: indexPath, self)
-//        tableView.reloadData() // TODO! evaluate
-//        checkRequiredFields()
+    }
+    
+    // MARK: - PickerCellDelegate
+    func pickerValueUpdated(_ newValues: [String], for cell: PickerTableCell) {
+        setData(newValues.first ?? "", for: cell)
+        reload()
     }
     
     // MARK: - TextFieldCellDelegate
     func textFieldUpdated(_ newText: String, for cell: TextFieldTableCell) {
+        setData(newText, for: cell)
+    }
+    
+    // MARK: - Private Helpers
+    private func setData(_ data: String, for cell: UITableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else {
             return
         }
         
-        vm.setData(newText, at: indexPath)
+        vm.setData(data, at: indexPath)
     }
 }

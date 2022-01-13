@@ -22,6 +22,7 @@ struct SellVM {
     
     func viewDidLoad(_ tableView: UITableView) {
         PickerTableCell.registerCell(tableView)
+        TextFieldTableCell.registerCell(tableView)
     }
     
     // MARK: - IBActions
@@ -73,7 +74,13 @@ struct SellVM {
     
     // MARK: - Public Helpers
     mutating func setData(_ data: String, at indexPath: IndexPath) {
-        dm.fields[screenStructure[indexPath.row].serverKey] = data
+        let cellStructure = screenStructure[indexPath.row]
+        
+        dm.fields[cellStructure.serverKey] = data
+        
+        if cellStructure.serverKey == "type" {
+            screenStructure = getScreenStructure(templates.first(where: { $0.id == data }))
+        }
     }
     
     // MARK: - Private Helpers
