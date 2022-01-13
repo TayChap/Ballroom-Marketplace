@@ -17,15 +17,24 @@ struct TemplateManager {
     
     /// This method adds a hardcoded template to the templates collection
     /// The templates collection is only accessible when the app is signed into the superuser account
-    func addTemplate() {
-        let template = getTailsuitTemplate() // update for submission
-        DatabaseManager().createDocument(templatesCollectionName, template.name, template.template)
-    }
+//    func addTemplate() {
+//        let template = getTailsuitTemplate() // update for submission
+//        DatabaseManager().createDocument(templatesCollectionName, template)
+//    }
     
-    private func getTailsuitTemplate() -> (name: String, template: SaleItemTemplate) {
-        ("Tailsuit",
-         SaleItemTemplate(name: "shoes2",
-                          cellStructure: [SaleItemCellStructure(title: "hello",
-                                                                subtitle: "so subtitle")]))
+    // MARK: - Private Methods
+    private func getTailsuitTemplate() -> SaleItemTemplate {
+        SaleItemTemplate(id: "tailsuit",
+                         name: "tailsuit_key",
+                         cellStructure: [SaleItemCellStructure(type: .textField,
+                                                               serverKey: "test",
+                                                               title: "test_title",
+                                                               subtitle: "test_subtitle",
+                                                               placeholder: "test_placeholder",
+                                                               required: true,
+                                                               values: [PickerValue(serverKey: "", localizationKey: ""),
+                                                                        PickerValue(serverKey: "value", localizationKey: "value_key")])])
+        
+        
     }
 }

@@ -8,12 +8,15 @@
 import UIKit
 
 struct SellVM {
+    private let dm = SaleDM()
     weak var delegate: ViewControllerProtocol?
     let templates: [SaleItemTemplate]
+    var screenStructure: [SaleItemCellStructure]
     
     // MARK: - Lifecycle Methods
     init(_ owner: ViewControllerProtocol, _ templates: [SaleItemTemplate]) {
         delegate = owner
+        screenStructure = [] // TODO! template selector picker cell
         self.templates = templates
     }
     
@@ -36,10 +39,10 @@ struct SellVM {
             return UITableViewCell()
         }
         
-        let pickerValues = [[PickerValue(serverKey: "", localizationKey: "")]]
-        let selectedValue = ""
+        let pickerValues = [ [PickerValue.emptyEntry] + templates.map({ PickerValue(serverKey: $0.id, localizationKey: $0.name) }) ]
+        let selectedValue = [""]
         cell.configureCell(PickerCellDM(titleText: "title",
-                                        selectedValues: [selectedValue],
+                                        selectedValues: selectedValue,
                                         pickerValues: pickerValues,
                                         showRequiredAsterisk: false))
         cell.delegate = owner as? PickerCellDelegate

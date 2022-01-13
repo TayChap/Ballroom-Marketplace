@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct SaleItem { // TODO! Codable ?
-    var dateAdded: Date
-    var fields: [SaleItemCellStructure] // TODO! no... something else
+struct SaleItem: Codable {
+    var dateAdded: Date? = nil
+    // USER ID ?
+    var fields: [String: String] = [:] // [serverKey: value] connected to UI elements in SaleItemTemplate
 }

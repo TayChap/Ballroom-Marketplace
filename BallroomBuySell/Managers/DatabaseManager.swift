@@ -14,7 +14,7 @@ struct DatabaseManager {
     }
     
     // MARK: - Public Helpers
-    func createDocument<T: Codable>(_ collectionId: String, _ documentId: String?, _ data: T) {
+    func createDocument<T: Codable>(_ collectionId: String, _ data: T, _ documentId: String? = nil) {
         do {
             guard let documentId = documentId else {
                 try db.collection(collectionId).document().setData(from: data)

@@ -6,6 +6,7 @@
 //
 
 struct SaleItemTemplate: Codable {
+    var id: String // human readable
     var name: String
     //var previewCellStructure: [SaleItemPreviewCellStructure]
     var cellStructure: [SaleItemCellStructure] // screenStructure
