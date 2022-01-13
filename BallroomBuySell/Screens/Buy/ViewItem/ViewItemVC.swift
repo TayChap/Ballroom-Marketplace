@@ -13,12 +13,8 @@ class ViewItemVC: UIViewController, UITableViewDataSource, ViewControllerProtoco
     
     // MARK: - Lifecycle Methods
     static func createViewController(_ templates: [SaleItemTemplate]) -> UIViewController {
-        guard let vc = StoryboardManager().getVC(from: .main, of: self) else {
-            assertionFailure("Can't Find VC in Storyboard")
-            return UIViewController()
-        }
-        
-        //vc.vm = SaleItemVM(vc, templates)
+        let vc = UIViewController.getVC(from: .main, of: self)
+        vc.vm = SaleItemVM(vc, templates)
         return vc
     }
     

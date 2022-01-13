@@ -15,7 +15,6 @@
 		8D9D44ED2770C64A004C5565 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D44EC2770C64A004C5565 /* UIViewController.swift */; };
 		8D9D450927711E44004C5565 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D450727711E44004C5565 /* Localizable.strings */; };
 		8D9D451727721F77004C5565 /* ViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D451627721F77004C5565 /* ViewControllerProtocol.swift */; };
-		8D9D451A27721FCD004C5565 /* StoryboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D451927721FCD004C5565 /* StoryboardManager.swift */; };
 		8D9D451F277228EF004C5565 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D451E277228EF004C5565 /* ProfileVC.swift */; };
 		8D9D452127723068004C5565 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D452027723068004C5565 /* LoginVC.swift */; };
 		8D9D4524277231D7004C5565 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D4523277231D7004C5565 /* SignUpVC.swift */; };
@@ -54,6 +53,7 @@
 		8D9D4585278A451A004C5565 /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D4584278A451A004C5565 /* UIButton.swift */; };
 		8D9D4589279096C6004C5565 /* InputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D4588279096C6004C5565 /* InputType.swift */; };
 		8D9D458E2790BE91004C5565 /* ViewItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D458D2790BE91004C5565 /* ViewItemVC.swift */; };
+		8D9D45902790CF40004C5565 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D458F2790CF40004C5565 /* Storyboard.swift */; };
 		A5992F72F46083A75BA57786 /* Pods_BallroomBuySell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */; };
 /* End PBXBuildFile section */
 
@@ -71,7 +71,6 @@
 		8D9D450A27711E73004C5565 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		8D9D450B27711E83004C5565 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8D9D451627721F77004C5565 /* ViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerProtocol.swift; sourceTree = "<group>"; };
-		8D9D451927721FCD004C5565 /* StoryboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardManager.swift; sourceTree = "<group>"; };
 		8D9D451E277228EF004C5565 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		8D9D452027723068004C5565 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		8D9D4523277231D7004C5565 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
@@ -110,6 +109,7 @@
 		8D9D4584278A451A004C5565 /* UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
 		8D9D4588279096C6004C5565 /* InputType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputType.swift; sourceTree = "<group>"; };
 		8D9D458D2790BE91004C5565 /* ViewItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewItemVC.swift; sourceTree = "<group>"; };
+		8D9D458F2790CF40004C5565 /* Storyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboard.swift; sourceTree = "<group>"; };
 		B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BallroomBuySell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF8202CE7EC04C8D430A991 /* Pods-BallroomBuySell.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BallroomBuySell.debug.xcconfig"; path = "Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -198,6 +198,7 @@
 		8D9D44EA2770C56D004C5565 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				8D9D458F2790CF40004C5565 /* Storyboard.swift */,
 				8D1BB533273EF97900677EF7 /* LaunchScreen.storyboard */,
 				8D1BB52E273EF97700677EF7 /* Main.storyboard */,
 				8D9D452A277A28A2004C5565 /* Authentication.storyboard */,
@@ -253,7 +254,6 @@
 			isa = PBXGroup;
 			children = (
 				8D9D4535277B92DB004C5565 /* AuthenticationManager.swift */,
-				8D9D451927721FCD004C5565 /* StoryboardManager.swift */,
 				8D9D45742788DF30004C5565 /* DatabaseManager.swift */,
 				8D9D45822789F79D004C5565 /* TemplateManager.swift */,
 			);
@@ -549,6 +549,7 @@
 				8D9D45792788F044004C5565 /* SaleItemCellStructure.swift in Sources */,
 				8D9D4536277B92DB004C5565 /* AuthenticationManager.swift in Sources */,
 				8D9D457F2788F5EF004C5565 /* SaleItemCellType.swift in Sources */,
+				8D9D45902790CF40004C5565 /* Storyboard.swift in Sources */,
 				8D9D45752788DF30004C5565 /* DatabaseManager.swift in Sources */,
 				8D9D456827877820004C5565 /* PickerValue.swift in Sources */,
 				8D9D451727721F77004C5565 /* ViewControllerProtocol.swift in Sources */,
@@ -574,7 +575,6 @@
 				8D9D4541277CDEFC004C5565 /* TableCellProtocol.swift in Sources */,
 				8D9D4581278902BD004C5565 /* SaleItemPreviewCellStructure.swift in Sources */,
 				8D1BB52B273EF97700677EF7 /* SceneDelegate.swift in Sources */,
-				8D9D451A27721FCD004C5565 /* StoryboardManager.swift in Sources */,
 				8D9D4547277D15AD004C5565 /* LoginVM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
