@@ -30,7 +30,6 @@ class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UIT
         vm.doneButtonClicked()
     }
     
-    
     // MARK: - ViewControllerProtocol
     func pushViewController(_ vc: UIViewController) {
         navigationController?.pushViewController(vc, animated: true)

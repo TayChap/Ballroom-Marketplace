@@ -32,7 +32,7 @@ struct SaleItemVM {
     // MARK: - IBActions
     mutating func doneButtonClicked() {
         dm.dateAdded = Date()
-        //DatabaseManager().createItem()
+        DatabaseManager().createDocument(.items, dm)
     }
     
     // MARK: - Table Methods

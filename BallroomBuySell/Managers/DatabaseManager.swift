@@ -9,27 +9,31 @@ import Firebase
 import FirebaseFirestoreSwift
 
 struct DatabaseManager {
+    enum Collection: String {
+        case templates, items
+    }
+    
     private var db: Firestore {
         Firestore.firestore()
     }
     
     // MARK: - Public Helpers
-    func createDocument<T: Codable>(_ collection: String, _ data: T, _ documentId: String? = nil) {
+    func createDocument<T: Codable>(_ collection: Collection, _ data: T, _ documentId: String? = nil) {
         do {
             guard let documentId = documentId else {
-                try db.collection(collection).document().setData(from: data)
+                try db.collection(collection.rawValue).document().setData(from: data)
                 return
             }
             
-            try db.collection(collection).document(documentId).setData(from: data)
+            try db.collection(collection.rawValue).document(documentId).setData(from: data)
           }
           catch {
             print(error)
           }
     }
     
-    func getDocuments<T: Decodable>(in collection: String, of _: T.Type, _ completion: @escaping ([T]?) -> Void) {
-        db.collection(collection).getDocuments { querySnapshot, error  in
+    func getDocuments<T: Decodable>(in collection: Collection, of _: T.Type, _ completion: @escaping ([T]?) -> Void) {
+        db.collection(collection.rawValue).getDocuments { querySnapshot, error  in
             guard let docs = querySnapshot?.documents else {
                 return
             }
@@ -46,16 +50,16 @@ struct DatabaseManager {
     
     /// Firebase does not recommend deleting entire collections from mobile clients
     /// This method is used to delete templates only
-    func deleteDocuments(in collection: String, _ completion: @escaping () -> Void) {
+    func deleteDocuments(in collection: Collection, _ completion: @escaping () -> Void) {
         // TODO! add DEBUG flag here (not for release)
         
-        db.collection(collection).getDocuments { querySnapshot, error  in
+        db.collection(collection.rawValue).getDocuments { querySnapshot, error  in
             guard let docs = querySnapshot?.documents else {
                 return
             }
             
             for doc in docs {
-                db.collection(collection).document(doc.documentID).delete()
+                db.collection(collection.rawValue).document(doc.documentID).delete()
             }
             
             completion()

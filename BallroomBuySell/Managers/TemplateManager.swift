@@ -7,11 +7,10 @@
 
 /// TODO! describe purpose of class and meaning of word Template
 struct TemplateManager {
-    private static let templatesCollectionName = "templates"
     static var templates = [SaleItemTemplate]()
     
     static func refreshTemplates() {
-        DatabaseManager().getDocuments(in: templatesCollectionName, of: SaleItemTemplate.self) { templates in
+        DatabaseManager().getDocuments(in: .templates, of: SaleItemTemplate.self) { templates in
             if let templates = templates {
                 TemplateManager.templates = templates
             }
@@ -22,10 +21,10 @@ struct TemplateManager {
     /// The templates collection is only accessible when the app is signed into the superuser account and not in release mode
     func updateTemplates() {
         // TODO! add DEBUG flag here (not for release) // Firebase does not recommend deleting whole collections from mobile client
-        DatabaseManager().deleteDocuments(in: TemplateManager.templatesCollectionName) {
+        DatabaseManager().deleteDocuments(in: .templates) {
             let templates = [getTailsuitTemplate()]
             for template in templates {
-                DatabaseManager().createDocument(TemplateManager.templatesCollectionName, template)
+                DatabaseManager().createDocument(.templates, template)
             }
         }
     }
