@@ -12,9 +12,9 @@ class ViewItemVC: UIViewController, UITableViewDataSource, ViewControllerProtoco
     private var vm: SaleItemVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController(_ templates: [SaleItemTemplate]) -> UIViewController {
+    static func createViewController(_ saleItem: SaleItem) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = SaleItemVM(vc, templates)
+        vc.vm = SaleItemVM(vc, saleItem)
         return vc
     }
     
@@ -44,6 +44,4 @@ class ViewItemVC: UIViewController, UITableViewDataSource, ViewControllerProtoco
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         vm.tableView(tableView, didSelectRowAt: indexPath, self)
     }
-    
-    // MARK: - Private Helpers
 }

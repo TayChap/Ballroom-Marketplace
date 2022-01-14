@@ -13,9 +13,9 @@ class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UIT
     private var vm: SaleItemVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController(_ templates: [SaleItemTemplate]) -> UIViewController {
+    static func createViewController() -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = SaleItemVM(vc, templates)
+        vc.vm = SaleItemVM(vc)
         return vc
     }
     

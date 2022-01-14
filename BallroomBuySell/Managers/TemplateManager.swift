@@ -7,23 +7,25 @@
 
 /// TODO! describe purpose of class and meaning of word Template
 struct TemplateManager {
-    private let templatesCollectionName = "templates"
+    private static let templatesCollectionName = "templates"
+    static var templates = [SaleItemTemplate]()
     
-    func refreshTemplates(_ completion: @escaping ([SaleItemTemplate]?) -> Void) {
+    static func refreshTemplates() {
         DatabaseManager().getDocuments(in: templatesCollectionName, of: SaleItemTemplate.self) { templates in
-            completion(templates)
+            if let templates = templates {
+                TemplateManager.templates = templates
+            }
         }
     }
     
     /// This method adds a hardcoded template to the templates collection
     /// The templates collection is only accessible when the app is signed into the superuser account and not in release mode
     func updateTemplates() {
-        // TODO! add DEBUG flag here (not for release)
-        DatabaseManager().deleteDocuments(in: templatesCollectionName) {
+        // TODO! add DEBUG flag here (not for release) // Firebase does not recommend deleting whole collections from mobile client
+        DatabaseManager().deleteDocuments(in: TemplateManager.templatesCollectionName) {
             let templates = [getTailsuitTemplate()]
-
             for template in templates {
-                DatabaseManager().createDocument(templatesCollectionName, template)
+                DatabaseManager().createDocument(TemplateManager.templatesCollectionName, template)
             }
         }
     }

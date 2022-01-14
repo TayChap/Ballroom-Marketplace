@@ -10,7 +10,7 @@ import UIKit
 class BuyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol {
     @IBOutlet weak var sellButton: UIBarButtonItem!
     @IBOutlet weak var profileButton: UIBarButtonItem!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView! // TODO! update to collection view
     private var vm: BuyVM!
     
     // MARK: - Lifecycle Methods
@@ -50,10 +50,5 @@ class BuyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewC
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         vm.tableView(tableView, didSelectRowAt: indexPath, self)
-        //        tableView.reloadData() // TODO! evaluate
-        //        checkRequiredFields()
-        // TODO!
     }
-    
-    // MARK: - Private Helpers
 }

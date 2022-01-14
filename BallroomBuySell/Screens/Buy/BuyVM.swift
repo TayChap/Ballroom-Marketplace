@@ -9,7 +9,6 @@ import UIKit
 
 class BuyVM { // TODO! revisit to change to struct
     private weak var delegate: ViewControllerProtocol?
-    private var templates: [SaleItemTemplate]?
     
     // MARK: - Lifecycle Methods
     init(_ delegate: ViewControllerProtocol) {
@@ -17,9 +16,7 @@ class BuyVM { // TODO! revisit to change to struct
     }
     
     func viewDidLoad(_ tableView: UITableView) {
-        TemplateManager().refreshTemplates { templates in
-            self.templates = templates
-        }
+        TemplateManager.refreshTemplates()
     }
     
     // MARK: - IBActions
@@ -29,12 +26,11 @@ class BuyVM { // TODO! revisit to change to struct
             return
         }
         
-        guard let templates = templates else {
-            // TODO! present network error message
+        if TemplateManager.templates.isEmpty {
             return
         }
         
-        delegate?.pushViewController(SellVC.createViewController(templates))
+        delegate?.pushViewController(SellVC.createViewController())
     }
     
     func profileButtonClicked() {

@@ -8,16 +8,20 @@
 import UIKit
 
 struct SaleItemVM {
+    enum Mode {
+        case create, view
+    }
+    
     private var dm = SaleItem()
     weak var delegate: ViewControllerProtocol?
-    let templates: [SaleItemTemplate] // TODO! evaluate how to manage this variable across the app
+    let mode: Mode
     var screenStructure: [SaleItemCellStructure]
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, _ templates: [SaleItemTemplate]) {
+    init(_ owner: ViewControllerProtocol, _ saleItem: SaleItem? = nil) {
         delegate = owner
-        self.templates = templates
-        screenStructure = [SaleItemTemplate.getTemplateSelectorItem(templates)]
+        mode = saleItem == nil ? .create : .view
+        screenStructure = SaleItemVM.getScreenStructure(for: saleItem?.fields[SaleItemTemplate.serverKey])
     }
     
     func viewDidLoad(_ tableView: UITableView) {
@@ -75,16 +79,16 @@ struct SaleItemVM {
     // MARK: - Public Helpers
     mutating func setData(_ data: String, at indexPath: IndexPath) {
         let cellStructure = screenStructure[indexPath.row]
-        
         dm.fields[cellStructure.serverKey] = data
         
-        if cellStructure.serverKey == "type" {
-            screenStructure = getScreenStructure(templates.first(where: { $0.id == data }))
+        if cellStructure.serverKey == SaleItemTemplate.serverKey {
+            screenStructure = SaleItemVM.getScreenStructure(for: data)
         }
     }
     
     // MARK: - Private Helpers
-    private func getScreenStructure(_ template: SaleItemTemplate?) -> [SaleItemCellStructure] {
-        [SaleItemTemplate.getTemplateSelectorItem(templates)] + (template?.screenStructure ?? [])
+    private static func getScreenStructure(for templateId: String?) -> [SaleItemCellStructure] {
+        [SaleItemTemplate.getTemplateSelectorItem(TemplateManager.templates)] +
+            (TemplateManager.templates.first(where: { $0.id == templateId })?.screenStructure ?? [])
     }
 }

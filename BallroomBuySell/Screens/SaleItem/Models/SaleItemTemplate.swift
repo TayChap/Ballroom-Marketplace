@@ -11,11 +11,15 @@ struct SaleItemTemplate: Codable {
     //var previewCellStructure: [SaleItemPreviewCellStructure]
     var screenStructure: [SaleItemCellStructure]
     
+    static var serverKey: String {
+        "type"
+    }
+    
     // MARK: - Public Helpers
     static func getTemplateSelectorItem(_ templates: [SaleItemTemplate]) -> SaleItemCellStructure {
         SaleItemCellStructure(type: .picker,
                               inputType: .standard,
-                              serverKey: "type", // TODO! remove hardcode
+                              serverKey: SaleItemTemplate.serverKey,
                               title: "template_selector_title",
                               subtitle: "",
                               placeholder: "",
