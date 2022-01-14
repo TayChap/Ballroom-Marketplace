@@ -18,7 +18,12 @@ class BuyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewC
         super.viewDidLoad()
         vm = BuyVM(self)
         
-        vm.viewDidLoad(tableView)
+        TemplateManager.refreshTemplates() {
+            DatabaseManager().getDocuments(in: .items, of: SaleItem.self) { saleItems in
+                self.vm.screenStructure = saleItems
+                self.reload()
+            }
+        }
     }
     
     // MARK: - IBActions
@@ -37,6 +42,10 @@ class BuyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewC
     
     func presentViewController(_ vc: UIViewController) {
         present(NavigationController(rootViewController: vc), animated: true)
+    }
+    
+    func reload() {
+        tableView.reloadData()
     }
     
     // MARK: - Table Methods

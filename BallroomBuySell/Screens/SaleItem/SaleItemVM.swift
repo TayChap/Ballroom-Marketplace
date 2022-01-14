@@ -12,7 +12,7 @@ struct SaleItemVM {
         case create, view
     }
     
-    private var dm = SaleItem()
+    private var dm: SaleItem
     weak var delegate: ViewControllerProtocol?
     let mode: Mode
     var screenStructure: [SaleItemCellStructure]
@@ -20,8 +20,16 @@ struct SaleItemVM {
     // MARK: - Lifecycle Methods
     init(_ owner: ViewControllerProtocol, _ saleItem: SaleItem? = nil) {
         delegate = owner
-        mode = saleItem == nil ? .create : .view
         screenStructure = SaleItemVM.getScreenStructure(for: saleItem?.fields[SaleItemTemplate.serverKey])
+        
+        if let saleItem = saleItem {
+            mode = .view
+            dm = saleItem
+            return
+        }
+        
+        mode = .create
+        dm = SaleItem()
     }
     
     func viewDidLoad(_ tableView: UITableView) {

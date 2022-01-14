@@ -32,7 +32,7 @@ struct DatabaseManager {
           }
     }
     
-    func getDocuments<T: Decodable>(in collection: Collection, of _: T.Type, _ completion: @escaping ([T]?) -> Void) {
+    func getDocuments<T: Decodable>(in collection: Collection, of _: T.Type, _ completion: @escaping ([T]) -> Void) {
         db.collection(collection.rawValue).getDocuments { querySnapshot, error  in
             guard let docs = querySnapshot?.documents else {
                 return

@@ -7,16 +7,13 @@
 
 import UIKit
 
-class BuyVM { // TODO! revisit to change to struct
+struct BuyVM {
     private weak var delegate: ViewControllerProtocol?
+    var screenStructure = [SaleItem]()
     
     // MARK: - Lifecycle Methods
     init(_ delegate: ViewControllerProtocol) {
         self.delegate = delegate
-    }
-    
-    func viewDidLoad(_ tableView: UITableView) {
-        TemplateManager.refreshTemplates()
     }
     
     // MARK: - IBActions
@@ -44,7 +41,7 @@ class BuyVM { // TODO! revisit to change to struct
     
     // MARK: - Table Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        screenStructure.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
@@ -52,8 +49,6 @@ class BuyVM { // TODO! revisit to change to struct
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath, _ viewController: ViewControllerProtocol) {
-        // TODO!
+        delegate?.pushViewController(ViewItemVC.createViewController(screenStructure[indexPath.row]))
     }
-    
-    // MARK: - Private Helpers
 }

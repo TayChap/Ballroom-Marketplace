@@ -9,11 +9,10 @@
 struct TemplateManager {
     static var templates = [SaleItemTemplate]()
     
-    static func refreshTemplates() {
+    static func refreshTemplates(_ completion: @escaping () -> Void) {
         DatabaseManager().getDocuments(in: .templates, of: SaleItemTemplate.self) { templates in
-            if let templates = templates {
-                TemplateManager.templates = templates
-            }
+            TemplateManager.templates = templates
+            completion()
         }
     }
     
