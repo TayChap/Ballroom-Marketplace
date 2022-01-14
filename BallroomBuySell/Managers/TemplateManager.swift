@@ -6,7 +6,7 @@
 //
 
 /// TODO! describe purpose of class and meaning of word Template
-struct TemplateManager {
+struct TemplateManager { // TODO! update to shared instance singleton
     static var templates = [SaleItemTemplate]()
     
     static func refreshTemplates(_ completion: @escaping () -> Void) {
