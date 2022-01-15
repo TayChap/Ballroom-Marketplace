@@ -10,5 +10,6 @@ import Foundation
 struct SaleItem: Codable {
     var dateAdded: Date? = nil
     // USER ID ?
+    var imageURLs = [String]()
     var fields: [String: String] = [:] // [serverKey: value] connected to UI elements in SaleItemTemplate
 }

@@ -16,14 +16,22 @@ struct SaleItemTemplate: Codable {
     }
     
     // MARK: - Public Helpers
-    static func getTemplateSelectorItem(_ templates: [SaleItemTemplate]) -> SaleItemCellStructure {
-        SaleItemCellStructure(type: .picker,
-                              inputType: .standard,
-                              serverKey: SaleItemTemplate.serverKey,
-                              title: "template_selector_title",
-                              subtitle: "",
-                              placeholder: "",
-                              required: true,
-                              values: templates.map({ PickerValue(serverKey: $0.id, localizationKey: $0.name) }))
+    static func getSaleItemHeader(_ templates: [SaleItemTemplate]) -> [SaleItemCellStructure] {
+        [SaleItemCellStructure(type: .picker,
+                               inputType: .standard,
+                               serverKey: SaleItemTemplate.serverKey,
+                               title: "template_selector_title",
+                               subtitle: "",
+                               placeholder: "",
+                               required: true,
+                               values: templates.map({ PickerValue(serverKey: $0.id, localizationKey: $0.name) })),
+         SaleItemCellStructure(type: .imageCollection,
+                               inputType: InputType.standard,
+                               serverKey: "",
+                               title: "picker test_title",
+                               subtitle: "",
+                               placeholder: "",
+                               required: true,
+                               values: [])]
     }
 }

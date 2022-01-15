@@ -8,7 +8,7 @@
 
 import FirebaseStorage
 
-struct ImageRequestObject {
+struct ImageRequestObject { // TODO! remove
     var contentView: UIView?
     var url: String
     var success: (_ image: UIImage, _ fileName: String) -> Void

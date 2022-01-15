@@ -17,7 +17,7 @@ struct SaleItemVM {
     let mode: Mode
     var screenStructure: [SaleItemCellStructure]
     
-    var images = [Data]()
+    var images = [Data]() // TODO! store in DM
     
     // MARK: - Lifecycle Methods
     init(_ owner: ViewControllerProtocol, _ saleItem: SaleItem? = nil) {
@@ -53,7 +53,6 @@ struct SaleItemVM {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
         let cellStructure = screenStructure[indexPath.row]
-        
         switch cellStructure.type {
         case .picker:
             guard let cell = PickerTableCell.createCell(tableView) else {
@@ -82,9 +81,8 @@ struct SaleItemVM {
                 return UITableViewCell()
             }
             
-            cell.configureCell((imageList: images, isEditable: true))
+            cell.configureCell((images: images, isEditable: true))
             cell.delegate = owner as? (ImageTableCellDelegate & UIViewController)
-            
             return cell
         }
     }
@@ -117,7 +115,7 @@ struct SaleItemVM {
     
     // MARK: - Private Helpers
     private static func getScreenStructure(for templateId: String?) -> [SaleItemCellStructure] {
-        [SaleItemTemplate.getTemplateSelectorItem(TemplateManager.templates)] +
+        SaleItemTemplate.getSaleItemHeader(TemplateManager.templates) +
             (TemplateManager.templates.first(where: { $0.id == templateId })?.screenStructure ?? [])
     }
 }

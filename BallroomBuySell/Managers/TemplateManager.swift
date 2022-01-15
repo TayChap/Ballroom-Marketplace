@@ -48,14 +48,6 @@ struct TemplateManager { // TODO! update to shared instance singleton
                                                                  subtitle: "test_subtitle",
                                                                  placeholder: "test_placeholder",
                                                                  required: true,
-                                                                 values: []),
-                                           SaleItemCellStructure(type: .imageCollection,
-                                                                 inputType: InputType.standard,
-                                                                 serverKey: "image",
-                                                                 title: "image test_title",
-                                                                 subtitle: "",
-                                                                 placeholder: "test_placeholder",
-                                                                 required: true,
                                                                  values: [])])
     }
 }
