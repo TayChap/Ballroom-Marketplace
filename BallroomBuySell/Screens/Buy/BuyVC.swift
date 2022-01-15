@@ -18,13 +18,12 @@ class BuyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewC
         super.viewDidLoad()
         vm = BuyVM(self)
         
-//        TemplateManager.refreshTemplates() {
-//            DatabaseManager().getDocuments(in: .items, of: SaleItem.self) { saleItems in
-//                self.vm.screenStructure = saleItems
-//                self.reload()
-//            }
-//        }
-        
+        TemplateManager.refreshTemplates() {
+            DatabaseManager().getDocuments(in: .items, of: SaleItem.self) { saleItems in
+                self.vm.screenStructure = saleItems
+                self.reload()
+            }
+        }
     }
     
     // MARK: - IBActions

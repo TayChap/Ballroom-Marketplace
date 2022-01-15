@@ -55,6 +55,14 @@
 		8D9D458E2790BE91004C5565 /* ViewItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D458D2790BE91004C5565 /* ViewItemVC.swift */; };
 		8D9D45902790CF40004C5565 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D458F2790CF40004C5565 /* Storyboard.swift */; };
 		8D9D45942791D4F0004C5565 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45932791D4F0004C5565 /* ImageManager.swift */; };
+		8D9D45992791F67F004C5565 /* AttachmentCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45982791F67F004C5565 /* AttachmentCollectionCell.swift */; };
+		8D9D459B2791F690004C5565 /* AttachmentCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D459A2791F690004C5565 /* AttachmentCollectionCell.xib */; };
+		8D9D459D2791F69E004C5565 /* AttachmentTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D459C2791F69E004C5565 /* AttachmentTableCell.swift */; };
+		8D9D459F2791F6B0004C5565 /* AttachmentTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D459E2791F6B0004C5565 /* AttachmentTableCell.xib */; };
+		8D9D45A12791F711004C5565 /* CollectionCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45A02791F711004C5565 /* CollectionCellProtocol.swift */; };
+		8D9D45A327922303004C5565 /* PermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45A227922303004C5565 /* PermissionsManager.swift */; };
+		8D9D45A627922FBE004C5565 /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45A527922FBE004C5565 /* ImageViewer.swift */; };
+		8D9D45A827922FC9004C5565 /* ImageViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D45A727922FC9004C5565 /* ImageViewer.xib */; };
 		A5992F72F46083A75BA57786 /* Pods_BallroomBuySell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */; };
 /* End PBXBuildFile section */
 
@@ -112,6 +120,14 @@
 		8D9D458D2790BE91004C5565 /* ViewItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewItemVC.swift; sourceTree = "<group>"; };
 		8D9D458F2790CF40004C5565 /* Storyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboard.swift; sourceTree = "<group>"; };
 		8D9D45932791D4F0004C5565 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
+		8D9D45982791F67F004C5565 /* AttachmentCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentCollectionCell.swift; sourceTree = "<group>"; };
+		8D9D459A2791F690004C5565 /* AttachmentCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AttachmentCollectionCell.xib; sourceTree = "<group>"; };
+		8D9D459C2791F69E004C5565 /* AttachmentTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentTableCell.swift; sourceTree = "<group>"; };
+		8D9D459E2791F6B0004C5565 /* AttachmentTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AttachmentTableCell.xib; sourceTree = "<group>"; };
+		8D9D45A02791F711004C5565 /* CollectionCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCellProtocol.swift; sourceTree = "<group>"; };
+		8D9D45A227922303004C5565 /* PermissionsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsManager.swift; sourceTree = "<group>"; };
+		8D9D45A527922FBE004C5565 /* ImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewer.swift; sourceTree = "<group>"; };
+		8D9D45A727922FC9004C5565 /* ImageViewer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageViewer.xib; sourceTree = "<group>"; };
 		B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BallroomBuySell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF8202CE7EC04C8D430A991 /* Pods-BallroomBuySell.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BallroomBuySell.debug.xcconfig"; path = "Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -246,6 +262,7 @@
 		8D9D451527721F66004C5565 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				8D9D45A02791F711004C5565 /* CollectionCellProtocol.swift */,
 				8D9D4540277CDEFC004C5565 /* TableCellProtocol.swift */,
 				8D9D451627721F77004C5565 /* ViewControllerProtocol.swift */,
 			);
@@ -258,6 +275,7 @@
 				8D9D4535277B92DB004C5565 /* AuthenticationManager.swift */,
 				8D9D45742788DF30004C5565 /* DatabaseManager.swift */,
 				8D9D45932791D4F0004C5565 /* ImageManager.swift */,
+				8D9D45A227922303004C5565 /* PermissionsManager.swift */,
 				8D9D45822789F79D004C5565 /* TemplateManager.swift */,
 			);
 			path = Managers;
@@ -339,6 +357,7 @@
 		8D9D455A2787665B004C5565 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				8D9D45A427922FAF004C5565 /* ImageViewer */,
 				8D9D455F278767B1004C5565 /* PickerViewController */,
 			);
 			path = CustomViews;
@@ -377,6 +396,7 @@
 		8D9D458A2790BD89004C5565 /* SaleItem */ = {
 			isa = PBXGroup;
 			children = (
+				8D9D45952791F561004C5565 /* TableCells */,
 				8D9D458B2790BE26004C5565 /* Models */,
 				8D9D456D27877D4C004C5565 /* SaleItemVM.swift */,
 			);
@@ -400,6 +420,42 @@
 				8D9D458D2790BE91004C5565 /* ViewItemVC.swift */,
 			);
 			path = ViewItem;
+			sourceTree = "<group>";
+		};
+		8D9D45952791F561004C5565 /* TableCells */ = {
+			isa = PBXGroup;
+			children = (
+				8D9D45972791F65E004C5565 /* AttachmentCollectionCell */,
+				8D9D45962791F652004C5565 /* AttachmentTableCell */,
+			);
+			path = TableCells;
+			sourceTree = "<group>";
+		};
+		8D9D45962791F652004C5565 /* AttachmentTableCell */ = {
+			isa = PBXGroup;
+			children = (
+				8D9D459C2791F69E004C5565 /* AttachmentTableCell.swift */,
+				8D9D459E2791F6B0004C5565 /* AttachmentTableCell.xib */,
+			);
+			path = AttachmentTableCell;
+			sourceTree = "<group>";
+		};
+		8D9D45972791F65E004C5565 /* AttachmentCollectionCell */ = {
+			isa = PBXGroup;
+			children = (
+				8D9D45982791F67F004C5565 /* AttachmentCollectionCell.swift */,
+				8D9D459A2791F690004C5565 /* AttachmentCollectionCell.xib */,
+			);
+			path = AttachmentCollectionCell;
+			sourceTree = "<group>";
+		};
+		8D9D45A427922FAF004C5565 /* ImageViewer */ = {
+			isa = PBXGroup;
+			children = (
+				8D9D45A527922FBE004C5565 /* ImageViewer.swift */,
+				8D9D45A727922FC9004C5565 /* ImageViewer.xib */,
+			);
+			path = ImageViewer;
 			sourceTree = "<group>";
 		};
 		C0DF630F21E473235DEE8AD0 /* Pods */ = {
@@ -480,15 +536,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D9D459B2791F690004C5565 /* AttachmentCollectionCell.xib in Resources */,
 				8D9D456627876E6F004C5565 /* PickerTableCell.xib in Resources */,
 				8D9D455527822B91004C5565 /* ButtonTableCell.xib in Resources */,
 				8D1BB535273EF97900677EF7 /* LaunchScreen.storyboard in Resources */,
 				8D9D450927711E44004C5565 /* Localizable.strings in Resources */,
+				8D9D459F2791F6B0004C5565 /* AttachmentTableCell.xib in Resources */,
 				8D1BB532273EF97900677EF7 /* Assets.xcassets in Resources */,
 				8D1BB530273EF97700677EF7 /* Main.storyboard in Resources */,
 				8D9D452B277A28A2004C5565 /* Authentication.storyboard in Resources */,
 				8D9D4543277CE193004C5565 /* TextFieldTableCell.xib in Resources */,
 				8D9D455E278767A4004C5565 /* PickerViewController.xib in Resources */,
+				8D9D45A827922FC9004C5565 /* ImageViewer.xib in Resources */,
 				8D9D4532277A53D0004C5565 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -550,12 +609,15 @@
 				8D9D4545277D1573004C5565 /* SignUpVM.swift in Sources */,
 				8D9D453F277CDE09004C5565 /* TextFieldTableCell.swift in Sources */,
 				8D9D45792788F044004C5565 /* SaleItemCellStructure.swift in Sources */,
+				8D9D45A327922303004C5565 /* PermissionsManager.swift in Sources */,
 				8D9D4536277B92DB004C5565 /* AuthenticationManager.swift in Sources */,
 				8D9D45942791D4F0004C5565 /* ImageManager.swift in Sources */,
 				8D9D457F2788F5EF004C5565 /* SaleItemCellType.swift in Sources */,
 				8D9D45902790CF40004C5565 /* Storyboard.swift in Sources */,
 				8D9D45752788DF30004C5565 /* DatabaseManager.swift in Sources */,
+				8D9D45992791F67F004C5565 /* AttachmentCollectionCell.swift in Sources */,
 				8D9D456827877820004C5565 /* PickerValue.swift in Sources */,
+				8D9D45A627922FBE004C5565 /* ImageViewer.swift in Sources */,
 				8D9D451727721F77004C5565 /* ViewControllerProtocol.swift in Sources */,
 				8D9D4538277BB14C004C5565 /* SellVC.swift in Sources */,
 				8D9D452127723068004C5565 /* LoginVC.swift in Sources */,
@@ -570,6 +632,8 @@
 				8D1BB529273EF97700677EF7 /* AppDelegate.swift in Sources */,
 				8D9D45732788D929004C5565 /* User.swift in Sources */,
 				8D9D453D277CDDFB004C5565 /* TextFieldCellDM.swift in Sources */,
+				8D9D45A12791F711004C5565 /* CollectionCellProtocol.swift in Sources */,
+				8D9D459D2791F69E004C5565 /* AttachmentTableCell.swift in Sources */,
 				8D9D4585278A451A004C5565 /* UIButton.swift in Sources */,
 				8D9D4589279096C6004C5565 /* InputType.swift in Sources */,
 				8D9D44ED2770C64A004C5565 /* UIViewController.swift in Sources */,

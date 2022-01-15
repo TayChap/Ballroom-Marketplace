@@ -17,6 +17,8 @@ struct SaleItemVM {
     let mode: Mode
     var screenStructure: [SaleItemCellStructure]
     
+    var attachments = [Data]()
+    
     // MARK: - Lifecycle Methods
     init(_ owner: ViewControllerProtocol, _ saleItem: SaleItem? = nil) {
         delegate = owner
@@ -35,6 +37,7 @@ struct SaleItemVM {
     func viewDidLoad(_ tableView: UITableView) {
         PickerTableCell.registerCell(tableView)
         TextFieldTableCell.registerCell(tableView)
+        AttachmentTableCell.registerCell(tableView)
     }
     
     // MARK: - IBActions
@@ -74,6 +77,15 @@ struct SaleItemVM {
                                                returnKeyType: .done))
             cell.delegate = owner as? TextFieldCellDelegate
             return cell
+        case .imageCollection:
+            guard let cell = AttachmentTableCell.createCell(tableView) else {
+                return UITableViewCell()
+            }
+            
+            cell.configureCell((attachmentList: attachments, isEditable: true))
+            cell.delegate = owner as? (AttachmentTableCellDelegate & UIViewController)
+            
+            return cell
         }
     }
     
@@ -82,6 +94,15 @@ struct SaleItemVM {
             let pickerVC = PickerViewController.createViewController(selectedCell)
             pickerVC.presentLayerIn(viewController: viewController, withDataSource: selectedCell)
         }
+    }
+    
+    // MARK: - AttachmentCellDelegate
+    mutating func newAttachment(_ data: Data) {
+        attachments.append(data)
+    }
+    
+    mutating func deleteAttachment(at index: Int) {
+        attachments.remove(at: index)
     }
     
     // MARK: - Public Helpers

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UITableViewDataSource, PickerCellDelegate, TextFieldCellDelegate {
+class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UITableViewDataSource, PickerCellDelegate, TextFieldCellDelegate, AttachmentTableCellDelegate {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     private var vm: SaleItemVM!
@@ -65,6 +65,17 @@ class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UIT
     // MARK: - TextFieldCellDelegate
     func textFieldUpdated(_ newText: String, for cell: TextFieldTableCell) {
         setData(newText, for: cell)
+    }
+    
+    // MARK: - AttachmentTableCellDelegate
+    func newAttachment(_ data: Data) {
+        vm.newAttachment(data)
+        reload()
+    }
+    
+    func deleteAttachment(at index: Int) {
+        vm.deleteAttachment(at: index)
+        reload()
     }
     
     // MARK: - Private Helpers
