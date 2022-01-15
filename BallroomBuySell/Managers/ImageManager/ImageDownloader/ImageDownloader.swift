@@ -1,63 +1,21 @@
 //
-//  ImageManager.swift
+//  ImageDownloader.swift
 //  BallroomBuySell
 //
-//  Created by Taylor Chapman on 2022-01-14.
+//  Created by Taylor Chapman on 2022-01-15.
 //  Adapted from Lawrence Tran
 //
 
-import FirebaseStorage
+import UIKit
 
-struct ImageRequestObject { // TODO! remove
-    var contentView: UIView?
-    var url: String
-    var success: (_ image: UIImage, _ fileName: String) -> Void
-}
-
-class ImageManager { // TODO! should be struct
-    static let sharedInstance = ImageManager() // TODO! why? request queue can be the static component ?
+class ImageDownloader { // TODO! struct
+    static let sharedInstance = ImageManager()
     private var requestQueue = [ImageRequestObject]()
     
-    private let imageFolderName = "images"
+    private let localImageFolder = "images/"
     private let maxQueueSize = 15
     private let maxSimultaneousCalls = 10
     private var currentCallCount = 0
-    
-    
-    
-    let testImageURL = "images/rivers.jpg"
-    
-    
-    var storage: Storage {
-        Storage.storage()
-    }
-    
-    // MARK: - Public Helpers
-    func uploadFile() {
-        // Data in memory
-        let data = Data()
-        
-        // Create a reference to the file you want to upload
-        let riversRef = storage.reference().child(testImageURL)
-        
-        // Upload the file to the path "images/rivers.jpg"
-        riversRef.putData(data, metadata: nil) { (metadata, error) in
-            guard let _ = metadata else {
-                // Uh-oh, an error occurred!
-                return
-            }
-            
-            // Metadata contains file metadata such as size, content-type.
-            //let size = metadata.size
-            // You can also access to download URL after upload.
-            riversRef.downloadURL { (url, error) in
-                guard let _ = url else {
-                    // Uh-oh, an error occurred!
-                    return
-                }
-            }
-        }
-    }
     
     func downloadFile(contentView: UIView? = nil, url: String, success: @escaping (_ image: UIImage, _ fileURL: String) -> Void) {
         createImageFolder()
@@ -92,7 +50,7 @@ class ImageManager { // TODO! should be struct
     
     // MARK: - Private Helpers
     private func getImageFolder() -> URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(imageFolderName).absoluteURL ?? URL(fileURLWithPath: "")
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(localImageFolder).absoluteURL ?? URL(fileURLWithPath: "")
     }
     
     private func createImageFolder() {
@@ -131,34 +89,6 @@ class ImageManager { // TODO! should be struct
         let imageFolder = getImageFolder()
         let fileURL = imageFolder.appendingPathComponent(fileName)
         
-        // Downloads image
-        
-        // Create a reference to the file you want to download
-        let islandRef = storage.reference().child(testImageURL)
-        
-        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-        islandRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-          if let _ = error {
-            // Uh-oh, an error occurred!
-          } else {
-            // Data for "images/island.jpg" is returned
-            guard
-                let data = data,
-                let image = UIImage(data: data)
-            else {
-                return
-            }
-            
-            // Saves image and returns it
-            try? data.write(to: fileURL)
-            imageRequestObject.success(image, imageRequestObject.url)
-            
-            self.shouldAdd(activityIndicator: false, contentView: imageRequestObject.contentView)
-            self.currentCallCount -= 1
-            if self.requestQueue.count > 0 {
-                self.fetchImages()
-            }
-          }
-        }
+        // TODO! Download Image (From Firebase)
     }
 }

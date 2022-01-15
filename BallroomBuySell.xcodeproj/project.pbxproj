@@ -63,6 +63,9 @@
 		8D9D45A327922303004C5565 /* PermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45A227922303004C5565 /* PermissionsManager.swift */; };
 		8D9D45A627922FBE004C5565 /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45A527922FBE004C5565 /* ImageViewer.swift */; };
 		8D9D45A827922FC9004C5565 /* ImageViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D45A727922FC9004C5565 /* ImageViewer.xib */; };
+		8D9D45AA27933420004C5565 /* ImageCellDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45A927933420004C5565 /* ImageCellDM.swift */; };
+		8D9D45AD27933DA3004C5565 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45AC27933DA3004C5565 /* ImageDownloader.swift */; };
+		8D9D45AF27933F11004C5565 /* ImageRequestObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45AE27933F11004C5565 /* ImageRequestObject.swift */; };
 		A5992F72F46083A75BA57786 /* Pods_BallroomBuySell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */; };
 /* End PBXBuildFile section */
 
@@ -128,6 +131,9 @@
 		8D9D45A227922303004C5565 /* PermissionsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsManager.swift; sourceTree = "<group>"; };
 		8D9D45A527922FBE004C5565 /* ImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewer.swift; sourceTree = "<group>"; };
 		8D9D45A727922FC9004C5565 /* ImageViewer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageViewer.xib; sourceTree = "<group>"; };
+		8D9D45A927933420004C5565 /* ImageCellDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCellDM.swift; sourceTree = "<group>"; };
+		8D9D45AC27933DA3004C5565 /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
+		8D9D45AE27933F11004C5565 /* ImageRequestObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRequestObject.swift; sourceTree = "<group>"; };
 		B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BallroomBuySell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF8202CE7EC04C8D430A991 /* Pods-BallroomBuySell.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BallroomBuySell.debug.xcconfig"; path = "Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -272,9 +278,9 @@
 		8D9D451827721FB5004C5565 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				8D9D45AB27933D76004C5565 /* ImageManager */,
 				8D9D4535277B92DB004C5565 /* AuthenticationManager.swift */,
 				8D9D45742788DF30004C5565 /* DatabaseManager.swift */,
-				8D9D45932791D4F0004C5565 /* ImageManager.swift */,
 				8D9D45A227922303004C5565 /* PermissionsManager.swift */,
 				8D9D45822789F79D004C5565 /* TemplateManager.swift */,
 			);
@@ -434,6 +440,7 @@
 			isa = PBXGroup;
 			children = (
 				8D9D45972791F65E004C5565 /* ImageCollectionCell */,
+				8D9D45A927933420004C5565 /* ImageCellDM.swift */,
 				8D9D459C2791F69E004C5565 /* ImageTableCell.swift */,
 				8D9D459E2791F6B0004C5565 /* ImageTableCell.xib */,
 			);
@@ -456,6 +463,24 @@
 				8D9D45A727922FC9004C5565 /* ImageViewer.xib */,
 			);
 			path = ImageViewer;
+			sourceTree = "<group>";
+		};
+		8D9D45AB27933D76004C5565 /* ImageManager */ = {
+			isa = PBXGroup;
+			children = (
+				8D9D45B027934288004C5565 /* ImageDownloader */,
+				8D9D45932791D4F0004C5565 /* ImageManager.swift */,
+			);
+			path = ImageManager;
+			sourceTree = "<group>";
+		};
+		8D9D45B027934288004C5565 /* ImageDownloader */ = {
+			isa = PBXGroup;
+			children = (
+				8D9D45AC27933DA3004C5565 /* ImageDownloader.swift */,
+				8D9D45AE27933F11004C5565 /* ImageRequestObject.swift */,
+			);
+			path = ImageDownloader;
 			sourceTree = "<group>";
 		};
 		C0DF630F21E473235DEE8AD0 /* Pods */ = {
@@ -601,6 +626,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D9D45AF27933F11004C5565 /* ImageRequestObject.swift in Sources */,
 				8D9D4524277231D7004C5565 /* SignUpVC.swift in Sources */,
 				8D9D457D2788F0E4004C5565 /* SaleItemTemplate.swift in Sources */,
 				8D9D451F277228EF004C5565 /* ProfileVC.swift in Sources */,
@@ -617,6 +643,8 @@
 				8D9D45752788DF30004C5565 /* DatabaseManager.swift in Sources */,
 				8D9D45992791F67F004C5565 /* ImageCollectionCell.swift in Sources */,
 				8D9D456827877820004C5565 /* PickerValue.swift in Sources */,
+				8D9D45AD27933DA3004C5565 /* ImageDownloader.swift in Sources */,
+				8D9D45AA27933420004C5565 /* ImageCellDM.swift in Sources */,
 				8D9D45A627922FBE004C5565 /* ImageViewer.swift in Sources */,
 				8D9D451727721F77004C5565 /* ViewControllerProtocol.swift in Sources */,
 				8D9D4538277BB14C004C5565 /* SellVC.swift in Sources */,

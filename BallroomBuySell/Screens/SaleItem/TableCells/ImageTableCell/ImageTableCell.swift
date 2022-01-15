@@ -39,12 +39,12 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         return cell
     }
     
-    func configureCell(_ dm: (images: [Data], isEditable: Bool)) {
+    func configureCell(_ dm: ImageCellDM) {
         clearContent()
         
-        titleLabel.text = ""
+        titleLabel.text = dm.title
         imagesList = dm.images
-        isEditable = dm.isEditable
+        isEditable = dm.editable
         
         collectionView.reloadData()
         collectionViewHeight.constant = collectionView.collectionViewLayout.collectionViewContentSize.height

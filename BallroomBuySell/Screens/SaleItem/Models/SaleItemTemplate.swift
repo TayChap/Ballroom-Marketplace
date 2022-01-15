@@ -12,7 +12,7 @@ struct SaleItemTemplate: Codable {
     var screenStructure: [SaleItemCellStructure]
     
     static var serverKey: String {
-        "type"
+        "templateId"
     }
     
     // MARK: - Public Helpers
@@ -28,7 +28,7 @@ struct SaleItemTemplate: Codable {
          SaleItemCellStructure(type: .imageCollection,
                                inputType: InputType.standard,
                                serverKey: "",
-                               title: "picker test_title",
+                               title: "image test_title",
                                subtitle: "",
                                placeholder: "",
                                required: true,

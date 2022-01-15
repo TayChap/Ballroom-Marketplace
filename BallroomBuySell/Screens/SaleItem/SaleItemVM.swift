@@ -81,7 +81,9 @@ struct SaleItemVM {
                 return UITableViewCell()
             }
             
-            cell.configureCell((images: images, isEditable: true))
+            cell.configureCell(ImageCellDM(title: cellStructure.title,
+                                           images: images,
+                                           editable: mode == .create))
             cell.delegate = owner as? (ImageTableCellDelegate & UIViewController)
             return cell
         }
