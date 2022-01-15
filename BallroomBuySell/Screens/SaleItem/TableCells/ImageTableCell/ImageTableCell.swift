@@ -1,5 +1,5 @@
 //
-//  AttachmentTableCell.swift
+//  ImageTableCell.swift
 //  BallroomBuySell
 //
 //  Created by Taylor Chapman on 2022-01-14.
@@ -7,44 +7,43 @@
 
 import UIKit
 
-protocol AttachmentTableCellDelegate {
-    func newAttachment(_ data: Data)
-    func deleteAttachment(at index: Int)
+protocol ImageTableCellDelegate {
+    func newImage(_ data: Data)
+    func deleteImage(at index: Int)
 }
 
-class AttachmentTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
     
-    private let maxAttachmentCount = 10
-    private let maxTotalAttachmentSize = 9.0 // in MBs
-    private var attachmentList = [Data]()
+    private let maxImageCount = 10
+    private let maxTotalImageSize = 9.0 // in MBs
+    private var imagesList = [Data]()
     private var isEditable = true
-    var delegate: (AttachmentTableCellDelegate & UIViewController)? // TODO! why UIViewController?
+    var delegate: (ImageTableCellDelegate & UIViewController)? // TODO! why UIViewController?
     
     // MARK: - Life Cycle
     static func registerCell(_ tableView: UITableView) {
-        let identifier = String(describing: AttachmentTableCell.self)
+        let identifier = String(describing: ImageTableCell.self)
         tableView.register(UINib(nibName: identifier, bundle: nil), forCellReuseIdentifier: identifier)
     }
     
-    static func createCell(_ tableView: UITableView) -> AttachmentTableCell? {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: AttachmentTableCell.self)) as? AttachmentTableCell else {
+    static func createCell(_ tableView: UITableView) -> ImageTableCell? {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ImageTableCell.self)) as? ImageTableCell else {
             assertionFailure("Can't Find Cell")
             return nil
         }
         
-        AttachmentCollectionCell.registerCell(cell.collectionView)
-        
+        ImageCollectionCell.registerCell(cell.collectionView)
         return cell
     }
     
-    func configureCell(_ dm: (attachmentList: [Data], isEditable: Bool)) {
+    func configureCell(_ dm: (images: [Data], isEditable: Bool)) {
         clearContent()
         
         titleLabel.text = ""
-        attachmentList = dm.attachmentList
+        imagesList = dm.images
         isEditable = dm.isEditable
         
         collectionView.reloadData()
@@ -54,21 +53,20 @@ class AttachmentTableCell: UITableViewCell, TableCellProtocol, UICollectionViewD
     
     func clearContent() {
         titleLabel.text = ""
-        attachmentList.removeAll()
+        imagesList.removeAll()
     }
     
     // MARK: - CollectionView Methods
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        attachmentList.count + (isEditable && attachmentList.count < maxAttachmentCount ? 1 : 0) // Provide empty cell to add attachment if editable
+        imagesList.count + (isEditable && imagesList.count < maxImageCount ? 1 : 0) // TODO!
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = AttachmentCollectionCell.createCell(collectionView, for: indexPath) else {
+        guard let cell = ImageCollectionCell.createCell(collectionView, for: indexPath) else {
             return UICollectionViewCell()
         }
         
-        cell.configureCell(indexPath.row < attachmentList.count ? attachmentList[indexPath.row] : nil)
-
+        cell.configureCell(indexPath.row < imagesList.count ? imagesList[indexPath.row] : nil)
         return cell
     }
     
@@ -77,8 +75,7 @@ class AttachmentTableCell: UITableViewCell, TableCellProtocol, UICollectionViewD
             return
         }
         
-        // Either an Attachment that has been downloaded or is empty attachment slot
-        let actionItems = collectionView.numberOfItems(inSection: 0) - 1 == indexPath.row && isEditable && attachmentList.count < maxAttachmentCount ? getEmptyActionSheetItems() : getNonEmptyActionSheetItems(indexPath)
+        let actionItems = collectionView.numberOfItems(inSection: 0) - 1 == indexPath.row && isEditable && imagesList.count < maxImageCount ? getEmptyActionSheetItems() : getNonEmptyActionSheetItems(indexPath) // TODO!
         delegate.showActionSheetOrPopover(nil, "notes.attachment.actions", actionItems)
     }
     
@@ -93,7 +90,7 @@ class AttachmentTableCell: UITableViewCell, TableCellProtocol, UICollectionViewD
         
         picker.dismiss(animated: true, completion: nil)
         if let imageData = resizedImage.pngData(), !maxTotalFileSizeExceeded(imageData) {
-            delegate?.newAttachment(imageData)
+            delegate?.newImage(imageData)
         }
     }
     
@@ -134,27 +131,24 @@ class AttachmentTableCell: UITableViewCell, TableCellProtocol, UICollectionViewD
     }
     
     private func getNonEmptyActionSheetItems(_ indexPath: IndexPath) -> [UIAlertAction] {
-        let attachmentData = attachmentList[indexPath.row]
+        let imageData = imagesList[indexPath.row]
         var actionItems = [UIAlertAction]()
         
-        // Cancel
         actionItems.append(UIAlertAction(title: "generic.cancel", style: .cancel))
         
-        // View Attachment
         actionItems.append(UIAlertAction(title: "notes.view.attachment", style: .default) { (action) in
-            self.displayAttachment(attachmentData)
+            self.displayImage(imageData)
         })
         
-        // Remove Attachment
         actionItems.append(UIAlertAction(title: "notes.remove.attachment", style: .destructive) { (action) in
-            self.delegate?.deleteAttachment(at: indexPath.row)
+            self.delegate?.deleteImage(at: indexPath.row)
         })
         
         return actionItems
     }
     
-    private func displayAttachment(_ attachmentData: Data) {
-        guard let image = UIImage(data: attachmentData) else {
+    private func displayImage(_ imageData: Data) {
+        guard let image = UIImage(data: imageData) else {
             return
         }
         
@@ -165,11 +159,11 @@ class AttachmentTableCell: UITableViewCell, TableCellProtocol, UICollectionViewD
     
     private func maxTotalFileSizeExceeded(_ data: Data) -> Bool {
         let MB = 1000000.0
-        let totalFileSize = attachmentList.reduce(Double(data.count) / MB) { $0 + (Double($1.count) / MB) }
-        if totalFileSize < maxTotalAttachmentSize {
+        let totalFileSize = imagesList.reduce(Double(data.count) / MB) { $0 + (Double($1.count) / MB) }
+        if totalFileSize < maxTotalImageSize {
             return false
         }
-
+        
         delegate?.showAlertWith(title: "generic.error", message: "notes.max.attachment.size.error.messsage")
         return true
     }

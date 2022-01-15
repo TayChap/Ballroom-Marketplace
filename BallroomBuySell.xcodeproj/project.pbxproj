@@ -55,10 +55,10 @@
 		8D9D458E2790BE91004C5565 /* ViewItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D458D2790BE91004C5565 /* ViewItemVC.swift */; };
 		8D9D45902790CF40004C5565 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D458F2790CF40004C5565 /* Storyboard.swift */; };
 		8D9D45942791D4F0004C5565 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45932791D4F0004C5565 /* ImageManager.swift */; };
-		8D9D45992791F67F004C5565 /* AttachmentCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45982791F67F004C5565 /* AttachmentCollectionCell.swift */; };
-		8D9D459B2791F690004C5565 /* AttachmentCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D459A2791F690004C5565 /* AttachmentCollectionCell.xib */; };
-		8D9D459D2791F69E004C5565 /* AttachmentTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D459C2791F69E004C5565 /* AttachmentTableCell.swift */; };
-		8D9D459F2791F6B0004C5565 /* AttachmentTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D459E2791F6B0004C5565 /* AttachmentTableCell.xib */; };
+		8D9D45992791F67F004C5565 /* ImageCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45982791F67F004C5565 /* ImageCollectionCell.swift */; };
+		8D9D459B2791F690004C5565 /* ImageCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D459A2791F690004C5565 /* ImageCollectionCell.xib */; };
+		8D9D459D2791F69E004C5565 /* ImageTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D459C2791F69E004C5565 /* ImageTableCell.swift */; };
+		8D9D459F2791F6B0004C5565 /* ImageTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D459E2791F6B0004C5565 /* ImageTableCell.xib */; };
 		8D9D45A12791F711004C5565 /* CollectionCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45A02791F711004C5565 /* CollectionCellProtocol.swift */; };
 		8D9D45A327922303004C5565 /* PermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45A227922303004C5565 /* PermissionsManager.swift */; };
 		8D9D45A627922FBE004C5565 /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45A527922FBE004C5565 /* ImageViewer.swift */; };
@@ -120,10 +120,10 @@
 		8D9D458D2790BE91004C5565 /* ViewItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewItemVC.swift; sourceTree = "<group>"; };
 		8D9D458F2790CF40004C5565 /* Storyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboard.swift; sourceTree = "<group>"; };
 		8D9D45932791D4F0004C5565 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
-		8D9D45982791F67F004C5565 /* AttachmentCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentCollectionCell.swift; sourceTree = "<group>"; };
-		8D9D459A2791F690004C5565 /* AttachmentCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AttachmentCollectionCell.xib; sourceTree = "<group>"; };
-		8D9D459C2791F69E004C5565 /* AttachmentTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentTableCell.swift; sourceTree = "<group>"; };
-		8D9D459E2791F6B0004C5565 /* AttachmentTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AttachmentTableCell.xib; sourceTree = "<group>"; };
+		8D9D45982791F67F004C5565 /* ImageCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionCell.swift; sourceTree = "<group>"; };
+		8D9D459A2791F690004C5565 /* ImageCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCollectionCell.xib; sourceTree = "<group>"; };
+		8D9D459C2791F69E004C5565 /* ImageTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTableCell.swift; sourceTree = "<group>"; };
+		8D9D459E2791F6B0004C5565 /* ImageTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageTableCell.xib; sourceTree = "<group>"; };
 		8D9D45A02791F711004C5565 /* CollectionCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCellProtocol.swift; sourceTree = "<group>"; };
 		8D9D45A227922303004C5565 /* PermissionsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsManager.swift; sourceTree = "<group>"; };
 		8D9D45A527922FBE004C5565 /* ImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewer.swift; sourceTree = "<group>"; };
@@ -425,28 +425,28 @@
 		8D9D45952791F561004C5565 /* TableCells */ = {
 			isa = PBXGroup;
 			children = (
-				8D9D45972791F65E004C5565 /* AttachmentCollectionCell */,
-				8D9D45962791F652004C5565 /* AttachmentTableCell */,
+				8D9D45962791F652004C5565 /* ImageTableCell */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
 		};
-		8D9D45962791F652004C5565 /* AttachmentTableCell */ = {
+		8D9D45962791F652004C5565 /* ImageTableCell */ = {
 			isa = PBXGroup;
 			children = (
-				8D9D459C2791F69E004C5565 /* AttachmentTableCell.swift */,
-				8D9D459E2791F6B0004C5565 /* AttachmentTableCell.xib */,
+				8D9D45972791F65E004C5565 /* ImageCollectionCell */,
+				8D9D459C2791F69E004C5565 /* ImageTableCell.swift */,
+				8D9D459E2791F6B0004C5565 /* ImageTableCell.xib */,
 			);
-			path = AttachmentTableCell;
+			path = ImageTableCell;
 			sourceTree = "<group>";
 		};
-		8D9D45972791F65E004C5565 /* AttachmentCollectionCell */ = {
+		8D9D45972791F65E004C5565 /* ImageCollectionCell */ = {
 			isa = PBXGroup;
 			children = (
-				8D9D45982791F67F004C5565 /* AttachmentCollectionCell.swift */,
-				8D9D459A2791F690004C5565 /* AttachmentCollectionCell.xib */,
+				8D9D45982791F67F004C5565 /* ImageCollectionCell.swift */,
+				8D9D459A2791F690004C5565 /* ImageCollectionCell.xib */,
 			);
-			path = AttachmentCollectionCell;
+			path = ImageCollectionCell;
 			sourceTree = "<group>";
 		};
 		8D9D45A427922FAF004C5565 /* ImageViewer */ = {
@@ -536,12 +536,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D9D459B2791F690004C5565 /* AttachmentCollectionCell.xib in Resources */,
+				8D9D459B2791F690004C5565 /* ImageCollectionCell.xib in Resources */,
 				8D9D456627876E6F004C5565 /* PickerTableCell.xib in Resources */,
 				8D9D455527822B91004C5565 /* ButtonTableCell.xib in Resources */,
 				8D1BB535273EF97900677EF7 /* LaunchScreen.storyboard in Resources */,
 				8D9D450927711E44004C5565 /* Localizable.strings in Resources */,
-				8D9D459F2791F6B0004C5565 /* AttachmentTableCell.xib in Resources */,
+				8D9D459F2791F6B0004C5565 /* ImageTableCell.xib in Resources */,
 				8D1BB532273EF97900677EF7 /* Assets.xcassets in Resources */,
 				8D1BB530273EF97700677EF7 /* Main.storyboard in Resources */,
 				8D9D452B277A28A2004C5565 /* Authentication.storyboard in Resources */,
@@ -615,7 +615,7 @@
 				8D9D457F2788F5EF004C5565 /* SaleItemCellType.swift in Sources */,
 				8D9D45902790CF40004C5565 /* Storyboard.swift in Sources */,
 				8D9D45752788DF30004C5565 /* DatabaseManager.swift in Sources */,
-				8D9D45992791F67F004C5565 /* AttachmentCollectionCell.swift in Sources */,
+				8D9D45992791F67F004C5565 /* ImageCollectionCell.swift in Sources */,
 				8D9D456827877820004C5565 /* PickerValue.swift in Sources */,
 				8D9D45A627922FBE004C5565 /* ImageViewer.swift in Sources */,
 				8D9D451727721F77004C5565 /* ViewControllerProtocol.swift in Sources */,
@@ -633,7 +633,7 @@
 				8D9D45732788D929004C5565 /* User.swift in Sources */,
 				8D9D453D277CDDFB004C5565 /* TextFieldCellDM.swift in Sources */,
 				8D9D45A12791F711004C5565 /* CollectionCellProtocol.swift in Sources */,
-				8D9D459D2791F69E004C5565 /* AttachmentTableCell.swift in Sources */,
+				8D9D459D2791F69E004C5565 /* ImageTableCell.swift in Sources */,
 				8D9D4585278A451A004C5565 /* UIButton.swift in Sources */,
 				8D9D4589279096C6004C5565 /* InputType.swift in Sources */,
 				8D9D44ED2770C64A004C5565 /* UIViewController.swift in Sources */,

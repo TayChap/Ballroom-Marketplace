@@ -91,7 +91,6 @@ class ImageManager { // TODO! should be struct
     }
     
     // MARK: - Private Helpers
-    
     private func getImageFolder() -> URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(imageFolderName).absoluteURL ?? URL(fileURLWithPath: "")
     }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UITableViewDataSource, PickerCellDelegate, TextFieldCellDelegate, AttachmentTableCellDelegate {
+class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UITableViewDataSource, PickerCellDelegate, TextFieldCellDelegate, ImageTableCellDelegate {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     private var vm: SaleItemVM!
@@ -67,14 +67,14 @@ class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UIT
         setData(newText, for: cell)
     }
     
-    // MARK: - AttachmentTableCellDelegate
-    func newAttachment(_ data: Data) {
-        vm.newAttachment(data)
+    // MARK: - ImageTableCellDelegate
+    func newImage(_ data: Data) {
+        vm.newImage(data)
         reload()
     }
     
-    func deleteAttachment(at index: Int) {
-        vm.deleteAttachment(at: index)
+    func deleteImage(at index: Int) {
+        vm.deleteImage(at: index)
         reload()
     }
     

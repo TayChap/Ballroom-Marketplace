@@ -17,7 +17,7 @@ struct SaleItemVM {
     let mode: Mode
     var screenStructure: [SaleItemCellStructure]
     
-    var attachments = [Data]()
+    var images = [Data]()
     
     // MARK: - Lifecycle Methods
     init(_ owner: ViewControllerProtocol, _ saleItem: SaleItem? = nil) {
@@ -37,7 +37,7 @@ struct SaleItemVM {
     func viewDidLoad(_ tableView: UITableView) {
         PickerTableCell.registerCell(tableView)
         TextFieldTableCell.registerCell(tableView)
-        AttachmentTableCell.registerCell(tableView)
+        ImageTableCell.registerCell(tableView)
     }
     
     // MARK: - IBActions
@@ -78,12 +78,12 @@ struct SaleItemVM {
             cell.delegate = owner as? TextFieldCellDelegate
             return cell
         case .imageCollection:
-            guard let cell = AttachmentTableCell.createCell(tableView) else {
+            guard let cell = ImageTableCell.createCell(tableView) else {
                 return UITableViewCell()
             }
             
-            cell.configureCell((attachmentList: attachments, isEditable: true))
-            cell.delegate = owner as? (AttachmentTableCellDelegate & UIViewController)
+            cell.configureCell((imageList: images, isEditable: true))
+            cell.delegate = owner as? (ImageTableCellDelegate & UIViewController)
             
             return cell
         }
@@ -96,13 +96,13 @@ struct SaleItemVM {
         }
     }
     
-    // MARK: - AttachmentCellDelegate
-    mutating func newAttachment(_ data: Data) {
-        attachments.append(data)
+    // MARK: - ImageCellDelegate
+    mutating func newImage(_ data: Data) {
+        images.append(data)
     }
     
-    mutating func deleteAttachment(at index: Int) {
-        attachments.remove(at: index)
+    mutating func deleteImage(at index: Int) {
+        images.remove(at: index)
     }
     
     // MARK: - Public Helpers

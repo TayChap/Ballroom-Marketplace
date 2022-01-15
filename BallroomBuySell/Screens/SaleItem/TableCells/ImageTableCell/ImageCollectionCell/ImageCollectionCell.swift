@@ -1,5 +1,5 @@
 //
-//  AttachmentCollectionCell.swift
+//  ImageCollectionCell.swift
 //  BallroomBuySell
 //
 //  Created by Taylor Chapman on 2022-01-14.
@@ -7,18 +7,18 @@
 
 import UIKit
 
-class AttachmentCollectionCell: UICollectionViewCell, CollectionCellProtocol {
+class ImageCollectionCell: UICollectionViewCell, CollectionCellProtocol {
     @IBOutlet weak var imageView: UIImageView!
     
     private let emptyCellImage = UIImage(systemName: "plus")
     
     static func registerCell(_ collectionView: UICollectionView) {
-        let identifier = String(describing: AttachmentCollectionCell.self)
+        let identifier = String(describing: ImageCollectionCell.self)
         collectionView.register(UINib(nibName: identifier, bundle: nil), forCellWithReuseIdentifier: identifier)
     }
     
-    static func createCell(_ collectionView: UICollectionView, for indexPath: IndexPath) -> AttachmentCollectionCell? {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: AttachmentCollectionCell.self), for: indexPath) as? AttachmentCollectionCell else {
+    static func createCell(_ collectionView: UICollectionView, for indexPath: IndexPath) -> ImageCollectionCell? {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ImageCollectionCell.self), for: indexPath) as? ImageCollectionCell else {
             assertionFailure("Can't Find Cell")
             return nil
         }
@@ -26,11 +26,11 @@ class AttachmentCollectionCell: UICollectionViewCell, CollectionCellProtocol {
         return cell
     }
     
-    func configureCell(_ attachment: Data?) {
+    func configureCell(_ image: Data?) {
         clearContent()
         
         guard
-            let data = attachment,
+            let data = image,
             let image = UIImage(data: data)
         else {
             imageView.image = UIImage(systemName: "plus")
