@@ -8,32 +8,29 @@
 import FirebaseStorage
 
 struct ImageManager {
+    static let sharedInstance = ImageManager()
     var storage: Storage {
         Storage.storage()
     }
     
+    // MARK: - Private Init
+    private init() { } // to ensure sharedInstance is accessed, rather than new instance
+    
     // MARK: - Public Helpers
-    func uploadImage(_ image: Data) {
-        let reference = storage.reference(forURL: "images/\(UUID().uuidString)")
-        reference.putData(image, metadata: nil) { metadata, error in
-            guard let _ = metadata else {
-                // TODO! an error occurred
-                return
-            }
+    func uploadImagesAsynchronously(_ images: [Image]) {
+        for image in images {
+            storage.reference().child(image.url).putData(image.data ?? Data(), metadata: nil) // TODO guard for data
         }
     }
     
-    func downloadImage(at url: String, _ completion: @escaping (_ image: UIImage) -> Void) {
-        let reference = storage.reference(forURL: url)
-        reference.getData(maxSize: 1 * 1024 * 1024) { data, error in // Download in memory with a max size of 1MB (1 * 1024 * 1024 bytes)
-            guard
-                let data = data,
-                let image = UIImage(data: data)
-            else {
+    func downloadImage(at url: String, _ completion: @escaping (_ image: Data) -> Void) {
+        let reference = storage.reference().child(url)
+        reference.getData(maxSize: 1 * 1024 * 1024 * 10) { data, error in // Download in memory with a max size of 10MB (1 * 1024 * 1024 bytes)
+            guard let data = data else {
                 return // TODO!
             }
             
-            completion(image)
+            completion(data)
         }
     }
 }

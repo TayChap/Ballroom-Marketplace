@@ -17,8 +17,6 @@ struct SaleItemVM {
     let mode: Mode
     var screenStructure: [SaleItemCellStructure]
     
-    var images = [Data]() // TODO! store in DM
-    
     // MARK: - Lifecycle Methods
     init(_ owner: ViewControllerProtocol, _ saleItem: SaleItem? = nil) {
         delegate = owner
@@ -43,6 +41,7 @@ struct SaleItemVM {
     // MARK: - IBActions
     mutating func doneButtonClicked() {
         dm.dateAdded = Date()
+        ImageManager.sharedInstance.uploadImagesAsynchronously(dm.images)
         DatabaseManager().createDocument(.items, dm)
     }
     
@@ -82,7 +81,7 @@ struct SaleItemVM {
             }
             
             cell.configureCell(ImageCellDM(title: cellStructure.title,
-                                           images: images,
+                                           images: dm.images.compactMap({ $0.data }),
                                            editable: mode == .create))
             cell.delegate = owner as? (ImageTableCellDelegate & UIViewController)
             return cell
@@ -98,11 +97,11 @@ struct SaleItemVM {
     
     // MARK: - ImageCellDelegate
     mutating func newImage(_ data: Data) {
-        images.append(data)
+        dm.images.append(Image(url: "images/\(UUID().uuidString)", data: data))
     }
     
     mutating func deleteImage(at index: Int) {
-        images.remove(at: index)
+        dm.images.remove(at: index)
     }
     
     // MARK: - Public Helpers

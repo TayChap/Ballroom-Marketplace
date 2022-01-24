@@ -8,7 +8,6 @@
 struct SaleItemTemplate: Codable {
     var id: String // human readable
     var name: String
-    //var previewCellStructure: [SaleItemPreviewCellStructure] // TODO! collection view
     var screenStructure: [SaleItemCellStructure]
     
     static var serverKey: String {

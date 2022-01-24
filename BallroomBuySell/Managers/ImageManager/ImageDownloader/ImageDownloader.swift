@@ -8,16 +8,15 @@
 
 import UIKit
 
-class ImageDownloader { // TODO! struct
-    static let sharedInstance = ImageManager()
+struct ImageDownloader { // TODO! Reference only, REMOVE
     private var requestQueue = [ImageRequestObject]()
     
-    private let localImageFolder = "images/"
+    private let localImageFolder = "images/" // TODO! 2 places?
     private let maxQueueSize = 15
     private let maxSimultaneousCalls = 10
     private var currentCallCount = 0
     
-    func downloadFile(contentView: UIView? = nil, url: String, success: @escaping (_ image: UIImage, _ fileURL: String) -> Void) {
+    mutating func downloadFile(contentView: UIView? = nil, url: String, success: @escaping (_ image: UIImage, _ fileURL: String) -> Void) {
         createImageFolder()
         
         // Check if image has already been downloaded and returns if the image has been
@@ -81,7 +80,7 @@ class ImageDownloader { // TODO! struct
     }
     
     /// Pulls the first request object on the queue and downloads an image then calls the success or failure if provided. If the queue isn't empty will recursively call fetch image
-    private func fetchImages() {
+    private mutating func fetchImages() {
         let imageRequestObject = requestQueue.removeFirst()
         currentCallCount += 1
         

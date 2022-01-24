@@ -16,12 +16,12 @@ class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UIT
     static func createViewController() -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
         vc.vm = SaleItemVM(vc)
+        
         return vc
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         vm.viewDidLoad(tableView)
     }
     
