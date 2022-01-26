@@ -71,7 +71,7 @@
                         <outlet property="tableView" destination="9iQ-qx-Ad8" id="dQC-ED-DWA"/>
                         <segue destination="5h3-fC-z8R" kind="show" id="uVa-tl-VfJ"/>
                         <segue destination="vnn-B4-q01" kind="show" id="Emr-7T-WXn"/>
-                        <segue destination="1zS-R9-jag" kind="show" id="jgu-3A-7Ee"/>
+                        <segue destination="Etr-Bo-Mt5" kind="show" id="DkJ-zG-fso"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rrh-YO-oUl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -118,7 +118,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JQV-LC-K0x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="469.56521739130437" y="568.52678571428567"/>
+            <point key="canvasLocation" x="470" y="368"/>
         </scene>
         <!--ProfileVC-->
         <scene sceneID="Jg9-zn-5Eu">
@@ -135,6 +135,73 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B9R-P6-Hnz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="470" y="1357"/>
+        </scene>
+        <!--Sale Item ListVC-->
+        <scene sceneID="GRz-VX-fz8">
+            <objects>
+                <viewController storyboardIdentifier="SaleItemListVC" id="Etr-Bo-Mt5" customClass="SaleItemListVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="osg-HD-pbi">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Pjq-6F-QBw">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hlC-nL-KPR">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Etr-Bo-Mt5" id="AYl-Zg-O04"/>
+                                    <outlet property="delegate" destination="Etr-Bo-Mt5" id="ovh-jt-Stv"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6yD-Zg-cAp"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6yD-Zg-cAp" firstAttribute="bottom" secondItem="Pjq-6F-QBw" secondAttribute="bottom" id="EYD-qv-3BT"/>
+                            <constraint firstItem="Pjq-6F-QBw" firstAttribute="top" secondItem="6yD-Zg-cAp" secondAttribute="top" id="T6s-67-F0f"/>
+                            <constraint firstItem="6yD-Zg-cAp" firstAttribute="trailing" secondItem="Pjq-6F-QBw" secondAttribute="trailing" id="onb-KL-xbF"/>
+                            <constraint firstItem="Pjq-6F-QBw" firstAttribute="leading" secondItem="6yD-Zg-cAp" secondAttribute="leading" id="tiK-y4-b7p"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Gj1-be-i4z">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="HdR-ii-IgM">
+                            <connections>
+                                <action selector="filterButtonClicked" destination="Etr-Bo-Mt5" id="rvI-lj-zuH"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="Pjq-6F-QBw" id="lCO-f3-1RC"/>
+                        <outlet property="filterButton" destination="HdR-ii-IgM" id="DIw-mv-gEp"/>
+                        <segue destination="1zS-R9-jag" kind="show" id="pp1-yZ-4OT"/>
+                        <segue destination="WLI-9L-WRj" kind="show" id="y7q-Vn-rEQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Fhx-Uu-mqY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="470" y="2407"/>
+        </scene>
+        <!--Sale Item FilterVC-->
+        <scene sceneID="EFw-TK-3hv">
+            <objects>
+                <viewController storyboardIdentifier="SaleItemFilterVC" id="WLI-9L-WRj" customClass="SaleItemFilterVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1sQ-8b-jw9">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="MBI-0x-cKT"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="1ZT-ni-dbo"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Mtq-Jw-nOp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1656" y="2707"/>
         </scene>
         <!--View ItemVC-->
         <scene sceneID="QDx-Gg-cnA">
@@ -168,7 +235,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wej-cv-DTQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="470" y="2148"/>
+            <point key="canvasLocation" x="1642" y="2020"/>
         </scene>
     </scenes>
     <resources>

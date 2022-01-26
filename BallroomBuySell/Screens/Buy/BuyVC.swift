@@ -35,19 +35,6 @@ class BuyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewC
         vm.profileButtonClicked()
     }
     
-    // MARK: - ViewControllerProtocol
-    func pushViewController(_ vc: UIViewController) {
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func presentViewController(_ vc: UIViewController) {
-        present(NavigationController(rootViewController: vc), animated: true)
-    }
-    
-    func reload() {
-        tableView.reloadData()
-    }
-    
     // MARK: - Table Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         vm.tableView(tableView, numberOfRowsInSection: section)
@@ -59,5 +46,18 @@ class BuyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewC
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         vm.tableView(tableView, didSelectRowAt: indexPath, self)
+    }
+    
+    // MARK: - ViewControllerProtocol
+    func pushViewController(_ vc: UIViewController) {
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func presentViewController(_ vc: UIViewController) {
+        present(NavigationController(rootViewController: vc), animated: true)
+    }
+    
+    func reload() {
+        tableView.reloadData()
     }
 }

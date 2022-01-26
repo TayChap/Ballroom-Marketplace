@@ -50,11 +50,14 @@ struct BuyVM {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath, _ viewController: ViewControllerProtocol) {
         // TODO! refactor when switch to modern collection view
-        var cellData = screenStructure[indexPath.row]
-        let url = cellData.images.first?.url ?? ""
-        ImageManager.sharedInstance.downloadImage(at: url) { data in
-            cellData.images.insert(Image(url: url, data: data), at: 0)
-            delegate?.pushViewController(ViewItemVC.createViewController(cellData))
-        }
+//        var cellData = screenStructure[indexPath.row]
+//        let url = cellData.images.first?.url ?? ""
+//        ImageManager.sharedInstance.downloadImage(at: url) { data in
+//            cellData.images.insert(Image(url: url, data: data), at: 0)
+//            delegate?.pushViewController(ViewItemVC.createViewController(cellData))
+//        }
+        
+        // TODO! need to pass in some sort of filter item
+        delegate?.pushViewController(SaleItemListVC.createViewController(screenStructure))
     }
 }
