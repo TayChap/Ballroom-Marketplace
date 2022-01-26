@@ -8,7 +8,9 @@
 import UIKit
 
 class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
-    
+    @IBOutlet weak var coverImage: UIImageView!
+    @IBOutlet weak var moneyLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     
     static func registerCell(_ collectionView: UICollectionView) {
         let identifier = String(describing: SaleItemCollectionCell.self)
@@ -26,12 +28,18 @@ class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
     
     func configureCell(_ dm: SaleItemCellDM) {
         clearContent()
-        
-        // TODO!
+        applyRoundedCorners()
     }
     
     func clearContent() {
         // TODO!
     }
     
+    // MARK: - Private Methods
+    private func applyRoundedCorners() {
+        contentView.layer.cornerRadius = 20.0
+        contentView.layer.masksToBounds = true
+        layer.cornerRadius = 20.0
+        layer.masksToBounds = false
+    }
 }

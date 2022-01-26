@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ViewControllerProtocol {
+class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, ViewControllerProtocol {
     @IBOutlet weak var filterButton: UIBarButtonItem!
     @IBOutlet weak var collectionView: UICollectionView!
     private var vm: SaleItemListVM!
@@ -31,6 +31,10 @@ class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     // MARK: - CollectionView Methods
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        vm.collectionView(collectionView, layout: collectionViewLayout, sizeForItemAt: indexPath)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         vm.collectionView(collectionView, numberOfItemsInSection: section)
     }
