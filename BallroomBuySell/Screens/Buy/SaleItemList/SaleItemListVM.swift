@@ -16,18 +16,20 @@ struct SaleItemListVM {
     init(_ owner: ViewControllerProtocol, _ unfilteredSaleItems: [SaleItem]) {
         delegate = owner
         
-        // TODO apply filtering
+        // TODO! apply filtering
         
         saleItems = unfilteredSaleItems
     }
     
     func viewDidLoad(_ collectionView: UICollectionView) {
+        // TODO! set view controller title (all items OR type)
+        
         SaleItemCollectionCell.registerCell(collectionView)
     }
     
     // MARK: - IBActions
     func filterButtonClicked() {
-        delegate?.pushViewController(SaleItemFilterVC.createViewController()) // TODO! pass in filter query
+        delegate?.presentViewController(SaleItemFilterVC.createViewController()) // TODO! pass in filter query
     }
     
     // MARK: - CollectionView Methods
@@ -44,11 +46,14 @@ struct SaleItemListVM {
             return UICollectionViewCell()
         }
         
-        cell.configureCell(SaleItemCellDM())
+        let cellData = saleItems[indexPath.item]
+        cell.configureCell(SaleItemCellDM(image: UIImage(data: cellData.images.first?.data ?? Data()) ?? UIImage(), // TODO! refactor?
+                                          price: "$50.00",
+                                          date: cellData.dateAdded ?? Date())) // TODO should dateAdded be optional ?
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        delegate?.pushViewController(ViewItemVC.createViewController(saleItems[indexPath.item]))
     }
 }

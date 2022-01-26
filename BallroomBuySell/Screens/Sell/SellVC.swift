@@ -30,19 +30,6 @@ class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UIT
         vm.doneButtonClicked()
     }
     
-    // MARK: - ViewControllerProtocol
-    func pushViewController(_ vc: UIViewController) {
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func dismiss() {
-        dismiss(animated: true)
-    }
-    
-    func reload() {
-        tableView.reloadData()
-    }
-    
     // MARK: - Table Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         vm.tableView(tableView, numberOfRowsInSection: section)
@@ -54,6 +41,19 @@ class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UIT
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         vm.tableView(tableView, didSelectRowAt: indexPath, self)
+    }
+    
+    // MARK: - ViewControllerProtocol
+    func pushViewController(_ vc: UIViewController) {
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func dismiss() {
+        dismiss(animated: true)
+    }
+    
+    func reload() {
+        tableView.reloadData()
     }
     
     // MARK: - PickerCellDelegate

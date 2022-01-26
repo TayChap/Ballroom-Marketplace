@@ -9,7 +9,7 @@ import UIKit
 
 class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
     @IBOutlet weak var coverImage: UIImageView!
-    @IBOutlet weak var moneyLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
     static func registerCell(_ collectionView: UICollectionView) {
@@ -28,11 +28,18 @@ class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
     
     func configureCell(_ dm: SaleItemCellDM) {
         clearContent()
+        
+        coverImage.image = dm.image
+        priceLabel.text = dm.price
+        dateLabel.text = dm.date.toReadableString()
+        
         applyRoundedCorners()
     }
     
     func clearContent() {
-        // TODO!
+        coverImage.image = nil
+        priceLabel.text = ""
+        dateLabel.text = ""
     }
     
     // MARK: - Private Methods

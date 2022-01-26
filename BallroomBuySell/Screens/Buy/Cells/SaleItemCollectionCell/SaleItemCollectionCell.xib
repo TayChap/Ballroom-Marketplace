@@ -52,7 +52,7 @@
             <connections>
                 <outlet property="coverImage" destination="BaC-iQ-0W7" id="OU7-bP-7MU"/>
                 <outlet property="dateLabel" destination="s43-55-D9f" id="Sdo-El-UvM"/>
-                <outlet property="moneyLabel" destination="tIG-av-wRJ" id="Usm-92-owZ"/>
+                <outlet property="priceLabel" destination="tIG-av-wRJ" id="Usm-92-owZ"/>
             </connections>
             <point key="canvasLocation" x="233.33333333333334" y="106.80803571428571"/>
         </collectionViewCell>

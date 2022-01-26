@@ -194,10 +194,41 @@
                     <view key="view" contentMode="scaleToFill" id="1sQ-8b-jw9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Q7G-4j-rn2">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="WLI-9L-WRj" id="Wfo-X8-Yix"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="MBI-0x-cKT"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Q7G-4j-rn2" firstAttribute="top" secondItem="MBI-0x-cKT" secondAttribute="top" id="4de-Ii-DVT"/>
+                            <constraint firstItem="MBI-0x-cKT" firstAttribute="bottom" secondItem="Q7G-4j-rn2" secondAttribute="bottom" id="gHu-rA-F5V"/>
+                            <constraint firstItem="Q7G-4j-rn2" firstAttribute="leading" secondItem="MBI-0x-cKT" secondAttribute="leading" id="old-54-ESo"/>
+                            <constraint firstItem="MBI-0x-cKT" firstAttribute="trailing" secondItem="Q7G-4j-rn2" secondAttribute="trailing" id="pr1-QP-Rik"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="1ZT-ni-dbo"/>
+                    <navigationItem key="navigationItem" id="1ZT-ni-dbo">
+                        <barButtonItem key="leftBarButtonItem" image="xmark" catalog="system" id="Nmc-78-eK3">
+                            <connections>
+                                <action selector="backButtonClcked:" destination="WLI-9L-WRj" id="uXO-5F-rw2"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="checkmark" catalog="system" id="vcJ-2Y-mwH">
+                            <connections>
+                                <action selector="submitButtonClicked:" destination="WLI-9L-WRj" id="Xvc-q4-bav"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="backButton" destination="Nmc-78-eK3" id="XZ5-LI-BUg"/>
+                        <outlet property="submitButton" destination="vcJ-2Y-mwH" id="ykW-10-wXl"/>
+                        <outlet property="tableView" destination="Q7G-4j-rn2" id="ExG-kk-8A5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mtq-Jw-nOp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -242,6 +273,7 @@
         <image name="checkmark" catalog="system" width="128" height="114"/>
         <image name="mail" catalog="system" width="128" height="93"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
