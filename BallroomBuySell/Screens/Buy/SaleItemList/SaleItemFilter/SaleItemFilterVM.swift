@@ -10,11 +10,16 @@ import UIKit
 struct SaleItemFilterVM {
     private var dm: SaleItemFilter
     private weak var delegate: ViewControllerProtocol?
-    var screenStructure: [SaleItemCellStructure]
+    private var screenStructure: [SaleItemCellStructure]
+    private let templates: [SaleItemTemplate]
+    
+    private let onFilterFetched: (_ saleItems: [SaleItem]) -> Void
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, _ templates: [SaleItemTemplate]) {
+    init(_ owner: ViewControllerProtocol, _ templates: [SaleItemTemplate], _ onFilterFetched: @escaping (_ saleItems: [SaleItem]) -> Void) {
         delegate = owner
+        self.templates = templates
+        self.onFilterFetched = onFilterFetched
         screenStructure = SaleItemFilterVM.getScreenStructure(templates)
         dm = SaleItemFilter()
     }
@@ -31,7 +36,15 @@ struct SaleItemFilterVM {
     }
     
     func submitButtonClicked() {
-        // TODO!
+        var templateFilter: (key: String, value: String)? = nil // TODO! refactor all this foolishness...
+        if let value = dm.fields[SaleItemTemplate.serverKey]?.first {
+            templateFilter = (key: "fields.\(SaleItemTemplate.serverKey)", value: value)
+        }
+        
+        DatabaseManager.sharedInstance.getSaleItems(where: templateFilter) { saleItems in
+            onFilterFetched(saleItems)
+            delegate?.dismiss()
+        }
     }
     
     // MARK: - Table Methods
@@ -80,12 +93,13 @@ struct SaleItemFilterVM {
     
     // MARK: - Public Helpers
     mutating func setData(_ data: String, at indexPath: IndexPath) {
-//        let cellStructure = screenStructure[indexPath.row]
-//        dm.fields[cellStructure.serverKey] = data
-//
-//        if cellStructure.serverKey == SaleItemTemplate.serverKey {
-//            screenStructure = SaleItemVM.getScreenStructure(for: data)
-//        }
+        let cellStructure = screenStructure[indexPath.row]
+        if cellStructure.serverKey == SaleItemTemplate.serverKey {
+            dm = SaleItemFilter()
+            screenStructure = SaleItemFilterVM.getScreenStructure(templates, for: data)
+        }
+        
+        dm.fields[cellStructure.serverKey] = [data]
     }
     
     // MARK: - Private Helpers

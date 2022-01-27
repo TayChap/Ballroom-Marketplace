@@ -6,5 +6,5 @@
 //
 
 struct SaleItemFilter {
-    var fields: [String: [String]] = [:] // [serverKey: [selections / ranges]] range connected to UI elements in SaleItemTemplate
+    var fields: [String: [String]] = [:] // [serverKey: [selections / ranges]]
 }

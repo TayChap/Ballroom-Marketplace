@@ -10,7 +10,7 @@ import UIKit
 struct SaleItemListVM {
     private weak var delegate: ViewControllerProtocol?
     private var saleItems: [SaleItem]
-    private var templates: [SaleItemTemplate]
+    private(set) var templates: [SaleItemTemplate]
     // TODO! private var filter: Filter
     
     // MARK: - Lifecycle Methods
@@ -25,11 +25,6 @@ struct SaleItemListVM {
     func viewDidLoad(_ collectionView: UICollectionView) {
         // TODO! set view controller title (all items OR type)
         SaleItemCollectionCell.registerCell(collectionView)
-    }
-    
-    // MARK: - IBActions
-    func filterButtonClicked() {
-        delegate?.presentViewController(SaleItemFilterVC.createViewController(templates)) // TODO! pass in filter query
     }
     
     // MARK: - CollectionView Methods

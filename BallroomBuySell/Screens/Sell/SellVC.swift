@@ -40,6 +40,7 @@ class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UIT
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        view.endEditing(true)
         vm.tableView(tableView, didSelectRowAt: indexPath, self)
     }
     

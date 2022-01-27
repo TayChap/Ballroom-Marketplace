@@ -27,7 +27,10 @@ class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollection
     
     // MARK: - IBActions
     @IBAction func filterButtonClicked() {
-       vm.filterButtonClicked()
+        presentViewController(SaleItemFilterVC.createViewController(vm.templates) { saleItems in
+            self.vm = SaleItemListVM(self, self.vm.templates, saleItems) // create new VM with updated datasource
+            self.reload()
+        })
     }
     
     // MARK: - CollectionView Methods

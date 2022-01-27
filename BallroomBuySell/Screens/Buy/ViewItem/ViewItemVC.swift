@@ -40,8 +40,4 @@ class ViewItemVC: UIViewController, UITableViewDataSource, ViewControllerProtoco
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         vm.tableView(tableView, cellForRowAt: indexPath, self)
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        vm.tableView(tableView, didSelectRowAt: indexPath, self)
-    }
 }

@@ -13,9 +13,11 @@ struct DatabaseManager {
         case templates, items
     }
     
-    private var db: Firestore {
-        Firestore.firestore()
-    }
+    static let sharedInstance = DatabaseManager()
+    private var db = Firestore.firestore()
+    
+    // MARK: - Private Init
+    private init() { } // to ensure sharedInstance is accessed, rather than new instance
     
     // MARK: - Public Helpers
     func createDocument<T: Codable>(_ collection: Collection, _ data: T, _ documentId: String? = nil) {
@@ -32,8 +34,22 @@ struct DatabaseManager {
           }
     }
     
-    func getDocuments<T: Decodable>(in collection: Collection, of _: T.Type, _ completion: @escaping ([T]) -> Void) {
-        db.collection(collection.rawValue).getDocuments { querySnapshot, error  in
+    func getTemplates(_ completion: @escaping ([SaleItemTemplate]) -> Void) {
+        getDocuments(db.collection(Collection.templates.rawValue), of: SaleItemTemplate.self, completion)
+    }
+    
+    func getSaleItems(where equalsRelationship: (key: String, value: String)? = nil, _ completion: @escaping ([SaleItem]) -> Void) {
+        var reference = db.collection(Collection.items.rawValue) as Query
+        if let keyValue = equalsRelationship {
+            reference = reference.whereField(keyValue.key, isEqualTo: keyValue.value)
+        }
+        
+        getDocuments(reference, of: SaleItem.self, completion)
+    }
+    
+    // MARK: Private Helpers
+    private func getDocuments<T: Decodable>(_ query: Query, of _: T.Type, where equalsRelationship: (key: String, value: String)? = nil, _ completion: @escaping ([T]) -> Void) {
+        query.getDocuments { querySnapshot, error  in
             guard let docs = querySnapshot?.documents else {
                 return
             }

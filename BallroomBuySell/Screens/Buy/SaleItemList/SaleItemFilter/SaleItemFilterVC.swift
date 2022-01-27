@@ -7,16 +7,16 @@
 
 import UIKit
 
-class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate, ViewControllerProtocol {
+class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate, ViewControllerProtocol, PickerCellDelegate, TextFieldCellDelegate {
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var submitButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     private var vm: SaleItemFilterVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController(_ templates: [SaleItemTemplate]) -> UIViewController {
+    static func createViewController(_ templates: [SaleItemTemplate],  _ onFilterFetched: @escaping (_ saleItems: [SaleItem]) -> Void) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = SaleItemFilterVM(vc, templates)
+        vc.vm = SaleItemFilterVM(vc, templates, onFilterFetched)
         
         return vc
     }
@@ -45,6 +45,7 @@ class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        view.endEditing(true)
         vm.tableView(tableView, didSelectRowAt: indexPath, self)
     }
     
@@ -55,5 +56,25 @@ class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     func reload() {
         tableView.reloadData()
+    }
+    
+    // MARK: - PickerCellDelegate
+    func pickerValueUpdated(_ newValues: [String], for cell: PickerTableCell) {
+        setData(newValues.first ?? "", for: cell)
+        reload()
+    }
+    
+    // MARK: - TextFieldCellDelegate
+    func textFieldUpdated(_ newText: String, for cell: TextFieldTableCell) {
+        setData(newText, for: cell)
+    }
+    
+    // MARK: - Private Helpers
+    private func setData(_ data: String, for cell: UITableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+        
+        vm.setData(data, at: indexPath)
     }
 }

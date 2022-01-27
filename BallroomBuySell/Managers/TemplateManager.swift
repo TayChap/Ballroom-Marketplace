@@ -9,7 +9,7 @@
 struct TemplateManager {
     // MARK: - Public Helpers
     func refreshTemplates(_ completion: @escaping (_ templates: [SaleItemTemplate]) -> Void) {
-        DatabaseManager().getDocuments(in: .templates, of: SaleItemTemplate.self) { templates in
+        DatabaseManager.sharedInstance.getTemplates { templates in
             completion(templates)
         }
     }
@@ -18,10 +18,14 @@ struct TemplateManager {
     /// The templates collection is only accessible when the app is signed into the superuser account and not in release mode
     func updateTemplates() {
         // TODO! add DEBUG flag here (not for release) // Firebase does not recommend deleting whole collections from mobile client
-        DatabaseManager().deleteDocuments(in: .templates) {
-            let templates = [getTailsuitTemplate()]
+        DatabaseManager.sharedInstance.deleteDocuments(in: .templates) {
+            let templates = [
+                getTailsuitTemplate(),
+                getShoesTemplate()
+            ]
+            
             for template in templates {
-                DatabaseManager().createDocument(.templates, template)
+                DatabaseManager.sharedInstance.createDocument(.templates, template)
             }
         }
     }
@@ -49,5 +53,39 @@ struct TemplateManager {
                                                                  required: true,
                                                                  filterEnabled: false,
                                                                  values: [])])
+    }
+    
+    private func getShoesTemplate() -> SaleItemTemplate {
+        SaleItemTemplate(id: "shoes",
+                         name: "shoes_key",
+                         screenStructure: [SaleItemCellStructure(type: .picker,
+                                                                 inputType: InputType.standard,
+                                                                 serverKey: "picker",
+                                                                 title: "picker test_title",
+                                                                 subtitle: "",
+                                                                 placeholder: "",
+                                                                 required: true,
+                                                                 filterEnabled: true,
+                                                                 values: [PickerValue(serverKey: "", localizationKey: ""),
+                                                                          PickerValue(serverKey: "value", localizationKey: "value_key")]),
+                                           SaleItemCellStructure(type: .textField,
+                                                                 inputType: InputType.standard,
+                                                                 serverKey: "text",
+                                                                 title: "text test_title",
+                                                                 subtitle: "test_subtitle",
+                                                                 placeholder: "test_placeholder",
+                                                                 required: true,
+                                                                 filterEnabled: true,
+                                                                 values: []),
+                                           SaleItemCellStructure(type: .picker,
+                                                                 inputType: InputType.standard,
+                                                                 serverKey: "pickerText",
+                                                                 title: "text test_title",
+                                                                 subtitle: "test_subtitle",
+                                                                 placeholder: "test_placeholder",
+                                                                 required: true,
+                                                                 filterEnabled: true,
+                                                                 values: [PickerValue(serverKey: "", localizationKey: ""),
+                                                                          PickerValue(serverKey: "value", localizationKey: "value_key")])])
     }
 }
