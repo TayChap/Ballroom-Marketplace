@@ -13,14 +13,17 @@ struct SaleItemVM {
     }
     
     private var dm: SaleItem
-    weak var delegate: ViewControllerProtocol?
-    let mode: Mode
-    var screenStructure: [SaleItemCellStructure]
+    private weak var delegate: ViewControllerProtocol?
+    
+    private let mode: Mode
+    private var screenStructure: [SaleItemCellStructure]
+    private let templates: [SaleItemTemplate]
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, _ saleItem: SaleItem? = nil) {
+    init(_ owner: ViewControllerProtocol, _ templates: [SaleItemTemplate], _ saleItem: SaleItem? = nil) {
         delegate = owner
-        screenStructure = SaleItemVM.getScreenStructure(for: saleItem?.fields[SaleItemTemplate.serverKey])
+        self.templates = templates
+        screenStructure = SaleItemVM.getScreenStructure(templates, for: saleItem?.fields[SaleItemTemplate.serverKey])
         
         if let saleItem = saleItem {
             mode = .view
@@ -53,7 +56,7 @@ struct SaleItemVM {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
         let cellStructure = screenStructure[indexPath.row]
         switch cellStructure.type {
-        case .picker:
+        case .picker, .numberPicker:
             guard let cell = PickerTableCell.createCell(tableView) else {
                 return UITableViewCell()
             }
@@ -110,13 +113,14 @@ struct SaleItemVM {
         dm.fields[cellStructure.serverKey] = data
         
         if cellStructure.serverKey == SaleItemTemplate.serverKey {
-            screenStructure = SaleItemVM.getScreenStructure(for: data)
+            screenStructure = SaleItemVM.getScreenStructure(templates, for: data)
         }
     }
     
     // MARK: - Private Helpers
-    private static func getScreenStructure(for templateId: String?) -> [SaleItemCellStructure] {
-        SaleItemTemplate.getSaleItemHeader(TemplateManager.templates) +
-            (TemplateManager.templates.first(where: { $0.id == templateId })?.screenStructure ?? [])
+    private static func getScreenStructure(_ templates: [SaleItemTemplate], for templateId: String?) -> [SaleItemCellStructure] {
+        [SaleItemTemplate.getTemplateSelectorCell(templates)] +
+            [SaleItemTemplate.getImageCollectionCelll()] +
+            (templates.first(where: { $0.id == templateId })?.screenStructure ?? [])
     }
 }

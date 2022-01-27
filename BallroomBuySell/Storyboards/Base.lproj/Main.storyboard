@@ -200,6 +200,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="WLI-9L-WRj" id="Wfo-X8-Yix"/>
+                                    <outlet property="delegate" destination="WLI-9L-WRj" id="mlK-eJ-FRz"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -215,12 +216,12 @@
                     <navigationItem key="navigationItem" id="1ZT-ni-dbo">
                         <barButtonItem key="leftBarButtonItem" image="xmark" catalog="system" id="Nmc-78-eK3">
                             <connections>
-                                <action selector="backButtonClcked:" destination="WLI-9L-WRj" id="uXO-5F-rw2"/>
+                                <action selector="backButtonClcked" destination="WLI-9L-WRj" id="b3S-MX-NQb"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="checkmark" catalog="system" id="vcJ-2Y-mwH">
                             <connections>
-                                <action selector="submitButtonClicked:" destination="WLI-9L-WRj" id="Xvc-q4-bav"/>
+                                <action selector="submitButtonClicked" destination="WLI-9L-WRj" id="l7X-mX-2fN"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

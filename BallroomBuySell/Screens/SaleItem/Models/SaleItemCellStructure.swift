@@ -13,5 +13,6 @@ struct SaleItemCellStructure: Codable {
     var subtitle: String
     var placeholder: String
     var required: Bool
+    var filterEnabled: Bool
     var values: [PickerValue]
 }

@@ -73,6 +73,7 @@
 		8D9D45C127A08E1A004C5565 /* SaleItemCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45C027A08E1A004C5565 /* SaleItemCollectionCell.swift */; };
 		8D9D45C427A08E34004C5565 /* SaleItemCellDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45C327A08E34004C5565 /* SaleItemCellDM.swift */; };
 		8D9D45C627A08E55004C5565 /* SaleItemCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D45C527A08E55004C5565 /* SaleItemCollectionCell.xib */; };
+		8D9D45CA27A214DD004C5565 /* SaleItemFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45C927A214DD004C5565 /* SaleItemFilter.swift */; };
 		A5992F72F46083A75BA57786 /* Pods_BallroomBuySell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */; };
 /* End PBXBuildFile section */
 
@@ -148,6 +149,7 @@
 		8D9D45C027A08E1A004C5565 /* SaleItemCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleItemCollectionCell.swift; sourceTree = "<group>"; };
 		8D9D45C327A08E34004C5565 /* SaleItemCellDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleItemCellDM.swift; sourceTree = "<group>"; };
 		8D9D45C527A08E55004C5565 /* SaleItemCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SaleItemCollectionCell.xib; sourceTree = "<group>"; };
+		8D9D45C927A214DD004C5565 /* SaleItemFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleItemFilter.swift; sourceTree = "<group>"; };
 		B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BallroomBuySell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF8202CE7EC04C8D430A991 /* Pods-BallroomBuySell.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BallroomBuySell.debug.xcconfig"; path = "Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -411,6 +413,7 @@
 				8D9D4588279096C6004C5565 /* InputType.swift */,
 				8D9D45762788E038004C5565 /* SaleItem.swift */,
 				8D9D45722788D929004C5565 /* User.swift */,
+				8D9D45C927A214DD004C5565 /* SaleItemFilter.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -719,6 +722,7 @@
 				8D9D45B6279F3758004C5565 /* SaleItemListVC.swift in Sources */,
 				8D9D45732788D929004C5565 /* User.swift in Sources */,
 				8D9D453D277CDDFB004C5565 /* TextFieldCellDM.swift in Sources */,
+				8D9D45CA27A214DD004C5565 /* SaleItemFilter.swift in Sources */,
 				8D9D45A12791F711004C5565 /* CollectionCellProtocol.swift in Sources */,
 				8D9D459D2791F69E004C5565 /* ImageTableCell.swift in Sources */,
 				8D9D45B2279E1285004C5565 /* Image.swift in Sources */,

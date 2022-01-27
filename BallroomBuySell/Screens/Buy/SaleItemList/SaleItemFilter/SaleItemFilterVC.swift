@@ -7,18 +7,23 @@
 
 import UIKit
 
-class SaleItemFilterVC: UIViewController, UITableViewDataSource, ViewControllerProtocol {
+class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate, ViewControllerProtocol {
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var submitButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     private var vm: SaleItemFilterVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController() -> UIViewController {
+    static func createViewController(_ templates: [SaleItemTemplate]) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = SaleItemFilterVM()
+        vc.vm = SaleItemFilterVM(vc, templates)
         
         return vc
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        vm.viewDidLoad(tableView)
     }
     
     // MARK: - IBActions
@@ -37,6 +42,10 @@ class SaleItemFilterVC: UIViewController, UITableViewDataSource, ViewControllerP
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         vm.tableView(tableView, cellForRowAt: indexPath, self)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        vm.tableView(tableView, didSelectRowAt: indexPath, self)
     }
     
     // MARK: - ViewControllerProtocol

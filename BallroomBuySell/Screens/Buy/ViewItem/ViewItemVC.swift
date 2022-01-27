@@ -12,9 +12,9 @@ class ViewItemVC: UIViewController, UITableViewDataSource, ViewControllerProtoco
     private var vm: SaleItemVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController(_ saleItem: SaleItem) -> UIViewController {
+    static func createViewController(_ templates: [SaleItemTemplate], _ saleItem: SaleItem) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = SaleItemVM(vc, saleItem)
+        vc.vm = SaleItemVM(vc, templates, saleItem)
         return vc
     }
     

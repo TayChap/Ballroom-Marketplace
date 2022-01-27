@@ -8,14 +8,15 @@
 import UIKit
 
 struct SaleItemListVM {
-    weak var delegate: ViewControllerProtocol?
+    private weak var delegate: ViewControllerProtocol?
     private var saleItems: [SaleItem]
+    private var templates: [SaleItemTemplate]
     // TODO! private var filter: Filter
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, _ unfilteredSaleItems: [SaleItem]) {
+    init(_ owner: ViewControllerProtocol, _ templates: [SaleItemTemplate], _ unfilteredSaleItems: [SaleItem]) {
         delegate = owner
-        
+        self.templates = templates
         // TODO! apply filtering
         
         saleItems = unfilteredSaleItems
@@ -23,13 +24,12 @@ struct SaleItemListVM {
     
     func viewDidLoad(_ collectionView: UICollectionView) {
         // TODO! set view controller title (all items OR type)
-        
         SaleItemCollectionCell.registerCell(collectionView)
     }
     
     // MARK: - IBActions
     func filterButtonClicked() {
-        delegate?.presentViewController(SaleItemFilterVC.createViewController()) // TODO! pass in filter query
+        delegate?.presentViewController(SaleItemFilterVC.createViewController(templates)) // TODO! pass in filter query
     }
     
     // MARK: - CollectionView Methods
@@ -54,6 +54,6 @@ struct SaleItemListVM {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.pushViewController(ViewItemVC.createViewController(saleItems[indexPath.item]))
+        delegate?.pushViewController(ViewItemVC.createViewController(templates, saleItems[indexPath.item]))
     }
 }

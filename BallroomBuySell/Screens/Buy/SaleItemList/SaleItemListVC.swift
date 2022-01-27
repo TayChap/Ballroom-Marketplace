@@ -13,9 +13,9 @@ class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollection
     private var vm: SaleItemListVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController(_ saleItems: [SaleItem]) -> UIViewController {
+    static func createViewController(_ templates: [SaleItemTemplate], _ saleItems: [SaleItem]) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = SaleItemListVM(vc, saleItems)
+        vc.vm = SaleItemListVM(vc, templates, saleItems)
         
         return vc
     }
@@ -27,7 +27,7 @@ class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollection
     
     // MARK: - IBActions
     @IBAction func filterButtonClicked() {
-        vm.filterButtonClicked()
+       vm.filterButtonClicked()
     }
     
     // MARK: - CollectionView Methods

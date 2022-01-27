@@ -6,13 +6,11 @@
 //
 
 /// TODO! describe purpose of class and meaning of word Template
-struct TemplateManager { // TODO! update to shared instance singleton
-    static var templates = [SaleItemTemplate]()
-    
-    static func refreshTemplates(_ completion: @escaping () -> Void) {
+struct TemplateManager {
+    // MARK: - Public Helpers
+    func refreshTemplates(_ completion: @escaping (_ templates: [SaleItemTemplate]) -> Void) {
         DatabaseManager().getDocuments(in: .templates, of: SaleItemTemplate.self) { templates in
-            TemplateManager.templates = templates
-            completion()
+            completion(templates)
         }
     }
     
@@ -39,6 +37,7 @@ struct TemplateManager { // TODO! update to shared instance singleton
                                                                  subtitle: "",
                                                                  placeholder: "",
                                                                  required: true,
+                                                                 filterEnabled: true,
                                                                  values: [PickerValue(serverKey: "", localizationKey: ""),
                                                                           PickerValue(serverKey: "value", localizationKey: "value_key")]),
                                            SaleItemCellStructure(type: .textField,
@@ -48,6 +47,7 @@ struct TemplateManager { // TODO! update to shared instance singleton
                                                                  subtitle: "test_subtitle",
                                                                  placeholder: "test_placeholder",
                                                                  required: true,
+                                                                 filterEnabled: false,
                                                                  values: [])])
     }
 }

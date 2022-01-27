@@ -18,7 +18,9 @@ class BuyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewC
         super.viewDidLoad()
         vm = BuyVM(self)
         
-        TemplateManager.refreshTemplates() {
+        TemplateManager().refreshTemplates { templates in
+            self.vm.onTemplatesFetched(templates)
+            
             DatabaseManager().getDocuments(in: .items, of: SaleItem.self) { saleItems in
                 self.vm.screenStructure = saleItems
                 self.reload()

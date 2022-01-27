@@ -175,7 +175,7 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
     }
     
     // MARK: - Private Helpers
-    private func getLocalizedText() -> String {
+    private func getLocalizedText() -> String { // TODO!
         guard let first = selectedValues.first else {
             return ""
         }

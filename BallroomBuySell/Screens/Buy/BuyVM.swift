@@ -9,6 +9,7 @@ import UIKit
 
 struct BuyVM {
     private weak var delegate: ViewControllerProtocol?
+    private var templates: [SaleItemTemplate]?
     var screenStructure = [SaleItem]()
     
     // MARK: - Lifecycle Methods
@@ -18,16 +19,17 @@ struct BuyVM {
     
     // MARK: - IBActions
     func sellButtonClicked() {
+        guard let templates = templates else {
+            // TODO! network error
+            return
+        }
+        
         guard let _ = AuthenticationManager().user else {
             delegate?.presentViewController(LoginVC.createViewController())
             return
         }
         
-        if TemplateManager.templates.isEmpty {
-            return
-        }
-        
-        delegate?.pushViewController(SellVC.createViewController())
+        delegate?.pushViewController(SellVC.createViewController(templates))
     }
     
     func profileButtonClicked() {
@@ -57,7 +59,16 @@ struct BuyVM {
 //            delegate?.pushViewController(ViewItemVC.createViewController(cellData))
 //        }
         
+        guard let templates = templates else  {
+            return
+        }
+        
         // TODO! need to pass in some sort of filter item
-        delegate?.pushViewController(SaleItemListVC.createViewController(screenStructure))
+        delegate?.pushViewController(SaleItemListVC.createViewController(templates, screenStructure))
+    }
+    
+    // Public Helpers
+    mutating func onTemplatesFetched(_ templates: [SaleItemTemplate]) {
+        self.templates = templates
     }
 }
