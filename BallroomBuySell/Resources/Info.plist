@@ -60,5 +60,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires access to Camera, for taking new avatar photos. </string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires access to Photo Library for you to choose a picture.</string>
 </dict>
 </plist>

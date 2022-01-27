@@ -7,30 +7,25 @@
 
 import UIKit
 
-class BuyVM { // TODO! revisit to change to struct
+struct BuyVM {
     private weak var delegate: ViewControllerProtocol?
     private var templates: [SaleItemTemplate]?
+    var screenStructure = [SaleItem]()
     
     // MARK: - Lifecycle Methods
     init(_ delegate: ViewControllerProtocol) {
         self.delegate = delegate
     }
     
-    func viewDidLoad(_ tableView: UITableView) {
-        TemplateManager().refreshTemplates { templates in
-            self.templates = templates
-        }
-    }
-    
     // MARK: - IBActions
     func sellButtonClicked() {
-        guard let _ = AuthenticationManager().user else {
-            delegate?.presentViewController(LoginVC.createViewController())
+        guard let templates = templates else {
+            // TODO! network error
             return
         }
         
-        guard let templates = templates else {
-            // TODO! present network error message
+        guard let _ = AuthenticationManager().user else {
+            delegate?.presentViewController(LoginVC.createViewController())
             return
         }
         
@@ -48,7 +43,7 @@ class BuyVM { // TODO! revisit to change to struct
     
     // MARK: - Table Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        screenStructure.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
@@ -56,8 +51,24 @@ class BuyVM { // TODO! revisit to change to struct
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath, _ viewController: ViewControllerProtocol) {
-        // TODO!
+        // TODO! refactor when switch to modern collection view
+//        var cellData = screenStructure[indexPath.row]
+//        let url = cellData.images.first?.url ?? ""
+//        ImageManager.sharedInstance.downloadImage(at: url) { data in
+//            cellData.images.insert(Image(url: url, data: data), at: 0)
+//            delegate?.pushViewController(ViewItemVC.createViewController(cellData))
+//        }
+        
+        guard let templates = templates else  {
+            return
+        }
+        
+        // TODO! need to pass in some sort of filter item
+        delegate?.pushViewController(SaleItemListVC.createViewController(templates, screenStructure))
     }
     
-    // MARK: - Private Helpers
+    // Public Helpers
+    mutating func onTemplatesFetched(_ templates: [SaleItemTemplate]) {
+        self.templates = templates
+    }
 }

@@ -15,12 +15,7 @@ class LoginVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     
     // MARK: - Lifecycle Methods
     static func createViewController() -> UIViewController {
-        guard let vc = StoryboardManager().getAuthentication().instantiateViewController(withIdentifier: String(describing: LoginVC.self)) as? LoginVC else {
-            assertionFailure("Can't Find VC in Storyboard")
-            return UIViewController()
-        }
-        
-        return vc
+        UIViewController.getVC(from: .main, of: self)
     }
     
     override func viewDidLoad() {

@@ -8,7 +8,7 @@
 import UIKit
 
 struct TextFieldCellDM {
-    let type: TextFieldTableCell.InputType
+    let inputType: InputType
     let title: String
     var subtitle: String = ""
     let detail: String

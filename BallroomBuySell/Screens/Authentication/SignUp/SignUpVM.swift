@@ -21,7 +21,7 @@ struct SignUpVM {
             }
         }
         
-        var type: TextFieldTableCell.InputType {
+        var type: InputType {
             switch self {
             case .email: return .email
             case .displayName: return .standard
@@ -81,7 +81,7 @@ struct SignUpVM {
         }
         
         let cellData = SignUpItem.allCases[indexPath.row]
-        cell.configureCell(TextFieldCellDM(type: cellData.type,
+        cell.configureCell(TextFieldCellDM(inputType: cellData.type,
                                            title: cellData.text,
                                            detail: dm[cellData] ?? "",
                                            returnKeyType: .done))

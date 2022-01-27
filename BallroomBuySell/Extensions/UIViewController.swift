@@ -8,6 +8,10 @@
 import UIKit
 
 extension UIViewController {
+    static func getVC<T>(from storyboard: Storyboard, of type: T.Type) -> T {
+        UIStoryboard(name: storyboard.rawValue, bundle: nil).instantiateViewController(withIdentifier: String(describing: T.self)) as! T
+    }
+    
     func showAlertWith(title: String? = "", message: String, alertActions: [UIAlertAction]? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         

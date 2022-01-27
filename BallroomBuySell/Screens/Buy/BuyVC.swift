@@ -10,7 +10,7 @@ import UIKit
 class BuyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol {
     @IBOutlet weak var sellButton: UIBarButtonItem!
     @IBOutlet weak var profileButton: UIBarButtonItem!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView! // TODO! update to collection view
     private var vm: BuyVM!
     
     // MARK: - Lifecycle Methods
@@ -18,7 +18,14 @@ class BuyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewC
         super.viewDidLoad()
         vm = BuyVM(self)
         
-        vm.viewDidLoad(tableView)
+        TemplateManager().refreshTemplates { templates in
+            self.vm.onTemplatesFetched(templates)
+            
+            DatabaseManager.sharedInstance.getSaleItems(where: (key: "fields.\(SaleItemTemplate.serverKey)", value: "shoes")) { saleItems in
+                self.vm.screenStructure = saleItems
+                self.reload()
+            }
+        }
     }
     
     // MARK: - IBActions
@@ -28,15 +35,6 @@ class BuyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewC
     
     @IBAction func profileButtonClicked() {
         vm.profileButtonClicked()
-    }
-    
-    // MARK: - ViewControllerProtocol
-    func pushViewController(_ vc: UIViewController) {
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func presentViewController(_ vc: UIViewController) {
-        present(NavigationController(rootViewController: vc), animated: true)
     }
     
     // MARK: - Table Methods
@@ -50,10 +48,18 @@ class BuyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewC
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         vm.tableView(tableView, didSelectRowAt: indexPath, self)
-        //        tableView.reloadData() // TODO! evaluate
-        //        checkRequiredFields()
-        // TODO!
     }
     
-    // MARK: - Private Helpers
+    // MARK: - ViewControllerProtocol
+    func pushViewController(_ vc: UIViewController) {
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func presentViewController(_ vc: UIViewController) {
+        present(NavigationController(rootViewController: vc), animated: true)
+    }
+    
+    func reload() {
+        tableView.reloadData()
+    }
 }

@@ -21,7 +21,7 @@ struct LoginVM {
             }
         }
         
-        var type: TextFieldTableCell.InputType {
+        var type: InputType {
             switch self {
             case .email: return .email
             case .password: return .password
@@ -94,7 +94,7 @@ struct LoginVM {
             return UITableViewCell()
         }
         
-        cell.configureCell(TextFieldCellDM(type: cellData.type,
+        cell.configureCell(TextFieldCellDM(inputType: cellData.type,
                                            title: cellData.text,
                                            detail: dm[cellData] ?? "",
                                            returnKeyType: .done))

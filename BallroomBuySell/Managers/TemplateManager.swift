@@ -7,25 +7,85 @@
 
 /// TODO! describe purpose of class and meaning of word Template
 struct TemplateManager {
-    private let templatesCollectionName = "templates"
-    
-    func refreshTemplates(_ completion: @escaping ([SaleItemTemplate]?) -> Void) {
-        DatabaseManager().getDocuments(in: templatesCollectionName, of: SaleItemTemplate.self) { templates in
+    // MARK: - Public Helpers
+    func refreshTemplates(_ completion: @escaping (_ templates: [SaleItemTemplate]) -> Void) {
+        DatabaseManager.sharedInstance.getTemplates { templates in
             completion(templates)
         }
     }
     
     /// This method adds a hardcoded template to the templates collection
-    /// The templates collection is only accessible when the app is signed into the superuser account
-    func addTemplate() {
-        let template = getTailsuitTemplate() // update for submission
-        DatabaseManager().createDocument(templatesCollectionName, template.name, template.template)
+    /// The templates collection is only accessible when the app is signed into the superuser account and not in release mode
+    func updateTemplates() {
+        // TODO! add DEBUG flag here (not for release) // Firebase does not recommend deleting whole collections from mobile client
+        DatabaseManager.sharedInstance.deleteDocuments(in: .templates) {
+            let templates = [
+                getTailsuitTemplate(),
+                getShoesTemplate()
+            ]
+            
+            for template in templates {
+                DatabaseManager.sharedInstance.createDocument(.templates, template)
+            }
+        }
     }
     
-    private func getTailsuitTemplate() -> (name: String, template: SaleItemTemplate) {
-        ("Tailsuit",
-         SaleItemTemplate(name: "shoes2",
-                          cellStructure: [SaleItemCellStructure(title: "hello",
-                                                                subtitle: "so subtitle")]))
+    // MARK: - Private Methods
+    private func getTailsuitTemplate() -> SaleItemTemplate {
+        SaleItemTemplate(id: "tailsuit",
+                         name: "tailsuit_key",
+                         screenStructure: [SaleItemCellStructure(type: .picker,
+                                                                 inputType: InputType.standard,
+                                                                 serverKey: "picker",
+                                                                 title: "picker test_title",
+                                                                 subtitle: "",
+                                                                 placeholder: "",
+                                                                 required: true,
+                                                                 filterEnabled: true,
+                                                                 values: [PickerValue(serverKey: "", localizationKey: ""),
+                                                                          PickerValue(serverKey: "value", localizationKey: "value_key")]),
+                                           SaleItemCellStructure(type: .textField,
+                                                                 inputType: InputType.standard,
+                                                                 serverKey: "text",
+                                                                 title: "text test_title",
+                                                                 subtitle: "test_subtitle",
+                                                                 placeholder: "test_placeholder",
+                                                                 required: true,
+                                                                 filterEnabled: false,
+                                                                 values: [])])
+    }
+    
+    private func getShoesTemplate() -> SaleItemTemplate {
+        SaleItemTemplate(id: "shoes",
+                         name: "shoes_key",
+                         screenStructure: [SaleItemCellStructure(type: .picker,
+                                                                 inputType: InputType.standard,
+                                                                 serverKey: "picker",
+                                                                 title: "picker test_title",
+                                                                 subtitle: "",
+                                                                 placeholder: "",
+                                                                 required: true,
+                                                                 filterEnabled: true,
+                                                                 values: [PickerValue(serverKey: "", localizationKey: ""),
+                                                                          PickerValue(serverKey: "value", localizationKey: "value_key")]),
+                                           SaleItemCellStructure(type: .textField,
+                                                                 inputType: InputType.standard,
+                                                                 serverKey: "text",
+                                                                 title: "text test_title",
+                                                                 subtitle: "test_subtitle",
+                                                                 placeholder: "test_placeholder",
+                                                                 required: true,
+                                                                 filterEnabled: true,
+                                                                 values: []),
+                                           SaleItemCellStructure(type: .picker,
+                                                                 inputType: InputType.standard,
+                                                                 serverKey: "pickerText",
+                                                                 title: "text test_title",
+                                                                 subtitle: "test_subtitle",
+                                                                 placeholder: "test_placeholder",
+                                                                 required: true,
+                                                                 filterEnabled: true,
+                                                                 values: [PickerValue(serverKey: "", localizationKey: ""),
+                                                                          PickerValue(serverKey: "value", localizationKey: "value_key")])])
     }
 }

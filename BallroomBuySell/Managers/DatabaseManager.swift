@@ -9,27 +9,47 @@ import Firebase
 import FirebaseFirestoreSwift
 
 struct DatabaseManager {
-    private var db: Firestore {
-        Firestore.firestore()
+    enum Collection: String {
+        case templates, items
     }
     
+    static let sharedInstance = DatabaseManager()
+    private var db = Firestore.firestore()
+    
+    // MARK: - Private Init
+    private init() { } // to ensure sharedInstance is accessed, rather than new instance
+    
     // MARK: - Public Helpers
-    func createDocument<T: Codable>(_ collectionId: String, _ documentId: String?, _ data: T) {
+    func createDocument<T: Codable>(_ collection: Collection, _ data: T, _ documentId: String? = nil) {
         do {
             guard let documentId = documentId else {
-                try db.collection(collectionId).document().setData(from: data)
+                try db.collection(collection.rawValue).document().setData(from: data)
                 return
             }
             
-            try db.collection(collectionId).document(documentId).setData(from: data)
+            try db.collection(collection.rawValue).document(documentId).setData(from: data)
           }
           catch {
             print(error)
           }
     }
     
-    func getDocuments<T: Decodable>(in collectionId: String, of _: T.Type, _ completion: @escaping ([T]?) -> Void) {
-        db.collection(collectionId).getDocuments { querySnapshot, error  in
+    func getTemplates(_ completion: @escaping ([SaleItemTemplate]) -> Void) {
+        getDocuments(db.collection(Collection.templates.rawValue), of: SaleItemTemplate.self, completion)
+    }
+    
+    func getSaleItems(where equalsRelationship: (key: String, value: String)? = nil, _ completion: @escaping ([SaleItem]) -> Void) {
+        var reference = db.collection(Collection.items.rawValue) as Query
+        if let keyValue = equalsRelationship {
+            reference = reference.whereField(keyValue.key, isEqualTo: keyValue.value)
+        }
+        
+        getDocuments(reference, of: SaleItem.self, completion)
+    }
+    
+    // MARK: Private Helpers
+    private func getDocuments<T: Decodable>(_ query: Query, of _: T.Type, where equalsRelationship: (key: String, value: String)? = nil, _ completion: @escaping ([T]) -> Void) {
+        query.getDocuments { querySnapshot, error  in
             guard let docs = querySnapshot?.documents else {
                 return
             }
@@ -41,6 +61,24 @@ struct DatabaseManager {
                     return nil
                 }
             }))
+        }
+    }
+    
+    /// Firebase does not recommend deleting entire collections from mobile clients
+    /// This method is used to delete templates only
+    func deleteDocuments(in collection: Collection, _ completion: @escaping () -> Void) {
+        // TODO! add DEBUG flag here (not for release)
+        
+        db.collection(collection.rawValue).getDocuments { querySnapshot, error  in
+            guard let docs = querySnapshot?.documents else {
+                return
+            }
+            
+            for doc in docs {
+                db.collection(collection.rawValue).document(doc.documentID).delete()
+            }
+            
+            completion()
         }
     }
 }
