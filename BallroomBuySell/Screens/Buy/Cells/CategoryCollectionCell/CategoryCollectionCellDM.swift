@@ -7,4 +7,5 @@
 
 struct CategoryCollectionCellDM {
     let categoryTitle: String
+    var buttonText: String? = nil
 }

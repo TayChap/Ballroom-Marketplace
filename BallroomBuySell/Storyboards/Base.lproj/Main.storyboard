@@ -62,6 +62,7 @@
                                                 <constraint firstItem="aeW-z2-ila" firstAttribute="centerX" secondItem="WUE-mH-phb" secondAttribute="centerX" id="tSq-sF-BKK"/>
                                             </constraints>
                                         </collectionViewCellContentView>
+                                        <color key="backgroundColor" systemColor="systemRedColor"/>
                                         <connections>
                                             <outlet property="categoryLabel" destination="aeW-z2-ila" id="hm0-H5-u6i"/>
                                         </connections>
@@ -171,7 +172,7 @@
         <!--Sale Item ListVC-->
         <scene sceneID="GRz-VX-fz8">
             <objects>
-                <viewController storyboardIdentifier="SaleItemListVC" id="Etr-Bo-Mt5" customClass="SaleItemListVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SaleItemListVC" automaticallyAdjustsScrollViewInsets="NO" id="Etr-Bo-Mt5" customClass="SaleItemListVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="osg-HD-pbi">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -179,7 +180,12 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Pjq-6F-QBw">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewLayout key="collectionViewLayout" id="jb3-vk-eJk" customClass="BuyCollectionViewLayout"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Ais-35-ycK">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="16" minY="16" maxX="16" maxY="16"/>
+                                </collectionViewFlowLayout>
                                 <cells/>
                                 <connections>
                                     <outlet property="dataSource" destination="Etr-Bo-Mt5" id="AYl-Zg-O04"/>
@@ -304,6 +310,9 @@
         <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

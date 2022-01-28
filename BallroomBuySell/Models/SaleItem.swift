@@ -8,7 +8,7 @@
 import Foundation
 
 struct SaleItem: Codable {
-    var dateAdded: Date? = nil // TODO! likely put into fields dictionary
+    var dateAdded: Date? = nil
     // TODO! USER ID ?
     var images = [Image]()
     var fields: [String: String] = [:] // [serverKey: value]

@@ -10,26 +10,20 @@ import UIKit
 class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ViewControllerProtocol {
     @IBOutlet weak var sellButton: UIBarButtonItem!
     @IBOutlet weak var profileButton: UIBarButtonItem!
-    @IBOutlet weak var collectionView: UICollectionView! {
-        didSet {
-            collectionView.collectionViewLayout = createCollectionViewLayout()
-            SaleItemCollectionCell.registerCell(collectionView)
-            BuySectionHeader.registerCell(collectionView)
-        }
-    }
-    
+    @IBOutlet weak var collectionView: UICollectionView!
     private var vm: BuyVM!
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         vm = BuyVM(self)
+        vm.viewDidLoad(collectionView)
         
         TemplateManager().refreshTemplates { templates in
             self.vm.onTemplatesFetched(templates)
             
-            DatabaseManager.sharedInstance.getSaleItems(where: (key: "fields.\(SaleItemTemplate.serverKey)", value: "shoes")) { saleItems in
-                self.vm.screenStructure = saleItems
+            DatabaseManager.sharedInstance.getSaleItems() { saleItems in
+                self.vm.saleItems = saleItems
                 self.reload()
             }
         }
@@ -52,6 +46,10 @@ class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDeleg
         
         sectionHeader.configureCell("blah blah")
         return sectionHeader
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        vm.numberOfSections(in: collectionView)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -78,60 +76,4 @@ class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDeleg
     func reload() {
         collectionView.reloadData()
     }
-    
-    private func createCollectionViewLayout() -> UICollectionViewLayout {
-//        // Define Item Size
-//        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(200.0))
-//
-//        // Create Item
-//        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//
-//        // Define Group Size
-//        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(200.0))
-//
-//        // Create Group
-//        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [ item ])
-//
-        // Create Section
-        //let section = NSCollectionLayoutSection(group: group)
-        let section = generateSharedlbumsLayout()
-        
-        return UICollectionViewCompositionalLayout(section: section)
-    }
-    
-    private func generateSharedlbumsLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalWidth(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(140),
-            heightDimension: .absolute(186))
-        let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: groupSize,
-            subitem: item,
-            count: 1)
-        group.contentInsets = NSDirectionalEdgeInsets(
-            top: 5,
-            leading: 5,
-            bottom: 5,
-            trailing: 5)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        
-        
-        let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                      heightDimension: .estimated(44))
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerFooterSize,
-                                                                        elementKind: UICollectionView.elementKindSectionHeader,
-                                                                        alignment: .top)
-        section.boundarySupplementaryItems = [sectionHeader]
-        
-        section.orthogonalScrollingBehavior = .groupPaging
-        
-        return section
-    }
-    
-    
 }
