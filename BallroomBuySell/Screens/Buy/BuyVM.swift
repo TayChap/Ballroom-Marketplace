@@ -42,13 +42,13 @@ struct BuyVM {
         delegate?.pushViewController(SellVC.createViewController(templates))
     }
     
-    func profileButtonClicked() {
+    func inboxButtonClicked() {
         guard let user = AuthenticationManager().user else {
             delegate?.presentViewController(LoginVC.createViewController())
             return
         }
         
-        delegate?.pushViewController(ProfileVC.createViewController(user))
+        delegate?.pushViewController(InboxVC.createViewController(user, []))
     }
     
     // MARK: - CollectionView Methods

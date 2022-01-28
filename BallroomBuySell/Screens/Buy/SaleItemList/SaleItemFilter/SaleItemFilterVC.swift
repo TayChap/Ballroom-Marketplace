@@ -45,7 +45,7 @@ class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        view.endEditing(true)
+        view.endEditing(true) // dismiss keyboard on row selection
         vm.tableView(tableView, didSelectRowAt: indexPath, self)
     }
     

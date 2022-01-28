@@ -9,7 +9,7 @@ import UIKit
 
 class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ViewControllerProtocol {
     @IBOutlet weak var sellButton: UIBarButtonItem!
-    @IBOutlet weak var profileButton: UIBarButtonItem!
+    @IBOutlet weak var inboxButton: UIBarButtonItem!
     @IBOutlet weak var collectionView: UICollectionView!
     private var vm: BuyVM!
     
@@ -34,8 +34,8 @@ class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDeleg
         vm.sellButtonClicked()
     }
     
-    @IBAction func profileButtonClicked() {
-        vm.profileButtonClicked()
+    @IBAction func inboxButtonClicked() {
+        vm.inboxButtonClicked()
     }
     
     // MARK: - CollectionView Methods

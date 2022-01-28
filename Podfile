@@ -11,4 +11,6 @@ target 'BallroomBuySell' do
   pod 'Firebase/Firestore'
   pod 'FirebaseFirestoreSwift'
   pod 'Firebase/Storage'
+  
+  pod 'MessageKit'
 end

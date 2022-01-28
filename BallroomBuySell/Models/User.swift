@@ -8,5 +8,4 @@
 struct User {
     let email: String
     let displayName: String
-    // TODO! add optional profile image
 }

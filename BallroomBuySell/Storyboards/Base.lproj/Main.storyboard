@@ -87,7 +87,7 @@
                         <rightBarButtonItems>
                             <barButtonItem image="mail" catalog="system" id="gnY-N4-36B">
                                 <connections>
-                                    <action selector="profileButtonClicked" destination="tzZ-SI-Im0" id="lXO-mI-IsG"/>
+                                    <action selector="inboxButtonClicked" destination="tzZ-SI-Im0" id="lXO-mI-IsG"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem image="plus" catalog="system" id="IIH-Bz-4L8">
@@ -100,7 +100,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="collectionView" destination="Ik4-YT-SmO" id="hfw-fN-l4l"/>
-                        <outlet property="profileButton" destination="gnY-N4-36B" id="DO3-pa-5Nt"/>
+                        <outlet property="inboxButton" destination="gnY-N4-36B" id="DO3-pa-5Nt"/>
                         <outlet property="sellButton" destination="IIH-Bz-4L8" id="TjO-H4-9vs"/>
                         <segue destination="5h3-fC-z8R" kind="show" id="uVa-tl-VfJ"/>
                         <segue destination="vnn-B4-q01" kind="show" id="Emr-7T-WXn"/>
@@ -151,19 +151,55 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JQV-LC-K0x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="470" y="368"/>
+            <point key="canvasLocation" x="470" y="512"/>
         </scene>
-        <!--ProfileVC-->
+        <!--Message ThreadVC-->
+        <scene sceneID="uQl-02-0la">
+            <objects>
+                <viewController storyboardIdentifier="MessageThreadVC" id="mWj-2a-HLi" customClass="MessageThreadVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="saf-9u-Ek0">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="HJb-ol-eXS"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="WhC-51-2aU"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eDr-r9-jA5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2638" y="1367"/>
+        </scene>
+        <!--InboxVC-->
         <scene sceneID="Jg9-zn-5Eu">
             <objects>
-                <viewController storyboardIdentifier="ProfileVC" id="vnn-B4-q01" customClass="ProfileVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="InboxVC" id="vnn-B4-q01" customClass="InboxVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="e70-BN-EAF">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HOP-c9-0Ob">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="vnn-B4-q01" id="9K5-0v-cHY"/>
+                                    <outlet property="delegate" destination="vnn-B4-q01" id="Lwc-j7-yTm"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="krk-UO-UwC"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="krk-UO-UwC" firstAttribute="bottom" secondItem="HOP-c9-0Ob" secondAttribute="bottom" id="1GL-qT-Fy9"/>
+                            <constraint firstItem="HOP-c9-0Ob" firstAttribute="leading" secondItem="krk-UO-UwC" secondAttribute="leading" id="TtP-ne-lvs"/>
+                            <constraint firstItem="krk-UO-UwC" firstAttribute="trailing" secondItem="HOP-c9-0Ob" secondAttribute="trailing" id="Urv-T8-haO"/>
+                            <constraint firstItem="HOP-c9-0Ob" firstAttribute="top" secondItem="krk-UO-UwC" secondAttribute="top" id="ixB-MU-6N6"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="zqN-2x-tvb"/>
+                    <connections>
+                        <outlet property="tableView" destination="HOP-c9-0Ob" id="hBW-I6-fyE"/>
+                        <segue destination="mWj-2a-HLi" kind="show" id="7Tz-QB-BGX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B9R-P6-Hnz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -218,7 +254,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fhx-Uu-mqY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="470" y="2407"/>
+            <point key="canvasLocation" x="470" y="2516"/>
         </scene>
         <!--Sale Item FilterVC-->
         <scene sceneID="EFw-TK-3hv">
@@ -266,7 +302,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mtq-Jw-nOp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1656" y="2707"/>
+            <point key="canvasLocation" x="1641" y="2906"/>
         </scene>
         <!--View ItemVC-->
         <scene sceneID="QDx-Gg-cnA">
@@ -296,13 +332,17 @@
                     <navigationItem key="navigationItem" id="rx0-7D-HwU"/>
                     <connections>
                         <outlet property="tableView" destination="vrF-ai-dCS" id="CHm-XJ-Whv"/>
+                        <segue destination="mWj-2a-HLi" kind="show" id="bLY-tZ-MBb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wej-cv-DTQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1642" y="2020"/>
+            <point key="canvasLocation" x="1641" y="2155"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="7Tz-QB-BGX"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="checkmark" catalog="system" width="128" height="114"/>
         <image name="mail" catalog="system" width="128" height="93"/>

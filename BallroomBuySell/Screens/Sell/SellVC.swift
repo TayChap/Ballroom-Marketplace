@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UITableViewDataSource, PickerCellDelegate, TextFieldCellDelegate, ImageTableCellDelegate {
+class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol, PickerCellDelegate, TextFieldCellDelegate, ImageTableCellDelegate {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     private var vm: SaleItemVM!
@@ -40,7 +40,7 @@ class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UIT
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        view.endEditing(true)
+        view.endEditing(true) // dismiss keyboard on row selection
         vm.tableView(tableView, didSelectRowAt: indexPath, self)
     }
     
