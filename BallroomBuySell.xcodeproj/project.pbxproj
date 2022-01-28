@@ -84,6 +84,8 @@
 		8DA71D0D27A48B2B0025C1D5 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA71D0C27A48B2B0025C1D5 /* Message.swift */; };
 		8DA71D1127A48F0C0025C1D5 /* InboxVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA71D1027A48F0C0025C1D5 /* InboxVM.swift */; };
 		8DA71D1327A499D20025C1D5 /* MessageThreadVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA71D1227A499D20025C1D5 /* MessageThreadVM.swift */; };
+		8DA71D1627A4A2B60025C1D5 /* InboxTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA71D1527A4A2B60025C1D5 /* InboxTableCell.swift */; };
+		8DA71D1827A4A2C50025C1D5 /* InboxCellDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA71D1727A4A2C50025C1D5 /* InboxCellDM.swift */; };
 		A5992F72F46083A75BA57786 /* Pods_BallroomBuySell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */; };
 /* End PBXBuildFile section */
 
@@ -170,6 +172,8 @@
 		8DA71D0C27A48B2B0025C1D5 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		8DA71D1027A48F0C0025C1D5 /* InboxVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxVM.swift; sourceTree = "<group>"; };
 		8DA71D1227A499D20025C1D5 /* MessageThreadVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageThreadVM.swift; sourceTree = "<group>"; };
+		8DA71D1527A4A2B60025C1D5 /* InboxTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTableCell.swift; sourceTree = "<group>"; };
+		8DA71D1727A4A2C50025C1D5 /* InboxCellDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxCellDM.swift; sourceTree = "<group>"; };
 		B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BallroomBuySell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF8202CE7EC04C8D430A991 /* Pods-BallroomBuySell.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BallroomBuySell.debug.xcconfig"; path = "Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -299,6 +303,7 @@
 		8D9D451427721D77004C5565 /* Inbox */ = {
 			isa = PBXGroup;
 			children = (
+				8DA71D1427A4A2910025C1D5 /* Cells */,
 				8D9D451E277228EF004C5565 /* InboxVC.swift */,
 				8DA71D1027A48F0C0025C1D5 /* InboxVM.swift */,
 			);
@@ -609,6 +614,15 @@
 			path = MessageThread;
 			sourceTree = "<group>";
 		};
+		8DA71D1427A4A2910025C1D5 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				8DA71D1527A4A2B60025C1D5 /* InboxTableCell.swift */,
+				8DA71D1727A4A2C50025C1D5 /* InboxCellDM.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		C0DF630F21E473235DEE8AD0 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -787,6 +801,7 @@
 				8DA71D0227A36D950025C1D5 /* CategoryCollectionCellDM.swift in Sources */,
 				8D9D455C2787666A004C5565 /* PickerViewController.swift in Sources */,
 				8D9D452E277A2BFE004C5565 /* NavigationController.swift in Sources */,
+				8DA71D1627A4A2B60025C1D5 /* InboxTableCell.swift in Sources */,
 				8D9D45702788C3B3004C5565 /* BuyVM.swift in Sources */,
 				8DA71D0B27A48A170025C1D5 /* MessageThread.swift in Sources */,
 				8D9D456227876E54004C5565 /* PickerCellDM.swift in Sources */,
@@ -814,6 +829,7 @@
 				8DA71D0927A474C40025C1D5 /* MessageThreadVC.swift in Sources */,
 				8DA71CFD27A3699F0025C1D5 /* BuySectionHeader.swift in Sources */,
 				8DA71D0D27A48B2B0025C1D5 /* Message.swift in Sources */,
+				8DA71D1827A4A2C50025C1D5 /* InboxCellDM.swift in Sources */,
 				8D1BB52B273EF97700677EF7 /* SceneDelegate.swift in Sources */,
 				8D9D4547277D15AD004C5565 /* LoginVM.swift in Sources */,
 			);

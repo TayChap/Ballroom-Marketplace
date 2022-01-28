@@ -25,7 +25,15 @@ struct InboxVM {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
-        UITableViewCell() // TODO!
+        guard let cell = InboxTableCell.createCell(tableView) else {
+            return UITableViewCell()
+        }
+        
+        cell.configureCell(InboxCellDM(saleItemImage: UIImage(),
+                                       userDisplayName: "display",
+                                       saleItem: "sale",
+                                       messagePreview: "preview"))
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
