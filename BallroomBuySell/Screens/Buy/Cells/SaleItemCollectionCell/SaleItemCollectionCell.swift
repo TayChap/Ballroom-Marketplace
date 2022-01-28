@@ -41,12 +41,4 @@ class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
         priceLabel.text = ""
         dateLabel.text = ""
     }
-    
-    // MARK: - Private Methods
-    private func applyRoundedCorners() {
-        contentView.layer.cornerRadius = 20.0
-        contentView.layer.masksToBounds = true
-        layer.cornerRadius = 20.0
-        layer.masksToBounds = false
-    }
 }

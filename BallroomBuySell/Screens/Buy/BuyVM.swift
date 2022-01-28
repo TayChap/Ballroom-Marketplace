@@ -41,28 +41,44 @@ struct BuyVM {
         delegate?.pushViewController(ProfileVC.createViewController(user))
     }
     
-    // MARK: - Table Methods
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        screenStructure.count
+    // MARK: - CollectionView Methods
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        100
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
-        UITableViewCell()
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.section == 0 {
+            guard let cell = SaleItemCollectionCell.createCell(collectionView, for: indexPath) else {
+                return UICollectionViewCell()
+            }
+            
+            //let cellData = saleItems[indexPath.item]
+            cell.configureCell(SaleItemCellDM(image: UIImage(), // TODO! refactor?
+                                              price: "$50.00",
+                                              date: Date())) // TODO should dateAdded be optional ?
+            return cell
+        }
+        
+        guard let cell = CategoryCollectionCell.createCell(collectionView, for: indexPath) else {
+            return UICollectionViewCell()
+        }
+        
+        cell.configureCell(CategoryCollectionCellDM(categoryTitle: "HI HI"))
+        return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath, _ viewController: ViewControllerProtocol) {
-        // TODO! refactor when switch to modern collection view
-//        var cellData = screenStructure[indexPath.row]
-//        let url = cellData.images.first?.url ?? ""
-//        ImageManager.sharedInstance.downloadImage(at: url) { data in
-//            cellData.images.insert(Image(url: url, data: data), at: 0)
-//            delegate?.pushViewController(ViewItemVC.createViewController(cellData))
-//        }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //        var cellData = screenStructure[indexPath.row]
+        //        let url = cellData.images.first?.url ?? ""
+        //        ImageManager.sharedInstance.downloadImage(at: url) { data in
+        //            cellData.images.insert(Image(url: url, data: data), at: 0)
+        //            delegate?.pushViewController(ViewItemVC.createViewController(cellData))
+        //        }
         
         guard let templates = templates else  {
             return
         }
-        
+
         // TODO! need to pass in some sort of filter item
         delegate?.pushViewController(SaleItemListVC.createViewController(templates, screenStructure))
     }

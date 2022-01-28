@@ -7,10 +7,17 @@
 
 import UIKit
 
-class BuyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol {
+class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ViewControllerProtocol {
     @IBOutlet weak var sellButton: UIBarButtonItem!
     @IBOutlet weak var profileButton: UIBarButtonItem!
-    @IBOutlet weak var tableView: UITableView! // TODO! update to collection view
+    @IBOutlet weak var collectionView: UICollectionView! {
+        didSet {
+            collectionView.collectionViewLayout = createCollectionViewLayout()
+            SaleItemCollectionCell.registerCell(collectionView)
+            BuySectionHeader.registerCell(collectionView)
+        }
+    }
+    
     private var vm: BuyVM!
     
     // MARK: - Lifecycle Methods
@@ -37,17 +44,26 @@ class BuyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewC
         vm.profileButtonClicked()
     }
     
-    // MARK: - Table Methods
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        vm.tableView(tableView, numberOfRowsInSection: section)
+    // MARK: - CollectionView Methods
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let sectionHeader = BuySectionHeader.createCell(collectionView, ofKind: kind, for: indexPath) else {
+            return UICollectionReusableView()
+        }
+        
+        sectionHeader.configureCell("blah blah")
+        return sectionHeader
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        vm.tableView(tableView, cellForRowAt: indexPath, self)
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        vm.collectionView(collectionView, numberOfItemsInSection: section)
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        vm.tableView(tableView, didSelectRowAt: indexPath, self)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        vm.collectionView(collectionView, cellForItemAt: indexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        vm.collectionView(collectionView, didSelectItemAt: indexPath)
     }
     
     // MARK: - ViewControllerProtocol
@@ -60,6 +76,62 @@ class BuyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewC
     }
     
     func reload() {
-        tableView.reloadData()
+        collectionView.reloadData()
     }
+    
+    private func createCollectionViewLayout() -> UICollectionViewLayout {
+//        // Define Item Size
+//        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(200.0))
+//
+//        // Create Item
+//        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+//
+//        // Define Group Size
+//        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(200.0))
+//
+//        // Create Group
+//        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [ item ])
+//
+        // Create Section
+        //let section = NSCollectionLayoutSection(group: group)
+        let section = generateSharedlbumsLayout()
+        
+        return UICollectionViewCompositionalLayout(section: section)
+    }
+    
+    private func generateSharedlbumsLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalWidth(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(140),
+            heightDimension: .absolute(186))
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: groupSize,
+            subitem: item,
+            count: 1)
+        group.contentInsets = NSDirectionalEdgeInsets(
+            top: 5,
+            leading: 5,
+            bottom: 5,
+            trailing: 5)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        
+        let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                      heightDimension: .estimated(44))
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerFooterSize,
+                                                                        elementKind: UICollectionView.elementKindSectionHeader,
+                                                                        alignment: .top)
+        section.boundarySupplementaryItems = [sectionHeader]
+        
+        section.orthogonalScrollingBehavior = .groupPaging
+        
+        return section
+    }
+    
+    
 }
