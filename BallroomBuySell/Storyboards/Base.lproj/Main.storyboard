@@ -163,7 +163,17 @@
                         <viewLayoutGuide key="safeArea" id="HJb-ol-eXS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="WhC-51-2aU"/>
+                    <navigationItem key="navigationItem" id="WhC-51-2aU">
+                        <barButtonItem key="rightBarButtonItem" title="info" id="c0K-a0-7Dc">
+                            <connections>
+                                <action selector="infoButtonClicked" destination="mWj-2a-HLi" id="Ph2-Qz-eRK"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="infoButton" destination="c0K-a0-7Dc" id="f3G-cR-CYw"/>
+                        <segue destination="WLI-9L-WRj" kind="show" id="VcG-2H-Dkw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eDr-r9-jA5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -360,7 +370,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mtq-Jw-nOp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1641" y="2906"/>
+            <point key="canvasLocation" x="2638" y="2895"/>
         </scene>
         <!--View ItemVC-->
         <scene sceneID="QDx-Gg-cnA">
@@ -399,7 +409,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="7Tz-QB-BGX"/>
+        <segue reference="VcG-2H-Dkw"/>
+        <segue reference="bLY-tZ-MBb"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="checkmark" catalog="system" width="128" height="114"/>

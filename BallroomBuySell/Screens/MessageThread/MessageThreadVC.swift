@@ -16,11 +16,14 @@ public struct Sender: SenderType {
 let sender = Sender(senderId: "any_unique_id", displayName: "Steven")
 let messages: [MessageType] = []
 
-class MessageThreadVC: MessagesViewController, MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate {
+class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate {
+    @IBOutlet weak var infoButton: UIBarButtonItem!
+    private var vm: MessageThreadVM!
+    
     // MARK: - Lifecycle Methods
-    static func createViewController(/*_ thread: MessageThread*/) -> UIViewController {
+    static func createViewController(_ thread: MessageThread, _ templates: [SaleItemTemplate]) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        //vc.vm = MessageThreadVM()
+        vc.vm = MessageThreadVM(vc, thread, templates)
         return vc
     }
     
@@ -29,6 +32,11 @@ class MessageThreadVC: MessagesViewController, MessagesDataSource, MessagesLayou
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
+    }
+    
+    // MARK: - IBActions
+    @IBAction func infoButtonClicked() {
+        vm.infoButtonClicked()
     }
     
     // MARK: - MessagesDataSource

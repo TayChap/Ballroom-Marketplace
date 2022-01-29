@@ -10,5 +10,6 @@ import Foundation
 struct MessageThread: Codable {
     var created: Date
     let users: [String]
+    let saleItemId: String
     let messages: [Message]
 }
