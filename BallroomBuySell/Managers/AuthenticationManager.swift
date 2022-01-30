@@ -17,7 +17,7 @@ struct AuthenticationManager {
             return nil
         }
         
-        return User(email: email, displayName: displayName)
+        return User(id: user.uid, email: email, displayName: displayName)
     }
     
     func createUser(email: String, password: String, displayName: String, completion: @escaping () -> Void, onFail: @escaping (_ errorMessage: String) -> Void) {

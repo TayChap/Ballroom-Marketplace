@@ -36,7 +36,7 @@ struct BuyVM {
             return
         }
         
-        delegate?.pushViewController(SellVC.createViewController(templates)) // TODO! pass in user
+        delegate?.pushViewController(SellVC.createViewController(templates)) // TODO! pass in user id
     }
     
     func inboxButtonClicked() {
@@ -47,7 +47,9 @@ struct BuyVM {
             return
         }
         
-        delegate?.pushViewController(InboxVC.createViewController(user, [], templates))
+        DatabaseManager.sharedInstance.getThreads(with: user.id) { threads in
+            delegate?.pushViewController(InboxVC.createViewController(user, threads, templates))
+        }
     }
     
     // MARK: - CollectionView Methods
@@ -129,7 +131,7 @@ struct BuyVM {
             return
         }
         
-        var templateFilter = (key: "fields.\(SaleItemTemplate.serverKey)", value: "shoes")
+        var templateFilter = (key: "fields.\(SaleItemTemplate.serverKey)", value: "shoes") // TODO!
         
         DatabaseManager.sharedInstance.getSaleItems(where: templateFilter) { filteredSaleItems in
             delegate?.pushViewController(SaleItemListVC.createViewController(templates, filteredSaleItems))

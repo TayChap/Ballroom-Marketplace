@@ -8,15 +8,17 @@
 import InputBarAccessoryView
 import MessageKit
 
-class MessageThreadVM {
+class MessageThreadVM { // TODO! change back to struct ?
     private weak var delegate: ViewControllerProtocol?
     private var thread: MessageThread
-    private var templates: [SaleItemTemplate]
+    private let user: User
+    private let templates: [SaleItemTemplate]
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, _ thread: MessageThread, _ templates: [SaleItemTemplate]) {
+    init(_ owner: ViewControllerProtocol, _ thread: MessageThread, _ user: User, _ templates: [SaleItemTemplate]) {
         delegate = owner
         self.thread = thread
+        self.user = user
         self.templates = templates
     }
     
@@ -42,12 +44,11 @@ class MessageThreadVM {
         let message = Message(content: text,
                               messageId: UUID().uuidString,
                               sentDate: Date(),
-                              senderId: "",
-                              displayName: "")
+                              senderId: user.id,
+                              displayName: user.displayName)
         
-        // save(message) TODO! save to server {
-            thread.messages.append(message)
-            completion()
-        //}
+        thread.messages.append(message)
+        completion()
+        DatabaseManager.sharedInstance.createDocument(.threads, thread, thread.id)
     }
 }

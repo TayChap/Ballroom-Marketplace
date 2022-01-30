@@ -38,13 +38,19 @@ struct DatabaseManager {
         getDocuments(db.collection(Collection.templates.rawValue), of: SaleItemTemplate.self, completion)
     }
     
-    func getSaleItems(where equalsRelationship: (key: String, value: String)? = nil, _ completion: @escaping ([SaleItem]) -> Void) {
+    func getSaleItems(where equalsRelationship: (key: String, value: String)? = nil, _ completion: @escaping ([SaleItem]) -> Void) { // TODO! refactor tuple weirdness
         var reference = db.collection(Collection.items.rawValue) as Query
         if let keyValue = equalsRelationship {
             reference = reference.whereField(keyValue.key, isEqualTo: keyValue.value)
         }
         
         getDocuments(reference, of: SaleItem.self, completion)
+    }
+    
+    func getThreads(with userId: String, _ completion: @escaping ([MessageThread]) -> Void) {
+        getDocuments(db.collection(Collection.threads.rawValue).whereField("userIds", arrayContains: userId), // TODO! maybe have like QueryFields enum on a codable object
+                     of: MessageThread.self,
+                     completion)
     }
     
     // MARK: Private Helpers

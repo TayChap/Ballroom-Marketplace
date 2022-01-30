@@ -8,7 +8,8 @@
 import Foundation
 
 struct MessageThread: Codable {
+    var id = UUID().uuidString
     let userIds: [String]
     let saleItemId: String
-    var messages: [Message]
+    var messages: [Message] = []
 }

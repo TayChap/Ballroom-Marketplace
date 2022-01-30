@@ -6,6 +6,7 @@
 //
 
 struct User {
+    let id: String // database uid
     let email: String
     let displayName: String
 }

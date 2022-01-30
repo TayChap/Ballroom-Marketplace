@@ -23,7 +23,7 @@ struct InboxVM {
     
     // MARK: - Table Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1 //screenStructure.count
+        screenStructure.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
@@ -39,14 +39,6 @@ struct InboxVM {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.pushViewController(MessageThreadVC.createViewController(MessageThread(userIds: [""],
-                                                                                        saleItemId: "",
-                                                                                        messages: []), templates))
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            print("delete") // TODO
-        }
+        delegate?.pushViewController(MessageThreadVC.createViewController(screenStructure[indexPath.row], user, templates))
     }
 }
