@@ -206,19 +206,19 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Frt-PA-fh3">
-                                                    <rect key="frame" x="136" y="11" width="262" height="21"/>
+                                                    <rect key="frame" x="136" y="27" width="262" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EM5-IY-bfW">
-                                                    <rect key="frame" x="136" y="48" width="262" height="21"/>
+                                                    <rect key="frame" x="136" y="64" width="262" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cL4-cQ-OHl">
-                                                    <rect key="frame" x="136" y="85" width="262" height="21"/>
+                                                    <rect key="frame" x="136" y="101" width="262" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -226,7 +226,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="EM5-IY-bfW" firstAttribute="top" secondItem="Frt-PA-fh3" secondAttribute="bottom" constant="16" id="2E6-jr-mXB"/>
-                                                <constraint firstItem="Frt-PA-fh3" firstAttribute="top" secondItem="9e0-KG-sdH" secondAttribute="top" id="FMg-v0-LHL"/>
+                                                <constraint firstItem="Frt-PA-fh3" firstAttribute="top" secondItem="9e0-KG-sdH" secondAttribute="top" constant="16" id="FMg-v0-LHL"/>
                                                 <constraint firstItem="9e0-KG-sdH" firstAttribute="top" secondItem="aoR-eK-P4o" secondAttribute="topMargin" id="MP5-ah-jzH"/>
                                                 <constraint firstItem="EM5-IY-bfW" firstAttribute="trailing" secondItem="Frt-PA-fh3" secondAttribute="trailing" id="VBa-vv-3uT"/>
                                                 <constraint firstItem="9e0-KG-sdH" firstAttribute="leading" secondItem="aoR-eK-P4o" secondAttribute="leadingMargin" id="dIi-OC-eQh"/>
@@ -410,7 +410,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="VcG-2H-Dkw"/>
-        <segue reference="bLY-tZ-MBb"/>
+        <segue reference="7Tz-QB-BGX"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="checkmark" catalog="system" width="128" height="114"/>

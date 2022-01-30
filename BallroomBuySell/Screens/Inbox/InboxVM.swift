@@ -11,11 +11,13 @@ struct InboxVM {
     private weak var delegate: ViewControllerProtocol?
     private let user: User
     private let screenStructure: [MessageThread]
+    private let templates: [SaleItemTemplate]
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, _ user: User, _ messageThreads: [MessageThread]) {
+    init(_ owner: ViewControllerProtocol, _ user: User, _ messageThreads: [MessageThread], _ templates: [SaleItemTemplate]) {
         delegate = owner
         self.user = user
+        self.templates = templates
         screenStructure = messageThreads
     }
     
@@ -37,7 +39,9 @@ struct InboxVM {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.pushViewController(MessageThreadVC.createViewController())
+        delegate?.pushViewController(MessageThreadVC.createViewController(MessageThread(userIds: [""],
+                                                                                        saleItemId: "",
+                                                                                        messages: []), templates))
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

@@ -19,9 +19,13 @@ class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDeleg
         vm = BuyVM(self)
         vm.viewDidLoad(collectionView)
         
+        /*DatabaseManager.sharedInstance.createDocument(.threads, MessageThread(created: Date(),
+                                                                              userIds: [""],
+                                                                              saleItemId: "",
+                                                                              messages: []))*/
+        
         TemplateManager().refreshTemplates { templates in
             self.vm.onTemplatesFetched(templates)
-            
             DatabaseManager.sharedInstance.getSaleItems() { saleItems in
                 self.vm.saleItems = saleItems
                 self.reload()

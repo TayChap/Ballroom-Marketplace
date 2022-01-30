@@ -29,26 +29,25 @@ struct BuyVM {
     
     // MARK: - IBActions
     func sellButtonClicked() {
-        guard let templates = templates else {
-            // TODO! network error
+        guard
+            let templates = getTemplatesOrPresentError(),
+            let user = getUserOrPresentLogin()
+        else {
             return
         }
         
-        guard let _ = AuthenticationManager().user else {
-            delegate?.presentViewController(LoginVC.createViewController())
-            return
-        }
-        
-        delegate?.pushViewController(SellVC.createViewController(templates))
+        delegate?.pushViewController(SellVC.createViewController(templates)) // TODO! pass in user
     }
     
     func inboxButtonClicked() {
-        guard let user = AuthenticationManager().user else {
-            delegate?.presentViewController(LoginVC.createViewController())
+        guard
+            let templates = getTemplatesOrPresentError(),
+            let user = getUserOrPresentLogin()
+        else {
             return
         }
         
-        delegate?.pushViewController(InboxVC.createViewController(user, []))
+        delegate?.pushViewController(InboxVC.createViewController(user, [], templates))
     }
     
     // MARK: - CollectionView Methods
@@ -106,6 +105,25 @@ struct BuyVM {
     }
     
     // Private Helpers
+    private func getTemplatesOrPresentError() -> [SaleItemTemplate]? {
+        guard let templates = templates else {
+            // TODO! network error
+            return nil
+        }
+        
+        return templates
+    }
+    
+    private func getUserOrPresentLogin() -> User? {
+        guard let user = AuthenticationManager().user else {
+            delegate?.presentViewController(LoginVC.createViewController())
+            return nil
+        }
+        
+        return user
+
+    }
+    
     private func pushSaleItemList(with filter: String? = nil) {
         guard let templates = templates else  {
             return

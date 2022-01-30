@@ -10,7 +10,7 @@ import FirebaseFirestoreSwift
 
 struct DatabaseManager {
     enum Collection: String {
-        case templates, items
+        case templates, items, threads
     }
     
     static let sharedInstance = DatabaseManager()

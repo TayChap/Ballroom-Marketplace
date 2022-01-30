@@ -5,18 +5,10 @@
 //  Created by Taylor Chapman on 2022-01-28.
 //
 
+import InputBarAccessoryView
 import MessageKit
 
-public struct Sender: SenderType {
-    public let senderId: String
-    public let displayName: String
-}
-
-// Some global variables for the sake of the example. Using globals is not recommended!
-let sender = Sender(senderId: "any_unique_id", displayName: "Steven")
-let messages: [MessageType] = []
-
-class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate {
+class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate, InputBarAccessoryViewDelegate {
     @IBOutlet weak var infoButton: UIBarButtonItem!
     private var vm: MessageThreadVM!
     
@@ -29,6 +21,7 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        messageInputBar.delegate = self
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
@@ -41,14 +34,36 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
     
     // MARK: - MessagesDataSource
     func currentSender() -> SenderType {
-        Sender(senderId: "any_unique_id", displayName: "Steven")
+        vm.currentSender()
     }
-
+    
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
-        messages.count
+        vm.numberOfSections(in: messagesCollectionView)
     }
-
+    
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
-        messages[indexPath.section]
+        vm.messageForItem(at: indexPath, in: messagesCollectionView)
+    }
+    
+    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+        vm.inputBar(didPressSendButtonWith: text) {
+            inputBar.inputTextView.text = ""
+            reload()
+        }
+    }
+    
+    // MARK: - ViewControllerProtocol
+    func pushViewController(_ vc: UIViewController) {
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func dismiss() {
+        dismiss(animated: true)
+    }
+    
+    func reload() {
+        messagesCollectionView.reloadData()
+        messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+        // messagesCollectionView.scrollToBottom(animated: true)
     }
 }

@@ -12,9 +12,9 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     private var vm: InboxVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController( _ user: User, _ threads: [MessageThread]) -> UIViewController {
+    static func createViewController( _ user: User, _ threads: [MessageThread], _ templates: [SaleItemTemplate]) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = InboxVM(vc, user, threads)
+        vc.vm = InboxVM(vc, user, threads, templates)
         return vc
     }
     
