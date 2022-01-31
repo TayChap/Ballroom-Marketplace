@@ -12,4 +12,6 @@ struct MessageThread: Codable {
     let userIds: [String]
     let saleItemId: String
     var messages: [Message] = []
+    
+    // TODO! message thread should contain LOCAL ONLY sale item info fetched from id (?)
 }

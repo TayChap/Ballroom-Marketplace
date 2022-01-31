@@ -31,12 +31,12 @@ struct BuyVM {
     func sellButtonClicked() {
         guard
             let templates = getTemplatesOrPresentError(),
-            let user = getUserOrPresentLogin()
+            let _ = getUserOrPresentLogin()
         else {
             return
         }
         
-        delegate?.pushViewController(SellVC.createViewController(templates)) // TODO! pass in user id
+        delegate?.pushViewController(SellVC.createViewController(templates))
     }
     
     func inboxButtonClicked() {

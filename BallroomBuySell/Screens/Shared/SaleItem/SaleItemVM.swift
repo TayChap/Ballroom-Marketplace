@@ -12,7 +12,7 @@ struct SaleItemVM {
         case create, view
     }
     
-    private var dm: SaleItem
+    private var saleItem: SaleItem
     private weak var delegate: ViewControllerProtocol?
     
     private let mode: Mode
@@ -23,29 +23,30 @@ struct SaleItemVM {
     init(_ owner: ViewControllerProtocol, _ templates: [SaleItemTemplate], _ saleItem: SaleItem? = nil) {
         delegate = owner
         self.templates = templates
-        screenStructure = SaleItemVM.getScreenStructure(templates, for: saleItem?.fields[SaleItemTemplate.serverKey])
         
         if let saleItem = saleItem {
             mode = .view
-            dm = saleItem
-            return
+            self.saleItem = saleItem
+        } else {
+            mode = .create
+            self.saleItem = SaleItem(userId: AuthenticationManager().user?.id ?? "")
         }
         
-        mode = .create
-        dm = SaleItem()
+        screenStructure = SaleItemVM.getScreenStructure(templates, AuthenticationManager().user?.id, self.saleItem.userId, for: saleItem?.fields[SaleItemTemplate.serverKey])
     }
     
     func viewDidLoad(_ tableView: UITableView) {
         PickerTableCell.registerCell(tableView)
         TextFieldTableCell.registerCell(tableView)
         ImageTableCell.registerCell(tableView)
+        ButtonTableCell.registerCell(tableView)
     }
     
     // MARK: - IBActions
     mutating func doneButtonClicked() {
-        dm.dateAdded = Date()
-        ImageManager.sharedInstance.uploadImagesAsynchronously(dm.images)
-        DatabaseManager.sharedInstance.createDocument(.items, dm)
+        saleItem.dateAdded = Date()
+        ImageManager.sharedInstance.uploadImagesAsynchronously(saleItem.images)
+        DatabaseManager.sharedInstance.createDocument(.items, saleItem)
     }
     
     // MARK: - Table Methods
@@ -62,7 +63,7 @@ struct SaleItemVM {
             }
             
             cell.configureCell(PickerCellDM(titleText: cellStructure.title,
-                                            selectedValues: [dm.fields[cellStructure.serverKey] ?? ""],
+                                            selectedValues: [saleItem.fields[cellStructure.serverKey] ?? ""],
                                             pickerValues: [cellStructure.values],
                                             showRequiredAsterisk: cellStructure.required))
             cell.delegate = owner as? PickerCellDelegate
@@ -74,7 +75,7 @@ struct SaleItemVM {
             
             cell.configureCell(TextFieldCellDM(inputType: cellStructure.inputType,
                                                title: cellStructure.title,
-                                               detail: dm.fields[cellStructure.serverKey] ?? "",
+                                               detail: saleItem.fields[cellStructure.serverKey] ?? "",
                                                returnKeyType: .done))
             cell.delegate = owner as? TextFieldCellDelegate
             return cell
@@ -84,9 +85,17 @@ struct SaleItemVM {
             }
             
             cell.configureCell(ImageCellDM(title: cellStructure.title,
-                                           images: dm.images.compactMap({ $0.data }),
+                                           images: saleItem.images.compactMap({ $0.data }),
                                            editable: mode == .create))
             cell.delegate = owner as? (ImageTableCellDelegate & UIViewController)
+            return cell
+        case .button:
+            guard let cell = ButtonTableCell.createCell(tableView) else {
+                return UITableViewCell()
+            }
+            
+            cell.configureCell(cellStructure.title)
+            cell.delegate = owner as? ButtonCellDelegate
             return cell
         }
     }
@@ -100,27 +109,47 @@ struct SaleItemVM {
     
     // MARK: - ImageCellDelegate
     mutating func newImage(_ data: Data) {
-        dm.images.append(Image(url: "images/\(UUID().uuidString)", data: data))
+        saleItem.images.append(Image(url: "images/\(UUID().uuidString)", data: data))
     }
     
     mutating func deleteImage(at index: Int) {
-        dm.images.remove(at: index)
+        saleItem.images.remove(at: index)
+    }
+    
+    // MARK: - ButtonCellDelegate
+    func buttonClicked() {
+        guard let user = AuthenticationManager().user else {
+            delegate?.presentViewController(LoginVC.createViewController())
+            return
+        }
+        
+        delegate?.pushViewController(MessageThreadVC.createViewController(MessageThread(userIds: [user.id, saleItem.userId],
+                                                                                        saleItemId: saleItem.userId),
+                                                                          user,
+                                                                          templates))
     }
     
     // MARK: - Public Helpers
     mutating func setData(_ data: String, at indexPath: IndexPath) {
         let cellStructure = screenStructure[indexPath.row]
-        dm.fields[cellStructure.serverKey] = data
+        saleItem.fields[cellStructure.serverKey] = data
         
         if cellStructure.serverKey == SaleItemTemplate.serverKey {
-            screenStructure = SaleItemVM.getScreenStructure(templates, for: data)
+            screenStructure = SaleItemVM.getScreenStructure(templates, AuthenticationManager().user?.id, saleItem.userId, for: data)
         }
     }
     
     // MARK: - Private Helpers
-    private static func getScreenStructure(_ templates: [SaleItemTemplate], for templateId: String?) -> [SaleItemCellStructure] {
-        [SaleItemTemplate.getTemplateSelectorCell(templates)] +
+    private static func getScreenStructure(_ templates: [SaleItemTemplate], _ userId: String?, _ saleItemUserId: String, for templateId: String?) -> [SaleItemCellStructure] {
+        // TODO! reduce method argument complexity
+        let structure = [SaleItemTemplate.getTemplateSelectorCell(templates)] +
             [SaleItemTemplate.getImageCollectionCelll()] +
             (templates.first(where: { $0.id == templateId })?.screenStructure ?? [])
+        
+        if userId == saleItemUserId {
+            return structure
+        }
+        
+        return structure + [SaleItemTemplate.getContactSellerCell()]
     }
 }

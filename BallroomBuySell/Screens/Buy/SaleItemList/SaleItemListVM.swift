@@ -11,13 +11,11 @@ struct SaleItemListVM {
     private weak var delegate: ViewControllerProtocol?
     private var saleItems: [SaleItem]
     private(set) var templates: [SaleItemTemplate]
-    // TODO! private var filter: Filter
     
     // MARK: - Lifecycle Methods
     init(_ owner: ViewControllerProtocol, _ templates: [SaleItemTemplate], _ unfilteredSaleItems: [SaleItem]) {
         delegate = owner
         self.templates = templates
-        // TODO! apply filtering
         
         saleItems = unfilteredSaleItems
     }

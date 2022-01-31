@@ -38,4 +38,16 @@ struct SaleItemTemplate: Codable {
                               filterEnabled: false,
                               values: [])
     }
+    
+    static func getContactSellerCell() -> SaleItemCellStructure {
+        SaleItemCellStructure(type: .button,
+                              inputType: InputType.standard,
+                              serverKey: "",
+                              title: "contact_seller",
+                              subtitle: "",
+                              placeholder: "",
+                              required: false,
+                              filterEnabled: false,
+                              values: [])
+    }
 }

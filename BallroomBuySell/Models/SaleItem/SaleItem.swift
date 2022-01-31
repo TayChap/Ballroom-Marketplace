@@ -9,7 +9,7 @@ import Foundation
 
 struct SaleItem: Codable {
     var dateAdded: Date? = nil
-    // TODO! USER ID ?
+    var userId: String
     var images = [Image]()
     var fields: [String: String] = [:] // [serverKey: value]
 }
