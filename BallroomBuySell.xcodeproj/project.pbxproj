@@ -63,7 +63,6 @@
 		8D9D45A627922FBE004C5565 /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45A527922FBE004C5565 /* ImageViewer.swift */; };
 		8D9D45A827922FC9004C5565 /* ImageViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D45A727922FC9004C5565 /* ImageViewer.xib */; };
 		8D9D45AA27933420004C5565 /* ImageCellDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45A927933420004C5565 /* ImageCellDM.swift */; };
-		8D9D45AD27933DA3004C5565 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45AC27933DA3004C5565 /* ImageDownloader.swift */; };
 		8D9D45AF27933F11004C5565 /* ImageRequestObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45AE27933F11004C5565 /* ImageRequestObject.swift */; };
 		8D9D45B2279E1285004C5565 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45B1279E1285004C5565 /* Image.swift */; };
 		8D9D45B6279F3758004C5565 /* SaleItemListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D45B5279F3758004C5565 /* SaleItemListVC.swift */; };
@@ -152,7 +151,6 @@
 		8D9D45A527922FBE004C5565 /* ImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewer.swift; sourceTree = "<group>"; };
 		8D9D45A727922FC9004C5565 /* ImageViewer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageViewer.xib; sourceTree = "<group>"; };
 		8D9D45A927933420004C5565 /* ImageCellDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCellDM.swift; sourceTree = "<group>"; };
-		8D9D45AC27933DA3004C5565 /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		8D9D45AE27933F11004C5565 /* ImageRequestObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRequestObject.swift; sourceTree = "<group>"; };
 		8D9D45B1279E1285004C5565 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		8D9D45B5279F3758004C5565 /* SaleItemListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleItemListVC.swift; sourceTree = "<group>"; };
@@ -515,20 +513,11 @@
 		8D9D45AB27933D76004C5565 /* ImageManager */ = {
 			isa = PBXGroup;
 			children = (
-				8D9D45B027934288004C5565 /* ImageDownloader */,
 				8D9D45B1279E1285004C5565 /* Image.swift */,
 				8D9D45932791D4F0004C5565 /* ImageManager.swift */,
-			);
-			path = ImageManager;
-			sourceTree = "<group>";
-		};
-		8D9D45B027934288004C5565 /* ImageDownloader */ = {
-			isa = PBXGroup;
-			children = (
-				8D9D45AC27933DA3004C5565 /* ImageDownloader.swift */,
 				8D9D45AE27933F11004C5565 /* ImageRequestObject.swift */,
 			);
-			path = ImageDownloader;
+			path = ImageManager;
 			sourceTree = "<group>";
 		};
 		8D9D45B3279F372D004C5565 /* SaleItemList */ = {
@@ -792,7 +781,6 @@
 				8DA71D1327A499D20025C1D5 /* MessageThreadVM.swift in Sources */,
 				8D9D45992791F67F004C5565 /* ImageCollectionCell.swift in Sources */,
 				8D9D456827877820004C5565 /* PickerValue.swift in Sources */,
-				8D9D45AD27933DA3004C5565 /* ImageDownloader.swift in Sources */,
 				8DA71CFF27A36D760025C1D5 /* CategoryCollectionCell.swift in Sources */,
 				8D9D45AA27933420004C5565 /* ImageCellDM.swift in Sources */,
 				8D9D45BE27A07C8B004C5565 /* SaleItemListVM.swift in Sources */,

@@ -8,7 +8,6 @@
 import UIKit
 
 struct ImageRequestObject {
-    var contentView: UIView?
     var url: String
-    var success: (_ image: UIImage, _ fileName: String) -> Void
+    var success: (_ image: Data/*, _ fileName: String*/) -> Void // TODO! remove fileName
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Image: Codable {
+struct Image: Codable { // TODO! consider combining with ImageRequestObject
     let url: String // TODO! consider changing to URL type like in photoURL property of user
     var data: Data? = nil
     
