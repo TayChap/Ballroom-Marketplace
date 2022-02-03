@@ -7,9 +7,14 @@
 
 import UIKit
 
-protocol ImageTableCellDelegate {
+protocol ImageCellDelegate {
     func newImage(_ data: Data)
     func deleteImage(at index: Int)
+}
+
+extension ImageCellDelegate { // for view only case no need for image update methods
+    func newImage(_ data: Data){}
+    func deleteImage(at index: Int){}
 }
 
 class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -21,7 +26,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     private let maxTotalImageSize = 9.0 // in MBs
     private var imagesList = [Data]()
     private var isEditable = true
-    var delegate: (ImageTableCellDelegate & UIViewController)? // TODO! why UIViewController?
+    var delegate: (ImageCellDelegate & UIViewController)?
     
     // MARK: - Life Cycle
     static func registerCell(_ tableView: UITableView) {
@@ -76,7 +81,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
             return
         }
         
-        let actionItems = collectionView.numberOfItems(inSection: 0) - 1 == indexPath.row && isEditable && imagesList.count < maxImageCount ? getEmptyActionSheetItems() : getNonEmptyActionSheetItems(indexPath) // TODO!
+        let actionItems = collectionView.numberOfItems(inSection: 0) - 1 == indexPath.row && isEditable && imagesList.count < maxImageCount ? getEmptyActionSheetItems() : getNonEmptyActionSheetItems(indexPath)
         delegate.showActionSheetOrPopover(nil, "notes.attachment.actions", actionItems)
     }
     
@@ -137,14 +142,16 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         
         actionItems.append(UIAlertAction(title: "generic.cancel", style: .cancel))
         
-        actionItems.append(UIAlertAction(title: "notes.view.attachment", style: .default) { (action) in
+        actionItems.append(UIAlertAction(title: "notes.view.attachment", style: .default) { action in
             self.displayImage(imageData)
         })
         
-        actionItems.append(UIAlertAction(title: "notes.remove.attachment", style: .destructive) { (action) in
-            self.delegate?.deleteImage(at: indexPath.row)
-        })
-        
+        if isEditing {
+            actionItems.append(UIAlertAction(title: "notes.remove.attachment", style: .destructive) { action in
+                self.delegate?.deleteImage(at: indexPath.row)
+            })
+        }
+            
         return actionItems
     }
     

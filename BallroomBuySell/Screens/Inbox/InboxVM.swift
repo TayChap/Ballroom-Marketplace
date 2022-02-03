@@ -26,7 +26,7 @@ struct InboxVM {
         AuthenticationManager().signOut {
             delegate?.dismiss()
         } onFail: {
-            //
+            // TODO!
         }
     }
     

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewItemVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, ButtonCellDelegate {
+class ViewItemVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, ImageCellDelegate, ButtonCellDelegate {
     @IBOutlet weak var tableView: UITableView!
     private var vm: SaleItemVM!
     

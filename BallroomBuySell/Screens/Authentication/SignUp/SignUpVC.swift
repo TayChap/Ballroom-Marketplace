@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SignUpVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, ImageTableCellDelegate, TextFieldCellDelegate {
+class SignUpVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, ImageCellDelegate, TextFieldCellDelegate {
     @IBOutlet weak var signUpButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     private var vm: SignUpVM!

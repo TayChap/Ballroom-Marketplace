@@ -87,7 +87,7 @@ struct SaleItemVM {
             cell.configureCell(ImageCellDM(title: cellStructure.title,
                                            images: saleItem.images.compactMap({ $0.data }),
                                            editable: mode == .create))
-            cell.delegate = owner as? (ImageTableCellDelegate & UIViewController)
+            cell.delegate = owner as? (ImageCellDelegate & UIViewController)
             return cell
         case .button:
             guard let cell = ButtonTableCell.createCell(tableView) else {

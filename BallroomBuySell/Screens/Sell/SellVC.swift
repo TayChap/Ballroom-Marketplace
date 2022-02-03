@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol, PickerCellDelegate, TextFieldCellDelegate, ImageTableCellDelegate {
+class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol, PickerCellDelegate, TextFieldCellDelegate, ImageCellDelegate {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     private var vm: SaleItemVM!

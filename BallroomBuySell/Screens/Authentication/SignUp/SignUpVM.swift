@@ -98,7 +98,7 @@ struct SignUpVM {
             cell.configureCell(ImageCellDM(title: cellData.text,
                                            images: images,
                                            maxImages: 1))
-            cell.delegate = owner as? (ImageTableCellDelegate & UIViewController)
+            cell.delegate = owner as? (ImageCellDelegate & UIViewController)
             return cell
         case .email, .displayName, .password:
             guard let cell = TextFieldTableCell.createCell(tableView) else {
