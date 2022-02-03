@@ -10,5 +10,6 @@ import Foundation
 struct ImageCellDM {
     let title: String
     let images: [Data]
-    let editable: Bool
+    var maxImages = 10
+    var editable = true
 }

@@ -263,8 +263,15 @@
                             <constraint firstItem="HOP-c9-0Ob" firstAttribute="top" secondItem="krk-UO-UwC" secondAttribute="top" id="ixB-MU-6N6"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="zqN-2x-tvb"/>
+                    <navigationItem key="navigationItem" id="zqN-2x-tvb">
+                        <barButtonItem key="rightBarButtonItem" title="Logout" id="JF4-7o-nsz">
+                            <connections>
+                                <action selector="signOutButtonClicked" destination="vnn-B4-q01" id="yec-rQ-pgu"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="signOutButton" destination="JF4-7o-nsz" id="MmH-Yf-a9E"/>
                         <outlet property="tableView" destination="HOP-c9-0Ob" id="hBW-I6-fyE"/>
                         <segue destination="mWj-2a-HLi" kind="show" id="7Tz-QB-BGX"/>
                     </connections>
@@ -410,7 +417,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="VcG-2H-Dkw"/>
-        <segue reference="bLY-tZ-MBb"/>
+        <segue reference="7Tz-QB-BGX"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="checkmark" catalog="system" width="128" height="114"/>

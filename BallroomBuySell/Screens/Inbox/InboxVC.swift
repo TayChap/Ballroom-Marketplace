@@ -8,6 +8,7 @@
 import UIKit
 
 class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol {
+    @IBOutlet weak var signOutButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     private var vm: InboxVM!
     
@@ -16,6 +17,11 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
         let vc = UIViewController.getVC(from: .main, of: self)
         vc.vm = InboxVM(vc, user, threads, templates)
         return vc
+    }
+    
+    // MARK: - IBActions
+    @IBAction func signOutButtonClicked() {
+        vm.signOutButtonClicked()
     }
     
     // MARK: - Table Methods
@@ -37,7 +43,7 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     }
     
     func dismiss() {
-        dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     func reload() {

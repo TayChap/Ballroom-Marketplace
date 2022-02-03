@@ -17,7 +17,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
     
-    private let maxImageCount = 10
+    private var maxImageCount = 0
     private let maxTotalImageSize = 9.0 // in MBs
     private var imagesList = [Data]()
     private var isEditable = true
@@ -44,6 +44,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         
         titleLabel.text = dm.title
         imagesList = dm.images
+        maxImageCount = dm.maxImages
         isEditable = dm.editable
         
         collectionView.reloadData()

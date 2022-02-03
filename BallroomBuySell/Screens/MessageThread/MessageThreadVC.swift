@@ -58,7 +58,7 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
     }
     
     func dismiss() {
-        dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     func reload() {

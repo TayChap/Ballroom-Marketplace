@@ -8,5 +8,6 @@
 struct User {
     let id: String // database uid
     let email: String
+    let photoURL: String
     let displayName: String
 }

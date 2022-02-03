@@ -21,6 +21,15 @@ struct InboxVM {
         screenStructure = messageThreads
     }
     
+    // MARK: - IBActions
+    func signOutButtonClicked() {
+        AuthenticationManager().signOut {
+            delegate?.dismiss()
+        } onFail: {
+            //
+        }
+    }
+    
     // MARK: - Table Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         screenStructure.count
