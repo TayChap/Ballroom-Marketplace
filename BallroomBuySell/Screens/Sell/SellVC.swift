@@ -68,7 +68,7 @@ class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, View
         setData(newText, for: cell)
     }
     
-    // MARK: - ImageTableCellDelegate
+    // MARK: - ImageCellDelegate
     func newImage(_ data: Data) {
         vm.newImage(data)
         reload()

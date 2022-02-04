@@ -35,12 +35,16 @@ struct SaleItemListVM {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = SaleItemCollectionCell.createCell(collectionView, for: indexPath) else {
+        let cellData = saleItems[indexPath.item]
+        
+        guard
+            let cell = SaleItemCollectionCell.createCell(collectionView, for: indexPath),
+            let coverImageURL = cellData.images.map({ $0.url }).first
+        else {
             return UICollectionViewCell()
         }
         
-        let cellData = saleItems[indexPath.item]
-        cell.configureCell(SaleItemCellDM(image: UIImage(data: cellData.images.first?.data ?? Data()) ?? UIImage(), // TODO! refactor?
+        cell.configureCell(SaleItemCellDM(imageURL: coverImageURL,
                                           price: "$50.00",
                                           date: cellData.dateAdded ?? Date())) // TODO should dateAdded be optional ?
         return cell

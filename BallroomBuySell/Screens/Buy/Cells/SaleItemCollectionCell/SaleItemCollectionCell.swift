@@ -29,7 +29,10 @@ class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
     func configureCell(_ dm: SaleItemCellDM) {
         clearContent()
         
-        coverImage.image = dm.image
+        ImageManager.sharedInstance.downloadImageAsynchronously(at: dm.imageURL) { [weak self] image in // weak self because cell might be deallocated before network call returns
+            self?.coverImage.image = UIImage(data: image)
+        }
+        
         priceLabel.text = dm.price
         dateLabel.text = dm.date.toReadableString()
         

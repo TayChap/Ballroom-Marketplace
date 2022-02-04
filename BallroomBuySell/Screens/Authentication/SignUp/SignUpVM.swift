@@ -114,7 +114,7 @@ struct SignUpVM {
         }
     }
     
-    // MARK: - ImageTableCellDelegate
+    // MARK: - ImageCellDelegate
     mutating func newImage(_ data: Data) {
         photo = Image(url: UUID().uuidString, data: data)
     }

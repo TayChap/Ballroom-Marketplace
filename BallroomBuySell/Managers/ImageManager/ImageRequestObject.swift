@@ -9,5 +9,5 @@ import UIKit
 
 struct ImageRequestObject {
     var url: String
-    var success: (_ image: Data/*, _ fileName: String*/) -> Void // TODO! remove fileName
+    var success: (_ imageData: Data) -> Void
 }

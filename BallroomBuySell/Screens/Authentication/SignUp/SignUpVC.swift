@@ -50,7 +50,7 @@ class SignUpVC: UIViewController, UITableViewDataSource, ViewControllerProtocol,
         tableView.reloadData()
     }
     
-    // MARK: - ImageTableCellDelegate
+    // MARK: - ImageCellDelegate
     func newImage(_ data: Data) {
         vm.newImage(data)
         reload()

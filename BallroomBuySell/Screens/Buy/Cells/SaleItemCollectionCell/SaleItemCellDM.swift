@@ -8,7 +8,7 @@
 import UIKit
 
 struct SaleItemCellDM {
-    let image: UIImage
+    let imageURL: String
     let price: String
     let date: Date
 }

@@ -45,7 +45,7 @@ struct SaleItemVM {
     // MARK: - IBActions
     mutating func doneButtonClicked() {
         saleItem.dateAdded = Date()
-        ImageManager.sharedInstance.uploadImagesAsynchronously(saleItem.images)
+        ImageManager.sharedInstance.uploadImages(saleItem.images)
         DatabaseManager.sharedInstance.createDocument(.items, saleItem)
     }
     

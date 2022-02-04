@@ -63,12 +63,16 @@ struct BuyVM {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == Section.recentItems.rawValue {
-            guard let cell = SaleItemCollectionCell.createCell(collectionView, for: indexPath) else {
+            let cellData = saleItems[indexPath.item]
+            
+            guard
+                let cell = SaleItemCollectionCell.createCell(collectionView, for: indexPath),
+                let coverImageURL = cellData.images.first?.url
+            else {
                 return UICollectionViewCell()
             }
             
-            let cellData = saleItems[indexPath.item]
-            cell.configureCell(SaleItemCellDM(image: UIImage(), // TODO! refactor?
+            cell.configureCell(SaleItemCellDM(imageURL: coverImageURL,
                                               price: "$50.00",
                                               date: cellData.dateAdded ?? Date()))
             return cell
@@ -85,12 +89,10 @@ struct BuyVM {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == Section.recentItems.rawValue {
-            var cellData = saleItems[indexPath.row]
-            let url = cellData.images.first?.url ?? ""
-            ImageManager.sharedInstance.downloadImage(at: url) { data in
-                cellData.images.insert(Image(url: url, data: data), at: 0)
+            let saleItem = saleItems[indexPath.row]
+            ImageManager.sharedInstance.downloadImages(saleItem.images) {
                 if let templates = templates {
-                    delegate?.pushViewController(ViewItemVC.createViewController(templates, cellData))
+                    delegate?.pushViewController(ViewItemVC.createViewController(templates, saleItem))
                 }
             }
             
@@ -101,12 +103,12 @@ struct BuyVM {
         pushSaleItemList(with: "filter_example") // TODO!
     }
     
-    // Public Helpers
+    // MARK: - Public Helpers
     mutating func onTemplatesFetched(_ templates: [SaleItemTemplate]) {
         self.templates = templates
     }
     
-    // Private Helpers
+    // MARK: - Private Helpers
     private func getTemplatesOrPresentError() -> [SaleItemTemplate]? {
         guard let templates = templates else {
             // TODO! network error
@@ -138,6 +140,7 @@ struct BuyVM {
         }
     }
     
+    // MARK: - CompositionalLayout Methods
     private func createCollectionViewLayout() -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             switch Section.allCases[sectionIndex] {

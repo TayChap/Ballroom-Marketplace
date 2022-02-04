@@ -3,7 +3,6 @@
 //  BallroomBuySell
 //
 //  Created by Taylor Chapman on 2022-01-14.
-//  Adapted from Lawrence Tran
 //
 
 import FirebaseStorage
@@ -14,54 +13,76 @@ class ImageManager {
         Storage.storage()
     }
     
+    // MARK: - Asynchronous Down
     private var requestQueue = [ImageRequestObject]()
+    private var currentCallCount = 0 // active SERVER requests for images
+    
+    // MARK: - Configuration Constants
     private let localImageFolder = "images/"
     private let maxQueueSize = 15
     private let maxSimultaneousCalls = 10
-    private var currentCallCount = 0 // active SERVER requests for images
     
     // MARK: - Private Init
     private init() { } // to ensure sharedInstance is accessed, rather than new instance
     
     // MARK: - Public Helpers
-    func uploadImagesAsynchronously(_ images: [Image]) {
+    func uploadImages(_ images: [Image]) {
         for image in images {
-            storage.reference().child(image.url).putData(image.data ?? Data(), metadata: nil) // TODO guard for data
+            guard let data = image.data else {
+                return
+            }
+            
+            storage.reference().child(image.url).putData(data)
         }
     }
     
-    func downloadImage(at url: String, _ completion: @escaping (_ imageData: Data) -> Void) {
-        createImageFolder()
+    /// This method retrieves and adds image data to the images array based on the image URLs
+    func downloadImages(_ images: [Image], _ completion: @escaping () -> Void) {
+        for image in images {
+            if let imageData = getFile(at: getFileURL(image.url)) {
+                image.data = imageData
+                continue
+            }
+            
+            let fileURL = getFileURL(image.url)
+            storage.reference().child(image.url).write(toFile: fileURL) { _ , error in
+                guard let data = self.getFile(at: fileURL), error == nil else {
+                    return // TODO! error
+                }
+                
+                image.data = data
+                
+                if images.allSatisfy({ $0.data != nil }) {
+                    completion()
+                }
+            }
+        }
         
-        if let imageData = getFileLocally(url) {
+        if images.allSatisfy({ $0.data != nil }) {
+            completion()
+        }
+    }
+    
+    func downloadImageAsynchronously(at url: String, _ completion: @escaping (_ imageData: Data) -> Void) {
+        if let imageData = getFile(at: getFileURL(url)) {
             completion(imageData)
             return
         }
         
-        // Removes first item if queue has exceeded size
         if requestQueue.count > maxQueueSize {
-            requestQueue.removeFirst() // TODO! was removed last?
+            requestQueue.removeFirst()
         }
         
-        // Adds request into the queue and immediately fetches if current calls haven't exceeded allowed simutaneous calls
-        requestQueue.insert(ImageRequestObject(url: url, success: completion), at: 0)
-        if currentCallCount < maxSimultaneousCalls { // TOOD! what if it isn't?
+        requestQueue.append(ImageRequestObject(url: url, success: completion))
+        if currentCallCount < maxSimultaneousCalls { // TODO! what if too many calls?
             fetchImages()
         }
     }
     
     // MARK: - Private Helpers
-    private func createImageFolder() {
-        let imageFolder = getImageFolder()
-        var isDirectory = ObjCBool(true)
-        if !FileManager.default.fileExists(atPath: imageFolder.path, isDirectory: &isDirectory) {
-            try? FileManager.default.createDirectory(atPath: imageFolder.path, withIntermediateDirectories: true)
-        }
-    }
-    
     /// Pulls the first request object on the queue and downloads an image then calls the success or failure if provided. If the queue isn't empty will recursively call fetch image
     private func fetchImages() {
-        let imageRequestObject = requestQueue.removeFirst()
+        let imageRequestObject = requestQueue.removeLast()
         currentCallCount += 1
         
         let fileURL = getFileURL(imageRequestObject.url)
@@ -75,12 +96,9 @@ class ImageManager {
         }
     }
     
-    private func getFileLocally(_ url: String) -> Data? {
-        getFile(at: getFileURL(url))
-    }
-    
     private func getFileURL(_ url: String) -> URL {
-        getImageFolder().appendingPathComponent(URL(string: url)?.lastPathComponent ?? "")
+        let imageFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(localImageFolder).absoluteURL ?? URL(fileURLWithPath: "")
+        return imageFolder.appendingPathComponent(URL(string: url)?.lastPathComponent ?? "")
     }
     
     private func getFile(at fileURL: URL) -> Data? {
@@ -89,9 +107,5 @@ class ImageManager {
         }
         
         return data
-    }
-    
-    private func getImageFolder() -> URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(localImageFolder).absoluteURL ?? URL(fileURLWithPath: "")
     }
 }

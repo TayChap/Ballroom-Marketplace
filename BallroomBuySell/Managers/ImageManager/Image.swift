@@ -7,11 +7,16 @@
 
 import Foundation
 
-struct Image: Codable { // TODO! consider combining with ImageRequestObject
-    let url: String // TODO! consider changing to URL type like in photoURL property of user
-    var data: Data? = nil
+class Image: Codable { // Image is a class to make fetching and updating images asynchronously more managable
+    let url: String
+    var data: Data?
     
     enum CodingKeys: String, CodingKey {
         case url
+    }
+    
+    init(url: String, data: Data?) {
+        self.url = url
+        self.data = data
     }
 }
