@@ -38,6 +38,12 @@ struct DatabaseManager {
         getDocuments(db.collection(Collection.templates.rawValue), of: SaleItemTemplate.self, completion)
     }
     
+    func getRecentSaleItems(for maxItems: Int, _ completion: @escaping ([SaleItem]) -> Void) {
+        let reference = db.collection(Collection.items.rawValue)
+        getDocuments(reference.order(by: SaleItem.QueryKeys.dateAdded.rawValue, descending: true).limit(to: maxItems), of: SaleItem.self, completion)
+        
+    }
+    
     func getSaleItems(where equalsRelationship: (key: String, value: String)? = nil, _ completion: @escaping ([SaleItem]) -> Void) { // TODO! refactor tuple weirdness
         var reference = db.collection(Collection.items.rawValue) as Query
         if let keyValue = equalsRelationship {
@@ -48,7 +54,7 @@ struct DatabaseManager {
     }
     
     func getThreads(with userId: String, _ completion: @escaping ([MessageThread]) -> Void) {
-        getDocuments(db.collection(Collection.threads.rawValue).whereField("userIds", arrayContains: userId), // TODO! maybe have like QueryFields enum on a codable object
+        getDocuments(db.collection(Collection.threads.rawValue).whereField("userIds", arrayContains: userId), // TODO! maybe have like QueryFields enum on a codable object and avoid hardcoded
                      of: MessageThread.self,
                      completion)
     }

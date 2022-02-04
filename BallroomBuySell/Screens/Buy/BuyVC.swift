@@ -13,6 +13,8 @@ class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDeleg
     @IBOutlet weak var collectionView: UICollectionView!
     private var vm: BuyVM!
     
+    private var maxItems: Int { 1 } // TODO! in VM
+    
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +23,7 @@ class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDeleg
         
         TemplateManager().refreshTemplates { templates in // TODO! in VM ?
             self.vm.onTemplatesFetched(templates)
-            DatabaseManager.sharedInstance.getSaleItems() { saleItems in
+            DatabaseManager.sharedInstance.getRecentSaleItems(for: self.maxItems) { saleItems in
                 self.vm.saleItems = saleItems
                 self.reload()
             }

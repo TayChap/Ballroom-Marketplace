@@ -16,7 +16,7 @@ struct SaleItemVM {
     private weak var delegate: ViewControllerProtocol?
     
     private let mode: Mode
-    private var screenStructure: [SaleItemCellStructure]
+    private var screenStructure = [SaleItemCellStructure]()
     private let templates: [SaleItemTemplate]
     
     // MARK: - Lifecycle Methods
@@ -31,11 +31,11 @@ struct SaleItemVM {
             mode = .create
             self.saleItem = SaleItem(userId: AuthenticationManager().user?.id ?? "")
         }
-        
-        screenStructure = SaleItemVM.getScreenStructure(templates, AuthenticationManager().user?.id, self.saleItem.userId, for: saleItem?.fields[SaleItemTemplate.serverKey])
     }
     
-    func viewDidLoad(_ tableView: UITableView) {
+    mutating func viewDidLoad(_ tableView: UITableView) {
+        screenStructure = getScreenStructure()
+        
         PickerTableCell.registerCell(tableView)
         TextFieldTableCell.registerCell(tableView)
         ImageTableCell.registerCell(tableView)
@@ -135,18 +135,18 @@ struct SaleItemVM {
         saleItem.fields[cellStructure.serverKey] = data
         
         if cellStructure.serverKey == SaleItemTemplate.serverKey {
-            screenStructure = SaleItemVM.getScreenStructure(templates, AuthenticationManager().user?.id, saleItem.userId, for: data)
+            screenStructure = getScreenStructure()
         }
     }
     
     // MARK: - Private Helpers
-    private static func getScreenStructure(_ templates: [SaleItemTemplate], _ userId: String?, _ saleItemUserId: String, for templateId: String?) -> [SaleItemCellStructure] {
-        // TODO! reduce method argument complexity
+    private func getScreenStructure() -> [SaleItemCellStructure] {
+        let templateId = saleItem.fields[SaleItemTemplate.serverKey]
         let structure = [SaleItemTemplate.getTemplateSelectorCell(templates)] +
             [SaleItemTemplate.getImageCollectionCelll()] +
-            (templates.first(where: { $0.id == templateId })?.screenStructure ?? [])
+            (templates.first(where: { $0.id == templateId })?.screenStructure.filter({ mode == .create || !(saleItem.fields[$0.serverKey] ?? "").isEmpty }) ?? []) // only include blank fields for create mode
         
-        if userId == saleItemUserId {
+        if AuthenticationManager().user?.id == saleItem.userId {
             return structure
         }
         
