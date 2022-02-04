@@ -54,7 +54,7 @@ struct DatabaseManager {
     }
     
     func getThreads(with userId: String, _ completion: @escaping ([MessageThread]) -> Void) {
-        getDocuments(db.collection(Collection.threads.rawValue).whereField("userIds", arrayContains: userId), // TODO! maybe have like QueryFields enum on a codable object and avoid hardcoded
+        getDocuments(db.collection(Collection.threads.rawValue).whereField(MessageThread.QueryFields.userIds.rawValue, arrayContains: userId),
                      of: MessageThread.self,
                      completion)
     }

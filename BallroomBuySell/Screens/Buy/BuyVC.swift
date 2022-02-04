@@ -13,7 +13,7 @@ class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDeleg
     @IBOutlet weak var collectionView: UICollectionView!
     private var vm: BuyVM!
     
-    private var maxItems: Int { 1 } // TODO! in VM
+    private var maxItems: Int { 5 } // TODO! in VM
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {

@@ -45,6 +45,10 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
         vm.messageForItem(at: indexPath, in: messagesCollectionView)
     }
     
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        vm.configureAvatarView(avatarView, for: message, at: indexPath, in: messagesCollectionView)
+    }
+    
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         vm.inputBar(didPressSendButtonWith: text) {
             inputBar.inputTextView.text = ""

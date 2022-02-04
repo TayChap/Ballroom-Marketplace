@@ -8,8 +8,13 @@
 import Foundation
 
 struct MessageThread: Codable {
+    enum QueryFields: String {
+        case userIds
+    }
+    
     var id = UUID().uuidString
     let userIds: [String]
+    var userImageURLs: [String: String] // [id: url]
     let saleItemId: String
     var messages: [Message] = []
     

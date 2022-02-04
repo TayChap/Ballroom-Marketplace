@@ -125,6 +125,7 @@ struct SaleItemVM {
         }
         
         delegate?.pushViewController(MessageThreadVC.createViewController(MessageThread(userIds: [user.id, saleItem.userId],
+                                                                                        userImageURLs: [user.id: user.photoURL],
                                                                                         saleItemId: saleItem.userId),
                                                                           user,
                                                                           templates))

@@ -20,6 +20,10 @@ class MessageThreadVM { // TODO! change back to struct ?
         self.thread = thread
         self.user = user
         self.templates = templates
+        
+        if self.thread.userImageURLs.allSatisfy({ $0.key != user.id }) {
+            self.thread.userImageURLs[user.id] = user.photoURL // if first time accessing thread, add profile image
+        }
     }
     
     // MARK: - IBActions
@@ -38,6 +42,16 @@ class MessageThreadVM { // TODO! change back to struct ?
     
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
         thread.messages[indexPath.section]
+    }
+    
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        guard let imageURL = thread.userImageURLs.first(where: { $0.key == message.sender.senderId }) else {
+            return
+        }
+        
+        ImageManager.sharedInstance.downloadImage(at: imageURL.value) { data in
+            avatarView.image = UIImage(data: data)
+        }
     }
     
     func inputBar(didPressSendButtonWith text: String, _ completion: () -> Void) {
