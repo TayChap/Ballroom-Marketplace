@@ -17,13 +17,13 @@ extension ImageCellDelegate { // for view only case no need for image update met
     func deleteImage(at index: Int){}
 }
 
-class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate { // TODO! audit class
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
     
     private var maxImageCount = 0
-    private let maxTotalImageSize = 9.0 // in MBs
+    private let imageWidth = 200
     private var imagesList = [Data]()
     private var isEditable = true
     var delegate: (ImageCellDelegate & UIViewController)?
@@ -92,10 +92,10 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         }
         
         let normalizedImage = normalizedImage(selectedImage)
-        let resizedImage = resize(sourceImage: normalizedImage, newWidth: 750)
+        let resizedImage = resize(sourceImage: normalizedImage, newWidth: CGFloat(imageWidth))
         
         picker.dismiss(animated: true, completion: nil)
-        if let imageData = resizedImage.pngData(), !maxTotalFileSizeExceeded(imageData) {
+        if let imageData = resizedImage.pngData() {
             delegate?.newImage(imageData)
         }
     }
@@ -163,17 +163,6 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         let imageViewer = ImageViewer.createViewController(image)
         imageViewer.modalPresentationStyle = .fullScreen
         self.delegate?.present(imageViewer, animated: true, completion: nil)
-    }
-    
-    private func maxTotalFileSizeExceeded(_ data: Data) -> Bool {
-        let MB = 1000000.0
-        let totalFileSize = imagesList.reduce(Double(data.count) / MB) { $0 + (Double($1.count) / MB) }
-        if totalFileSize < maxTotalImageSize {
-            return false
-        }
-        
-        delegate?.showAlertWith(title: "generic.error", message: "notes.max.attachment.size.error.messsage")
-        return true
     }
     
     private func normalizedImage(_ image: UIImage) -> UIImage {

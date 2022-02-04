@@ -34,7 +34,7 @@ struct AuthenticationManager {
             // update displayName after user created
             let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
             changeRequest?.displayName = displayName
-            changeRequest?.photoURL = URL(string: photo.url)
+            changeRequest?.photoURL = URL(string: photo.id)
             changeRequest?.commitChanges { error in
                 if let error = error {
                     onFail(getErrorMessage(error))

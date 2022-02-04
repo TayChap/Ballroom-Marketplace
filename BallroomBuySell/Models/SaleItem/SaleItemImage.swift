@@ -8,15 +8,15 @@
 import Foundation
 
 class SaleItemImage: Codable { // Image is a class to make fetching and updating images asynchronously more managable
-    let url: String
+    let id: String
     var data: Data?
     
     enum CodingKeys: String, CodingKey {
-        case url
+        case id
     }
     
     init(url: String, data: Data?) {
-        self.url = url
+        self.id = url
         self.data = data
     }
     
@@ -27,19 +27,24 @@ class SaleItemImage: Codable { // Image is a class to make fetching and updating
                 return
             }
             
-            FileSystemManager.putFile(data, at: image.url)
+            FileSystemManager.putFile(data, at: image.id)
         }
     }
     
     /// This method retrieves and adds image data to the images array based on the image URLs
     static func downloadSaleItemImages(_ images: [SaleItemImage], _ completion: @escaping () -> Void) {
         for image in images {
-            FileSystemManager.getFile(at: image.url) { data in
+            FileSystemManager.getFile(at: saleItemFolder(image.id)) { data in
                 image.data = data
                 if images.allSatisfy({ $0.data != nil }) {
                     completion()
                 }
             }
         }
+    }
+    
+    // MARK: - Private Methods
+    private static func saleItemFolder(_ id: String) -> String {
+        "saleItems/\(id)"
     }
 }

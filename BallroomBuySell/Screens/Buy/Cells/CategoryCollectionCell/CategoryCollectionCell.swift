@@ -8,6 +8,7 @@
 import UIKit
 
 class CategoryCollectionCell: UICollectionViewCell, CollectionCellProtocol  {
+    @IBOutlet weak var categoryImageView: UIImageView!
     @IBOutlet weak var categoryLabel: UILabel!
     
     static func createCell(_ collectionView: UICollectionView, for indexPath: IndexPath) -> CategoryCollectionCell? {
@@ -21,6 +22,10 @@ class CategoryCollectionCell: UICollectionViewCell, CollectionCellProtocol  {
     
     func configureCell(_ dm: CategoryCollectionCellDM) {
         clearContent()
+        
+        ImageManager.sharedInstance.downloadImage(at: "tempates/\(dm.imageURL).png") { [weak self] image in // weak self because cell might be deallocated before network call returns
+            self?.categoryImageView.image = UIImage(data: image)
+        }
         
         categoryLabel.text = dm.categoryTitle
         

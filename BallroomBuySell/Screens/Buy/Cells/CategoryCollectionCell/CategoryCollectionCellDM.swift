@@ -7,5 +7,6 @@
 
 struct CategoryCollectionCellDM {
     let categoryTitle: String
+    let imageURL: String
     var buttonText: String? = nil
 }

@@ -8,7 +8,6 @@
 import FirebaseStorage
 
 struct FileSystemManager {
-    private static let fileFolderName = "images/"
     private static var storage: Storage {
         Storage.storage()
     }
@@ -37,7 +36,7 @@ struct FileSystemManager {
     }
     
     private static func getFileURL(_ url: String) -> URL {
-        let fileFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(fileFolderName).absoluteURL ?? URL(fileURLWithPath: "")
+        let fileFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: "")
         return fileFolder.appendingPathComponent(URL(string: url)?.lastPathComponent ?? "")
     }
     

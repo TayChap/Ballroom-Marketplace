@@ -51,19 +51,27 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aeW-z2-ila">
-                                                    <rect key="frame" x="29" y="53.5" width="70" height="21"/>
+                                                    <rect key="frame" x="29" y="91" width="70" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1es-gt-pf7">
+                                                    <rect key="frame" x="16" y="16" width="96" height="80"/>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="aeW-z2-ila" firstAttribute="centerY" secondItem="WUE-mH-phb" secondAttribute="centerY" id="ZLe-Hf-nEb"/>
+                                                <constraint firstAttribute="bottom" secondItem="aeW-z2-ila" secondAttribute="bottom" constant="16" id="8yk-PQ-YOa"/>
+                                                <constraint firstItem="aeW-z2-ila" firstAttribute="bottom" secondItem="1es-gt-pf7" secondAttribute="bottom" constant="16" id="Cq2-ZN-XDL"/>
+                                                <constraint firstAttribute="trailing" secondItem="1es-gt-pf7" secondAttribute="trailing" constant="16" id="eUi-Ln-TJC"/>
+                                                <constraint firstItem="1es-gt-pf7" firstAttribute="top" secondItem="WUE-mH-phb" secondAttribute="top" constant="16" id="qHq-fl-yZc"/>
                                                 <constraint firstItem="aeW-z2-ila" firstAttribute="centerX" secondItem="WUE-mH-phb" secondAttribute="centerX" id="tSq-sF-BKK"/>
+                                                <constraint firstItem="1es-gt-pf7" firstAttribute="leading" secondItem="WUE-mH-phb" secondAttribute="leading" constant="16" id="zB6-1g-Pwk"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <color key="backgroundColor" systemColor="systemRedColor"/>
                                         <connections>
+                                            <outlet property="categoryImageView" destination="1es-gt-pf7" id="YSR-PJ-BOo"/>
                                             <outlet property="categoryLabel" destination="aeW-z2-ila" id="hm0-H5-u6i"/>
                                         </connections>
                                     </collectionViewCell>

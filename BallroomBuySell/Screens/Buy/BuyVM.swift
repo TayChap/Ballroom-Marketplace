@@ -13,7 +13,7 @@ struct BuyVM {
     }
     
     private weak var delegate: ViewControllerProtocol?
-    private var templates: [SaleItemTemplate]?
+    private var templates = [SaleItemTemplate]()
     var saleItems = [SaleItem]() // TODO! private?
     
     // MARK: - Lifecycle Methods
@@ -29,10 +29,7 @@ struct BuyVM {
     
     // MARK: - IBActions
     func sellButtonClicked() {
-        guard
-            let templates = getTemplatesOrPresentError(),
-            let _ = getUserOrPresentLogin()
-        else {
+        guard let _ = getUserOrPresentLogin(), !templates.isEmpty else {
             return
         }
         
@@ -40,10 +37,7 @@ struct BuyVM {
     }
     
     func inboxButtonClicked() {
-        guard
-            let templates = getTemplatesOrPresentError(),
-            let user = getUserOrPresentLogin()
-        else {
+        guard let user = getUserOrPresentLogin(), !templates.isEmpty else {
             return
         }
         
@@ -58,7 +52,7 @@ struct BuyVM {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        section == Section.recentItems.rawValue ? saleItems.count : templates?.count ?? 0
+        section == Section.recentItems.rawValue ? saleItems.count : templates.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -67,7 +61,7 @@ struct BuyVM {
             
             guard
                 let cell = SaleItemCollectionCell.createCell(collectionView, for: indexPath),
-                let coverImageURL = cellData.images.first?.url
+                let coverImageURL = cellData.images.first?.id
             else {
                 return UICollectionViewCell()
             }
@@ -83,7 +77,9 @@ struct BuyVM {
             return UICollectionViewCell()
         }
         
-        cell.configureCell(CategoryCollectionCellDM(categoryTitle: templates?[indexPath.row].name ?? ""))
+        let template = templates[indexPath.row]
+        cell.configureCell(CategoryCollectionCellDM(categoryTitle: template.name,
+                                                    imageURL: template.imageURL))
         return cell
     }
     
@@ -91,7 +87,7 @@ struct BuyVM {
         if indexPath.section == Section.recentItems.rawValue {
             let saleItem = saleItems[indexPath.row]
             SaleItemImage.downloadSaleItemImages(saleItem.images) {
-                if let templates = templates {
+                if !templates.isEmpty {
                     delegate?.pushViewController(ViewItemVC.createViewController(templates, saleItem))
                 }
             }
@@ -109,15 +105,6 @@ struct BuyVM {
     }
     
     // MARK: - Private Helpers
-    private func getTemplatesOrPresentError() -> [SaleItemTemplate]? {
-        guard let templates = templates else {
-            // TODO! network error
-            return nil
-        }
-        
-        return templates
-    }
-    
     private func getUserOrPresentLogin() -> User? {
         guard let user = AuthenticationManager().user else {
             delegate?.presentViewController(LoginVC.createViewController())
@@ -129,7 +116,7 @@ struct BuyVM {
     }
     
     private func pushSaleItemList(with filter: String? = nil) {
-        guard let templates = templates else  {
+        guard !templates.isEmpty else  {
             return
         }
         

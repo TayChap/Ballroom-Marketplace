@@ -34,6 +34,7 @@ struct TemplateManager {
     private func getTailsuitTemplate() -> SaleItemTemplate {
         SaleItemTemplate(id: "tailsuit",
                          name: "tailsuit_key",
+                         imageURL: "tailsuit",
                          screenStructure: [SaleItemCellStructure(type: .picker,
                                                                  inputType: InputType.standard,
                                                                  serverKey: "picker",
@@ -58,6 +59,7 @@ struct TemplateManager {
     private func getShoesTemplate() -> SaleItemTemplate {
         SaleItemTemplate(id: "shoes",
                          name: "shoes_key",
+                         imageURL: "shoes",
                          screenStructure: [SaleItemCellStructure(type: .picker,
                                                                  inputType: InputType.standard,
                                                                  serverKey: "picker",

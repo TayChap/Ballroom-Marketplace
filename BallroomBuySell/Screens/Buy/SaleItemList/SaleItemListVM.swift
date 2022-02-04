@@ -39,7 +39,7 @@ struct SaleItemListVM {
         
         guard
             let cell = SaleItemCollectionCell.createCell(collectionView, for: indexPath),
-            let coverImageURL = cellData.images.map({ $0.url }).first
+            let coverImageURL = cellData.images.map({ $0.id }).first
         else {
             return UICollectionViewCell()
         }

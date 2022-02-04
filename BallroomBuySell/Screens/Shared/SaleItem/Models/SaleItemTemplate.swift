@@ -6,8 +6,9 @@
 //
 
 struct SaleItemTemplate: Codable {
-    var id: String // human readable
-    var name: String
+    let id: String // human readable
+    let name: String
+    let imageURL: String
     var screenStructure: [SaleItemCellStructure]
     
     static var serverKey: String {
