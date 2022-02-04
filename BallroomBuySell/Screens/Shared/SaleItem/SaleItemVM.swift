@@ -45,7 +45,7 @@ struct SaleItemVM {
     // MARK: - IBActions
     mutating func doneButtonClicked() {
         saleItem.dateAdded = Date()
-        ImageManager.sharedInstance.uploadImages(saleItem.images)
+        SaleItemImage.uploadSaleItemImages(saleItem.images) // TODO! maybe not asynch ?
         DatabaseManager.sharedInstance.createDocument(.items, saleItem)
     }
     
@@ -109,7 +109,7 @@ struct SaleItemVM {
     
     // MARK: - ImageCellDelegate
     mutating func newImage(_ data: Data) {
-        saleItem.images.append(Image(url: "images/\(UUID().uuidString)", data: data))
+        saleItem.images.append(SaleItemImage(url: "images/\(UUID().uuidString)", data: data))
     }
     
     mutating func deleteImage(at index: Int) {

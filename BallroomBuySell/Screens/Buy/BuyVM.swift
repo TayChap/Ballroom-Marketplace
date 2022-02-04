@@ -90,7 +90,7 @@ struct BuyVM {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == Section.recentItems.rawValue {
             let saleItem = saleItems[indexPath.row]
-            ImageManager.sharedInstance.downloadImages(saleItem.images) {
+            SaleItemImage.downloadSaleItemImages(saleItem.images) {
                 if let templates = templates {
                     delegate?.pushViewController(ViewItemVC.createViewController(templates, saleItem))
                 }

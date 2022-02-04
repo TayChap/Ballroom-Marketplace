@@ -21,7 +21,7 @@ struct AuthenticationManager {
         return User(id: user.uid, email: email, photoURL: photoURL.absoluteString, displayName: displayName)
     }
     
-    func createUser(email: String, password: String, displayName: String, photo: Image, completion: @escaping () -> Void, onFail: @escaping (_ errorMessage: String) -> Void) {
+    func createUser(email: String, password: String, displayName: String, photo: SaleItemImage, completion: @escaping () -> Void, onFail: @escaping (_ errorMessage: String) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error {
                 onFail(getErrorMessage(error))
@@ -29,7 +29,7 @@ struct AuthenticationManager {
             }
             
             // update user profile photo
-            ImageManager.sharedInstance.uploadImages([photo])
+            SaleItemImage.uploadSaleItemImages([photo])
             
             // update displayName after user created
             let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
