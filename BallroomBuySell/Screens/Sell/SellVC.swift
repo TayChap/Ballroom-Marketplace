@@ -27,7 +27,10 @@ class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, View
     
     // MARK: - IBActions
     @IBAction func doneButtonClicked() {
-        vm.doneButtonClicked()
+        doneButton.isEnabled = false
+        vm.doneButtonClicked() {
+            self.dismiss()
+        }
     }
     
     // MARK: - Table Methods
@@ -50,7 +53,7 @@ class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, View
     }
     
     func dismiss() {
-        dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     func reload() {

@@ -43,10 +43,11 @@ struct SaleItemVM {
     }
     
     // MARK: - IBActions
-    mutating func doneButtonClicked() {
+    mutating func doneButtonClicked(_ completion: @escaping () -> Void) {
         saleItem.dateAdded = Date()
-        SaleItemImage.uploadSaleItemImages(saleItem.images) // TODO! maybe not asynch ?
         DatabaseManager.sharedInstance.createDocument(.items, saleItem)
+        SaleItemImage.uploadSaleItemImages(saleItem.images)
+        completion()
     }
     
     // MARK: - Table Methods
