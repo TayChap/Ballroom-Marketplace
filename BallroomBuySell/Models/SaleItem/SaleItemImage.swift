@@ -1,5 +1,5 @@
 //
-//  Image.swift
+//  SaleItemImage.swift
 //  BallroomBuySell
 //
 //  Created by Taylor Chapman on 2022-01-23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SaleItemImage: Codable { // Image is a class to make fetching and updating images asynchronously more managable
+struct SaleItemImage: Codable {
     let id: String
     var data: Data?
     
@@ -15,13 +15,8 @@ class SaleItemImage: Codable { // Image is a class to make fetching and updating
         case id
     }
     
-    init(url: String, data: Data?) {
-        self.id = url
-        self.data = data
-    }
-    
     // MARK: - Public Helpers
-    static func uploadSaleItemImages(_ images: [SaleItemImage]) {
+    static func uploadImages(_ images: [SaleItemImage]) {
         for image in images {
             guard let data = image.data else {
                 return
@@ -31,20 +26,26 @@ class SaleItemImage: Codable { // Image is a class to make fetching and updating
         }
     }
     
-    /// This method retrieves and adds image data to the images array based on the image URLs
-    static func downloadSaleItemImages(_ images: [SaleItemImage], _ completion: @escaping () -> Void) {
-        for image in images {
-            FileSystemManager.getFile(at: saleItemFolder(image.id)) { data in
-                image.data = data
-                if images.allSatisfy({ $0.data != nil }) {
-                    completion()
-                }
+    static func downloadImages(_ imageIDs: [String], _ completion: @escaping (_ images: [SaleItemImage]) -> Void) {
+        var fetchedImages = [SaleItemImage]()
+        func checkCompletion() {
+            if fetchedImages.count == imageIDs.count {
+                completion(fetchedImages)
+            }
+        }
+        
+        checkCompletion()
+        
+        for imageID in imageIDs {
+            FileSystemManager.getFile(at: getURL(imageID)) { data in
+                fetchedImages.append(SaleItemImage(id: imageID, data: data))
+                checkCompletion()
             }
         }
     }
     
     // MARK: - Private Methods
-    private static func saleItemFolder(_ id: String) -> String {
+    private static func getURL(_ id: String) -> String {
         "saleItems/\(id)"
     }
 }

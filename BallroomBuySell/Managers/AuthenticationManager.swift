@@ -29,7 +29,7 @@ struct AuthenticationManager {
             }
             
             // update user profile photo
-            SaleItemImage.uploadSaleItemImages([photo])
+            SaleItemImage.uploadImages([photo])
             
             // update displayName after user created
             let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()

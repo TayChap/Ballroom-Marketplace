@@ -8,15 +8,24 @@
 import Foundation
 
 struct MessageThread: Codable {
-    enum QueryFields: String {
+    // MARK: - Server Properties
+    enum CodingKeys: String, CodingKey {
+        case id, userIds, userImageURLs, saleItemId, messages
+    }
+    
+    enum QueryKeys: String {
         case userIds
     }
     
     var id = UUID().uuidString
-    let userIds: [String]
-    var userImageURLs: [String: String] // [id: url]
+    let userIds: Set<String>
+    var userImageURLs: Set<String>
     let saleItemId: String
     var messages: [Message] = []
     
-    // TODO! message thread should contain LOCAL ONLY sale item info fetched from id (?)
+    // MARK: - Local Properties
+    var saleItem: SaleItem?
+    
+    // MARK: - Public Helpers
+    
 }

@@ -10,25 +10,27 @@ import MessageKit
 
 class MessageThreadVM { // TODO! change back to struct ?
     private weak var delegate: ViewControllerProtocol?
+    
+    // TODO! likely too many variables so requires refactor
     private var thread: MessageThread
+    private let saleItem: SaleItem
     private let user: User
     private let templates: [SaleItemTemplate]
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, _ thread: MessageThread, _ user: User, _ templates: [SaleItemTemplate]) {
+    init(_ owner: ViewControllerProtocol, _ thread: MessageThread, _ saleItem: SaleItem, _ user: User, _ templates: [SaleItemTemplate]) {
         delegate = owner
         self.thread = thread
+        self.saleItem = saleItem
         self.user = user
         self.templates = templates
         
-        if self.thread.userImageURLs.allSatisfy({ $0.key != user.id }) {
-            self.thread.userImageURLs[user.id] = user.photoURL // if first time accessing thread, add profile image
-        }
+        self.thread.userImageURLs.insert(user.photoURL)
     }
     
     // MARK: - IBActions
     func infoButtonClicked() {
-        //ViewItemVC.createViewController(templates, saleItem)
+        delegate?.presentViewController(ViewItemVC.createViewController(templates, saleItem))
     }
     
     // MARK: - MessagesDataSource
@@ -45,11 +47,11 @@ class MessageThreadVM { // TODO! change back to struct ?
     }
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
-        guard let imageURL = thread.userImageURLs.first(where: { $0.key == message.sender.senderId }) else {
+        guard let imageURL = thread.userImageURLs.first(where: { $0 == message.sender.senderId }) else {
             return
         }
         
-        ImageManager.sharedInstance.downloadImage(at: imageURL.value) { data in
+        ImageManager.sharedInstance.downloadImage(at: imageURL) { data in
             avatarView.image = UIImage(data: data)
         }
     }

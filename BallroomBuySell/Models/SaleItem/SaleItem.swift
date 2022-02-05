@@ -9,9 +9,10 @@ import Foundation
 
 struct SaleItem: Codable {
     enum QueryKeys: String {
-        case dateAdded
+        case id, dateAdded
     }
     
+    var id = UUID().uuidString
     var dateAdded: Date? = nil
     var userId: String
     var images = [SaleItemImage]()

@@ -48,6 +48,11 @@ struct InboxVM {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.pushViewController(MessageThreadVC.createViewController(screenStructure[indexPath.row], user, templates))
+        let thread = screenStructure[indexPath.row]
+        guard let saleItem = thread.saleItem else {
+            return
+        }
+        
+        delegate?.pushViewController(MessageThreadVC.createViewController(thread, saleItem, user, templates))
     }
 }

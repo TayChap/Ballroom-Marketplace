@@ -41,7 +41,7 @@ struct BuyVM {
             return
         }
         
-        DatabaseManager.sharedInstance.getThreads(with: user.id) { threads in
+        DatabaseManager.sharedInstance.getThreads(for: user.id) { threads in
             delegate?.pushViewController(InboxVC.createViewController(user, threads, templates))
         }
     }
@@ -85,9 +85,10 @@ struct BuyVM {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == Section.recentItems.rawValue {
-            let saleItem = saleItems[indexPath.row]
-            SaleItemImage.downloadSaleItemImages(saleItem.images) {
+            var saleItem = saleItems[indexPath.row]
+            SaleItemImage.downloadImages(saleItem.images.map({ $0.id })) { images in
                 if !templates.isEmpty {
+                    saleItem.images = images
                     delegate?.pushViewController(ViewItemVC.createViewController(templates, saleItem))
                 }
             }
