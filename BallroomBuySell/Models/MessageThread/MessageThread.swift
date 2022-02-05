@@ -16,5 +16,6 @@ struct MessageThread: Codable {
     var userIds: Set<String>
     let saleItemId: String
     let imageURL: String
+    let title: String
     var messages: [Message] = []
 }

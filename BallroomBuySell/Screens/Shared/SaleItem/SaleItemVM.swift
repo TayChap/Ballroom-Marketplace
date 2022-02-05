@@ -125,7 +125,8 @@ struct SaleItemVM {
         
         delegate?.pushViewController(MessageThreadVC.createViewController(MessageThread(userIds: [user.id, saleItem.userId],
                                                                                         saleItemId: saleItem.id,
-                                                                                        imageURL: saleItem.images.first?.url ?? ""),
+                                                                                        imageURL: saleItem.images.first?.url ?? "",
+                                                                                        title: saleItem.fields[SaleItemTemplate.serverKey] ?? ""),
                                                                           user,
                                                                           templates))
     }

@@ -40,14 +40,14 @@ struct InboxVM {
         
         guard
             let cell = InboxTableCell.createCell(tableView),
-            let preview = thread.messages.last?.content
+            let lastMessage = thread.messages.last
         else {
             return UITableViewCell()
         }
         
         cell.configureCell(InboxCellDM(imageURL: thread.imageURL,
-                                       userDisplayName: thread.messages.filter({ $0.displayName != user.displayName }).first?.displayName ?? "",
-                                       messagePreview: preview))
+                                       title: thread.title,
+                                       lastMessage: lastMessage))
         return cell
     }
     
