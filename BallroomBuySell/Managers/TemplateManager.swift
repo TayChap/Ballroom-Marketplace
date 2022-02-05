@@ -5,7 +5,6 @@
 //  Created by Taylor Chapman on 2022-01-08.
 //
 
-/// TODO! describe purpose of class and meaning of word Template
 struct TemplateManager {
     // MARK: - Public Helpers
     static func refreshTemplates(_ completion: @escaping (_ templates: [SaleItemTemplate]) -> Void) {

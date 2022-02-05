@@ -14,17 +14,24 @@ struct BuyVM {
     
     private weak var delegate: ViewControllerProtocol?
     private var templates = [SaleItemTemplate]()
-    var saleItems = [SaleItem]() // TODO! private?
+    private var saleItems = [SaleItem]()
+    private var maxRecentItems: Int { 20 }
     
     // MARK: - Lifecycle Methods
     init(_ delegate: ViewControllerProtocol) {
         self.delegate = delegate
     }
     
-    func viewDidLoad(_ collectionView: UICollectionView) {
+    func viewDidLoad(_ collectionView: UICollectionView, _ completion: @escaping (_ templates: [SaleItemTemplate], _ saleItems: [SaleItem]) -> Void) {
         collectionView.collectionViewLayout = createCollectionViewLayout()
         SaleItemCollectionCell.registerCell(collectionView)
         BuySectionHeader.registerCell(collectionView)
+        
+        TemplateManager.refreshTemplates { templates in
+            DatabaseManager.sharedInstance.getRecentSaleItems(for: maxRecentItems) { items in
+                completion(templates, items)
+            }
+        }
     }
     
     // MARK: - IBActions
@@ -47,6 +54,15 @@ struct BuyVM {
     }
     
     // MARK: - CollectionView Methods
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let sectionHeader = BuySectionHeader.createCell(collectionView, ofKind: kind, for: indexPath) else {
+            return UICollectionReusableView()
+        }
+        
+        sectionHeader.configureCell(indexPath.section == 0 ? "recent_items" : "categories")
+        return sectionHeader
+    }
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         Section.allCases.count
     }
@@ -101,8 +117,9 @@ struct BuyVM {
     }
     
     // MARK: - Public Helpers
-    mutating func onTemplatesFetched(_ templates: [SaleItemTemplate]) {
-        self.templates = templates
+    mutating func onItemsFetched(_ templatesFetched: [SaleItemTemplate], _ saleItemsFetched: [SaleItem]) {
+        templates = templatesFetched
+        saleItems = saleItemsFetched
     }
     
     // MARK: - Private Helpers

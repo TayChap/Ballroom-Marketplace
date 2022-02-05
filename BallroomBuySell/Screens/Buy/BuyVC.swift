@@ -13,20 +13,13 @@ class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDeleg
     @IBOutlet weak var collectionView: UICollectionView!
     private var vm: BuyVM!
     
-    private var maxItems: Int { 5 } // TODO! in VM
-    
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         vm = BuyVM(self)
-        vm.viewDidLoad(collectionView)
-        
-        TemplateManager.refreshTemplates { templates in // TODO! in VM ?
-            self.vm.onTemplatesFetched(templates)
-            DatabaseManager.sharedInstance.getRecentSaleItems(for: self.maxItems) { saleItems in
-                self.vm.saleItems = saleItems
-                self.reload()
-            }
+        vm.viewDidLoad(collectionView) { templates, saleItems in
+            self.vm.onItemsFetched(templates, saleItems)
+            self.reload()
         }
     }
     
@@ -41,12 +34,7 @@ class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDeleg
     
     // MARK: - CollectionView Methods
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let sectionHeader = BuySectionHeader.createCell(collectionView, ofKind: kind, for: indexPath) else {
-            return UICollectionReusableView()
-        }
-        
-        sectionHeader.configureCell("blah blah")
-        return sectionHeader
+        vm.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {

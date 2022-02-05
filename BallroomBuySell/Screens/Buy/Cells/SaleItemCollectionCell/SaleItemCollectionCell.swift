@@ -16,7 +16,7 @@ class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
         let identifier = String(describing: SaleItemCollectionCell.self)
         collectionView.register(UINib(nibName: identifier, bundle: nil), forCellWithReuseIdentifier: identifier)
     }
-
+    
     static func createCell(_ collectionView: UICollectionView, for indexPath: IndexPath) -> SaleItemCollectionCell? {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: SaleItemCollectionCell.self), for: indexPath) as? SaleItemCollectionCell else {
             assertionFailure("Can't Find Cell")
