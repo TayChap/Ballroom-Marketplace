@@ -23,7 +23,7 @@ class CategoryCollectionCell: UICollectionViewCell, CollectionCellProtocol  {
     func configureCell(_ dm: CategoryCollectionCellDM) {
         clearContent()
         
-        ImageManager.sharedInstance.downloadImage(at: "tempates/\(dm.imageURL).png") { [weak self] image in // weak self because cell might be deallocated before network call returns
+        ImageManager.sharedInstance.downloadImage(at: dm.imageURL) { [weak self] image in // weak self because cell might be deallocated before network call returns
             self?.categoryImageView.image = UIImage(data: image)
         }
         

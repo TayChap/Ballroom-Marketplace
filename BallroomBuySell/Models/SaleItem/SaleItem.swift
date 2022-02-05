@@ -15,6 +15,6 @@ struct SaleItem: Codable {
     var id = UUID().uuidString
     var dateAdded: Date? = nil
     var userId: String
-    var images = [SaleItemImage]()
+    var images = [Image]()
     var fields: [String: String] = [:] // [serverKey: value]
 }

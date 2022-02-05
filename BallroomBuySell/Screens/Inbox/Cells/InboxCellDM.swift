@@ -8,8 +8,7 @@
 import UIKit
 
 struct InboxCellDM {
-    let saleItemImage: UIImage
+    let imageURL: String
     let userDisplayName: String
-    let saleItem: String
     let messagePreview: String
 }

@@ -11,13 +11,14 @@ struct Message: Codable, MessageType {
     let content: String
     
     // MessageType
-    let messageId: String
+    var messageId = UUID().uuidString
+    let senderId: String
     let sentDate: Date
-    let senderId: String // user UID
+    let imageURL: String
     let displayName: String
     
     var sender: SenderType {
-        Sender(senderId: senderId, displayName: displayName)
+        Sender(senderId: senderId, displayName: displayName, imageURL: imageURL)
     }
     
     var kind: MessageKind {

@@ -40,7 +40,7 @@ struct SignUpVM {
     }
     
     weak var delegate: ViewControllerProtocol?
-    private var photo: SaleItemImage?
+    private var photo: Image?
     private var dm = [SignUpItem: String]()
     
     // MARK: - Lifecycle Methods
@@ -116,7 +116,7 @@ struct SignUpVM {
     
     // MARK: - ImageCellDelegate
     mutating func newImage(_ data: Data) {
-        photo = SaleItemImage(id: UUID().uuidString, data: data)
+        photo = Image(url: "images/\(UUID().uuidString)", data: data)
     }
     
     mutating func deleteImage(at index: Int) {

@@ -13,9 +13,9 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
     private var vm: MessageThreadVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController(_ thread: MessageThread, _ saleItem: SaleItem, _ user: User, _ templates: [SaleItemTemplate]) -> UIViewController {
+    static func createViewController(_ thread: MessageThread, _ user: User, _ templates: [SaleItemTemplate]) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = MessageThreadVM(vc, thread, saleItem, user, templates)
+        vc.vm = MessageThreadVM(vc, thread, user, templates)
         return vc
     }
     

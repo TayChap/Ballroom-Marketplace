@@ -1,5 +1,5 @@
 //
-//  SaleItemImage.swift
+//  Image.swift
 //  BallroomBuySell
 //
 //  Created by Taylor Chapman on 2022-01-23.
@@ -8,11 +8,11 @@
 import Foundation
 
 struct Image: Codable {
-    private let id: String
+    let url: String
     var data: Data?
     
     enum CodingKeys: String, CodingKey {
-        case id
+        case url // omit data in Firestore (stored on cloud storage instead)
     }
     
     // MARK: - Public Helpers
@@ -22,30 +22,25 @@ struct Image: Codable {
                 return
             }
             
-            FileSystemManager.putFile(data, at: image.id)
+            FileSystemManager.putFile(data, at: image.url)
         }
     }
     
-    static func downloadImages(_ imageIDs: [String], _ completion: @escaping (_ images: [Image]) -> Void) {
+    static func downloadImages(_ imageURLs: [String], _ completion: @escaping (_ images: [Image]) -> Void) {
         var fetchedImages = [Image]()
         func checkCompletion() {
-            if fetchedImages.count == imageIDs.count {
+            if fetchedImages.count == imageURLs.count {
                 completion(fetchedImages)
             }
         }
         
         checkCompletion()
         
-        for imageID in imageIDs {
-            FileSystemManager.getFile(at: getURL(imageID)) { data in
-                fetchedImages.append(Image(id: imageID, data: data))
+        for imageURL in imageURLs {
+            FileSystemManager.getFile(at: imageURL) { data in
+                fetchedImages.append(Image(url: imageURL, data: data))
                 checkCompletion()
             }
         }
-    }
-    
-    // MARK: - Private Methods
-    private static func getURL(_ id: String) -> String {
-        "saleItems/\(id)"
     }
 }

@@ -21,7 +21,7 @@ class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDeleg
         vm = BuyVM(self)
         vm.viewDidLoad(collectionView)
         
-        TemplateManager().refreshTemplates { templates in // TODO! in VM ?
+        TemplateManager.refreshTemplates { templates in // TODO! in VM ?
             self.vm.onTemplatesFetched(templates)
             DatabaseManager.sharedInstance.getRecentSaleItems(for: self.maxItems) { saleItems in
                 self.vm.saleItems = saleItems

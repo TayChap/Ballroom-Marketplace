@@ -11,17 +11,16 @@ struct AuthenticationManager {
     var user: User? {
         guard
             let user = Auth.auth().currentUser,
-            let email = user.email,
             let photoURL = user.photoURL,
             let displayName = user.displayName
         else {
             return nil
         }
         
-        return User(id: user.uid, email: email, photoURL: photoURL.absoluteString, displayName: displayName)
+        return User(id: user.uid, photoURL: photoURL.absoluteString, displayName: displayName)
     }
     
-    func createUser(email: String, password: String, displayName: String, photo: SaleItemImage, completion: @escaping () -> Void, onFail: @escaping (_ errorMessage: String) -> Void) {
+    func createUser(email: String, password: String, displayName: String, photo: Image, completion: @escaping () -> Void, onFail: @escaping (_ errorMessage: String) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error {
                 onFail(getErrorMessage(error))
@@ -29,12 +28,12 @@ struct AuthenticationManager {
             }
             
             // update user profile photo
-            SaleItemImage.uploadImages([photo])
+            Image.uploadImages([photo])
             
             // update displayName after user created
             let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
             changeRequest?.displayName = displayName
-            changeRequest?.photoURL = URL(string: photo.id)
+            changeRequest?.photoURL = URL(string: photo.url)
             changeRequest?.commitChanges { error in
                 if let error = error {
                     onFail(getErrorMessage(error))

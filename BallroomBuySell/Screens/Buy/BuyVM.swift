@@ -61,7 +61,7 @@ struct BuyVM {
             
             guard
                 let cell = SaleItemCollectionCell.createCell(collectionView, for: indexPath),
-                let coverImageURL = cellData.images.first?.id
+                let coverImageURL = cellData.images.first?.url
             else {
                 return UICollectionViewCell()
             }
@@ -86,7 +86,7 @@ struct BuyVM {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == Section.recentItems.rawValue {
             var saleItem = saleItems[indexPath.row]
-            SaleItemImage.downloadImages(saleItem.images.map({ $0.id })) { images in
+            Image.downloadImages(saleItem.images.map({ $0.url })) { images in
                 if !templates.isEmpty {
                     saleItem.images = images
                     delegate?.pushViewController(ViewItemVC.createViewController(templates, saleItem))
@@ -117,10 +117,6 @@ struct BuyVM {
     }
     
     private func pushSaleItemList(with filter: String? = nil) {
-        guard !templates.isEmpty else  {
-            return
-        }
-        
         var templateFilter = (key: "fields.\(SaleItemTemplate.serverKey)", value: "shoes") // TODO!
         
         DatabaseManager.sharedInstance.getSaleItems(where: templateFilter) { filteredSaleItems in

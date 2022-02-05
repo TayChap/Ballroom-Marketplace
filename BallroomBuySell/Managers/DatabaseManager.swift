@@ -55,31 +55,8 @@ struct DatabaseManager {
     
     func getThreads(for userId: String, _ completion: @escaping ([MessageThread]) -> Void) {
         let query = db.collection(Collection.threads.rawValue).whereField(MessageThread.QueryKeys.userIds.rawValue, arrayContains: userId)
-        getDocuments(query, of: MessageThread.self) { threadsWithoutSaleItems in
-            var threadsWithSaleItem = [MessageThread]()
-            func checkCompletion() -> Void {
-                if threadsWithSaleItem.count == threadsWithoutSaleItems.count {
-                    completion(threadsWithSaleItem)
-                }
-            }
-            
-            checkCompletion() // handle case where threads is empty
-            
-            for thread in threadsWithoutSaleItems {
-                DatabaseManager.sharedInstance.getSaleItems(where: ("id", thread.saleItemId)) { saleItems in
-                    guard let saleItem = saleItems.first else {
-                        return
-                    }
-                    
-                    // create new thread object and add sale item
-                    var threadWithSaleItem = thread
-                    threadWithSaleItem.saleItem = saleItem
-                    
-                    // append new thread object and check if all calls completed
-                    threadsWithSaleItem.append(threadWithSaleItem)
-                    checkCompletion()
-                }
-            }
+        getDocuments(query, of: MessageThread.self) { threads in
+            completion(threads)
         }
     }
     

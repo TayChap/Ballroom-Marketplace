@@ -26,13 +26,16 @@ class InboxTableCell: UITableViewCell, TableCellProtocol {
     func configureCell(_ dm: InboxCellDM) {
         clearContent()
         
-        saleItemImage.image = dm.saleItemImage
+        ImageManager.sharedInstance.downloadImage(at: dm.imageURL) { [weak self] image in // weak self because cell might be deallocated before network call returns
+            self?.saleItemImage.image = UIImage(data: image)
+        }
+        
         userLabel.text = dm.userDisplayName
-        itemLabel.text = dm.saleItem
         messagePreviewLabel.text = dm.messagePreview
     }
     
     func clearContent() {
+        saleItemImage.image = nil
         userLabel.text = ""
         itemLabel.text = ""
         messagePreviewLabel.text = ""

@@ -43,11 +43,10 @@ struct SaleItemVM {
     }
     
     // MARK: - IBActions
-    mutating func doneButtonClicked(_ completion: @escaping () -> Void) {
+    mutating func doneButtonClicked() {
         saleItem.dateAdded = Date()
         DatabaseManager.sharedInstance.createDocument(.items, saleItem)
-        SaleItemImage.uploadImages(saleItem.images)
-        completion()
+        Image.uploadImages(saleItem.images)
     }
     
     // MARK: - Table Methods
@@ -110,7 +109,7 @@ struct SaleItemVM {
     
     // MARK: - ImageCellDelegate
     mutating func newImage(_ data: Data) {
-        saleItem.images.append(SaleItemImage(id: UUID().uuidString, data: data))
+        saleItem.images.append(Image(url: "images/\(UUID().uuidString)", data: data))
     }
     
     mutating func deleteImage(at index: Int) {
@@ -125,9 +124,8 @@ struct SaleItemVM {
         }
         
         delegate?.pushViewController(MessageThreadVC.createViewController(MessageThread(userIds: [user.id, saleItem.userId],
-                                                                                        userImageURLs: [user.photoURL],
-                                                                                        saleItemId: saleItem.id),
-                                                                          saleItem,
+                                                                                        saleItemId: saleItem.id,
+                                                                                        imageURL: saleItem.images.first?.url ?? ""),
                                                                           user,
                                                                           templates))
     }

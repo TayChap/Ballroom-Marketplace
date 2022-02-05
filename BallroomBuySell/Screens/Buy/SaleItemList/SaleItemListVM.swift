@@ -36,10 +36,9 @@ struct SaleItemListVM {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellData = saleItems[indexPath.item]
-        
         guard
             let cell = SaleItemCollectionCell.createCell(collectionView, for: indexPath),
-            let coverImageURL = cellData.images.map({ $0.id }).first
+            let coverImageURL = cellData.images.map({ $0.url }).first
         else {
             return UICollectionViewCell()
         }

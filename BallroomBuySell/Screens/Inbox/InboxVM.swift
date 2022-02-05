@@ -36,23 +36,23 @@ struct InboxVM {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
-        guard let cell = InboxTableCell.createCell(tableView) else {
+        let thread = screenStructure[indexPath.row]
+        
+        guard
+            let cell = InboxTableCell.createCell(tableView),
+            let preview = thread.messages.last?.content
+        else {
             return UITableViewCell()
         }
         
-        cell.configureCell(InboxCellDM(saleItemImage: UIImage(),
-                                       userDisplayName: "display",
-                                       saleItem: "sale",
-                                       messagePreview: "preview"))
+        cell.configureCell(InboxCellDM(imageURL: thread.imageURL,
+                                       userDisplayName: thread.messages.filter({ $0.displayName != user.displayName }).first?.displayName ?? "",
+                                       messagePreview: preview))
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let thread = screenStructure[indexPath.row]
-        guard let saleItem = thread.saleItem else {
-            return
-        }
-        
-        delegate?.pushViewController(MessageThreadVC.createViewController(thread, saleItem, user, templates))
+        delegate?.pushViewController(MessageThreadVC.createViewController(thread, user, templates))
     }
 }

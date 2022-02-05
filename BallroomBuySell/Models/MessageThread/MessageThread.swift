@@ -8,24 +8,13 @@
 import Foundation
 
 struct MessageThread: Codable {
-    // MARK: - Server Properties
-    enum CodingKeys: String, CodingKey {
-        case id, userIds, userImageURLs, saleItemId, messages
-    }
-    
     enum QueryKeys: String {
         case userIds
     }
     
     var id = UUID().uuidString
-    let userIds: Set<String>
-    var userImageURLs: Set<String>
+    var userIds: Set<String>
     let saleItemId: String
+    let imageURL: String
     var messages: [Message] = []
-    
-    // MARK: - Local Properties
-    var saleItem: SaleItem?
-    
-    // MARK: - Public Helpers
-    
 }
