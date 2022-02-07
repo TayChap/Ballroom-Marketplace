@@ -11,6 +11,10 @@ import FirebaseFirestoreSwift
 struct DatabaseManager {
     enum Collection: String {
         case templates, items, threads
+        
+        var collectionId: String {
+            "\(Environment.current.rawValue)-\(self.rawValue)"
+        }
     }
     
     static let sharedInstance = DatabaseManager()
@@ -23,11 +27,11 @@ struct DatabaseManager {
     func createDocument<T: Codable>(_ collection: Collection, _ data: T, _ documentId: String? = nil) {
         do {
             guard let documentId = documentId else {
-                try db.collection(collection.rawValue).document().setData(from: data)
+                try db.collection(collection.collectionId).document().setData(from: data)
                 return
             }
             
-            try db.collection(collection.rawValue).document(documentId).setData(from: data)
+            try db.collection(collection.collectionId).document(documentId).setData(from: data)
           }
           catch {
             print(error)
@@ -35,17 +39,17 @@ struct DatabaseManager {
     }
     
     func getTemplates(_ completion: @escaping ([SaleItemTemplate]) -> Void) {
-        getDocuments(db.collection(Collection.templates.rawValue), of: SaleItemTemplate.self, completion)
+        getDocuments(db.collection(Collection.templates.collectionId), of: SaleItemTemplate.self, completion)
     }
     
     func getRecentSaleItems(for maxItems: Int, _ completion: @escaping ([SaleItem]) -> Void) {
-        let reference = db.collection(Collection.items.rawValue)
+        let reference = db.collection(Collection.items.collectionId)
         getDocuments(reference.order(by: SaleItem.QueryKeys.dateAdded.rawValue, descending: true).limit(to: maxItems), of: SaleItem.self, completion)
         
     }
     
     func getSaleItems(where equalsRelationship: (key: String, value: String)? = nil, _ completion: @escaping ([SaleItem]) -> Void) { // TODO! refactor tuple weirdness
-        var reference = db.collection(Collection.items.rawValue) as Query
+        var reference = db.collection(Collection.items.collectionId) as Query
         if let keyValue = equalsRelationship {
             reference = reference.whereField(keyValue.key, isEqualTo: keyValue.value)
         }
@@ -54,7 +58,7 @@ struct DatabaseManager {
     }
     
     func getThreads(for userId: String, _ completion: @escaping ([MessageThread]) -> Void) {
-        let query = db.collection(Collection.threads.rawValue).whereField(MessageThread.QueryKeys.userIds.rawValue, arrayContains: userId)
+        let query = db.collection(Collection.threads.collectionId).whereField(MessageThread.QueryKeys.userIds.rawValue, arrayContains: userId)
         getDocuments(query, of: MessageThread.self) { threads in
             completion(threads)
         }
@@ -82,13 +86,13 @@ struct DatabaseManager {
     func deleteDocuments(in collection: Collection, _ completion: @escaping () -> Void) {
         // TODO! add DEBUG flag here (not for release)
         
-        db.collection(collection.rawValue).getDocuments { querySnapshot, error  in
+        db.collection(collection.collectionId).getDocuments { querySnapshot, error  in
             guard let docs = querySnapshot?.documents else {
                 return
             }
             
             for doc in docs {
-                db.collection(collection.rawValue).document(doc.documentID).delete()
+                db.collection(collection.collectionId).document(doc.documentID).delete()
             }
             
             completion()

@@ -6,6 +6,10 @@
 //
 
 struct TemplateManager {
+    private static var imageURLPrefix: String {
+        "\(Environment.current.rawValue)/templates/"
+    }
+    
     // MARK: - Public Helpers
     static func refreshTemplates(_ completion: @escaping (_ templates: [SaleItemTemplate]) -> Void) {
         DatabaseManager.sharedInstance.getTemplates { templates in
@@ -33,7 +37,7 @@ struct TemplateManager {
     private static func getTailsuitTemplate() -> SaleItemTemplate {
         SaleItemTemplate(id: "tailsuit",
                          name: "tailsuit_key",
-                         imageURL: "templates/tailsuit",
+                         imageURL: "\(imageURLPrefix)tailsuit",
                          screenStructure: [SaleItemCellStructure(type: .picker,
                                                                  inputType: InputType.standard,
                                                                  serverKey: "picker",
@@ -58,7 +62,7 @@ struct TemplateManager {
     private static func getShoesTemplate() -> SaleItemTemplate {
         SaleItemTemplate(id: "shoes",
                          name: "shoes_key",
-                         imageURL: "templates/shoes",
+                         imageURL: "\(imageURLPrefix)shoes",
                          screenStructure: [SaleItemCellStructure(type: .picker,
                                                                  inputType: InputType.standard,
                                                                  serverKey: "picker",

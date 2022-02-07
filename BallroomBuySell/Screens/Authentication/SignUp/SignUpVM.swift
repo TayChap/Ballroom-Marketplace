@@ -116,7 +116,7 @@ struct SignUpVM {
     
     // MARK: - ImageCellDelegate
     mutating func newImage(_ data: Data) {
-        photo = Image(url: "images/\(UUID().uuidString)", data: data)
+        photo = Image(data: data)
     }
     
     mutating func deleteImage(at index: Int) {

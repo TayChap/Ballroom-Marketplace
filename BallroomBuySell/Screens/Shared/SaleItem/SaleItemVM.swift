@@ -109,7 +109,7 @@ struct SaleItemVM {
     
     // MARK: - ImageCellDelegate
     mutating func newImage(_ data: Data) {
-        saleItem.images.append(Image(url: "images/\(UUID().uuidString)", data: data))
+        saleItem.images.append(Image(data: data))
     }
     
     mutating func deleteImage(at index: Int) {

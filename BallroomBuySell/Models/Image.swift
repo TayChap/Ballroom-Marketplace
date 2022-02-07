@@ -8,7 +8,7 @@
 import Foundation
 
 struct Image: Codable {
-    let url: String
+    var url = "\(Environment.current.rawValue)/images/\(UUID().uuidString)"
     var data: Data?
     
     enum CodingKeys: String, CodingKey {

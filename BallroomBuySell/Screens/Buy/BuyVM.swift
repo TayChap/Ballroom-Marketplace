@@ -27,6 +27,7 @@ struct BuyVM {
         SaleItemCollectionCell.registerCell(collectionView)
         BuySectionHeader.registerCell(collectionView)
         
+        // refresh templates and pull most recent sale items
         TemplateManager.refreshTemplates { templates in
             DatabaseManager.sharedInstance.getRecentSaleItems(for: maxRecentItems) { items in
                 completion(templates, items)
