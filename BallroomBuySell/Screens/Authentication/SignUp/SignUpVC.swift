@@ -7,14 +7,16 @@
 
 import UIKit
 
-class SignUpVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, TextFieldCellDelegate {
+class SignUpVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, ImageCellDelegate, TextFieldCellDelegate {
     @IBOutlet weak var signUpButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
-    private var vm = SignUpVM()
+    private var vm: SignUpVM!
     
     // MARK: - Lifecycle Methods
     static func createViewController() -> UIViewController {
-        UIViewController.getVC(from: .main, of: self)
+        let vc = UIViewController.getVC(from: .authentication, of: self)
+        vc.vm = SignUpVM(vc)
+        return vc
     }
     
     override func viewDidLoad() {
@@ -42,6 +44,21 @@ class SignUpVC: UIViewController, UITableViewDataSource, ViewControllerProtocol,
     // MARK: - ViewControllerProtocol
     func dismiss() {
         dismiss(animated: true)
+    }
+    
+    func reload() {
+        tableView.reloadData()
+    }
+    
+    // MARK: - ImageCellDelegate
+    func newImage(_ data: Data) {
+        vm.newImage(data)
+        reload()
+    }
+    
+    func deleteImage(at index: Int) {
+        vm.deleteImage(at: index)
+        reload()
     }
     
     // MARK: - TextFieldCellDelegate

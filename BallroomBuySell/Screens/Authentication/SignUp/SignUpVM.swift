@@ -9,12 +9,14 @@ import UIKit
 
 struct SignUpVM {
     enum SignUpItem: CaseIterable {
+        case photo
         case email
         case displayName
         case password
         
         var text: String {
             switch self {
+            case .photo: return "photo"
             case .email: return "email"
             case .displayName: return "name"
             case .password: return "password"
@@ -24,8 +26,8 @@ struct SignUpVM {
         var type: InputType {
             switch self {
             case .email: return .email
-            case .displayName: return .standard
             case .password: return .password
+            default: return .standard
             }
         }
         
@@ -37,22 +39,27 @@ struct SignUpVM {
         }
     }
     
+    weak var delegate: ViewControllerProtocol?
+    private var photo: Image?
     private var dm = [SignUpItem: String]()
     
     // MARK: - Lifecycle Methods
-    init() {
+    init(_ delegate: ViewControllerProtocol) {
+        self.delegate = delegate
         for item in SignUpItem.allCases {
             dm[item] = ""
         }
     }
     
     func viewDidLoad(_ tableView: UITableView) {
+        ImageTableCell.registerCell(tableView)
         TextFieldTableCell.registerCell(tableView)
     }
     
     // MARK: - IBActions
     func signUpButtonClicked(_ delegate: ViewControllerProtocol, _ enableButton: @escaping () -> Void) {
         guard // validity of email and password checked on server side
+            let photo = photo,
             let email = dm[SignUpItem.email],
             let password = dm[SignUpItem.password],
             let displayName = dm[SignUpItem.displayName], !displayName.isEmpty
@@ -62,7 +69,7 @@ struct SignUpVM {
             return
         }
         
-        AuthenticationManager().createUser(email: email, password: password, displayName: displayName) {
+        AuthenticationManager().createUser(email: email, password: password, displayName: displayName, photo: photo) {
             delegate.dismiss()
         } onFail: { errorMessage in
             delegate.showAlertWith(message: errorMessage)
@@ -76,17 +83,44 @@ struct SignUpVM {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
-        guard let cell = TextFieldTableCell.createCell(tableView) else {
-            return UITableViewCell()
-        }
-        
         let cellData = SignUpItem.allCases[indexPath.row]
-        cell.configureCell(TextFieldCellDM(inputType: cellData.type,
-                                           title: cellData.text,
-                                           detail: dm[cellData] ?? "",
-                                           returnKeyType: .done))
-        cell.delegate = owner as? TextFieldCellDelegate
-        return cell
+        switch cellData {
+        case .photo:
+            guard let cell = ImageTableCell.createCell(tableView) else {
+                return UITableViewCell()
+            }
+            
+            var images = [Data]()
+            if let image = photo?.data {
+                images.append(image)
+            }
+            
+            cell.configureCell(ImageCellDM(title: cellData.text,
+                                           images: images,
+                                           maxImages: 1))
+            cell.delegate = owner as? (ImageCellDelegate & UIViewController)
+            return cell
+        case .email, .displayName, .password:
+            guard let cell = TextFieldTableCell.createCell(tableView) else {
+                return UITableViewCell()
+            }
+            
+            cell.configureCell(TextFieldCellDM(inputType: cellData.type,
+                                               title: cellData.text,
+                                               detail: dm[cellData] ?? "",
+                                               returnKeyType: .done))
+            cell.delegate = owner as? TextFieldCellDelegate
+            return cell
+        }
+    }
+    
+    // MARK: - ImageCellDelegate
+    mutating func newImage(_ data: Data) {
+        photo = Image(url: "images/\(UUID().uuidString)", data: data)
+    }
+    
+    mutating func deleteImage(at index: Int) {
+        photo = nil
     }
     
     // MARK: - Public Helpers

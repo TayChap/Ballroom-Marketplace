@@ -16,7 +16,7 @@ class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
         let identifier = String(describing: SaleItemCollectionCell.self)
         collectionView.register(UINib(nibName: identifier, bundle: nil), forCellWithReuseIdentifier: identifier)
     }
-
+    
     static func createCell(_ collectionView: UICollectionView, for indexPath: IndexPath) -> SaleItemCollectionCell? {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: SaleItemCollectionCell.self), for: indexPath) as? SaleItemCollectionCell else {
             assertionFailure("Can't Find Cell")
@@ -29,7 +29,10 @@ class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
     func configureCell(_ dm: SaleItemCellDM) {
         clearContent()
         
-        coverImage.image = dm.image
+        ImageManager.sharedInstance.downloadImage(at: dm.imageURL) { [weak self] image in // weak self because cell might be deallocated before network call returns
+            self?.coverImage.image = UIImage(data: image)
+        }
+        
         priceLabel.text = dm.price
         dateLabel.text = dm.date.toReadableString()
         
@@ -40,13 +43,5 @@ class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
         coverImage.image = nil
         priceLabel.text = ""
         dateLabel.text = ""
-    }
-    
-    // MARK: - Private Methods
-    private func applyRoundedCorners() {
-        contentView.layer.cornerRadius = 20.0
-        contentView.layer.masksToBounds = true
-        layer.cornerRadius = 20.0
-        layer.masksToBounds = false
     }
 }

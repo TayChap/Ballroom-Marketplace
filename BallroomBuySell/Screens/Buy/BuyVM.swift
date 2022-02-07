@@ -8,67 +8,193 @@
 import UIKit
 
 struct BuyVM {
+    enum Section: Int, CaseIterable {
+        case recentItems, categories
+    }
+    
     private weak var delegate: ViewControllerProtocol?
-    private var templates: [SaleItemTemplate]?
-    var screenStructure = [SaleItem]()
+    private var templates = [SaleItemTemplate]()
+    private var saleItems = [SaleItem]()
+    private var maxRecentItems: Int { 20 }
     
     // MARK: - Lifecycle Methods
     init(_ delegate: ViewControllerProtocol) {
         self.delegate = delegate
     }
     
+    func viewDidLoad(_ collectionView: UICollectionView, _ completion: @escaping (_ templates: [SaleItemTemplate], _ saleItems: [SaleItem]) -> Void) {
+        collectionView.collectionViewLayout = createCollectionViewLayout()
+        SaleItemCollectionCell.registerCell(collectionView)
+        BuySectionHeader.registerCell(collectionView)
+        
+        TemplateManager.refreshTemplates { templates in
+            DatabaseManager.sharedInstance.getRecentSaleItems(for: maxRecentItems) { items in
+                completion(templates, items)
+            }
+        }
+    }
+    
     // MARK: - IBActions
     func sellButtonClicked() {
-        guard let templates = templates else {
-            // TODO! network error
-            return
-        }
-        
-        guard let _ = AuthenticationManager().user else {
-            delegate?.presentViewController(LoginVC.createViewController())
+        guard let _ = getUserOrPresentLogin(), !templates.isEmpty else {
             return
         }
         
         delegate?.pushViewController(SellVC.createViewController(templates))
     }
     
-    func profileButtonClicked() {
+    func inboxButtonClicked() {
+        guard let user = getUserOrPresentLogin(), !templates.isEmpty else {
+            return
+        }
+        
+        DatabaseManager.sharedInstance.getThreads(for: user.id) { threads in
+            delegate?.pushViewController(InboxVC.createViewController(user, threads, templates))
+        }
+    }
+    
+    // MARK: - CollectionView Methods
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let sectionHeader = BuySectionHeader.createCell(collectionView, ofKind: kind, for: indexPath) else {
+            return UICollectionReusableView()
+        }
+        
+        sectionHeader.configureCell(indexPath.section == 0 ? "recent_items" : "categories")
+        return sectionHeader
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        Section.allCases.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        section == Section.recentItems.rawValue ? saleItems.count : templates.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.section == Section.recentItems.rawValue {
+            let cellData = saleItems[indexPath.item]
+            
+            guard
+                let cell = SaleItemCollectionCell.createCell(collectionView, for: indexPath),
+                let coverImageURL = cellData.images.first?.url
+            else {
+                return UICollectionViewCell()
+            }
+            
+            cell.configureCell(SaleItemCellDM(imageURL: coverImageURL,
+                                              price: "$50.00",
+                                              date: cellData.dateAdded ?? Date()))
+            return cell
+        }
+        
+        // categories section
+        guard let cell = CategoryCollectionCell.createCell(collectionView, for: indexPath) else {
+            return UICollectionViewCell()
+        }
+        
+        let template = templates[indexPath.row]
+        cell.configureCell(CategoryCollectionCellDM(categoryTitle: template.name,
+                                                    imageURL: template.imageURL))
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == Section.recentItems.rawValue {
+            var saleItem = saleItems[indexPath.row]
+            Image.downloadImages(saleItem.images.map({ $0.url })) { images in
+                if !templates.isEmpty {
+                    saleItem.images = images
+                    delegate?.pushViewController(ViewItemVC.createViewController(templates, saleItem))
+                }
+            }
+            
+            return
+        }
+        
+        // categories section
+        pushSaleItemList(with: "filter_example") // TODO!
+    }
+    
+    // MARK: - Public Helpers
+    mutating func onItemsFetched(_ templatesFetched: [SaleItemTemplate], _ saleItemsFetched: [SaleItem]) {
+        templates = templatesFetched
+        saleItems = saleItemsFetched
+    }
+    
+    // MARK: - Private Helpers
+    private func getUserOrPresentLogin() -> User? {
         guard let user = AuthenticationManager().user else {
             delegate?.presentViewController(LoginVC.createViewController())
-            return
+            return nil
         }
         
-        delegate?.pushViewController(ProfileVC.createViewController(user))
+        return user
+
     }
     
-    // MARK: - Table Methods
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        screenStructure.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
-        UITableViewCell()
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath, _ viewController: ViewControllerProtocol) {
-        // TODO! refactor when switch to modern collection view
-//        var cellData = screenStructure[indexPath.row]
-//        let url = cellData.images.first?.url ?? ""
-//        ImageManager.sharedInstance.downloadImage(at: url) { data in
-//            cellData.images.insert(Image(url: url, data: data), at: 0)
-//            delegate?.pushViewController(ViewItemVC.createViewController(cellData))
-//        }
+    private func pushSaleItemList(with filter: String? = nil) {
+        var templateFilter = (key: "fields.\(SaleItemTemplate.serverKey)", value: "shoes") // TODO!
         
-        guard let templates = templates else  {
-            return
+        DatabaseManager.sharedInstance.getSaleItems(where: templateFilter) { filteredSaleItems in
+            delegate?.pushViewController(SaleItemListVC.createViewController(templates, filteredSaleItems))
         }
-        
-        // TODO! need to pass in some sort of filter item
-        delegate?.pushViewController(SaleItemListVC.createViewController(templates, screenStructure))
     }
     
-    // Public Helpers
-    mutating func onTemplatesFetched(_ templates: [SaleItemTemplate]) {
-        self.templates = templates
+    // MARK: - CompositionalLayout Methods
+    private func createCollectionViewLayout() -> UICollectionViewLayout {
+        UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+            switch Section.allCases[sectionIndex] {
+            case .recentItems: return self.generateRecentItemsLayout()
+            case .categories: return self.generateCategoriesLayout()
+            }
+        }
+    }
+    
+    private func generateRecentItemsLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalWidth(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(180),
+            heightDimension: .absolute(186))
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: groupSize,
+            subitem: item,
+            count: 1)
+        group.contentInsets = getGroupInsets()
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.boundarySupplementaryItems = [getSectionHeader()]
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0)
+        section.orthogonalScrollingBehavior = .groupPaging
+        return section
+    }
+    
+    private func generateCategoriesLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.5))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.contentInsets = getGroupInsets()
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.boundarySupplementaryItems = [getSectionHeader()]
+        return section
+    }
+    
+    private func getGroupInsets() -> NSDirectionalEdgeInsets {
+        NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+    }
+    
+    private func getSectionHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
+        NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                                                       heightDimension: .estimated(44)),
+                                                    elementKind: UICollectionView.elementKindSectionHeader,
+                                                    alignment: .top)
     }
 }

@@ -5,8 +5,8 @@
 //  Created by Taylor Chapman on 2022-01-07.
 //
 
-struct User {
-    let email: String
+struct User: Codable {
+    let id: String // database uid
+    let photoURL: String
     let displayName: String
-    // TODO! add optional profile image
 }

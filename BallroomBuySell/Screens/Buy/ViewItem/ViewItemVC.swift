@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewItemVC: UIViewController, UITableViewDataSource, ViewControllerProtocol {
+class ViewItemVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, ImageCellDelegate, ButtonCellDelegate {
     @IBOutlet weak var tableView: UITableView!
     private var vm: SaleItemVM!
     
@@ -39,5 +39,10 @@ class ViewItemVC: UIViewController, UITableViewDataSource, ViewControllerProtoco
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         vm.tableView(tableView, cellForRowAt: indexPath, self)
+    }
+    
+    // MARK: - ButtonCellDelegate
+    func buttonClicked() {
+        vm.buttonClicked()
     }
 }

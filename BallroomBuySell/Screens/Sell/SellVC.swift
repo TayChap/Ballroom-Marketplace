@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UITableViewDataSource, PickerCellDelegate, TextFieldCellDelegate, ImageTableCellDelegate {
+class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol, PickerCellDelegate, TextFieldCellDelegate, ImageCellDelegate {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     private var vm: SaleItemVM!
@@ -27,7 +27,9 @@ class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UIT
     
     // MARK: - IBActions
     @IBAction func doneButtonClicked() {
+        doneButton.isEnabled = false
         vm.doneButtonClicked()
+        dismiss()
     }
     
     // MARK: - Table Methods
@@ -40,7 +42,7 @@ class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UIT
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        view.endEditing(true)
+        view.endEditing(true) // dismiss keyboard on row selection
         vm.tableView(tableView, didSelectRowAt: indexPath, self)
     }
     
@@ -50,7 +52,7 @@ class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UIT
     }
     
     func dismiss() {
-        dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     func reload() {
@@ -68,7 +70,7 @@ class SellVC: UIViewController, ViewControllerProtocol, UITableViewDelegate, UIT
         setData(newText, for: cell)
     }
     
-    // MARK: - ImageTableCellDelegate
+    // MARK: - ImageCellDelegate
     func newImage(_ data: Data) {
         vm.newImage(data)
         reload()

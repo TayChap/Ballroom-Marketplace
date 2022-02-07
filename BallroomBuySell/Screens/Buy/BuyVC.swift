@@ -7,24 +7,19 @@
 
 import UIKit
 
-class BuyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol {
+class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ViewControllerProtocol {
     @IBOutlet weak var sellButton: UIBarButtonItem!
-    @IBOutlet weak var profileButton: UIBarButtonItem!
-    @IBOutlet weak var tableView: UITableView! // TODO! update to collection view
+    @IBOutlet weak var inboxButton: UIBarButtonItem!
+    @IBOutlet weak var collectionView: UICollectionView!
     private var vm: BuyVM!
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         vm = BuyVM(self)
-        
-        TemplateManager().refreshTemplates { templates in
-            self.vm.onTemplatesFetched(templates)
-            
-            DatabaseManager.sharedInstance.getSaleItems(where: (key: "fields.\(SaleItemTemplate.serverKey)", value: "shoes")) { saleItems in
-                self.vm.screenStructure = saleItems
-                self.reload()
-            }
+        vm.viewDidLoad(collectionView) { templates, saleItems in
+            self.vm.onItemsFetched(templates, saleItems)
+            self.reload()
         }
     }
     
@@ -33,21 +28,29 @@ class BuyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewC
         vm.sellButtonClicked()
     }
     
-    @IBAction func profileButtonClicked() {
-        vm.profileButtonClicked()
+    @IBAction func inboxButtonClicked() {
+        vm.inboxButtonClicked()
     }
     
-    // MARK: - Table Methods
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        vm.tableView(tableView, numberOfRowsInSection: section)
+    // MARK: - CollectionView Methods
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        vm.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        vm.tableView(tableView, cellForRowAt: indexPath, self)
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        vm.numberOfSections(in: collectionView)
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        vm.tableView(tableView, didSelectRowAt: indexPath, self)
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        vm.collectionView(collectionView, numberOfItemsInSection: section)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        vm.collectionView(collectionView, cellForItemAt: indexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        vm.collectionView(collectionView, didSelectItemAt: indexPath)
     }
     
     // MARK: - ViewControllerProtocol
@@ -60,6 +63,6 @@ class BuyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewC
     }
     
     func reload() {
-        tableView.reloadData()
+        collectionView.reloadData()
     }
 }

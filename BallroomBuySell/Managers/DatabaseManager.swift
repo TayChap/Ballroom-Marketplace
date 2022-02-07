@@ -10,7 +10,7 @@ import FirebaseFirestoreSwift
 
 struct DatabaseManager {
     enum Collection: String {
-        case templates, items
+        case templates, items, threads
     }
     
     static let sharedInstance = DatabaseManager()
@@ -38,13 +38,26 @@ struct DatabaseManager {
         getDocuments(db.collection(Collection.templates.rawValue), of: SaleItemTemplate.self, completion)
     }
     
-    func getSaleItems(where equalsRelationship: (key: String, value: String)? = nil, _ completion: @escaping ([SaleItem]) -> Void) {
+    func getRecentSaleItems(for maxItems: Int, _ completion: @escaping ([SaleItem]) -> Void) {
+        let reference = db.collection(Collection.items.rawValue)
+        getDocuments(reference.order(by: SaleItem.QueryKeys.dateAdded.rawValue, descending: true).limit(to: maxItems), of: SaleItem.self, completion)
+        
+    }
+    
+    func getSaleItems(where equalsRelationship: (key: String, value: String)? = nil, _ completion: @escaping ([SaleItem]) -> Void) { // TODO! refactor tuple weirdness
         var reference = db.collection(Collection.items.rawValue) as Query
         if let keyValue = equalsRelationship {
             reference = reference.whereField(keyValue.key, isEqualTo: keyValue.value)
         }
         
         getDocuments(reference, of: SaleItem.self, completion)
+    }
+    
+    func getThreads(for userId: String, _ completion: @escaping ([MessageThread]) -> Void) {
+        let query = db.collection(Collection.threads.rawValue).whereField(MessageThread.QueryKeys.userIds.rawValue, arrayContains: userId)
+        getDocuments(query, of: MessageThread.self) { threads in
+            completion(threads)
+        }
     }
     
     // MARK: Private Helpers
