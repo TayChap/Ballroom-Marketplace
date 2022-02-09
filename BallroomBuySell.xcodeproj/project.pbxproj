@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -87,18 +87,23 @@
 		8DA71D1627A4A2B60025C1D5 /* InboxTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA71D1527A4A2B60025C1D5 /* InboxTableCell.swift */; };
 		8DA71D1827A4A2C50025C1D5 /* InboxCellDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA71D1727A4A2C50025C1D5 /* InboxCellDM.swift */; };
 		8DA71D1A27A63F590025C1D5 /* Sender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA71D1927A63F590025C1D5 /* Sender.swift */; };
-		A5992F72F46083A75BA57786 /* Pods_BallroomBuySell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */; };
+		8DE4E45E27B30D5D002980D3 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 8DE4E45D27B30D5D002980D3 /* FirebaseAppCheck */; };
+		8DE4E46027B30D5D002980D3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8DE4E45F27B30D5D002980D3 /* FirebaseAuth */; };
+		8DE4E46227B30D5D002980D3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8DE4E46127B30D5D002980D3 /* FirebaseFirestore */; };
+		8DE4E46427B30D5D002980D3 /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 8DE4E46327B30D5D002980D3 /* FirebaseFirestoreSwift-Beta */; };
+		8DE4E46627B30D5D002980D3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 8DE4E46527B30D5D002980D3 /* FirebaseStorage */; };
+		8DE4E46927B30DF2002980D3 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8DE4E46827B30DF2002980D3 /* MessageKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		09779C0BEDEA96E86099060F /* Pods-BallroomBuySell.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BallroomBuySell.release.xcconfig"; path = "Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell.release.xcconfig"; sourceTree = "<group>"; };
-		8D1BB525273EF97700677EF7 /* BallroomBuySell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BallroomBuySell.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1BB525273EF97700677EF7 /* BallroomBuySell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = BallroomBuySell.app; path = "/Users/taylorchapman/Documents/Software/BallroomBuySell/build/Debug-iphoneos/BallroomBuySell.app"; sourceTree = "<absolute>"; };
 		8D1BB528273EF97700677EF7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D1BB52A273EF97700677EF7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8D1BB52F273EF97700677EF7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8D1BB531273EF97900677EF7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8D1BB534273EF97900677EF7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8D1BB536273EF97900677EF7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D39E12C27B2D7EA00C242C7 /* BallroomBuySell.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BallroomBuySell.entitlements; sourceTree = "<group>"; };
 		8D773D0D27ACA67D0089FD9F /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		8D78664627B0BB1400B1D817 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		8D9D44EC2770C64A004C5565 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
@@ -176,8 +181,6 @@
 		8DA71D1527A4A2B60025C1D5 /* InboxTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTableCell.swift; sourceTree = "<group>"; };
 		8DA71D1727A4A2C50025C1D5 /* InboxCellDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxCellDM.swift; sourceTree = "<group>"; };
 		8DA71D1927A63F590025C1D5 /* Sender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sender.swift; sourceTree = "<group>"; };
-		B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BallroomBuySell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EFF8202CE7EC04C8D430A991 /* Pods-BallroomBuySell.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BallroomBuySell.debug.xcconfig"; path = "Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,7 +188,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5992F72F46083A75BA57786 /* Pods_BallroomBuySell.framework in Frameworks */,
+				8DE4E45E27B30D5D002980D3 /* FirebaseAppCheck in Frameworks */,
+				8DE4E46427B30D5D002980D3 /* FirebaseFirestoreSwift-Beta in Frameworks */,
+				8DE4E46027B30D5D002980D3 /* FirebaseAuth in Frameworks */,
+				8DE4E46927B30DF2002980D3 /* MessageKit in Frameworks */,
+				8DE4E46627B30D5D002980D3 /* FirebaseStorage in Frameworks */,
+				8DE4E46227B30D5D002980D3 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,27 +204,16 @@
 			isa = PBXGroup;
 			children = (
 				8D1BB527273EF97700677EF7 /* BallroomBuySell */,
-				8D1BB526273EF97700677EF7 /* Products */,
-				C0DF630F21E473235DEE8AD0 /* Pods */,
-				DF3997E9CC3FC28F87C1153E /* Frameworks */,
 			);
-			sourceTree = "<group>";
-		};
-		8D1BB526273EF97700677EF7 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8D1BB525273EF97700677EF7 /* BallroomBuySell.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		8D1BB527273EF97700677EF7 /* BallroomBuySell */ = {
 			isa = PBXGroup;
 			children = (
+				8D39E12C27B2D7EA00C242C7 /* BallroomBuySell.entitlements */,
 				8D9D44EB2770C599004C5565 /* AppDelegate */,
 				8D9D452C277A2BDF004C5565 /* CustomClasses */,
 				8D9D44E72770C537004C5565 /* Extensions */,
-				8D9D4531277A53D0004C5565 /* GoogleService-Info.plist */,
 				8D9D451827721FB5004C5565 /* Managers */,
 				8D9D45712788D914004C5565 /* Models */,
 				8D9D451527721F66004C5565 /* Protocols */,
@@ -257,6 +254,7 @@
 			children = (
 				8D1BB531273EF97900677EF7 /* Assets.xcassets */,
 				8D78664627B0BB1400B1D817 /* Environment.swift */,
+				8D9D4531277A53D0004C5565 /* GoogleService-Info.plist */,
 				8D1BB536273EF97900677EF7 /* Info.plist */,
 				8D9D450727711E44004C5565 /* Localizable.strings */,
 			);
@@ -610,23 +608,6 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		C0DF630F21E473235DEE8AD0 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				EFF8202CE7EC04C8D430A991 /* Pods-BallroomBuySell.debug.xcconfig */,
-				09779C0BEDEA96E86099060F /* Pods-BallroomBuySell.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		DF3997E9CC3FC28F87C1153E /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B825BF6A186641371CC4B3B0 /* Pods_BallroomBuySell.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -634,17 +615,23 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8D1BB539273EF97900677EF7 /* Build configuration list for PBXNativeTarget "BallroomBuySell" */;
 			buildPhases = (
-				629DED7F9B5837E7FACC53D8 /* [CP] Check Pods Manifest.lock */,
 				8D1BB521273EF97700677EF7 /* Sources */,
 				8D1BB522273EF97700677EF7 /* Frameworks */,
 				8D1BB523273EF97700677EF7 /* Resources */,
-				20DE48163DE5606D01752C48 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = BallroomBuySell;
+			packageProductDependencies = (
+				8DE4E45D27B30D5D002980D3 /* FirebaseAppCheck */,
+				8DE4E45F27B30D5D002980D3 /* FirebaseAuth */,
+				8DE4E46127B30D5D002980D3 /* FirebaseFirestore */,
+				8DE4E46327B30D5D002980D3 /* FirebaseFirestoreSwift-Beta */,
+				8DE4E46527B30D5D002980D3 /* FirebaseStorage */,
+				8DE4E46827B30DF2002980D3 /* MessageKit */,
+			);
 			productName = BallroomBuySell;
 			productReference = 8D1BB525273EF97700677EF7 /* BallroomBuySell.app */;
 			productType = "com.apple.product-type.application";
@@ -674,7 +661,11 @@
 				"zh-Hant",
 			);
 			mainGroup = 8D1BB51C273EF97700677EF7;
-			productRefGroup = 8D1BB526273EF97700677EF7 /* Products */;
+			packageReferences = (
+				8DE4E45C27B30D5D002980D3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8DE4E46727B30DF2002980D3 /* XCRemoteSwiftPackageReference "MessageKit" */,
+			);
+			productRefGroup = 8D1BB51C273EF97700677EF7;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -707,48 +698,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		20DE48163DE5606D01752C48 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BallroomBuySell/Pods-BallroomBuySell-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		629DED7F9B5837E7FACC53D8 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BallroomBuySell-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D1BB521273EF97700677EF7 /* Sources */ = {
@@ -975,13 +924,14 @@
 		};
 		8D1BB53A273EF97900677EF7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EFF8202CE7EC04C8D430A991 /* Pods-BallroomBuySell.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BallroomBuySell/BallroomBuySell.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WHN9X2V7W8;
 				INFOPLIST_FILE = BallroomBuySell/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -995,13 +945,14 @@
 		};
 		8D1BB53B273EF97900677EF7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 09779C0BEDEA96E86099060F /* Pods-BallroomBuySell.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BallroomBuySell/BallroomBuySell.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WHN9X2V7W8;
 				INFOPLIST_FILE = BallroomBuySell/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1035,6 +986,58 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8DE4E45C27B30D5D002980D3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 8.9.0;
+			};
+		};
+		8DE4E46727B30DF2002980D3 /* XCRemoteSwiftPackageReference "MessageKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MessageKit/MessageKit";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 3.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8DE4E45D27B30D5D002980D3 /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8DE4E45C27B30D5D002980D3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+		8DE4E45F27B30D5D002980D3 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8DE4E45C27B30D5D002980D3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		8DE4E46127B30D5D002980D3 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8DE4E45C27B30D5D002980D3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		8DE4E46327B30D5D002980D3 /* FirebaseFirestoreSwift-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8DE4E45C27B30D5D002980D3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFirestoreSwift-Beta";
+		};
+		8DE4E46527B30D5D002980D3 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8DE4E45C27B30D5D002980D3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		8DE4E46827B30DF2002980D3 /* MessageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8DE4E46727B30DF2002980D3 /* XCRemoteSwiftPackageReference "MessageKit" */;
+			productName = MessageKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8D1BB51D273EF97700677EF7 /* Project object */;
 }

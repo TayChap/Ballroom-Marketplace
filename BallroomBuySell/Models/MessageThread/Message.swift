@@ -6,6 +6,7 @@
 //
 
 import MessageKit
+import UIKit
 
 struct Message: Codable, MessageType {
     let content: String
