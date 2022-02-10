@@ -7,20 +7,40 @@
 
 import Firebase
 
-struct AuthenticationManager {    
+struct AuthenticationManager {
+    static var currentNonce: String?
+    
     var user: User? {
         guard
             let user = Auth.auth().currentUser,
-            let photoURL = user.photoURL,
             let displayName = user.displayName
         else {
             return nil
         }
         
-        return User(id: user.uid, photoURL: photoURL.absoluteString, displayName: displayName)
+        return User(id: user.uid, photoURL: user.photoURL?.absoluteString, displayName: displayName)
     }
     
-    func createUser(email: String, password: String, displayName: String, photo: Image, completion: @escaping () -> Void, onFail: @escaping (_ errorMessage: String) -> Void) {
+    // MARK: - Production only authentication
+    func appleSignIn(_ idTokenString: String, _ nonce: String, _ profileImage: String? = nil) {
+        let credential = OAuthProvider.credential(withProviderID: "apple.com",
+                                                  idToken: idTokenString,
+                                                  rawNonce: nonce)
+        Auth.auth().signIn(with: credential) { authResult, error in
+            if let error = error {
+                // Error. If error.code == .MissingOrInvalidNonce, make sure
+                // you're sending the SHA256-hashed nonce as a hex string with
+                // your request to Apple.
+                print(getErrorMessage(error)) // TODO! evaluate error
+                return
+            }
+        }
+        
+        // TODO! present sign in successful message or push next screen
+    }
+    
+    // MARK: - Staging only authentication
+    func createStagingUser(email: String, password: String, displayName: String, photo: Image, completion: @escaping () -> Void, onFail: @escaping (_ errorMessage: String) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error {
                 onFail(getErrorMessage(error))
@@ -29,7 +49,7 @@ struct AuthenticationManager {
             
             // update user profile photo
             Image.uploadImages([photo])
-            
+
             // update displayName after user created
             let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
             changeRequest?.displayName = displayName
@@ -39,14 +59,14 @@ struct AuthenticationManager {
                     onFail(getErrorMessage(error))
                     return
                 }
-                
+
                 completion()
             }
         }
     }
     
-    func login(email: String, password: String, completion: @escaping () -> Void, onFail: @escaping (_ errorMessage: String) -> Void) {
-        Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+    func loginStagingUser(email: String, completion: @escaping () -> Void, onFail: @escaping (_ errorMessage: String) -> Void) {
+        Auth.auth().signIn(withEmail: email, password: "Tester") { authResult, error in
             if let error = error {
                 onFail(getErrorMessage(error))
                 return
@@ -56,7 +76,6 @@ struct AuthenticationManager {
         }
     }
     
-    // TODO! Sign out button calls on profile tab
     func signOut(onSuccess: () -> Void, onFail: () -> Void) {
         do {
             try Auth.auth().signOut()

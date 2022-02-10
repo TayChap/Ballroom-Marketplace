@@ -7,5 +7,5 @@
 
 enum Storyboard: String {
     case main = "Main"
-    case authentication = "Authentication"
+    case staging = "Staging"
 }

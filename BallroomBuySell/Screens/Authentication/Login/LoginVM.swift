@@ -64,7 +64,7 @@ struct LoginVM {
             return
         }
         
-        AuthenticationManager().login(email: email, password: password) {
+        AuthenticationManager().loginStagingUser(email: email) {
             delegate.dismiss()
         } onFail: { errorMessage in
             delegate.showAlertWith(message: errorMessage)

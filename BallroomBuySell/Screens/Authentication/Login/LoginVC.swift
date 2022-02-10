@@ -15,7 +15,7 @@ class LoginVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     
     // MARK: - Lifecycle Methods
     static func createViewController() -> UIViewController {
-        UIViewController.getVC(from: .authentication, of: self)
+        UIViewController.getVC(from: .staging, of: self)
     }
     
     override func viewDidLoad() {

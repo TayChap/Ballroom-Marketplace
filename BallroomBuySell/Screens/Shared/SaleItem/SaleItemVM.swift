@@ -119,7 +119,7 @@ struct SaleItemVM {
     // MARK: - ButtonCellDelegate
     func buttonClicked() {
         guard let user = AuthenticationManager().user else {
-            delegate?.presentViewController(LoginVC.createViewController())
+            delegate?.signIn()
             return
         }
         

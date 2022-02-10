@@ -14,7 +14,7 @@ class SignUpVC: UIViewController, UITableViewDataSource, ViewControllerProtocol,
     
     // MARK: - Lifecycle Methods
     static func createViewController() -> UIViewController {
-        let vc = UIViewController.getVC(from: .authentication, of: self)
+        let vc = UIViewController.getVC(from: .staging, of: self)
         vc.vm = SignUpVM(vc)
         return vc
     }

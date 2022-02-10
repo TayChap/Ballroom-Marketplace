@@ -69,7 +69,7 @@ struct SignUpVM {
             return
         }
         
-        AuthenticationManager().createUser(email: email, password: password, displayName: displayName, photo: photo) {
+        AuthenticationManager().createStagingUser(email: email, password: password, displayName: displayName, photo: photo) {
             delegate.dismiss()
         } onFail: { errorMessage in
             delegate.showAlertWith(message: errorMessage)

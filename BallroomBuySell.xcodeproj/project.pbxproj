@@ -20,7 +20,7 @@
 		8D9D451F277228EF004C5565 /* InboxVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D451E277228EF004C5565 /* InboxVC.swift */; };
 		8D9D452127723068004C5565 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D452027723068004C5565 /* LoginVC.swift */; };
 		8D9D4524277231D7004C5565 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D4523277231D7004C5565 /* SignUpVC.swift */; };
-		8D9D452B277A28A2004C5565 /* Authentication.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D452A277A28A2004C5565 /* Authentication.storyboard */; };
+		8D9D452B277A28A2004C5565 /* Staging.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D452A277A28A2004C5565 /* Staging.storyboard */; };
 		8D9D452E277A2BFE004C5565 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D452D277A2BFE004C5565 /* NavigationController.swift */; };
 		8D9D4530277A37C8004C5565 /* BuyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D452F277A37C8004C5565 /* BuyVC.swift */; };
 		8D9D4532277A53D0004C5565 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D4531277A53D0004C5565 /* GoogleService-Info.plist */; };
@@ -96,7 +96,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8D1BB525273EF97700677EF7 /* BallroomBuySell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = BallroomBuySell.app; path = "/Users/taylorchapman/Documents/Software/BallroomBuySell/build/Debug-iphoneos/BallroomBuySell.app"; sourceTree = "<absolute>"; };
+		8D0E0CFB27B318C000E1EEE0 /* BallroomBuySell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BallroomBuySell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D1BB528273EF97700677EF7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D1BB52A273EF97700677EF7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8D1BB52F273EF97700677EF7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -114,7 +114,7 @@
 		8D9D451E277228EF004C5565 /* InboxVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxVC.swift; sourceTree = "<group>"; };
 		8D9D452027723068004C5565 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		8D9D4523277231D7004C5565 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
-		8D9D452A277A28A2004C5565 /* Authentication.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Authentication.storyboard; sourceTree = "<group>"; };
+		8D9D452A277A28A2004C5565 /* Staging.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Staging.storyboard; sourceTree = "<group>"; };
 		8D9D452D277A2BFE004C5565 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		8D9D452F277A37C8004C5565 /* BuyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyVC.swift; sourceTree = "<group>"; };
 		8D9D4531277A53D0004C5565 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -204,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1BB527273EF97700677EF7 /* BallroomBuySell */,
+				8D0E0CFB27B318C000E1EEE0 /* BallroomBuySell.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -267,7 +268,7 @@
 				8D9D458F2790CF40004C5565 /* Storyboard.swift */,
 				8D1BB533273EF97900677EF7 /* LaunchScreen.storyboard */,
 				8D1BB52E273EF97700677EF7 /* Main.storyboard */,
-				8D9D452A277A28A2004C5565 /* Authentication.storyboard */,
+				8D9D452A277A28A2004C5565 /* Staging.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -633,7 +634,7 @@
 				8DE4E46827B30DF2002980D3 /* MessageKit */,
 			);
 			productName = BallroomBuySell;
-			productReference = 8D1BB525273EF97700677EF7 /* BallroomBuySell.app */;
+			productReference = 8D0E0CFB27B318C000E1EEE0 /* BallroomBuySell.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -689,7 +690,7 @@
 				8D1BB532273EF97900677EF7 /* Assets.xcassets in Resources */,
 				8DA71D0627A376F30025C1D5 /* BuySectionHeader.xib in Resources */,
 				8D1BB530273EF97700677EF7 /* Main.storyboard in Resources */,
-				8D9D452B277A28A2004C5565 /* Authentication.storyboard in Resources */,
+				8D9D452B277A28A2004C5565 /* Staging.storyboard in Resources */,
 				8D9D4543277CE193004C5565 /* TextFieldTableCell.xib in Resources */,
 				8D9D455E278767A4004C5565 /* PickerViewController.xib in Resources */,
 				8D9D45A827922FC9004C5565 /* ImageViewer.xib in Resources */,

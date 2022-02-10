@@ -13,7 +13,7 @@ struct BuyVM {
     }
     
     private weak var delegate: ViewControllerProtocol?
-    private var templates = [SaleItemTemplate]()
+    private var templates = [SaleItemTemplate]() // TODO! change to an optional (no empty case)
     private var saleItems = [SaleItem]()
     private var maxRecentItems: Int { 20 }
     
@@ -37,7 +37,13 @@ struct BuyVM {
     
     // MARK: - IBActions
     func sellButtonClicked() {
-        guard let _ = getUserOrPresentLogin(), !templates.isEmpty else {
+        if AuthenticationManager().user == nil {
+            delegate?.signIn()
+            return
+        }
+        
+        if templates.isEmpty {
+            networkError()
             return
         }
         
@@ -45,7 +51,13 @@ struct BuyVM {
     }
     
     func inboxButtonClicked() {
-        guard let user = getUserOrPresentLogin(), !templates.isEmpty else {
+        guard let user = AuthenticationManager().user, !templates.isEmpty else {
+            delegate?.signIn()
+            return
+        }
+        
+        if templates.isEmpty {
+            networkError()
             return
         }
         
@@ -114,7 +126,11 @@ struct BuyVM {
         }
         
         // categories section
-        pushSaleItemList(with: "filter_example") // TODO!
+        var templateFilter = (key: "fields.\(SaleItemTemplate.serverKey)", value: "shoes") // TODO!
+        
+        DatabaseManager.sharedInstance.getSaleItems(where: templateFilter) { filteredSaleItems in
+            delegate?.pushViewController(SaleItemListVC.createViewController(templates, filteredSaleItems))
+        }
     }
     
     // MARK: - Public Helpers
@@ -124,22 +140,8 @@ struct BuyVM {
     }
     
     // MARK: - Private Helpers
-    private func getUserOrPresentLogin() -> User? {
-        guard let user = AuthenticationManager().user else {
-            delegate?.presentViewController(LoginVC.createViewController())
-            return nil
-        }
-        
-        return user
-
-    }
-    
-    private func pushSaleItemList(with filter: String? = nil) {
-        var templateFilter = (key: "fields.\(SaleItemTemplate.serverKey)", value: "shoes") // TODO!
-        
-        DatabaseManager.sharedInstance.getSaleItems(where: templateFilter) { filteredSaleItems in
-            delegate?.pushViewController(SaleItemListVC.createViewController(templates, filteredSaleItems))
-        }
+    private func networkError() {
+        // TODO! please connect to the internet
     }
     
     // MARK: - CompositionalLayout Methods
