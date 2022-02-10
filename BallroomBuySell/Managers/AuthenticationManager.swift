@@ -22,21 +22,35 @@ struct AuthenticationManager {
     }
     
     // MARK: - Production only authentication
-    func appleSignIn(_ idTokenString: String, _ nonce: String, _ profileImage: String? = nil) {
+    func appleSignIn(_ idTokenString: String, _ nonce: String, _ completion: @escaping () -> Void) {
         let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                   idToken: idTokenString,
                                                   rawNonce: nonce)
-        Auth.auth().signIn(with: credential) { authResult, error in
-            if let error = error {
-                // Error. If error.code == .MissingOrInvalidNonce, make sure
-                // you're sending the SHA256-hashed nonce as a hex string with
-                // your request to Apple.
-                print(getErrorMessage(error)) // TODO! evaluate error
-                return
-            }
+        
+        Auth.auth().signIn(with: credential) { _ , _ in
+            completion()
+        }
+    }
+    
+    func changeRequest(displayName: String? = nil, photoURL: String? = nil, completion: @escaping () -> Void, onFail: @escaping (_ errorMessage: String) -> Void) {
+        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+        
+        if let displayName = displayName {
+            changeRequest?.displayName = displayName
         }
         
-        // TODO! present sign in successful message or push next screen
+        if let photoURL = photoURL {
+            changeRequest?.photoURL = URL(string: photoURL)
+        }
+        
+        changeRequest?.commitChanges { error in
+            if let error = error {
+                onFail(getErrorMessage(error))
+                return
+            }
+
+            completion()
+        }
     }
     
     // MARK: - Staging only authentication
@@ -47,21 +61,11 @@ struct AuthenticationManager {
                 return
             }
             
-            // update user profile photo
             Image.uploadImages([photo])
-
-            // update displayName after user created
-            let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-            changeRequest?.displayName = displayName
-            changeRequest?.photoURL = URL(string: photo.url)
-            changeRequest?.commitChanges { error in
-                if let error = error {
-                    onFail(getErrorMessage(error))
-                    return
-                }
-
-                completion()
-            }
+            changeRequest(displayName: displayName,
+                          photoURL: photo.url,
+                          completion: completion,
+                          onFail: onFail)
         }
     }
     

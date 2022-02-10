@@ -69,14 +69,32 @@ extension UIViewController: ASAuthorizationControllerDelegate {
             return
         }
         
-        // TODO! present photo request - Now, Later options
-        
-        AuthenticationManager().appleSignIn(idTokenString, nonce)
+        AuthenticationManager().appleSignIn(idTokenString, nonce) {
+            if AuthenticationManager().user == nil {
+                self.showAlertWith(message: "sign in successful") // TODO! verbiage
+                return
+            }
+            
+            let name = "\(appleIDCredential.fullName?.givenName ?? "") \(appleIDCredential.fullName?.familyName ?? "")"
+            
+            // Display alert to optionally add profile photo
+            let now = UIAlertAction(title: "_now_", style: .default) { _ in // TODO! verbiage
+                // TODO! photo
+                //self.updateAppleDetails(name, with: Image)
+            }
+            
+            let later = UIAlertAction(title: "_later_", style: .cancel) { _ in // TODO! verbiage
+                self.updateAppleDetails(name)
+            }
+            
+            self.showAlertWith(message: "add a profile picture?", // TODO! verbiage
+                          alertActions: [now, later])
+        }
     }
     
     public func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-      // TODO! Handle error
-      print("Sign in with Apple errored: \(error)")
+        // TODO! Handle error
+        print("Sign in with Apple errored: \(error)")
     }
     
     // MARK: - Private Helpers
@@ -93,6 +111,14 @@ extension UIViewController: ASAuthorizationControllerDelegate {
         authorizationController.performRequests()
     }
     
+    private func updateAppleDetails(_ name: String, with image: Image? = nil) {
+        AuthenticationManager().changeRequest(displayName: name,
+                                              photoURL: image?.url,
+                                              completion: {},
+                                              onFail: { _ in })
+    }
+    
+    // TODO! likely move this into static method in String extension
     private func randomNonceString(length: Int = 32) -> String { // Firebase recommended method; do not alter
         precondition(length > 0)
         let charset: [Character] =
@@ -127,6 +153,7 @@ extension UIViewController: ASAuthorizationControllerDelegate {
         return result
     }
     
+    // TODO! likely move this into static method in String extension
     private func sha256(_ input: String) -> String { // Firebase recommended method; do not alter
         let inputData = Data(input.utf8)
         let hashedData = SHA256.hash(data: inputData)
