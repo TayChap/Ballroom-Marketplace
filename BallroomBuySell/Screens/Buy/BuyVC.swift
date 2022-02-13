@@ -5,9 +5,10 @@
 //  Created by Taylor Chapman on 2021-12-27.
 //
 
+import AuthenticationServices
 import UIKit
 
-class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ViewControllerProtocol {
+class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ViewControllerProtocol, AuthenticatorProtocol {
     @IBOutlet weak var sellButton: UIBarButtonItem!
     @IBOutlet weak var inboxButton: UIBarButtonItem!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -64,5 +65,20 @@ class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDeleg
     
     func reload() {
         collectionView.reloadData()
+    }
+    
+    // MARK: - ASAuthorizationControllerDelegate
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        authorizationController(controller: controller, authorization: authorization)
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        authorizationController(controller: controller, error: error)
+    }
+    
+    // MARK: - UIImagePickerController Delegate
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        profilePictureSelected(info: info)
     }
 }

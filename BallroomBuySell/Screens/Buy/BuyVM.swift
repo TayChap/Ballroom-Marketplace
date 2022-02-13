@@ -12,18 +12,19 @@ struct BuyVM {
         case recentItems, categories
     }
     
-    private weak var delegate: ViewControllerProtocol?
+    private weak var delegate: (ViewControllerProtocol & AuthenticatorProtocol)?
     private var templates = [SaleItemTemplate]() // TODO! change to an optional (no empty case)
     private var saleItems = [SaleItem]()
     private var maxRecentItems: Int { 20 }
     
     // MARK: - Lifecycle Methods
-    init(_ delegate: ViewControllerProtocol) {
+    init(_ delegate: ViewControllerProtocol & AuthenticatorProtocol) {
         self.delegate = delegate
     }
     
     func viewDidLoad(_ collectionView: UICollectionView, _ completion: @escaping (_ templates: [SaleItemTemplate], _ saleItems: [SaleItem]) -> Void) {
         collectionView.collectionViewLayout = createCollectionViewLayout()
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier:  UICollectionViewCell.defaultRegister)
         SaleItemCollectionCell.registerCell(collectionView)
         BuySectionHeader.registerCell(collectionView)
         
@@ -51,7 +52,7 @@ struct BuyVM {
     }
     
     func inboxButtonClicked() {
-        guard let user = AuthenticationManager().user, !templates.isEmpty else {
+        guard let user = AuthenticationManager().user else {
             delegate?.signIn()
             return
         }
@@ -92,7 +93,8 @@ struct BuyVM {
                 let cell = SaleItemCollectionCell.createCell(collectionView, for: indexPath),
                 let coverImageURL = cellData.images.first?.url
             else {
-                return UICollectionViewCell()
+                return collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewCell
+                                                            .defaultRegister, for: indexPath)
             }
             
             cell.configureCell(SaleItemCellDM(imageURL: coverImageURL,
@@ -103,7 +105,7 @@ struct BuyVM {
         
         // categories section
         guard let cell = CategoryCollectionCell.createCell(collectionView, for: indexPath) else {
-            return UICollectionViewCell()
+            return collectionView.dequeueReusableCell(withReuseIdentifier:  UICollectionViewCell.defaultRegister, for: indexPath)
         }
         
         let template = templates[indexPath.row]

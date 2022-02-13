@@ -117,9 +117,9 @@ struct SaleItemVM {
     }
     
     // MARK: - ButtonCellDelegate
-    func buttonClicked() {
+    func buttonClicked(_ signIn: () -> Void) {
         guard let user = AuthenticationManager().user else {
-            delegate?.signIn()
+            signIn()
             return
         }
         

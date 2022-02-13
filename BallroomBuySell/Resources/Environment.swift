@@ -9,6 +9,6 @@ enum Environment: String {
     case staging, production
     
     static var current: Environment {
-        staging
+        production
     }
 }
