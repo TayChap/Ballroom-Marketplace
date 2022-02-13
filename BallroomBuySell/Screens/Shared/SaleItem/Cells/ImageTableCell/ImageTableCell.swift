@@ -82,7 +82,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         }
         
         let actionItems = collectionView.numberOfItems(inSection: 0) - 1 == indexPath.row && isEditable && imagesList.count < maxImageCount ? getEmptyActionSheetItems() : getNonEmptyActionSheetItems(indexPath)
-        delegate.showActionSheetOrPopover(nil, "notes.attachment.actions", actionItems)
+        delegate.showActionSheetOrPopover(message: "notes.attachment.actions", alertActions: actionItems)
     }
     
     // MARK: - UIImagePickerController Delegate
@@ -104,34 +104,14 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     private func getEmptyActionSheetItems() -> [UIAlertAction] {
         var actionItems = [UIAlertAction]()
         
-        // Cancel
         actionItems.append(UIAlertAction(title: "generic.cancel", style: .cancel))
+        actionItems.append(UIAlertAction(title: "select_camera", style: .default) { _ in
+            MediaManager.displayCamera(self, displayingVC: self.delegate)
+        })
         
-        // Camera
-        actionItems.append(UIAlertAction(title: "select_camera", style: .default, handler: { (action) in
-            let controller = UIImagePickerController()
-            controller.delegate = self
-            controller.sourceType = .camera
-            controller.modalPresentationStyle = .fullScreen
-            PermissionManager.checkCameraPermissions(owner: self.delegate) {
-                DispatchQueue.main.async {
-                    self.delegate?.present(controller, animated: true, completion: nil)
-                }
-            }
-        }))
-        
-        // Gallery
-        actionItems.append(UIAlertAction(title: "select_gallery", style: .default, handler: { (action) in
-            let controller = UIImagePickerController()
-            controller.delegate = self
-            controller.sourceType = .photoLibrary
-            controller.modalPresentationStyle = .fullScreen
-            PermissionManager.checkPhotosPermissions(owner: self.delegate) {
-                DispatchQueue.main.async {
-                    self.delegate?.present(controller, animated: true, completion: nil)
-                }
-            }
-        }))
+        actionItems.append(UIAlertAction(title: "select_gallery", style: .default) { _ in
+            MediaManager.displayGallery(self, displayingVC: self.delegate)
+        })
         
         return actionItems
     }
@@ -142,16 +122,16 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         
         actionItems.append(UIAlertAction(title: "generic.cancel", style: .cancel))
         
-        actionItems.append(UIAlertAction(title: "notes.view.attachment", style: .default) { action in
+        actionItems.append(UIAlertAction(title: "notes.view.attachment", style: .default) { _ in
             self.displayImage(imageData)
         })
         
         if isEditing {
-            actionItems.append(UIAlertAction(title: "notes.remove.attachment", style: .destructive) { action in
+            actionItems.append(UIAlertAction(title: "notes.remove.attachment", style: .destructive) { _ in
                 self.delegate?.deleteImage(at: indexPath.row)
             })
         }
-            
+        
         return actionItems
     }
     

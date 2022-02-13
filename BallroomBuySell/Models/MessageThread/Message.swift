@@ -6,6 +6,7 @@
 //
 
 import MessageKit
+import UIKit
 
 struct Message: Codable, MessageType {
     let content: String
@@ -14,7 +15,7 @@ struct Message: Codable, MessageType {
     var messageId = UUID().uuidString
     let senderId: String
     let sentDate: Date
-    let imageURL: String
+    let imageURL: String?
     let displayName: String
     
     var sender: SenderType {

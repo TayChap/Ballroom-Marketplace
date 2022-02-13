@@ -7,6 +7,7 @@
 
 import InputBarAccessoryView
 import MessageKit
+import UIKit
 
 class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate, InputBarAccessoryViewDelegate {
     @IBOutlet weak var infoButton: UIBarButtonItem!

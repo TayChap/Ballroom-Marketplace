@@ -8,10 +8,12 @@
 import UIKit
 
 extension UIViewController {
+    // MARK: - IB Methods
     static func getVC<T>(from storyboard: Storyboard, of type: T.Type) -> T {
         UIStoryboard(name: storyboard.rawValue, bundle: nil).instantiateViewController(withIdentifier: String(describing: T.self)) as! T
     }
     
+    // MARK: - Alert Methods
     func showAlertWith(title: String? = "", message: String, alertActions: [UIAlertAction]? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
@@ -26,7 +28,7 @@ extension UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func showActionSheetOrPopover(_ title: String?, _ message: String, _ alertActions: [UIAlertAction], _ barButtonItem: UIBarButtonItem? = nil) {
+    func showActionSheetOrPopover(title: String? = nil, message: String, alertActions: [UIAlertAction], barButtonItem: UIBarButtonItem? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         
         for action in alertActions {

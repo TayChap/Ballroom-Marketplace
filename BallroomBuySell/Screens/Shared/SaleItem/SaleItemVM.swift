@@ -109,7 +109,7 @@ struct SaleItemVM {
     
     // MARK: - ImageCellDelegate
     mutating func newImage(_ data: Data) {
-        saleItem.images.append(Image(url: "images/\(UUID().uuidString)", data: data))
+        saleItem.images.append(Image(data: data))
     }
     
     mutating func deleteImage(at index: Int) {
@@ -117,9 +117,9 @@ struct SaleItemVM {
     }
     
     // MARK: - ButtonCellDelegate
-    func buttonClicked() {
+    func buttonClicked(_ signIn: () -> Void) {
         guard let user = AuthenticationManager().user else {
-            delegate?.presentViewController(LoginVC.createViewController())
+            signIn()
             return
         }
         

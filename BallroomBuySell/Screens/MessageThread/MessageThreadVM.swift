@@ -7,6 +7,7 @@
 
 import InputBarAccessoryView
 import MessageKit
+import UIKit
 
 class MessageThreadVM { // TODO! deal with sim access issue and change to struct
     private weak var delegate: ViewControllerProtocol?
