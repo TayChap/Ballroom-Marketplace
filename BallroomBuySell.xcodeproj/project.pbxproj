@@ -609,10 +609,18 @@
 		8DA71D1427A4A2910025C1D5 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				8DC230C527C8305F004AF8C1 /* InboxTableCell */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		8DC230C527C8305F004AF8C1 /* InboxTableCell */ = {
+			isa = PBXGroup;
+			children = (
 				8DA71D1527A4A2B60025C1D5 /* InboxTableCell.swift */,
 				8DA71D1727A4A2C50025C1D5 /* InboxCellDM.swift */,
 			);
-			path = Cells;
+			path = InboxTableCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

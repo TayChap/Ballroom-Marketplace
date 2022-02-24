@@ -9,9 +9,9 @@ import UIKit
 
 class InboxTableCell: UITableViewCell, TableCellProtocol {
     @IBOutlet weak var saleItemImage: UIImageView!
-    @IBOutlet weak var itemLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var messagePreviewLabel: UILabel!
+    @IBOutlet weak var detailLabel: UILabel!
     
     // MARK: - Lifecycle Methods
     static func createCell(_ tableView: UITableView) -> InboxTableCell? {
@@ -30,14 +30,15 @@ class InboxTableCell: UITableViewCell, TableCellProtocol {
             self?.saleItemImage.image = UIImage(data: image)
         }
         
-        itemLabel.text = dm.title
-        messagePreviewLabel.attributedText = NSAttributedString(string: "\(dm.lastMessage.displayName): \(dm.lastMessage.content)")
-        dateLabel.text = dm.lastMessage.sentDate.toReadableString()
+        titleLabel.text = dm.title
+        dateLabel.text = dm.date?.toReadableString()
+        detailLabel.text = dm.detail
     }
     
     func clearContent() {
         saleItemImage.image = nil
-        itemLabel.text = ""
-        messagePreviewLabel.attributedText = nil
+        titleLabel.text = ""
+        dateLabel.text = ""
+        detailLabel.text = ""
     }
 }

@@ -9,6 +9,7 @@ import UIKit
 
 class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol {
     @IBOutlet weak var signOutButton: UIBarButtonItem!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
     private var vm: InboxVM!
     
@@ -19,9 +20,22 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
         return vc
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        vm.viewDidLoad { saleItems in
+            self.vm.onItemsFetched(saleItems)
+            self.reload()
+        }
+    }
+    
     // MARK: - IBActions
     @IBAction func signOutButtonClicked() {
         vm.signOutButtonClicked()
+    }
+    
+    @IBAction func segmentedControlClicked() {
+        vm.segmentedControlClicked(segmentedControl.selectedSegmentIndex)
+        reload()
     }
     
     // MARK: - Table Methods
