@@ -68,11 +68,14 @@ struct DatabaseManager {
         deleteDocument(in: .items, with: id) {
             // delete all threads associated with that sale item
             db.collection(Collection.threads.collectionId).whereField(MessageThread.QueryKeys.saleItemId.rawValue, in: [id]).getDocuments { querySnapshot, error in
-                guard let doc = querySnapshot?.documents.first else {
+                guard let docs = querySnapshot?.documents else {
                     return
                 }
                 
-                db.collection(Collection.threads.collectionId).document(doc.documentID).delete()
+                for doc in docs {
+                    db.collection(Collection.threads.collectionId).document(doc.documentID).delete()
+                }
+                
                 completion()
             }
         }

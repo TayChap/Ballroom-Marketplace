@@ -91,8 +91,14 @@ struct InboxVM {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            DatabaseManager.sharedInstance.deleteDocument(in: .threads, with: threads[indexPath.row].id) {
-                delegate?.reload() // TODO! refresh data ?
+            if inboxState == .threads {
+                DatabaseManager.sharedInstance.deleteDocument(in: .threads, with: threads[indexPath.row].id) {
+                    delegate?.reload() // TODO! refresh data ?
+                }
+            } else {
+                DatabaseManager.sharedInstance.deleteSaleItem(with: saleItems[indexPath.row].id) {
+                    delegate?.reload() // TODO! refresh data ?
+                }
             }
         }
     }
