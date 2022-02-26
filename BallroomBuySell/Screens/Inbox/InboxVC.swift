@@ -51,6 +51,12 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
         vm.tableView(tableView, didSelectRowAt: indexPath)
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        //if editingStyle == .delete {
+            vm.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
+        //}
+    }
+    
     // MARK: - ViewControllerProtocol
     func pushViewController(_ vc: UIViewController) {
         navigationController?.pushViewController(vc, animated: true)

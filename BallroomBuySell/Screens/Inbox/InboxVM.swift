@@ -77,8 +77,24 @@ struct InboxVM {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let thread = threads[indexPath.row]
-        delegate?.pushViewController(MessageThreadVC.createViewController(thread, user, templates))
+        if inboxState == .threads {
+            delegate?.pushViewController(MessageThreadVC.createViewController(threads[indexPath.row], user, templates))
+            return
+        }
+        
+        var saleItem = saleItems[indexPath.row]
+        Image.downloadImages(saleItem.images.map({ $0.url })) { images in
+            saleItem.images = images
+            delegate?.pushViewController(ViewItemVC.createViewController(templates, saleItem))
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            DatabaseManager.sharedInstance.deleteDocument(in: .threads, with: threads[indexPath.row].id) {
+                delegate?.reload() // TODO! refresh data ?
+            }
+        }
     }
     
     // MARK: - Public Helpers

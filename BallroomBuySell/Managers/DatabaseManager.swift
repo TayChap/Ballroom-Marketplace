@@ -9,7 +9,7 @@ import Firebase
 import FirebaseFirestoreSwift
 
 struct DatabaseManager {
-    enum Collection: String {
+    enum Collection: String, CaseIterable {
         case templates, items, threads
         
         var collectionId: String {
@@ -64,6 +64,50 @@ struct DatabaseManager {
         }
     }
     
+    func deleteSaleItem(with id: String, _ completion: @escaping () -> Void) {
+        deleteDocument(in: .items, with: id) {
+            // delete all threads associated with that sale item
+            db.collection(Collection.threads.collectionId).whereField(MessageThread.QueryKeys.saleItemId.rawValue, in: [id]).getDocuments { querySnapshot, error in
+                guard let doc = querySnapshot?.documents.first else {
+                    return
+                }
+                
+                db.collection(Collection.threads.collectionId).document(doc.documentID).delete()
+                completion()
+            }
+        }
+    }
+    
+    func deleteDocument(in collection: Collection, with id: String, _ completion: @escaping () -> Void) {
+        db.collection(collection.collectionId).whereField("id", in: [id]).getDocuments { querySnapshot, error in // TODO!
+            guard let doc = querySnapshot?.documents.first else {
+                return
+            }
+            
+            db.collection(collection.collectionId).document(doc.documentID).delete()
+            completion()
+        }
+    }
+    
+    // Utility method for staging / debugging only
+    func stagingDeleteAllDocuments(in collection: Collection, _ completion: @escaping () -> Void) {
+        if Environment.current == .production {
+            return // Firebase does not recommend deleting entire collections from mobile clients
+        }
+
+        db.collection(collection.collectionId).getDocuments { querySnapshot, error  in
+            guard let docs = querySnapshot?.documents else {
+                return
+            }
+
+            for doc in docs {
+                db.collection(collection.collectionId).document(doc.documentID).delete()
+            }
+
+            completion()
+        }
+    }
+    
     // MARK: Private Helpers
     private func getDocuments<T: Decodable>(_ query: Query, of _: T.Type, where equalsRelationship: (key: String, value: String)? = nil, _ completion: @escaping ([T]) -> Void) {
         query.getDocuments { querySnapshot, error  in
@@ -78,24 +122,6 @@ struct DatabaseManager {
                     return nil
                 }
             }))
-        }
-    }
-    
-    /// Firebase does not recommend deleting entire collections from mobile clients
-    /// This method is used to delete templates only
-    func deleteDocuments(in collection: Collection, _ completion: @escaping () -> Void) {
-        // TODO! add DEBUG flag here (not for release)
-        
-        db.collection(collection.collectionId).getDocuments { querySnapshot, error  in
-            guard let docs = querySnapshot?.documents else {
-                return
-            }
-            
-            for doc in docs {
-                db.collection(collection.collectionId).document(doc.documentID).delete()
-            }
-            
-            completion()
         }
     }
 }
