@@ -22,7 +22,7 @@ extension UIViewController {
                 alert.addAction(action)
             }
         } else {
-            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.close", comment: "Closes alert"), style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: LocalizedString.string("generic.close"), style: .default, handler: nil))
         }
         
         present(alert, animated: true, completion: nil)
