@@ -22,10 +22,7 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        vm.viewWillAppear { saleItems, threads in
-            self.vm.onItemsFetched(saleItems, threads)
-            self.reload()
-        }
+        vm.viewWillAppear(onFetch)
     }
     
     // MARK: - IBActions
@@ -52,9 +49,7 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        //if editingStyle == .delete {
-            vm.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
-        //}
+        vm.tableView(tableView, commit: editingStyle, forRowAt: indexPath, completion: onFetch)
     }
     
     // MARK: - ViewControllerProtocol
@@ -68,5 +63,11 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     
     func reload() {
         tableView.reloadData()
+    }
+    
+    // MARK: - Private Helpers
+    private func onFetch(_ saleItems: [SaleItem], _ threads: [MessageThread]) {
+        vm.onFetch(saleItems, threads)
+        reload()
     }
 }
