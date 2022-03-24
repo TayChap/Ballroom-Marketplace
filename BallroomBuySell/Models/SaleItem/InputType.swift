@@ -8,11 +8,12 @@
 import UIKit
 
 enum InputType: String, Codable {
-    case standard, password, email
+    case standard, password, email, numbers
     
     var keyboardType: UIKeyboardType {
         switch self {
         case .standard, .password: return .default
+        case .numbers: return .numberPad
         case .email: return .emailAddress
         }
     }

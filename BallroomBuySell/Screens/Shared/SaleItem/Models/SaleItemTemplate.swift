@@ -28,6 +28,18 @@ struct SaleItemTemplate: Codable {
                               values: templates.map({ PickerValue(serverKey: $0.id, localizationKey: $0.name) }))
     }
     
+    static func getPriceCell() -> SaleItemCellStructure {
+        SaleItemCellStructure(type: .textField,
+                              inputType: InputType.numbers,
+                              serverKey: "price",
+                              title: "price (USD)",
+                              subtitle: "",
+                              placeholder: "",
+                              required: true,
+                              filterEnabled: true,
+                              values: [])
+    }
+    
     static func getImageCollectionCelll() -> SaleItemCellStructure {
         SaleItemCellStructure(type: .imageCollection,
                               inputType: InputType.standard,

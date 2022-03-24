@@ -76,7 +76,8 @@ struct SaleItemVM {
             cell.configureCell(TextFieldCellDM(inputType: cellStructure.inputType,
                                                title: cellStructure.title,
                                                detail: saleItem.fields[cellStructure.serverKey] ?? "",
-                                               returnKeyType: .done))
+                                               returnKeyType: .done,
+                                               isEnabled: mode != .view))
             cell.delegate = owner as? TextFieldCellDelegate
             return cell
         case .imageCollection:
@@ -145,6 +146,7 @@ struct SaleItemVM {
     private func getScreenStructure() -> [SaleItemCellStructure] {
         let templateId = saleItem.fields[SaleItemTemplate.serverKey]
         let structure = [SaleItemTemplate.getTemplateSelectorCell(templates)] +
+            [SaleItemTemplate.getPriceCell()] +
             [SaleItemTemplate.getImageCollectionCelll()] +
             (templates.first(where: { $0.id == templateId })?.screenStructure.filter({ mode == .create || !(saleItem.fields[$0.serverKey] ?? "").isEmpty }) ?? []) // only include blank fields for create mode
         
