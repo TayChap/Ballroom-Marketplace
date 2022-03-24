@@ -15,21 +15,22 @@ struct InboxVM {
     private weak var delegate: ViewControllerProtocol?
     private let user: User
     private let templates: [SaleItemTemplate]
-    private let threads: [MessageThread]
+    private var threads = [MessageThread]()
     private var saleItems = [SaleItem]()
     private var inboxState = InboxState.threads
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, _ user: User, _ messageThreads: [MessageThread], _ templates: [SaleItemTemplate]) {
+    init(_ owner: ViewControllerProtocol, _ user: User, _ templates: [SaleItemTemplate]) {
         delegate = owner
         self.user = user
         self.templates = templates
-        threads = messageThreads
     }
     
-    func viewDidLoad(_ completion: @escaping (_ saleItems: [SaleItem]) -> Void) {
+    func viewWillAppear(_ completion: @escaping (_ saleItems: [SaleItem], _ threads: [MessageThread]) -> Void) {
         DatabaseManager.sharedInstance.getSaleItems(where: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id)) { saleItems in
-            completion(saleItems)
+            DatabaseManager.sharedInstance.getThreads(for: user.id) { threads in
+                completion(saleItems, threads)
+            }
         }
     }
     
@@ -104,7 +105,8 @@ struct InboxVM {
     }
     
     // MARK: - Public Helpers
-    mutating func onItemsFetched(_ saleItemsFetched: [SaleItem]) {
+    mutating func onItemsFetched(_ saleItemsFetched: [SaleItem], _ threadsFetched: [MessageThread]) {
         saleItems = saleItemsFetched
+        threads = threadsFetched
     }
 }

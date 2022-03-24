@@ -66,9 +66,7 @@ struct BuyVM {
             return
         }
         
-        DatabaseManager.sharedInstance.getThreads(for: user.id) { threads in
-            delegate?.pushViewController(InboxVC.createViewController(user, threads, templates))
-        }
+        delegate?.pushViewController(InboxVC.createViewController(user, templates))
     }
     
     // MARK: - CollectionView Methods

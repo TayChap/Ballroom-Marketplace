@@ -14,16 +14,16 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     private var vm: InboxVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController( _ user: User, _ threads: [MessageThread], _ templates: [SaleItemTemplate]) -> UIViewController {
+    static func createViewController( _ user: User, _ templates: [SaleItemTemplate]) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = InboxVM(vc, user, threads, templates)
+        vc.vm = InboxVM(vc, user, templates)
         return vc
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        vm.viewDidLoad { saleItems in
-            self.vm.onItemsFetched(saleItems)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        vm.viewWillAppear { saleItems, threads in
+            self.vm.onItemsFetched(saleItems, threads)
             self.reload()
         }
     }
