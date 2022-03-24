@@ -18,7 +18,12 @@ class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         vm = BuyVM(self)
-        vm.viewDidLoad(collectionView) { templates, saleItems in
+        vm.viewDidLoad(collectionView)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        vm.viewWillAppear { templates, saleItems in
             self.vm.onItemsFetched(templates, saleItems)
             self.reload()
         }

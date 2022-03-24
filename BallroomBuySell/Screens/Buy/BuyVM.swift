@@ -22,14 +22,16 @@ struct BuyVM {
         self.delegate = delegate
     }
     
-    func viewDidLoad(_ collectionView: UICollectionView, _ completion: @escaping (_ templates: [SaleItemTemplate], _ saleItems: [SaleItem]) -> Void) {
+    func viewDidLoad(_ collectionView: UICollectionView) {
         collectionView.collectionViewLayout = createCollectionViewLayout()
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier:  UICollectionViewCell.defaultRegister)
         SaleItemCollectionCell.registerCell(collectionView)
         BuySectionHeader.registerCell(collectionView)
         
         //TemplateManager.updateTemplates()
-        
+    }
+    
+    func viewWillAppear(_ completion: @escaping (_ templates: [SaleItemTemplate], _ saleItems: [SaleItem]) -> Void) {
         // refresh templates and pull most recent sale items
         TemplateManager.refreshTemplates { templates in
             DatabaseManager.sharedInstance.getRecentSaleItems(for: maxRecentItems) { items in
