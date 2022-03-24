@@ -55,8 +55,18 @@ struct TemplateManager {
                                                                  subtitle: "test_subtitle",
                                                                  placeholder: "test_placeholder",
                                                                  required: true,
-                                                                 filterEnabled: false,
-                                                                 values: [])])
+                                                                 filterEnabled: false),
+                                           SaleItemCellStructure(type: .picker,
+                                                                 inputType: InputType.standard,
+                                                                 serverKey: "armLength",
+                                                                 title: "text arm_length",
+                                                                 subtitle: "test_subtitle arm description",
+                                                                 placeholder: "test_placeholder",
+                                                                 required: false,
+                                                                 filterEnabled: true,
+                                                                 min: 0.5,
+                                                                 max: 10.0,
+                                                                 increment: 0.5)])
     }
     
     private static func getShoesTemplate() -> SaleItemTemplate {
@@ -80,8 +90,7 @@ struct TemplateManager {
                                                                  subtitle: "test_subtitle",
                                                                  placeholder: "test_placeholder",
                                                                  required: true,
-                                                                 filterEnabled: true,
-                                                                 values: []),
+                                                                 filterEnabled: true),
                                            SaleItemCellStructure(type: .picker,
                                                                  inputType: InputType.standard,
                                                                  serverKey: "pickerText",

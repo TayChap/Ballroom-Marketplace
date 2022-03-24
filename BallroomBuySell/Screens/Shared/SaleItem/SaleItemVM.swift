@@ -62,9 +62,15 @@ struct SaleItemVM {
                 return UITableViewCell()
             }
             
+            // if values are empty then it's a specified range of values
+            var pickerValues = cellStructure.values
+            if let max = cellStructure.max, pickerValues.isEmpty {
+                pickerValues = PickerValue.getPickerValues(for: (min: cellStructure.min, max: max), with: cellStructure.increment)
+            }
+            
             cell.configureCell(PickerCellDM(titleText: cellStructure.title,
                                             selectedValues: [saleItem.fields[cellStructure.serverKey] ?? ""],
-                                            pickerValues: [cellStructure.values],
+                                            pickerValues: [pickerValues],
                                             showRequiredAsterisk: cellStructure.required))
             cell.delegate = owner as? PickerCellDelegate
             return cell
