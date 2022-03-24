@@ -28,6 +28,8 @@ struct BuyVM {
         SaleItemCollectionCell.registerCell(collectionView)
         BuySectionHeader.registerCell(collectionView)
         
+        //TemplateManager.updateTemplates()
+        
         // refresh templates and pull most recent sale items
         TemplateManager.refreshTemplates { templates in
             DatabaseManager.sharedInstance.getRecentSaleItems(for: maxRecentItems) { items in
@@ -120,7 +122,7 @@ struct BuyVM {
             Image.downloadImages(saleItem.images.map({ $0.url })) { images in
                 if !templates.isEmpty {
                     saleItem.images = images
-                    delegate?.pushViewController(ViewItemVC.createViewController(templates, saleItem))
+                    delegate?.pushViewController(SaleItemViewVC.createViewController(templates, saleItem))
                 }
             }
             

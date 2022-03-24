@@ -1,5 +1,5 @@
 //
-//  ViewItemVC.swift
+//  SaleItemViewVC.swift
 //  BallroomBuySell
 //
 //  Created by Taylor Chapman on 2022-01-13.
@@ -8,7 +8,7 @@
 import AuthenticationServices
 import UIKit
 
-class ViewItemVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, AuthenticatorProtocol, ImageCellDelegate, ButtonCellDelegate {
+class SaleItemViewVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, AuthenticatorProtocol, ImageCellDelegate, ButtonCellDelegate {
     @IBOutlet weak var tableView: UITableView!
     private var vm: SaleItemVM!
     

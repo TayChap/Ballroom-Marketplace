@@ -407,10 +407,10 @@
             </objects>
             <point key="canvasLocation" x="2638" y="2895"/>
         </scene>
-        <!--View ItemVC-->
+        <!--Sale Item ViewVC-->
         <scene sceneID="QDx-Gg-cnA">
             <objects>
-                <viewController storyboardIdentifier="ViewItemVC" id="1zS-R9-jag" customClass="ViewItemVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SaleItemViewVC" id="1zS-R9-jag" customClass="SaleItemViewVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="iND-GM-8rs">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -445,7 +445,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="y7q-Vn-rEQ"/>
-        <segue reference="7Tz-QB-BGX"/>
+        <segue reference="bLY-tZ-MBb"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="checkmark" catalog="system" width="128" height="114"/>
