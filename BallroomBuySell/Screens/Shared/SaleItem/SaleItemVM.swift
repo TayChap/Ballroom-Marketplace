@@ -130,13 +130,18 @@ struct SaleItemVM {
             return
         }
         
-        delegate?.pushViewController(MessageThreadVC.createViewController(MessageThread(userIds: [user.id, saleItem.userId],
-                                                                                        saleItemId: saleItem.id,
-                                                                                        imageURL: saleItem.images.first?.url ?? "",
-                                                                                        title: saleItem.fields[SaleItemTemplate.serverKey] ?? ""),
-                                                                          user: user,
-                                                                          templates: templates,
-                                                                          hideItemInfo: true))
+        DatabaseManager.sharedInstance.getThreads(for: user.id) { threads in
+            let messageThread = threads.first(where: { $0.saleItemId == saleItem.id }) ??
+            MessageThread(userIds: [user.id, saleItem.userId],
+                          saleItemId: saleItem.id,
+                          imageURL: saleItem.images.first?.url ?? "",
+                          title: saleItem.fields[SaleItemTemplate.serverKey] ?? "")
+            
+            delegate?.pushViewController(MessageThreadVC.createViewController(messageThread,
+                                                                              user: user,
+                                                                              templates: templates,
+                                                                              hideItemInfo: true))
+        }
     }
     
     // MARK: - Public Helpers
