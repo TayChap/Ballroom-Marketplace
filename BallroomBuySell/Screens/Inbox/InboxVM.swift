@@ -79,7 +79,9 @@ struct InboxVM {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if inboxState == .threads {
-            delegate?.pushViewController(MessageThreadVC.createViewController(threads[indexPath.row], user, templates))
+            delegate?.pushViewController(MessageThreadVC.createViewController(threads[indexPath.row],
+                                                                              user: user,
+                                                                              templates: templates))
             return
         }
         

@@ -174,7 +174,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="WhC-51-2aU">
-                        <barButtonItem key="rightBarButtonItem" title="info" id="c0K-a0-7Dc">
+                        <barButtonItem key="rightBarButtonItem" image="info.circle" catalog="system" id="c0K-a0-7Dc">
                             <connections>
                                 <action selector="infoButtonClicked" destination="mWj-2a-HLi" id="Ph2-Qz-eRK"/>
                             </connections>
@@ -444,12 +444,13 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="y7q-Vn-rEQ"/>
+        <segue reference="VcG-2H-Dkw"/>
         <segue reference="7Tz-QB-BGX"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="checkmark" catalog="system" width="128" height="114"/>
         <image name="dollarsign.circle" catalog="system" width="128" height="121"/>
+        <image name="info.circle" catalog="system" width="128" height="121"/>
         <image name="message" catalog="system" width="128" height="113"/>
         <image name="person" catalog="system" width="128" height="117"/>
         <image name="pip.exit" catalog="system" width="128" height="96"/>

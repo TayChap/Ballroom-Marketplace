@@ -134,8 +134,9 @@ struct SaleItemVM {
                                                                                         saleItemId: saleItem.id,
                                                                                         imageURL: saleItem.images.first?.url ?? "",
                                                                                         title: saleItem.fields[SaleItemTemplate.serverKey] ?? ""),
-                                                                          user,
-                                                                          templates))
+                                                                          user: user,
+                                                                          templates: templates,
+                                                                          hideItemInfo: true))
     }
     
     // MARK: - Public Helpers

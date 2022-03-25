@@ -14,8 +14,13 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
     private var vm: MessageThreadVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController(_ thread: MessageThread, _ user: User, _ templates: [SaleItemTemplate]) -> UIViewController {
+    static func createViewController(_ thread: MessageThread, user: User, templates: [SaleItemTemplate], hideItemInfo: Bool = false) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
+        
+        if hideItemInfo { // navigation is from item info page already
+            vc.navigationItem.rightBarButtonItem = nil
+        }
+        
         vc.vm = MessageThreadVM(vc, thread, user, templates)
         return vc
     }
