@@ -130,9 +130,7 @@ struct BuyVM {
             return
         }
         
-        // categories section
-        var templateFilter = (key: "fields.\(SaleItemTemplate.serverKey)", value: "shoes") // TODO!
-        
+        var templateFilter = (key: "fields.\(SaleItemTemplate.serverKey)", value: templates[indexPath.row].id)
         DatabaseManager.sharedInstance.getSaleItems(where: templateFilter) { filteredSaleItems in
             delegate?.pushViewController(SaleItemListVC.createViewController(templates, filteredSaleItems))
         }
