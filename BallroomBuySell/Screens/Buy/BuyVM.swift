@@ -122,7 +122,8 @@ struct BuyVM {
             Image.downloadImages(saleItem.images.map({ $0.url })) { images in
                 if !templates.isEmpty {
                     saleItem.images = images
-                    delegate?.pushViewController(SaleItemViewVC.createViewController(templates, saleItem))
+                    delegate?.pushViewController(SaleItemViewVC.createViewController(templates: templates,
+                                                                                     saleItem: saleItem))
                 }
             }
             

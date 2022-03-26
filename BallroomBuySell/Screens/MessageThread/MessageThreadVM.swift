@@ -36,7 +36,9 @@ class MessageThreadVM { // TODO! deal with sim access issue and change to struct
             Image.downloadImages(saleItem.images.map({ $0.url })) { images in
                 if !self.templates.isEmpty {
                     saleItem.images = images
-                    self.delegate?.pushViewController(SaleItemViewVC.createViewController(self.templates, saleItem))
+                    self.delegate?.pushViewController(SaleItemViewVC.createViewController(templates: self.templates,
+                                                                                          saleItem: saleItem,
+                                                                                          hideContactSeller: true))
                 }
             }
         }

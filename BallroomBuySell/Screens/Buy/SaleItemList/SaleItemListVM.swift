@@ -50,6 +50,7 @@ struct SaleItemListVM {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.pushViewController(SaleItemViewVC.createViewController(templates, saleItems[indexPath.item]))
+        delegate?.pushViewController(SaleItemViewVC.createViewController(templates: templates,
+                                                                         saleItem: saleItems[indexPath.item]))
     }
 }

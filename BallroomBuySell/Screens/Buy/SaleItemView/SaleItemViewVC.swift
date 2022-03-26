@@ -13,9 +13,9 @@ class SaleItemViewVC: UIViewController, UITableViewDataSource, ViewControllerPro
     private var vm: SaleItemVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController(_ templates: [SaleItemTemplate], _ saleItem: SaleItem) -> UIViewController {
+    static func createViewController(templates: [SaleItemTemplate], saleItem: SaleItem, hideContactSeller: Bool = false) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = SaleItemVM(vc, templates, saleItem)
+        vc.vm = SaleItemVM(vc, templates: templates, saleItem: saleItem, hideContactSeller: hideContactSeller)
         return vc
     }
     

@@ -18,9 +18,10 @@ struct SaleItemVM {
     private let mode: Mode
     private var screenStructure = [SaleItemCellStructure]()
     private let templates: [SaleItemTemplate]
+    private let hideContactSeller: Bool
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, _ templates: [SaleItemTemplate], _ saleItem: SaleItem? = nil) {
+    init(_ owner: ViewControllerProtocol, templates: [SaleItemTemplate], saleItem: SaleItem? = nil, hideContactSeller: Bool = false) {
         delegate = owner
         self.templates = templates
         
@@ -31,6 +32,8 @@ struct SaleItemVM {
             mode = .create
             self.saleItem = SaleItem(userId: AuthenticationManager().user?.id ?? "")
         }
+        
+        self.hideContactSeller = AuthenticationManager().user?.id == self.saleItem.userId || hideContactSeller
     }
     
     mutating func viewDidLoad(_ tableView: UITableView) {
@@ -162,7 +165,7 @@ struct SaleItemVM {
             [SaleItemTemplate.getImageCollectionCelll()] +
             (templates.first(where: { $0.id == templateId })?.screenStructure.filter({ mode == .create || !(saleItem.fields[$0.serverKey] ?? "").isEmpty }) ?? []) // only include blank fields for create mode
         
-        if AuthenticationManager().user?.id == saleItem.userId {
+        if hideContactSeller {
             return structure
         }
         
