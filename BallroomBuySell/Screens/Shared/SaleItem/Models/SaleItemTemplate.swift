@@ -16,7 +16,11 @@ struct SaleItemTemplate: Codable {
     }
     
     // MARK: - Public Helpers
-    static func getTemplateSelectorCell(_ templates: [SaleItemTemplate]) -> SaleItemCellStructure {
+    static func getHeaderCells(_ templates: [SaleItemTemplate]) -> [SaleItemCellStructure] {
+        [getTemplateSelectorCell(templates), getPriceCell(), getLocationCell(), getImageCollectionCelll()]
+    }
+    
+    private static func getTemplateSelectorCell(_ templates: [SaleItemTemplate]) -> SaleItemCellStructure {
         SaleItemCellStructure(type: .picker,
                               inputType: .standard,
                               serverKey: SaleItemTemplate.serverKey,
@@ -28,7 +32,7 @@ struct SaleItemTemplate: Codable {
                               values: templates.map({ PickerValue(serverKey: $0.id, localizationKey: $0.name) }))
     }
     
-    static func getPriceCell() -> SaleItemCellStructure {
+    private static func getPriceCell() -> SaleItemCellStructure {
         SaleItemCellStructure(type: .textField,
                               inputType: InputType.numbers,
                               serverKey: "price",
@@ -40,7 +44,19 @@ struct SaleItemTemplate: Codable {
                               values: [])
     }
     
-    static func getImageCollectionCelll() -> SaleItemCellStructure {
+    private static func getLocationCell() -> SaleItemCellStructure {
+        SaleItemCellStructure(type: .countryPicker,
+                              inputType: InputType.standard,
+                              serverKey: "location",
+                              title: "_location_",
+                              subtitle: "",
+                              placeholder: "",
+                              required: true,
+                              filterEnabled: true,
+                              values: [])
+    }
+    
+    private static func getImageCollectionCelll() -> SaleItemCellStructure {
         SaleItemCellStructure(type: .imageCollection,
                               inputType: InputType.standard,
                               serverKey: "",

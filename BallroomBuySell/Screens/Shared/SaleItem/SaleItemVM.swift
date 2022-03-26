@@ -60,15 +60,23 @@ struct SaleItemVM {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
         let cellStructure = screenStructure[indexPath.row]
         switch cellStructure.type {
-        case .picker, .numberPicker:
+        case .picker, .countryPicker, .numberPicker:
             guard let cell = PickerTableCell.createCell(tableView) else {
                 return UITableViewCell()
             }
             
-            // if values are empty then it's a specified range of values
-            var pickerValues = cellStructure.values
-            if let max = cellStructure.max, pickerValues.isEmpty {
+            var pickerValues: [PickerValue]
+            switch cellStructure.type {
+            case .countryPicker:
+                pickerValues = Country.getCountryPickerValues.map({ PickerValue(serverKey: $0.code, localizationKey: $0.localizedString) })
+            case .numberPicker:
+                guard let max = cellStructure.max else {
+                    return UITableViewCell()
+                }
+                
                 pickerValues = PickerValue.getPickerValues(for: (min: cellStructure.min, max: max), with: cellStructure.increment)
+            default:
+                pickerValues = cellStructure.values
             }
             
             cell.configureCell(PickerCellDM(titleText: cellStructure.title,
@@ -160,9 +168,7 @@ struct SaleItemVM {
     // MARK: - Private Helpers
     private func getScreenStructure() -> [SaleItemCellStructure] {
         let templateId = saleItem.fields[SaleItemTemplate.serverKey]
-        let structure = [SaleItemTemplate.getTemplateSelectorCell(templates)] +
-            [SaleItemTemplate.getPriceCell()] +
-            [SaleItemTemplate.getImageCollectionCelll()] +
+        let structure = SaleItemTemplate.getHeaderCells(templates) +
             (templates.first(where: { $0.id == templateId })?.screenStructure.filter({ mode == .create || !(saleItem.fields[$0.serverKey] ?? "").isEmpty }) ?? []) // only include blank fields for create mode
         
         if hideContactSeller {

@@ -96,6 +96,7 @@
 		8DE4E46427B30D5D002980D3 /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 8DE4E46327B30D5D002980D3 /* FirebaseFirestoreSwift-Beta */; };
 		8DE4E46627B30D5D002980D3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 8DE4E46527B30D5D002980D3 /* FirebaseStorage */; };
 		8DE4E46927B30DF2002980D3 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8DE4E46827B30DF2002980D3 /* MessageKit */; };
+		8DF3B43D27EFD57200EE6A55 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF3B43C27EFD57200EE6A55 /* Country.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -187,6 +188,7 @@
 		8DA71D1527A4A2B60025C1D5 /* InboxTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTableCell.swift; sourceTree = "<group>"; };
 		8DA71D1727A4A2C50025C1D5 /* InboxCellDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxCellDM.swift; sourceTree = "<group>"; };
 		8DA71D1927A63F590025C1D5 /* Sender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sender.swift; sourceTree = "<group>"; };
+		8DF3B43C27EFD57200EE6A55 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -451,6 +453,7 @@
 			children = (
 				8DA71D0F27A48B5D0025C1D5 /* MessageThread */,
 				8DA71D0E27A48B560025C1D5 /* SaleItem */,
+				8DF3B43C27EFD57200EE6A55 /* Country.swift */,
 				8D9D45B1279E1285004C5565 /* Image.swift */,
 				8D9D45722788D929004C5565 /* User.swift */,
 				8D408F3427CED7B900F13038 /* LocalizedString.swift */,
@@ -777,6 +780,7 @@
 				8D9D459D2791F69E004C5565 /* ImageTableCell.swift in Sources */,
 				8D9D45B2279E1285004C5565 /* Image.swift in Sources */,
 				8D9D4585278A451A004C5565 /* UIButton.swift in Sources */,
+				8DF3B43D27EFD57200EE6A55 /* Country.swift in Sources */,
 				8D9D45C127A08E1A004C5565 /* SaleItemCollectionCell.swift in Sources */,
 				8D9D4589279096C6004C5565 /* InputType.swift in Sources */,
 				8D9D44ED2770C64A004C5565 /* UIViewController.swift in Sources */,

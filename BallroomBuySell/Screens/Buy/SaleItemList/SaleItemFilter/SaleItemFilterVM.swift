@@ -104,7 +104,6 @@ struct SaleItemFilterVM {
     
     // MARK: - Private Helpers
     private static func getScreenStructure(_ templates: [SaleItemTemplate],for templateId: String? = nil) -> [SaleItemCellStructure] {
-        [SaleItemTemplate.getTemplateSelectorCell(templates)] +
-            (templates.first(where: { $0.id == templateId })?.screenStructure.filter({ $0.filterEnabled }) ?? [])
+        (SaleItemTemplate.getHeaderCells(templates) + (templates.first(where: { $0.id == templateId })?.screenStructure ?? [])).filter({ $0.filterEnabled })
     }
 }
