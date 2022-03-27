@@ -42,6 +42,7 @@ struct SaleItemVM {
         PickerTableCell.registerCell(tableView)
         TextFieldTableCell.registerCell(tableView)
         ImageTableCell.registerCell(tableView)
+        TextViewTableCell.registerCell(tableView)
         ButtonTableCell.registerCell(tableView)
     }
     
@@ -107,6 +108,16 @@ struct SaleItemVM {
                                            editable: mode == .create))
             cell.delegate = owner as? (ImageCellDelegate & UIViewController)
             return cell
+        case .textView:
+            guard let cell = TextViewTableCell.createCell(tableView) else {
+                return UITableViewCell()
+            }
+            
+            cell.configureCell(TextViewCellDM(title: cellStructure.title,
+                                               detail: saleItem.fields[cellStructure.serverKey] ?? "",
+                                               isEnabled: mode != .view))
+            cell.delegate = owner as? TextViewCellDelegate
+            return cell
         case .button:
             guard let cell = ButtonTableCell.createCell(tableView) else {
                 return UITableViewCell()
@@ -169,7 +180,8 @@ struct SaleItemVM {
     private func getScreenStructure() -> [SaleItemCellStructure] {
         let templateId = saleItem.fields[SaleItemTemplate.serverKey]
         let structure = SaleItemTemplate.getHeaderCells(templates) +
-            (templates.first(where: { $0.id == templateId })?.screenStructure.filter({ mode == .create || !(saleItem.fields[$0.serverKey] ?? "").isEmpty }) ?? []) // only include blank fields for create mode
+            (templates.first(where: { $0.id == templateId })?.screenStructure.filter({ mode == .create || !(saleItem.fields[$0.serverKey] ?? "").isEmpty }) ?? []) + // only include blank fields for create mode
+        SaleItemTemplate.getFooterCells()
         
         if hideContactSeller {
             return structure

@@ -20,6 +20,10 @@ struct SaleItemTemplate: Codable {
         [getTemplateSelectorCell(templates), getPriceCell(), getLocationCell(), getImageCollectionCelll()]
     }
     
+    static func getFooterCells() -> [SaleItemCellStructure] {
+        [getNotesCell()]
+    }
+    
     private static func getTemplateSelectorCell(_ templates: [SaleItemTemplate]) -> SaleItemCellStructure {
         SaleItemCellStructure(type: .picker,
                               inputType: .standard,
@@ -65,6 +69,18 @@ struct SaleItemTemplate: Codable {
                               placeholder: "",
                               required: true,
                               filterEnabled: false,
+                              values: [])
+    }
+    
+    private static func getNotesCell() -> SaleItemCellStructure {
+        SaleItemCellStructure(type: .textView,
+                              inputType: InputType.standard,
+                              serverKey: "notes",
+                              title: "_notes_",
+                              subtitle: "",
+                              placeholder: "",
+                              required: true,
+                              filterEnabled: true,
                               values: [])
     }
     

@@ -97,6 +97,9 @@
 		8DE4E46627B30D5D002980D3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 8DE4E46527B30D5D002980D3 /* FirebaseStorage */; };
 		8DE4E46927B30DF2002980D3 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8DE4E46827B30DF2002980D3 /* MessageKit */; };
 		8DF3B43D27EFD57200EE6A55 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF3B43C27EFD57200EE6A55 /* Country.swift */; };
+		8DF3B44027EFDB4800EE6A55 /* TextViewCellDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF3B43F27EFDB4800EE6A55 /* TextViewCellDM.swift */; };
+		8DF3B44227EFDB5300EE6A55 /* TextViewTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF3B44127EFDB5300EE6A55 /* TextViewTableCell.swift */; };
+		8DF3B44427EFDB5F00EE6A55 /* TextViewTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DF3B44327EFDB5F00EE6A55 /* TextViewTableCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -189,6 +192,9 @@
 		8DA71D1727A4A2C50025C1D5 /* InboxCellDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxCellDM.swift; sourceTree = "<group>"; };
 		8DA71D1927A63F590025C1D5 /* Sender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sender.swift; sourceTree = "<group>"; };
 		8DF3B43C27EFD57200EE6A55 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
+		8DF3B43F27EFDB4800EE6A55 /* TextViewCellDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewCellDM.swift; sourceTree = "<group>"; };
+		8DF3B44127EFDB5300EE6A55 /* TextViewTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewTableCell.swift; sourceTree = "<group>"; };
+		8DF3B44327EFDB5F00EE6A55 /* TextViewTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextViewTableCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -396,6 +402,7 @@
 				8D9D455127822B66004C5565 /* ButtonTableCell */,
 				8D9D456027876E3B004C5565 /* PickerTableCell */,
 				8D9D453B277CDDE6004C5565 /* TextFieldTableCell */,
+				8DF3B43E27EFDB2600EE6A55 /* TextViewTableCell */,
 			);
 			path = SharedCells;
 			sourceTree = "<group>";
@@ -629,6 +636,16 @@
 			path = InboxTableCell;
 			sourceTree = "<group>";
 		};
+		8DF3B43E27EFDB2600EE6A55 /* TextViewTableCell */ = {
+			isa = PBXGroup;
+			children = (
+				8DF3B43F27EFDB4800EE6A55 /* TextViewCellDM.swift */,
+				8DF3B44127EFDB5300EE6A55 /* TextViewTableCell.swift */,
+				8DF3B44327EFDB5F00EE6A55 /* TextViewTableCell.xib */,
+			);
+			path = TextViewTableCell;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -714,6 +731,7 @@
 				8D9D4543277CE193004C5565 /* TextFieldTableCell.xib in Resources */,
 				8D9D455E278767A4004C5565 /* PickerViewController.xib in Resources */,
 				8D9D45A827922FC9004C5565 /* ImageViewer.xib in Resources */,
+				8DF3B44427EFDB5F00EE6A55 /* TextViewTableCell.xib in Resources */,
 				8D9D4532277A53D0004C5565 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -739,6 +757,7 @@
 				8D9D45792788F044004C5565 /* SaleItemCellStructure.swift in Sources */,
 				8D9D45A327922303004C5565 /* PermissionsManager.swift in Sources */,
 				8D9D4536277B92DB004C5565 /* AuthenticationManager.swift in Sources */,
+				8DF3B44027EFDB4800EE6A55 /* TextViewCellDM.swift in Sources */,
 				8D9D45942791D4F0004C5565 /* FileSystemManager.swift in Sources */,
 				8D9D457F2788F5EF004C5565 /* SaleItemCellType.swift in Sources */,
 				8D9D45902790CF40004C5565 /* Storyboard.swift in Sources */,
@@ -751,6 +770,7 @@
 				8D9D45BE27A07C8B004C5565 /* SaleItemListVM.swift in Sources */,
 				8D9D45A627922FBE004C5565 /* ImageViewer.swift in Sources */,
 				8D9D45B8279F3764004C5565 /* SaleItemFilterVC.swift in Sources */,
+				8DF3B44227EFDB5300EE6A55 /* TextViewTableCell.swift in Sources */,
 				8D9D451727721F77004C5565 /* ViewControllerProtocol.swift in Sources */,
 				8D9D4538277BB14C004C5565 /* SellVC.swift in Sources */,
 				8D9D452127723068004C5565 /* LoginVC.swift in Sources */,
