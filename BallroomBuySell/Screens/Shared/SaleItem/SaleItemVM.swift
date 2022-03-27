@@ -62,16 +62,16 @@ struct SaleItemVM {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
         let cellStructure = screenStructure[indexPath.row]
         switch cellStructure.type {
-        case .picker, .countryPicker, .numberPicker:
+        case .picker:
             guard let cell = PickerTableCell.createCell(tableView) else {
                 return UITableViewCell()
             }
             
             var pickerValues: [PickerValue]
-            switch cellStructure.type {
-            case .countryPicker:
+            switch cellStructure.inputType {
+            case .country:
                 pickerValues = Country.getCountryPickerValues.map({ PickerValue(serverKey: $0.code, localizationKey: $0.localizedString) })
-            case .numberPicker:
+            case .measurement:
                 guard let max = cellStructure.max else {
                     return UITableViewCell()
                 }
@@ -203,7 +203,7 @@ struct SaleItemVM {
         structure = structure.filter({ mode == .create || !(saleItem.fields[$0.serverKey] ?? "").isEmpty })
         
         // determine size metrics used
-        structure = structure.filter({ saleItem.useStandardSizing ? $0.sizing != .measurements :  $0.sizing != .standard })
+        structure = structure.filter({ saleItem.useStandardSizing ? $0.inputType != .measurement :  $0.inputType != .standardSize })
         
         if hideContactSeller {
             return structure

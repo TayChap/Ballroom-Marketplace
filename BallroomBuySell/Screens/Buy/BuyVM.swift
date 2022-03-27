@@ -28,7 +28,7 @@ struct BuyVM {
         SaleItemCollectionCell.registerCell(collectionView)
         BuySectionHeader.registerCell(collectionView)
         
-        //TemplateManager.updateTemplates()
+//        TemplateManager.updateTemplates()
     }
     
     func viewWillAppear(_ completion: @escaping (_ templates: [SaleItemTemplate], _ saleItems: [SaleItem]) -> Void) {

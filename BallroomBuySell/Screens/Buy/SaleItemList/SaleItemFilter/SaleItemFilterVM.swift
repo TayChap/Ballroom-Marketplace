@@ -66,8 +66,6 @@ struct SaleItemFilterVM {
                                             showRequiredAsterisk: cellStructure.required))
             cell.delegate = owner as? PickerCellDelegate
             return cell
-        case .numberPicker:
-            return UITableViewCell() // TODO! potentially setup 2D picker for value ranges!
         case .textField:
             guard let cell = TextFieldTableCell.createCell(tableView) else {
                 return UITableViewCell()

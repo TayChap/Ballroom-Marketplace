@@ -38,7 +38,7 @@ struct SaleItemTemplate: Codable {
     
     private static func getPriceCell() -> SaleItemCellStructure {
         SaleItemCellStructure(type: .textField,
-                              inputType: InputType.numbers,
+                              inputType: .numbers,
                               serverKey: "price",
                               title: "price (USD)",
                               subtitle: "",
@@ -49,8 +49,8 @@ struct SaleItemTemplate: Codable {
     }
     
     private static func getLocationCell() -> SaleItemCellStructure {
-        SaleItemCellStructure(type: .countryPicker,
-                              inputType: InputType.standard,
+        SaleItemCellStructure(type: .picker,
+                              inputType: .country,
                               serverKey: "location",
                               title: "_location_",
                               subtitle: "",
@@ -62,7 +62,7 @@ struct SaleItemTemplate: Codable {
     
     private static func getImageCollectionCelll() -> SaleItemCellStructure {
         SaleItemCellStructure(type: .imageCollection,
-                              inputType: InputType.standard,
+                              inputType: .standard,
                               serverKey: "",
                               title: "image test_title",
                               subtitle: "",
@@ -74,7 +74,7 @@ struct SaleItemTemplate: Codable {
     
     private static func getNotesCell() -> SaleItemCellStructure {
         SaleItemCellStructure(type: .textView,
-                              inputType: InputType.standard,
+                              inputType: .standard,
                               serverKey: "notes",
                               title: "_notes_",
                               subtitle: "",
@@ -86,7 +86,7 @@ struct SaleItemTemplate: Codable {
     
     static func getContactSellerCell() -> SaleItemCellStructure {
         SaleItemCellStructure(type: .button,
-                              inputType: InputType.standard,
+                              inputType: .standard,
                               serverKey: "",
                               title: "contact_seller",
                               subtitle: "",

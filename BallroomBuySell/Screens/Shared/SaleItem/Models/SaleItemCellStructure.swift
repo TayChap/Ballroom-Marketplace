@@ -14,7 +14,6 @@ struct SaleItemCellStructure: Codable {
     let placeholder: String
     let required: Bool
     let filterEnabled: Bool
-    var sizing: Sizing? = nil // if it's a sizing metric, define if it's standard or measurement based
     var values = [PickerValue]() // values for picker
     var min = 0.0 // the minimum value for a picker
     var max: Double? // the maximum value for a picker
