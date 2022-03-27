@@ -42,6 +42,7 @@ struct SaleItemVM {
         PickerTableCell.registerCell(tableView)
         TextFieldTableCell.registerCell(tableView)
         ImageTableCell.registerCell(tableView)
+        SwitchTableCell.registerCell(tableView)
         TextViewTableCell.registerCell(tableView)
         ButtonTableCell.registerCell(tableView)
     }
@@ -108,6 +109,16 @@ struct SaleItemVM {
                                            editable: mode == .create))
             cell.delegate = owner as? (ImageCellDelegate & UIViewController)
             return cell
+        case .toggle:
+            guard let cell = SwitchTableCell.createCell(tableView) else {
+                return UITableViewCell()
+            }
+            
+            cell.configureCell(SwitchCellDM(title: cellStructure.title,
+                                            isSelected: saleItem.useStandardSizing,
+                                            isEnabled: mode != .view))
+            cell.delegate = owner as? SwitchCellDelegate
+            return cell
         case .textView:
             guard let cell = TextViewTableCell.createCell(tableView) else {
                 return UITableViewCell()
@@ -145,6 +156,12 @@ struct SaleItemVM {
         saleItem.images.remove(at: index)
     }
     
+    // MARK: - SwitchCellDelegate
+    mutating func updateSwitchDetail(_ newValue: Bool, for cell: SwitchTableCell) {
+        saleItem.useStandardSizing = newValue
+        screenStructure = getScreenStructure()
+    }
+    
     // MARK: - ButtonCellDelegate
     func buttonClicked(_ signIn: () -> Void) {
         guard let user = AuthenticationManager().user else {
@@ -178,10 +195,15 @@ struct SaleItemVM {
     
     // MARK: - Private Helpers
     private func getScreenStructure() -> [SaleItemCellStructure] {
-        let templateId = saleItem.fields[SaleItemTemplate.serverKey]
-        let structure = SaleItemTemplate.getHeaderCells(templates) +
-            (templates.first(where: { $0.id == templateId })?.screenStructure.filter({ mode == .create || !(saleItem.fields[$0.serverKey] ?? "").isEmpty }) ?? []) + // only include blank fields for create mode
-        SaleItemTemplate.getFooterCells()
+        var structure = SaleItemTemplate.getHeaderCells(templates) +
+            (templates.first(where: { $0.id == saleItem.fields[SaleItemTemplate.serverKey] })?.screenStructure ?? []) +
+            SaleItemTemplate.getFooterCells()
+        
+        // only include blank fields for create mode
+        structure = structure.filter({ mode == .create || !(saleItem.fields[$0.serverKey] ?? "").isEmpty })
+        
+        // determine size metrics used
+        structure = structure.filter({ saleItem.useStandardSizing ? $0.sizing != .measurements :  $0.sizing != .standard })
         
         if hideContactSeller {
             return structure

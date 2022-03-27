@@ -90,6 +90,10 @@
 		8DA71D1627A4A2B60025C1D5 /* InboxTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA71D1527A4A2B60025C1D5 /* InboxTableCell.swift */; };
 		8DA71D1827A4A2C50025C1D5 /* InboxCellDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA71D1727A4A2C50025C1D5 /* InboxCellDM.swift */; };
 		8DA71D1A27A63F590025C1D5 /* Sender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA71D1927A63F590025C1D5 /* Sender.swift */; };
+		8DCC41C327F0A3670090EDDE /* Sizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCC41C227F0A3670090EDDE /* Sizing.swift */; };
+		8DCD6E1127F00782008FF5A7 /* SwitchTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCD6E1027F00782008FF5A7 /* SwitchTableCell.swift */; };
+		8DCD6E1327F00796008FF5A7 /* SwitchTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DCD6E1227F00796008FF5A7 /* SwitchTableCell.xib */; };
+		8DCD6E1527F007A1008FF5A7 /* SwitchCellDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCD6E1427F007A1008FF5A7 /* SwitchCellDM.swift */; };
 		8DE4E45E27B30D5D002980D3 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 8DE4E45D27B30D5D002980D3 /* FirebaseAppCheck */; };
 		8DE4E46027B30D5D002980D3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8DE4E45F27B30D5D002980D3 /* FirebaseAuth */; };
 		8DE4E46227B30D5D002980D3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8DE4E46127B30D5D002980D3 /* FirebaseFirestore */; };
@@ -191,6 +195,10 @@
 		8DA71D1527A4A2B60025C1D5 /* InboxTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTableCell.swift; sourceTree = "<group>"; };
 		8DA71D1727A4A2C50025C1D5 /* InboxCellDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxCellDM.swift; sourceTree = "<group>"; };
 		8DA71D1927A63F590025C1D5 /* Sender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sender.swift; sourceTree = "<group>"; };
+		8DCC41C227F0A3670090EDDE /* Sizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sizing.swift; sourceTree = "<group>"; };
+		8DCD6E1027F00782008FF5A7 /* SwitchTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableCell.swift; sourceTree = "<group>"; };
+		8DCD6E1227F00796008FF5A7 /* SwitchTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SwitchTableCell.xib; sourceTree = "<group>"; };
+		8DCD6E1427F007A1008FF5A7 /* SwitchCellDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchCellDM.swift; sourceTree = "<group>"; };
 		8DF3B43C27EFD57200EE6A55 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		8DF3B43F27EFDB4800EE6A55 /* TextViewCellDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewCellDM.swift; sourceTree = "<group>"; };
 		8DF3B44127EFDB5300EE6A55 /* TextViewTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewTableCell.swift; sourceTree = "<group>"; };
@@ -401,6 +409,7 @@
 			children = (
 				8D9D455127822B66004C5565 /* ButtonTableCell */,
 				8D9D456027876E3B004C5565 /* PickerTableCell */,
+				8DCD6E0F27F00769008FF5A7 /* SwitchTableCell */,
 				8D9D453B277CDDE6004C5565 /* TextFieldTableCell */,
 				8DF3B43E27EFDB2600EE6A55 /* TextViewTableCell */,
 			);
@@ -605,6 +614,7 @@
 				8D9D4588279096C6004C5565 /* InputType.swift */,
 				8D9D45762788E038004C5565 /* SaleItem.swift */,
 				8D9D45C927A214DD004C5565 /* SaleItemFilter.swift */,
+				8DCC41C227F0A3670090EDDE /* Sizing.swift */,
 			);
 			path = SaleItem;
 			sourceTree = "<group>";
@@ -634,6 +644,16 @@
 				8DA71D1727A4A2C50025C1D5 /* InboxCellDM.swift */,
 			);
 			path = InboxTableCell;
+			sourceTree = "<group>";
+		};
+		8DCD6E0F27F00769008FF5A7 /* SwitchTableCell */ = {
+			isa = PBXGroup;
+			children = (
+				8DCD6E1427F007A1008FF5A7 /* SwitchCellDM.swift */,
+				8DCD6E1027F00782008FF5A7 /* SwitchTableCell.swift */,
+				8DCD6E1227F00796008FF5A7 /* SwitchTableCell.xib */,
+			);
+			path = SwitchTableCell;
 			sourceTree = "<group>";
 		};
 		8DF3B43E27EFDB2600EE6A55 /* TextViewTableCell */ = {
@@ -721,6 +741,7 @@
 				8D9D456627876E6F004C5565 /* PickerTableCell.xib in Resources */,
 				8D9D455527822B91004C5565 /* ButtonTableCell.xib in Resources */,
 				8D9D45C627A08E55004C5565 /* SaleItemCollectionCell.xib in Resources */,
+				8DCD6E1327F00796008FF5A7 /* SwitchTableCell.xib in Resources */,
 				8D1BB535273EF97900677EF7 /* LaunchScreen.storyboard in Resources */,
 				8D9D450927711E44004C5565 /* Localizable.strings in Resources */,
 				8D9D459F2791F6B0004C5565 /* ImageTableCell.xib in Resources */,
@@ -753,6 +774,7 @@
 				8D9D4545277D1573004C5565 /* SignUpVM.swift in Sources */,
 				8D9D45C427A08E34004C5565 /* SaleItemCellDM.swift in Sources */,
 				8D9D453F277CDE09004C5565 /* TextFieldTableCell.swift in Sources */,
+				8DCD6E1127F00782008FF5A7 /* SwitchTableCell.swift in Sources */,
 				8D0E0D0327B6CA1300E1EEE0 /* MediaManager.swift in Sources */,
 				8D9D45792788F044004C5565 /* SaleItemCellStructure.swift in Sources */,
 				8D9D45A327922303004C5565 /* PermissionsManager.swift in Sources */,
@@ -761,6 +783,7 @@
 				8D9D45942791D4F0004C5565 /* FileSystemManager.swift in Sources */,
 				8D9D457F2788F5EF004C5565 /* SaleItemCellType.swift in Sources */,
 				8D9D45902790CF40004C5565 /* Storyboard.swift in Sources */,
+				8DCC41C327F0A3670090EDDE /* Sizing.swift in Sources */,
 				8D9D45752788DF30004C5565 /* DatabaseManager.swift in Sources */,
 				8DA71D1327A499D20025C1D5 /* MessageThreadVM.swift in Sources */,
 				8D9D45992791F67F004C5565 /* ImageCollectionCell.swift in Sources */,
@@ -791,6 +814,7 @@
 				8D1BB529273EF97700677EF7 /* AppDelegate.swift in Sources */,
 				8DA71D0427A36E280025C1D5 /* UICollectionViewCell.swift in Sources */,
 				8D9D45B6279F3758004C5565 /* SaleItemListVC.swift in Sources */,
+				8DCD6E1527F007A1008FF5A7 /* SwitchCellDM.swift in Sources */,
 				8D9D45732788D929004C5565 /* User.swift in Sources */,
 				8D9D453D277CDDFB004C5565 /* TextFieldCellDM.swift in Sources */,
 				8D9D45CA27A214DD004C5565 /* SaleItemFilter.swift in Sources */,

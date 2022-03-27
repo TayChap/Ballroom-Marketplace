@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol, PickerCellDelegate, TextFieldCellDelegate, ImageCellDelegate, TextViewCellDelegate {
+class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol, PickerCellDelegate, TextFieldCellDelegate, ImageCellDelegate, SwitchCellDelegate, TextViewCellDelegate {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     private var vm: SaleItemVM!
@@ -106,6 +106,12 @@ class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, View
     
     func deleteImage(at index: Int) {
         vm.deleteImage(at: index)
+        reload()
+    }
+    
+    // MARK: - SwitchCellDelegate
+    func updateSwitchDetail(_ newValue: Bool, for cell: SwitchTableCell) {
+        vm.updateSwitchDetail(newValue, for: cell)
         reload()
     }
     

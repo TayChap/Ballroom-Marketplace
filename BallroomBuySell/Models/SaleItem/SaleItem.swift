@@ -16,5 +16,6 @@ struct SaleItem: Codable {
     var dateAdded: Date? = nil
     var userId: String
     var images = [Image]()
+    var useStandardSizing = false
     var fields: [String: String] = [:] // [serverKey: value]
 }
