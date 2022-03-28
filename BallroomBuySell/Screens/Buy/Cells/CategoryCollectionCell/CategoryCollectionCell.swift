@@ -24,15 +24,19 @@ class CategoryCollectionCell: UICollectionViewCell, CollectionCellProtocol  {
         clearContent()
         
         ImageManager.sharedInstance.downloadImage(at: dm.imageURL) { [weak self] image in // weak self because cell might be deallocated before network call returns
+            
+            // TODO! evaluate if this check is required
+            //if self?.imageURL == dm.imageURL { // check if captured imageURL is same as current cell
+            
             self?.categoryImageView.image = UIImage(data: image)
         }
         
         categoryLabel.text = dm.categoryTitle
-        
         applyRoundedCorners()
     }
     
     func clearContent() {
         categoryLabel.text = ""
+        categoryImageView.image = nil
     }
 }

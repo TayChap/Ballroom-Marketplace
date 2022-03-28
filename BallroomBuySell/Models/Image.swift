@@ -37,7 +37,11 @@ struct Image: Codable {
         checkCompletion()
         
         for imageURL in imageURLs {
-            FileSystemManager.getFile(at: imageURL) { data in
+            FileSystemManager.getFile(at: imageURL) { data, error in
+                if error != nil {
+                    return
+                }
+                
                 fetchedImages.append(Image(url: imageURL, data: data))
                 checkCompletion()
             }

@@ -36,8 +36,13 @@ class ImageManager {
         if currentCallCount < maxSimultaneousCalls {
             let imageRequestObject = requestQueue.removeLast()
             currentCallCount += 1
-            FileSystemManager.getFile(at: imageRequestObject.url) { data in
+            FileSystemManager.getFile(at: imageRequestObject.url) { data, error in
                 self.currentCallCount -= 1
+                
+                guard let data = data, error == nil else {
+                    return
+                }
+                
                 completion(data)
             }
         }
