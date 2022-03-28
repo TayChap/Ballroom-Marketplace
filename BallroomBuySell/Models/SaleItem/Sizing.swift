@@ -135,7 +135,7 @@ enum Sizing: String, Codable {
         SaleItemCellStructure(type: .picker,
                               inputType: .measurement,
                               serverKey: "sleeveWidth",
-                              title: "text arm_length",
+                              title: "text sleeve width title",
                               subtitle: "test_subtitle arm description",
                               placeholder: "test_placeholder",
                               required: false,

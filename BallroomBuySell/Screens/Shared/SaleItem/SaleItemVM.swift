@@ -196,11 +196,8 @@ struct SaleItemVM {
     // MARK: - Private Helpers
     private func getScreenStructure() -> [SaleItemCellStructure] {
         var structure = SaleItemTemplate.getHeaderCells(templates) +
-            (templates.first(where: { $0.id == saleItem.fields[SaleItemTemplate.serverKey] })?.screenStructure ?? []) +
+            (templates.first(where: { $0.id == saleItem.fields[SaleItemTemplate.serverKey] })?.screenStructure ?? []).filter({ mode == .create || !(saleItem.fields[$0.serverKey] ?? "").isEmpty }) + // only include blank fields for create mode
             SaleItemTemplate.getFooterCells()
-        
-        // only include blank fields for create mode
-        structure = structure.filter({ mode == .create || !(saleItem.fields[$0.serverKey] ?? "").isEmpty })
         
         // determine size metrics used
         structure = structure.filter({ saleItem.useStandardSizing ? $0.inputType != .measurement :  $0.inputType != .standardSize })
