@@ -25,9 +25,16 @@ struct TemplateManager {
             let templates = [
                 getTailsuitTemplate(),
                 getStandardDressTemplate(),
-                getShoesTemplate()
-            ]
-            
+                getLatinDressTemplate(),
+                getMensLatinTop(),
+                getMensLatinBottom(),
+                getMensPracticeTop(),
+                getWomansPracticeTop(),
+                getWomansPracticeBottom(),
+                getWomansStandardShoesTemplate(),
+                getWomansLatinShoesTemplate(),
+                getMensStandardShoesTemplate(),
+                getMensLatinShoesTemplate()]
             for template in templates {
                 DatabaseManager.sharedInstance.createDocument(.templates, template)
             }
@@ -56,136 +63,84 @@ struct TemplateManager {
                                                                  subtitle: "test_subtitle",
                                                                  placeholder: "test_placeholder",
                                                                  required: true,
-                                                                 filterEnabled: false),
-                                           SaleItemCellStructure(type: .picker,
-                                                                 inputType: .measurement,
-                                                                 serverKey: "armLength",
-                                                                 title: "text arm_length",
-                                                                 subtitle: "test_subtitle arm description",
-                                                                 placeholder: "test_placeholder",
-                                                                 required: false,
-                                                                 filterEnabled: true,
-                                                                 min: 0.5,
-                                                                 max: 10.0,
-                                                                 increment: 0.5)])
+                                                                 filterEnabled: false)] +
+                         Sizing.tails.measurementCells)
     }
     
     private static func getStandardDressTemplate() -> SaleItemTemplate {
         SaleItemTemplate(id: "standardDress",
                          name: "standardDress",
                          imageURL: "\(imageURLPrefix)standardDress",
-                         screenStructure: [SaleItemCellStructure(type: .toggle,
-                                                                 inputType: .standard,
-                                                                 serverKey: "remove", // TODO!
-                                                                 title: "use std sizes?",
-                                                                 subtitle: "",
-                                                                 placeholder: "test_placeholder",
-                                                                 required: false,
-                                                                 filterEnabled: false),
-                                           SaleItemCellStructure(type: .picker,
-                                                                 inputType: .standardSize,
-                                                                 serverKey: "standardSize",
-                                                                 title: "standardSize",
-                                                                 subtitle: "",
-                                                                 placeholder: "",
-                                                                 required: true,
-                                                                 filterEnabled: true,
-                                                                 values: [PickerValue(serverKey: "", localizationKey: ""),
-                                                                          PickerValue(serverKey: "XXS", localizationKey: "xxs_key"),
-                                                                          PickerValue(serverKey: "XS", localizationKey: "xs_key"),
-                                                                          PickerValue(serverKey: "S", localizationKey: "s_key"),
-                                                                          PickerValue(serverKey: "M", localizationKey: "m_key"),
-                                                                          PickerValue(serverKey: "L", localizationKey: "l_key"),
-                                                                          PickerValue(serverKey: "XL", localizationKey: "xl_key"),
-                                                                          PickerValue(serverKey: "XXL", localizationKey: "xxl_key")]),
-                                           SaleItemCellStructure(type: .picker,
-                                                                 inputType: .measurement,
-                                                                 serverKey: "bust",
-                                                                 title: "text bust",
-                                                                 subtitle: "bust description",
-                                                                 placeholder: "test_placeholder",
-                                                                 required: false,
-                                                                 filterEnabled: true,
-                                                                 min: 0.5,
-                                                                 max: 10.0,
-                                                                 increment: 0.5),
-                                           SaleItemCellStructure(type: .picker,
-                                                                 inputType: .measurement,
-                                                                 serverKey: "waist",
-                                                                 title: "text waist",
-                                                                 subtitle: "test_subtitle waist description",
-                                                                 placeholder: "test_placeholder",
-                                                                 required: false,
-                                                                 filterEnabled: true,
-                                                                 min: 0.5,
-                                                                 max: 10.0,
-                                                                 increment: 0.5),
-                                           SaleItemCellStructure(type: .picker,
-                                                                 inputType: .measurement,
-                                                                 serverKey: "hips",
-                                                                 title: "text hips",
-                                                                 subtitle: "test_subtitle hips description",
-                                                                 placeholder: "test_placeholder",
-                                                                 required: false,
-                                                                 filterEnabled: true,
-                                                                 min: 0.5,
-                                                                 max: 10.0,
-                                                                 increment: 0.5),
-                                           SaleItemCellStructure(type: .picker,
-                                                                 inputType: .measurement,
-                                                                 serverKey: "inseam",
-                                                                 title: "text inseam",
-                                                                 subtitle: "test_subtitle inseam description",
-                                                                 placeholder: "test_placeholder",
-                                                                 required: false,
-                                                                 filterEnabled: true,
-                                                                 min: 0.5,
-                                                                 max: 10.0,
-                                                                 increment: 0.5),
-                                           SaleItemCellStructure(type: .picker,
-                                                                 inputType: .measurement,
-                                                                 serverKey: "armLength",
-                                                                 title: "text arm_length",
-                                                                 subtitle: "test_subtitle arm description",
-                                                                 placeholder: "test_placeholder",
-                                                                 required: false,
-                                                                 filterEnabled: true,
-                                                                 min: 0.5,
-                                                                 max: 10.0,
-                                                                 increment: 0.5)])
+                         screenStructure: Sizing.dress.measurementCells)
     }
     
-    private static func getShoesTemplate() -> SaleItemTemplate {
-        SaleItemTemplate(id: "shoes",
-                         name: "shoes_key",
-                         imageURL: "\(imageURLPrefix)shoes",
-                         screenStructure: [SaleItemCellStructure(type: .picker,
-                                                                 inputType: InputType.standard,
-                                                                 serverKey: "picker",
-                                                                 title: "picker test_title",
-                                                                 subtitle: "",
-                                                                 placeholder: "",
-                                                                 required: true,
-                                                                 filterEnabled: true,
-                                                                 values: [PickerValue(serverKey: "", localizationKey: ""),
-                                                                          PickerValue(serverKey: "value", localizationKey: "value_key")]),
-                                           SaleItemCellStructure(type: .textField,
-                                                                 inputType: InputType.standard,
-                                                                 serverKey: "text",
-                                                                 title: "text test_title",
-                                                                 subtitle: "test_subtitle",
-                                                                 placeholder: "test_placeholder",
-                                                                 required: true,
-                                                                 filterEnabled: true),
-                                           SaleItemCellStructure(type: .picker,
-                                                                 inputType: InputType.standard,
-                                                                 serverKey: "pickerText",
-                                                                 title: "text test_title",
-                                                                 subtitle: "test_subtitle",
-                                                                 placeholder: "test_placeholder",
-                                                                 required: true,
-                                                                 filterEnabled: true,
-                                                                 values: [PickerValue(serverKey: "", localizationKey: ""),
-                                                                          PickerValue(serverKey: "value", localizationKey: "value_key")])])
+    private static func getLatinDressTemplate() -> SaleItemTemplate {
+        SaleItemTemplate(id: "latinDress",
+                         name: "latinDress",
+                         imageURL: "\(imageURLPrefix)latinDress",
+                         screenStructure: Sizing.dress.measurementCells)
+    }
+    
+    private static func getMensLatinTop() -> SaleItemTemplate {
+        SaleItemTemplate(id: "mensLatinTop",
+                         name: "mensLatinTop",
+                         imageURL: "\(imageURLPrefix)mensLatinTop",
+                         screenStructure: Sizing.shirt.measurementCells)
+    }
+    
+    private static func getMensLatinBottom() -> SaleItemTemplate {
+        SaleItemTemplate(id: "mensLatinBottom",
+                         name: "mensLatinBottom",
+                         imageURL: "\(imageURLPrefix)mensLatinBottom",
+                         screenStructure: Sizing.pant.measurementCells)
+    }
+    
+    private static func getMensPracticeTop() -> SaleItemTemplate {
+        SaleItemTemplate(id: "mensPracticeTop",
+                         name: "mensPracticeTop",
+                         imageURL: "\(imageURLPrefix)mensPracticeTop",
+                         screenStructure: Sizing.shirt.measurementCells)
+    }
+    
+    private static func getWomansPracticeTop() -> SaleItemTemplate {
+        SaleItemTemplate(id: "womansPracticeTop",
+                         name: "womansPracticeTop",
+                         imageURL: "\(imageURLPrefix)womansPracticeTop",
+                         screenStructure: Sizing.shirt.measurementCells)
+    }
+    
+    private static func getWomansPracticeBottom() -> SaleItemTemplate {
+        SaleItemTemplate(id: "womansPracticeBottom",
+                         name: "womansPracticeBottom",
+                         imageURL: "\(imageURLPrefix)womansPracticeBottom",
+                         screenStructure: Sizing.pant.measurementCells)
+    }
+    
+    private static func getMensStandardShoesTemplate() -> SaleItemTemplate {
+        SaleItemTemplate(id: "mensStandardShoes",
+                         name: "mensStandardShoes shoes_key",
+                         imageURL: "\(imageURLPrefix)mensStandardShoes",
+                         screenStructure: Sizing.mensFlatShoes.measurementCells)
+    }
+    
+    private static func getMensLatinShoesTemplate() -> SaleItemTemplate {
+        SaleItemTemplate(id: "mensLatinShoes",
+                         name: "mensLatinShoes shoes_key",
+                         imageURL: "\(imageURLPrefix)mensLatinShoes",
+                         screenStructure: Sizing.mensHeelShoes.measurementCells)
+    }
+    
+    private static func getWomansStandardShoesTemplate() -> SaleItemTemplate {
+        SaleItemTemplate(id: "womansStandardShoes",
+                         name: "WomansStandardShoes shoes_key",
+                         imageURL: "\(imageURLPrefix)womansStandardShoes",
+                         screenStructure: Sizing.womansHeelShoes.measurementCells)
+    }
+    
+    private static func getWomansLatinShoesTemplate() -> SaleItemTemplate {
+        SaleItemTemplate(id: "womanLatinShoes",
+                         name: "womanLatinShoes shoes_key",
+                         imageURL: "\(imageURLPrefix)womanLatinShoes",
+                         screenStructure: Sizing.womansHeelShoes.measurementCells)
     }
 }
