@@ -75,7 +75,7 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
         titleLabel.attributedText = NSAttributedString(string: dm.titleText)
         
         // Detail label
-        detailLabel.text = dm.detailText ?? getLocalizedText()
+        detailLabel.text = dm.pickerValues[0].first(where: { $0.serverKey == selectedValues[0] })?.localizationKey
         
         // Other text field
         otherTextField.isHidden = detailLabel.text != "generic.other.colon"
@@ -175,11 +175,11 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
     }
     
     // MARK: - Private Helpers
-    private func getLocalizedText() -> String { // TODO!
-        guard let first = selectedValues.first else {
-            return ""
-        }
-        
+//    private func getLocalizedText() -> String { // TODO!
+//        guard let first = selectedValues.first else {
+//            return ""
+//        }
+//
 //        switch pickerType {
 //        case .picker:
 //            if let key = pickerValues.first?.first(where: { first == $0.serverMapping })?.localizationKey {
@@ -196,7 +196,7 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
 //        case .date, .dateTime:
 //            return first.isEmpty ? LocalizationManager.localizedString(forKey: "generic.select.one") : first
 //        }
-        
-        return first
-    }
+//
+//        return first
+//    }
 }
