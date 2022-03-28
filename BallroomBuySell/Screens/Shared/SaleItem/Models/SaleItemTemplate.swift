@@ -43,8 +43,8 @@ struct SaleItemTemplate: Codable {
                               title: "price (USD)",
                               subtitle: "",
                               placeholder: "",
-                              required: true,
-                              filterEnabled: true,
+                              required: false,
+                              filterEnabled: false,
                               values: [])
     }
     
@@ -80,7 +80,7 @@ struct SaleItemTemplate: Codable {
                               subtitle: "",
                               placeholder: "",
                               required: true,
-                              filterEnabled: true,
+                              filterEnabled: false,
                               values: [])
     }
     

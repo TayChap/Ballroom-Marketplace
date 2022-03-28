@@ -16,12 +16,10 @@ struct SaleItemListVM {
     init(_ owner: ViewControllerProtocol, _ templates: [SaleItemTemplate], _ unfilteredSaleItems: [SaleItem]) {
         delegate = owner
         self.templates = templates
-        
         saleItems = unfilteredSaleItems
     }
     
     func viewDidLoad(_ collectionView: UICollectionView) {
-        // TODO! set view controller title (all items OR type)
         SaleItemCollectionCell.registerCell(collectionView)
     }
     
@@ -36,14 +34,11 @@ struct SaleItemListVM {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellData = saleItems[indexPath.item]
-        guard
-            let cell = SaleItemCollectionCell.createCell(collectionView, for: indexPath),
-            let coverImageURL = cellData.images.map({ $0.url }).first
-        else {
+        guard let cell = SaleItemCollectionCell.createCell(collectionView, for: indexPath) else {
             return UICollectionViewCell()
         }
         
-        cell.configureCell(SaleItemCellDM(imageURL: coverImageURL,
+        cell.configureCell(SaleItemCellDM(imageURL: cellData.images.map({ $0.url }).first ?? "",
                                           price: "$50.00",
                                           date: cellData.dateAdded ?? Date())) // TODO should dateAdded be optional ?
         return cell
@@ -52,5 +47,9 @@ struct SaleItemListVM {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.pushViewController(SaleItemViewVC.createViewController(templates: templates,
                                                                          saleItem: saleItems[indexPath.item]))
+    }
+    
+    mutating func updateFilter(_ saleItem: SaleItem) {
+        saleItems.append(saleItem)
     }
 }

@@ -39,7 +39,7 @@ enum Sizing: String, Codable {
                               subtitle: "",
                               placeholder: "test_placeholder",
                               required: false,
-                              filterEnabled: false)
+                              filterEnabled: true)
     }
     
     private var standardSizeCell: SaleItemCellStructure {

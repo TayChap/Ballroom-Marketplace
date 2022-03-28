@@ -9,7 +9,7 @@ import UIKit
 
 struct SaleItemVM {
     enum Mode {
-        case create, view
+        case create, view, filter
     }
     
     private var saleItem: SaleItem
@@ -21,19 +21,12 @@ struct SaleItemVM {
     private let hideContactSeller: Bool
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, templates: [SaleItemTemplate], saleItem: SaleItem? = nil, hideContactSeller: Bool = false) {
+    init(_ owner: ViewControllerProtocol, mode: Mode, templates: [SaleItemTemplate], saleItem: SaleItem? = nil, hideContactSeller: Bool = false) {
         delegate = owner
+        self.mode = mode
         self.templates = templates
-        
-        if let saleItem = saleItem {
-            mode = .view
-            self.saleItem = saleItem
-        } else {
-            mode = .create
-            self.saleItem = SaleItem(userId: AuthenticationManager().user?.id ?? "")
-        }
-        
-        self.hideContactSeller = AuthenticationManager().user?.id == self.saleItem.userId || hideContactSeller
+        self.saleItem = saleItem ?? SaleItem(userId: AuthenticationManager().user?.id ?? "")
+        self.hideContactSeller = AuthenticationManager().user?.id == self.saleItem.userId || hideContactSeller // TODO! re-evaluate
     }
     
     mutating func viewDidLoad(_ tableView: UITableView) {
@@ -48,10 +41,17 @@ struct SaleItemVM {
     }
     
     // MARK: - IBActions
-    mutating func doneButtonClicked() {
+    mutating func doneButtonClicked(_ updateFilter: ((SaleItem) -> Void)? = nil) {
         saleItem.dateAdded = Date()
-        DatabaseManager.sharedInstance.createDocument(.items, saleItem)
-        Image.uploadImages(saleItem.images)
+        switch mode {
+        case .create:
+            DatabaseManager.sharedInstance.createDocument(.items, saleItem)
+            Image.uploadImages(saleItem.images)
+        case .filter:
+            updateFilter?(saleItem)
+        case .view:
+            break
+        }
     }
     
     // MARK: - Table Methods
@@ -196,16 +196,20 @@ struct SaleItemVM {
     // MARK: - Private Helpers
     private func getScreenStructure() -> [SaleItemCellStructure] {
         var structure = SaleItemTemplate.getHeaderCells(templates) +
-            (templates.first(where: { $0.id == saleItem.fields[SaleItemTemplate.serverKey] })?.screenStructure ?? []).filter({ mode == .create || !(saleItem.fields[$0.serverKey] ?? "").isEmpty }) + // only include blank fields for create mode
+            (templates.first(where: { $0.id == saleItem.fields[SaleItemTemplate.serverKey] })?.screenStructure ?? []).filter({ mode != .view || !(saleItem.fields[$0.serverKey] ?? "").isEmpty }) + // exclude blank fields for view mode
             SaleItemTemplate.getFooterCells()
         
         // determine size metrics used
         structure = structure.filter({ saleItem.useStandardSizing ? $0.inputType != .measurement :  $0.inputType != .standardSize })
         
-        if hideContactSeller {
-            return structure
+        if mode == .filter {
+            structure = structure.filter({ $0.filterEnabled })
         }
         
-        return structure + [SaleItemTemplate.getContactSellerCell()]
+        if !hideContactSeller {
+            structure.append(SaleItemTemplate.getContactSellerCell())
+        }
+        
+        return structure
     }
 }

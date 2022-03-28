@@ -388,18 +388,18 @@
                     <navigationItem key="navigationItem" id="1ZT-ni-dbo">
                         <barButtonItem key="leftBarButtonItem" image="xmark" catalog="system" id="Nmc-78-eK3">
                             <connections>
-                                <action selector="backButtonClcked" destination="WLI-9L-WRj" id="b3S-MX-NQb"/>
+                                <action selector="backButtonClicked" destination="WLI-9L-WRj" id="pWw-Pb-RMg"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="checkmark" catalog="system" id="vcJ-2Y-mwH">
                             <connections>
-                                <action selector="submitButtonClicked" destination="WLI-9L-WRj" id="l7X-mX-2fN"/>
+                                <action selector="doneButtonClicked" destination="WLI-9L-WRj" id="l7X-mX-2fN"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="backButton" destination="Nmc-78-eK3" id="XZ5-LI-BUg"/>
-                        <outlet property="submitButton" destination="vcJ-2Y-mwH" id="ykW-10-wXl"/>
+                        <outlet property="doneButton" destination="vcJ-2Y-mwH" id="ykW-10-wXl"/>
                         <outlet property="tableView" destination="Q7G-4j-rn2" id="ExG-kk-8A5"/>
                     </connections>
                 </viewController>

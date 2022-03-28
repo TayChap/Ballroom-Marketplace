@@ -7,17 +7,21 @@
 
 import UIKit
 
-class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate, ViewControllerProtocol, PickerCellDelegate, TextFieldCellDelegate {
+class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate, ViewControllerProtocol, PickerCellDelegate {
     @IBOutlet weak var backButton: UIBarButtonItem!
-    @IBOutlet weak var submitButton: UIBarButtonItem!
+    @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
-    private var vm: SaleItemFilterVM!
+    private var vm: SaleItemVM!
+    var updateFilter: ((SaleItem) -> Void)?
     
     // MARK: - Lifecycle Methods
-    static func createViewController(_ templates: [SaleItemTemplate],  _ onFilterFetched: @escaping (_ saleItems: [SaleItem]) -> Void) -> UIViewController {
+    static func createViewController(_ templates: [SaleItemTemplate],  _ updateFilter: @escaping (SaleItem) -> Void) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = SaleItemFilterVM(vc, templates, onFilterFetched)
-        
+        vc.updateFilter = updateFilter
+        vc.vm = SaleItemVM(vc,
+                           mode: .filter,
+                           templates: templates,
+                           hideContactSeller: true)
         return vc
     }
     
@@ -27,12 +31,13 @@ class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     // MARK: - IBActions
-    @IBAction func backButtonClcked() {
-        vm.backButtonClcked()
+    @IBAction func backButtonClicked() {
+        dismiss()
     }
     
-    @IBAction func submitButtonClicked() {
-        vm.submitButtonClicked()
+    @IBAction func doneButtonClicked() {
+        vm.doneButtonClicked(updateFilter)
+        dismiss()
     }
     
     // MARK: - Table Methods
@@ -62,11 +67,6 @@ class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDele
     func pickerValueUpdated(_ newValues: [String], for cell: PickerTableCell) {
         setData(newValues.first ?? "", for: cell)
         reload()
-    }
-    
-    // MARK: - TextFieldCellDelegate
-    func textFieldUpdated(_ newText: String, for cell: TextFieldTableCell) {
-        setData(newText, for: cell)
     }
     
     // MARK: - Private Helpers
