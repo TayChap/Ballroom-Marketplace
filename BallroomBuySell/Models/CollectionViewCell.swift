@@ -1,11 +1,11 @@
 //
-//  CollectionViewCells.swift
+//  CollectionViewCell.swift
 //  BallroomBuySell
 //
 //  Created by Taylor Chapman on 2022-03-29.
 //
 
-enum CollectionViewCells {
+enum CollectionViewCell {
     case saleItem, category
     
     var dimensions: (width: Int, height: Int) {

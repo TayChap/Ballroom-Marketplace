@@ -25,7 +25,7 @@ struct SaleItemListVM {
     
     // MARK: - CollectionView Methods
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: CollectionViewCells.saleItem.dimensions.width, height: CollectionViewCells.saleItem.dimensions.height)
+        CGSize(width: CollectionViewCell.saleItem.dimensions.width, height: CollectionViewCell.saleItem.dimensions.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
