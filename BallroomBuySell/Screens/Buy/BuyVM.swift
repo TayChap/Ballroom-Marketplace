@@ -162,8 +162,8 @@ struct BuyVM {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(CGFloat(CollectionViewCell.saleItem.dimensions.width)),
-            heightDimension: .absolute(CGFloat(CollectionViewCell.saleItem.dimensions.height)))
+            widthDimension: .absolute(200),
+            heightDimension: .absolute(250))
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize,
             subitem: item,
@@ -183,8 +183,8 @@ struct BuyVM {
         item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(CGFloat(CollectionViewCell.category.dimensions.width * 2)),
-            heightDimension: .absolute(CGFloat(CollectionViewCell.category.dimensions.height)))
+            widthDimension: .absolute(180 * 2),
+            heightDimension: .absolute(250))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         group.contentInsets = getGroupInsets()
         
