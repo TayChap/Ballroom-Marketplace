@@ -71,7 +71,7 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
         titleLabel.attributedText = NSAttributedString(string: dm.titleText)
         
         // Detail label
-        detailLabel.text = dm.pickerValues[0].first(where: { $0.serverKey == selectedValues[0] })?.localizationKey
+        detailLabel.text = LocalizedString.string(dm.pickerValues[0].first(where: { $0.serverKey == selectedValues[0] })?.localizationKey ?? "")
         
         // Clear button
         clearButton.isHidden = dm.pickerType != .date || !dm.isEnabled || dm.selectedValues.first?.isEmpty == true
@@ -94,7 +94,7 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
     
     // MARK: - Picker Datasource
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        NSAttributedString(string: pickerValues[component][row].localizationKey, attributes: [.foregroundColor: UIColor.red])
+        NSAttributedString(string: LocalizedString.string(pickerValues[component][row].localizationKey), attributes: [.foregroundColor: UIColor.red])
     }
     
     // MARK: - Picker Delegate

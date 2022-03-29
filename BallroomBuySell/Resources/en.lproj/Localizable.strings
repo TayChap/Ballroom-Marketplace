@@ -1,17 +1,49 @@
 /* Generic */
+"generic.category" = "Category";
 "generic.close" = "Close";
+"generic.location" = "Location";
+"generic.notes" = "Notes";
 
 /* Alert */
 
-
 /* Feed */
-
+"feed.recent.items" = "Recent Items";
 
 /* Sale Item */
+"sale.item.price" = "Price (USD)";
+"sale.item.images" = "Images";
+"sale.item.contact.seller" = "Contact Seller";
 
+"sale.item.tailsuit.title" = "Tailsuit";
+"sale.item.womens.standard.dress.title" = "Standard Dress";
+"sale.item.womens.latin.dress.title" = "Latin Dress";
+"sale.item.mens.latin.top.title" = "Mens\nLatin Shirt";
+"sale.item.mens.latin.bottom.title" = "Mens Pants";
+"sale.item.mens.practice.top.title" = "Mens\nPractice Shirt";
+"sale.item.womens.practice.top.title" = "Womens Practice Top";
+"sale.item.womens.practice.bottom.title" = "Womens Practice Bottom";
+"sale.item.mens.standard.shoes.title" = "Mens\nStandard Shoes";
+"sale.item.mens.latin.shoes.title" = "Mens\nLatin Shoes";
+"sale.item.womens.standard.shoes.title" = "Womens Standard Shoes";
+"sale.item.womens.latin.shoes.title" = "Womens Latin Shoes";
 
-// titles
+/* Sizing */
+"sale.item.sizing.standard.size.option" = "Use standard sizes?";
+"sale.item.sizing.standard.size" = "Standard Size";
+"sale.item.sizing.xxs" = "XXS";
+"sale.item.sizing.xs" = "XS";
+"sale.item.sizing.s" = "S";
+"sale.item.sizing.m" = "M";
+"sale.item.sizing.l" = "L";
+"sale.item.sizing.xl" = "XL";
+"sale.item.sizing.xxl" = "XXL";
 
-
-// sizing
-
+// measurements
+"sale.item.sizing.bust" = "Bust";
+"sale.item.sizing.waist" = "Waist";
+"sale.item.sizing.hips" = "Hips";
+"sale.item.sizing.inseam" = "Inseam";
+"sale.item.sizing.sleeve.length" = "Sleeve Length";
+"sale.item.sizing.sleeve.width" = "Sleeve Width";
+"sale.item.sizing.shoe" = "Shoe Size (US)";
+"sale.item.sizing.heel" = "Heel Height";

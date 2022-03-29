@@ -52,8 +52,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aeW-z2-ila">
-                                                    <rect key="frame" x="29" y="91.5" width="70.5" height="20.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aeW-z2-ila">
+                                                    <rect key="frame" x="16" y="91.5" width="96" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" name="primaryText"/>
                                                     <nil key="highlightedColor"/>
@@ -66,6 +66,8 @@
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="aeW-z2-ila" secondAttribute="bottom" constant="16" id="8yk-PQ-YOa"/>
                                                 <constraint firstItem="aeW-z2-ila" firstAttribute="top" secondItem="1es-gt-pf7" secondAttribute="bottom" constant="16" id="Cq2-ZN-XDL"/>
+                                                <constraint firstItem="aeW-z2-ila" firstAttribute="trailing" secondItem="1es-gt-pf7" secondAttribute="trailing" id="aME-GN-gfI"/>
+                                                <constraint firstItem="aeW-z2-ila" firstAttribute="leading" secondItem="1es-gt-pf7" secondAttribute="leading" id="bIE-Md-pPP"/>
                                                 <constraint firstAttribute="trailing" secondItem="1es-gt-pf7" secondAttribute="trailing" constant="16" id="eUi-Ln-TJC"/>
                                                 <constraint firstItem="1es-gt-pf7" firstAttribute="top" secondItem="WUE-mH-phb" secondAttribute="top" constant="16" id="qHq-fl-yZc"/>
                                                 <constraint firstItem="aeW-z2-ila" firstAttribute="centerX" secondItem="WUE-mH-phb" secondAttribute="centerX" id="tSq-sF-BKK"/>

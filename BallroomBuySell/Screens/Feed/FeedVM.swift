@@ -75,7 +75,7 @@ struct FeedVM {
             return UICollectionReusableView()
         }
         
-        sectionHeader.configureCell(indexPath.section == 0 ? "recent_items" : "categories")
+        sectionHeader.configureCell(LocalizedString.string(indexPath.section == 0 ? "feed.recent.items" : "generic.category"))
         return sectionHeader
     }
     
@@ -100,7 +100,7 @@ struct FeedVM {
             }
             
             cell.configureCell(SaleItemCellDM(imageURL: coverImageURL,
-                                              price: "$50.00",
+                                              price: "$\(cellData.fields["price"] ?? "")",
                                               date: cellData.dateAdded ?? Date()))
             return cell
         }
@@ -111,7 +111,7 @@ struct FeedVM {
         }
         
         let template = templates[indexPath.row]
-        cell.configureCell(CategoryCollectionCellDM(categoryTitle: template.name,
+        cell.configureCell(CategoryCollectionCellDM(categoryTitle: LocalizedString.string(template.name),
                                                     imageURL: template.imageURL))
         return cell
     }
@@ -130,7 +130,7 @@ struct FeedVM {
             return
         }
         
-        let templateFilter = (key: "fields.\(SaleItemTemplate.serverKey)", value: templates[indexPath.row].id)
+        let templateFilter = (key: "fields.\(SaleItemTemplate.serverKey.templateId.rawValue)", value: templates[indexPath.row].id)
         DatabaseManager.sharedInstance.getSaleItems(where: templateFilter) { filteredSaleItems in
             delegate?.pushViewController(SaleItemListVC.createViewController(templates, filteredSaleItems))
         }

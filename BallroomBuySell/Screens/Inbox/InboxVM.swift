@@ -72,8 +72,8 @@ struct InboxVM {
         
         let saleItem = saleItems[indexPath.row]
         cell.configureCell(InboxCellDM(imageURL: saleItem.images.first?.url ?? "",
-                                  title: saleItem.fields[SaleItemTemplate.serverKey] ?? "",
-                                  date: saleItem.dateAdded))
+                                       title: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "",
+                                       date: saleItem.dateAdded))
         return cell
     }
     
