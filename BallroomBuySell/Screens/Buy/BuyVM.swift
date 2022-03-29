@@ -23,7 +23,7 @@ struct BuyVM {
     }
     
     func viewDidLoad(_ collectionView: UICollectionView) {
-        collectionView.collectionViewLayout = createCollectionViewLayout()
+        collectionView.collectionViewLayout = createCollectionViewLayout(collectionView)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier:  UICollectionViewCell.defaultRegister)
         SaleItemCollectionCell.registerCell(collectionView)
         BuySectionHeader.registerCell(collectionView)
@@ -148,22 +148,23 @@ struct BuyVM {
     }
     
     // MARK: - CompositionalLayout Methods
-    private func createCollectionViewLayout() -> UICollectionViewLayout {
+    private func createCollectionViewLayout(_ collectionView: UICollectionView) -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             switch Section.allCases[sectionIndex] {
-            case .recentItems: return self.generateRecentItemsLayout()
-            case .categories: return self.generateCategoriesLayout()
+            case .recentItems: return self.generateRecentItemsLayout(collectionView)
+            case .categories: return self.generateCategoriesLayout(collectionView)
             }
         }
     }
     
-    private func generateRecentItemsLayout() -> NSCollectionLayoutSection {
+    private func generateRecentItemsLayout(_ collectionView: UICollectionView) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
+        let width = collectionView.frame.width / 2.5
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(200),
-            heightDimension: .absolute(250))
+            widthDimension: .absolute(width),
+            heightDimension: .absolute(width * 1.2))
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize,
             subitem: item,
@@ -177,14 +178,14 @@ struct BuyVM {
         return section
     }
     
-    private func generateCategoriesLayout() -> NSCollectionLayoutSection {
+    private func generateCategoriesLayout(_ collectionView: UICollectionView) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(180 * 2),
-            heightDimension: .absolute(250))
+            widthDimension: .absolute(collectionView.frame.width),
+            heightDimension: .absolute((collectionView.frame.width / 2) * (4/3)))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         group.contentInsets = getGroupInsets()
         
