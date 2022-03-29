@@ -17,21 +17,17 @@ struct FileSystemManager {
         storage.reference().child(url).putData(data)
     }
     
-    static func getFile(at url: String, _ completion: @escaping (_ data: Data) -> Void) {
+    static func getFile(at url: String, _ completion: @escaping (_ data: Data?, _ error: Error?) -> Void) {
         // check for file locally
         if let data = getFile(at: getFileURL(url)) {
-            completion(data)
+            completion(data, nil)
             return
         }
         
         // download from the server
         let fileURL = getFileURL(url)
         storage.reference().child(url).write(toFile: fileURL) { _ , error in
-            guard let data = self.getFile(at: fileURL), error == nil else {
-                return // TODO! error
-            }
-            
-            completion(data)
+            completion(self.getFile(at: fileURL), error)
         }
     }
     

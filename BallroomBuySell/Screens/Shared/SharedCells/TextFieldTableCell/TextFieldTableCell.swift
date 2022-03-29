@@ -49,6 +49,7 @@ class TextFieldTableCell: UITableViewCell, TableCellProtocol, UITextFieldDelegat
         textField.autocorrectionType = dm.inputType.autocorrectionType
         textField.autocapitalizationType = dm.inputType.autoCapitalization
         textField.returnKeyType = dm.returnKeyType
+        textField.isEnabled = dm.isEnabled
         textField.delegate = self
     }
     

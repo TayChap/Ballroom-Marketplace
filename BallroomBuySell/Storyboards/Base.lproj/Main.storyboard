@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="NLl-4i-Zbr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="NLl-4i-Zbr">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -94,7 +95,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="fXu-5N-WRt">
                         <rightBarButtonItems>
-                            <barButtonItem image="mail" catalog="system" id="gnY-N4-36B">
+                            <barButtonItem image="person" catalog="system" id="gnY-N4-36B">
                                 <connections>
                                     <action selector="inboxButtonClicked" destination="tzZ-SI-Im0" id="lXO-mI-IsG"/>
                                 </connections>
@@ -173,7 +174,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="WhC-51-2aU">
-                        <barButtonItem key="rightBarButtonItem" title="info" id="c0K-a0-7Dc">
+                        <barButtonItem key="rightBarButtonItem" image="info.circle" catalog="system" id="c0K-a0-7Dc">
                             <connections>
                                 <action selector="infoButtonClicked" destination="mWj-2a-HLi" id="Ph2-Qz-eRK"/>
                             </connections>
@@ -196,12 +197,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="C5O-ab-S4a">
+                                <rect key="frame" x="30" y="32" width="354" height="32"/>
+                                <segments>
+                                    <segment title="" image="message" catalog="system"/>
+                                    <segment title="" image="dollarsign.circle" catalog="system"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentedControlClicked" destination="vnn-B4-q01" eventType="valueChanged" id="f3m-8x-zAI"/>
+                                </connections>
+                            </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HOP-c9-0Ob">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="95" width="414" height="679"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="InboxTableCell" id="AZV-q8-4VD" customClass="InboxTableCell" customModule="BallroomBuySell" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="24.5" width="414" height="160.5"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="160.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="AZV-q8-4VD" id="aoR-eK-P4o">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="160.5"/>
@@ -255,9 +266,9 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="dateLabel" destination="t4C-m2-4dv" id="RR3-5E-VbL"/>
-                                            <outlet property="itemLabel" destination="EM5-IY-bfW" id="cPe-Hc-MGt"/>
-                                            <outlet property="messagePreviewLabel" destination="cL4-cQ-OHl" id="adN-pJ-tnU"/>
+                                            <outlet property="detailLabel" destination="cL4-cQ-OHl" id="adN-pJ-tnU"/>
                                             <outlet property="saleItemImage" destination="9e0-KG-sdH" id="bSq-0k-XVo"/>
+                                            <outlet property="titleLabel" destination="EM5-IY-bfW" id="cPe-Hc-MGt"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -271,19 +282,23 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="krk-UO-UwC" firstAttribute="bottom" secondItem="HOP-c9-0Ob" secondAttribute="bottom" id="1GL-qT-Fy9"/>
+                            <constraint firstItem="C5O-ab-S4a" firstAttribute="top" secondItem="krk-UO-UwC" secondAttribute="top" constant="32" id="EMT-NW-aZD"/>
+                            <constraint firstItem="krk-UO-UwC" firstAttribute="trailing" secondItem="C5O-ab-S4a" secondAttribute="trailing" constant="30" id="L3D-kZ-cza"/>
                             <constraint firstItem="HOP-c9-0Ob" firstAttribute="leading" secondItem="krk-UO-UwC" secondAttribute="leading" id="TtP-ne-lvs"/>
                             <constraint firstItem="krk-UO-UwC" firstAttribute="trailing" secondItem="HOP-c9-0Ob" secondAttribute="trailing" id="Urv-T8-haO"/>
-                            <constraint firstItem="HOP-c9-0Ob" firstAttribute="top" secondItem="krk-UO-UwC" secondAttribute="top" id="ixB-MU-6N6"/>
+                            <constraint firstItem="C5O-ab-S4a" firstAttribute="leading" secondItem="krk-UO-UwC" secondAttribute="leading" constant="30" id="gC3-2O-gAZ"/>
+                            <constraint firstItem="HOP-c9-0Ob" firstAttribute="top" secondItem="C5O-ab-S4a" secondAttribute="bottom" constant="32" id="wLm-q8-P2H"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="zqN-2x-tvb">
-                        <barButtonItem key="rightBarButtonItem" title="Logout" id="JF4-7o-nsz">
+                        <barButtonItem key="rightBarButtonItem" image="pip.exit" catalog="system" id="JF4-7o-nsz">
                             <connections>
                                 <action selector="signOutButtonClicked" destination="vnn-B4-q01" id="yec-rQ-pgu"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="segmentedControl" destination="C5O-ab-S4a" id="Kcv-LM-nWT"/>
                         <outlet property="signOutButton" destination="JF4-7o-nsz" id="MmH-Yf-a9E"/>
                         <outlet property="tableView" destination="HOP-c9-0Ob" id="hBW-I6-fyE"/>
                         <segue destination="mWj-2a-HLi" kind="show" id="7Tz-QB-BGX"/>
@@ -327,7 +342,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Gj1-be-i4z">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="HdR-ii-IgM">
+                        <barButtonItem key="rightBarButtonItem" image="slider.horizontal.3" catalog="system" id="HdR-ii-IgM">
                             <connections>
                                 <action selector="filterButtonClicked" destination="Etr-Bo-Mt5" id="rvI-lj-zuH"/>
                             </connections>
@@ -373,18 +388,18 @@
                     <navigationItem key="navigationItem" id="1ZT-ni-dbo">
                         <barButtonItem key="leftBarButtonItem" image="xmark" catalog="system" id="Nmc-78-eK3">
                             <connections>
-                                <action selector="backButtonClcked" destination="WLI-9L-WRj" id="b3S-MX-NQb"/>
+                                <action selector="backButtonClicked" destination="WLI-9L-WRj" id="pWw-Pb-RMg"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="checkmark" catalog="system" id="vcJ-2Y-mwH">
                             <connections>
-                                <action selector="submitButtonClicked" destination="WLI-9L-WRj" id="l7X-mX-2fN"/>
+                                <action selector="doneButtonClicked" destination="WLI-9L-WRj" id="l7X-mX-2fN"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="backButton" destination="Nmc-78-eK3" id="XZ5-LI-BUg"/>
-                        <outlet property="submitButton" destination="vcJ-2Y-mwH" id="ykW-10-wXl"/>
+                        <outlet property="doneButton" destination="vcJ-2Y-mwH" id="ykW-10-wXl"/>
                         <outlet property="tableView" destination="Q7G-4j-rn2" id="ExG-kk-8A5"/>
                     </connections>
                 </viewController>
@@ -392,10 +407,10 @@
             </objects>
             <point key="canvasLocation" x="2638" y="2895"/>
         </scene>
-        <!--View ItemVC-->
+        <!--Sale Item ViewVC-->
         <scene sceneID="QDx-Gg-cnA">
             <objects>
-                <viewController storyboardIdentifier="ViewItemVC" id="1zS-R9-jag" customClass="ViewItemVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SaleItemViewVC" id="1zS-R9-jag" customClass="SaleItemViewVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="iND-GM-8rs">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -434,8 +449,13 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="checkmark" catalog="system" width="128" height="114"/>
-        <image name="mail" catalog="system" width="128" height="93"/>
+        <image name="dollarsign.circle" catalog="system" width="128" height="121"/>
+        <image name="info.circle" catalog="system" width="128" height="121"/>
+        <image name="message" catalog="system" width="128" height="113"/>
+        <image name="person" catalog="system" width="128" height="117"/>
+        <image name="pip.exit" catalog="system" width="128" height="96"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="slider.horizontal.3" catalog="system" width="128" height="100"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
@@ -453,7 +473,7 @@
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemTealColor">
-            <color red="0.35294117647058826" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

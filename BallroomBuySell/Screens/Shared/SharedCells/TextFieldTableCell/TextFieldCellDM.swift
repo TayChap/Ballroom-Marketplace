@@ -13,4 +13,5 @@ struct TextFieldCellDM {
     var subtitle: String = ""
     let detail: String
     let returnKeyType: UIReturnKeyType
+    var isEnabled = true
 }

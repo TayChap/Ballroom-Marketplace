@@ -22,12 +22,16 @@ struct BuyVM {
         self.delegate = delegate
     }
     
-    func viewDidLoad(_ collectionView: UICollectionView, _ completion: @escaping (_ templates: [SaleItemTemplate], _ saleItems: [SaleItem]) -> Void) {
+    func viewDidLoad(_ collectionView: UICollectionView) {
         collectionView.collectionViewLayout = createCollectionViewLayout()
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier:  UICollectionViewCell.defaultRegister)
         SaleItemCollectionCell.registerCell(collectionView)
         BuySectionHeader.registerCell(collectionView)
         
+//        TemplateManager.updateTemplates()
+    }
+    
+    func viewWillAppear(_ completion: @escaping (_ templates: [SaleItemTemplate], _ saleItems: [SaleItem]) -> Void) {
         // refresh templates and pull most recent sale items
         TemplateManager.refreshTemplates { templates in
             DatabaseManager.sharedInstance.getRecentSaleItems(for: maxRecentItems) { items in
@@ -62,9 +66,7 @@ struct BuyVM {
             return
         }
         
-        DatabaseManager.sharedInstance.getThreads(for: user.id) { threads in
-            delegate?.pushViewController(InboxVC.createViewController(user, threads, templates))
-        }
+        delegate?.pushViewController(InboxVC.createViewController(user, templates))
     }
     
     // MARK: - CollectionView Methods
@@ -120,16 +122,15 @@ struct BuyVM {
             Image.downloadImages(saleItem.images.map({ $0.url })) { images in
                 if !templates.isEmpty {
                     saleItem.images = images
-                    delegate?.pushViewController(ViewItemVC.createViewController(templates, saleItem))
+                    delegate?.pushViewController(SaleItemViewVC.createViewController(templates: templates,
+                                                                                     saleItem: saleItem))
                 }
             }
             
             return
         }
         
-        // categories section
-        var templateFilter = (key: "fields.\(SaleItemTemplate.serverKey)", value: "shoes") // TODO!
-        
+        let templateFilter = (key: "fields.\(SaleItemTemplate.serverKey)", value: templates[indexPath.row].id)
         DatabaseManager.sharedInstance.getSaleItems(where: templateFilter) { filteredSaleItems in
             delegate?.pushViewController(SaleItemListVC.createViewController(templates, filteredSaleItems))
         }

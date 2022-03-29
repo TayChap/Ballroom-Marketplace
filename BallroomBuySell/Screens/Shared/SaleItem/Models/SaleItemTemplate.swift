@@ -16,7 +16,15 @@ struct SaleItemTemplate: Codable {
     }
     
     // MARK: - Public Helpers
-    static func getTemplateSelectorCell(_ templates: [SaleItemTemplate]) -> SaleItemCellStructure {
+    static func getHeaderCells(_ templates: [SaleItemTemplate]) -> [SaleItemCellStructure] {
+        [getTemplateSelectorCell(templates), getPriceCell(), getLocationCell(), getImageCollectionCelll()]
+    }
+    
+    static func getFooterCells() -> [SaleItemCellStructure] {
+        [getNotesCell()]
+    }
+    
+    private static func getTemplateSelectorCell(_ templates: [SaleItemTemplate]) -> SaleItemCellStructure {
         SaleItemCellStructure(type: .picker,
                               inputType: .standard,
                               serverKey: SaleItemTemplate.serverKey,
@@ -28,9 +36,33 @@ struct SaleItemTemplate: Codable {
                               values: templates.map({ PickerValue(serverKey: $0.id, localizationKey: $0.name) }))
     }
     
-    static func getImageCollectionCelll() -> SaleItemCellStructure {
+    private static func getPriceCell() -> SaleItemCellStructure {
+        SaleItemCellStructure(type: .textField,
+                              inputType: .numbers,
+                              serverKey: "price",
+                              title: "price (USD)",
+                              subtitle: "",
+                              placeholder: "",
+                              required: false,
+                              filterEnabled: false,
+                              values: [])
+    }
+    
+    private static func getLocationCell() -> SaleItemCellStructure {
+        SaleItemCellStructure(type: .picker,
+                              inputType: .country,
+                              serverKey: "location",
+                              title: "_location_",
+                              subtitle: "",
+                              placeholder: "",
+                              required: true,
+                              filterEnabled: true,
+                              values: [])
+    }
+    
+    private static func getImageCollectionCelll() -> SaleItemCellStructure {
         SaleItemCellStructure(type: .imageCollection,
-                              inputType: InputType.standard,
+                              inputType: .standard,
                               serverKey: "",
                               title: "image test_title",
                               subtitle: "",
@@ -40,9 +72,21 @@ struct SaleItemTemplate: Codable {
                               values: [])
     }
     
+    private static func getNotesCell() -> SaleItemCellStructure {
+        SaleItemCellStructure(type: .textView,
+                              inputType: .standard,
+                              serverKey: "notes",
+                              title: "_notes_",
+                              subtitle: "",
+                              placeholder: "",
+                              required: true,
+                              filterEnabled: false,
+                              values: [])
+    }
+    
     static func getContactSellerCell() -> SaleItemCellStructure {
         SaleItemCellStructure(type: .button,
-                              inputType: InputType.standard,
+                              inputType: .standard,
                               serverKey: "",
                               title: "contact_seller",
                               subtitle: "",

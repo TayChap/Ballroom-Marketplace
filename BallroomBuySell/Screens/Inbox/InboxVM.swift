@@ -8,17 +8,30 @@
 import UIKit
 
 struct InboxVM {
+    enum InboxState: Int, CaseIterable {
+        case threads, listings
+    }
+    
     private weak var delegate: ViewControllerProtocol?
     private let user: User
-    private let screenStructure: [MessageThread]
     private let templates: [SaleItemTemplate]
+    private var threads = [MessageThread]()
+    private var saleItems = [SaleItem]()
+    private var inboxState = InboxState.threads
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, _ user: User, _ messageThreads: [MessageThread], _ templates: [SaleItemTemplate]) {
+    init(_ owner: ViewControllerProtocol, _ user: User, _ templates: [SaleItemTemplate]) {
         delegate = owner
         self.user = user
         self.templates = templates
-        screenStructure = messageThreads
+    }
+    
+    func viewWillAppear(_ completion: @escaping (_ saleItems: [SaleItem], _ threads: [MessageThread]) -> Void) {
+        DatabaseManager.sharedInstance.getSaleItems(where: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id)) { saleItems in
+            DatabaseManager.sharedInstance.getThreads(for: user.id) { threads in
+                completion(saleItems, threads)
+            }
+        }
     }
     
     // MARK: - IBActions
@@ -30,29 +43,82 @@ struct InboxVM {
         }
     }
     
+    mutating func segmentedControlClicked(_ index: Int) {
+        inboxState = InboxState.allCases.first(where: {$0.rawValue == index}) ?? .threads
+    }
+    
     // MARK: - Table Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        screenStructure.count
+        inboxState == .threads ? threads.count : saleItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
-        let thread = screenStructure[indexPath.row]
-        
-        guard
-            let cell = InboxTableCell.createCell(tableView),
-            let lastMessage = thread.messages.last
-        else {
+        guard let cell = InboxTableCell.createCell(tableView) else {
             return UITableViewCell()
         }
         
-        cell.configureCell(InboxCellDM(imageURL: thread.imageURL,
-                                       title: thread.title,
-                                       lastMessage: lastMessage))
+        if inboxState == .threads {
+            let thread = threads[indexPath.row]
+            guard let lastMessageUnwrapped = thread.messages.last else {
+                return UITableViewCell()
+            }
+            
+            cell.configureCell(InboxCellDM(imageURL: thread.imageURL,
+                                      title: thread.title,
+                                      date: lastMessageUnwrapped.sentDate,
+                                      detail: "\(lastMessageUnwrapped.displayName): \(lastMessageUnwrapped.content)"))
+            return cell
+        }
+        
+        let saleItem = saleItems[indexPath.row]
+        cell.configureCell(InboxCellDM(imageURL: saleItem.images.first?.url ?? "",
+                                  title: saleItem.fields[SaleItemTemplate.serverKey] ?? "",
+                                  date: saleItem.dateAdded))
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let thread = screenStructure[indexPath.row]
-        delegate?.pushViewController(MessageThreadVC.createViewController(thread, user, templates))
+        if inboxState == .threads {
+            delegate?.pushViewController(MessageThreadVC.createViewController(threads[indexPath.row],
+                                                                              user: user,
+                                                                              templates: templates))
+            return
+        }
+        
+        var saleItem = saleItems[indexPath.row]
+        Image.downloadImages(saleItem.images.map({ $0.url })) { images in
+            saleItem.images = images
+            delegate?.pushViewController(SaleItemViewVC.createViewController(templates: templates,
+                                                                             saleItem: saleItem))
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath, completion: @escaping (_ saleItems: [SaleItem], _ threads: [MessageThread]) -> Void) {
+        if editingStyle == .delete {
+            if inboxState == .threads {
+                DatabaseManager.sharedInstance.deleteDocument(in: .threads, with: threads[indexPath.row].id) {
+                    fetchItems(completion)
+                }
+            } else {
+                DatabaseManager.sharedInstance.deleteSaleItem(with: saleItems[indexPath.row].id) {
+                    fetchItems(completion)
+                }
+            }
+        }
+    }
+    
+    // MARK: - Public Helpers
+    mutating func onFetch(_ saleItemsFetched: [SaleItem], _ threadsFetched: [MessageThread]) {
+        saleItems = saleItemsFetched
+        threads = threadsFetched
+    }
+    
+    // MARK: - Private Helpers
+    private func fetchItems(_ completion: @escaping (_ saleItems: [SaleItem], _ threads: [MessageThread]) -> Void) {
+        DatabaseManager.sharedInstance.getSaleItems(where: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id)) { saleItems in
+            DatabaseManager.sharedInstance.getThreads(for: user.id) { threads in
+                completion(saleItems, threads)
+            }
+        }
     }
 }

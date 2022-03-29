@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="66" id="ey0-9m-bRe" customClass="SwitchTableCell" customModule="BallroomBuySell" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="62"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ey0-9m-bRe" id="I0B-dP-MKw">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="62"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1f7-Yt-Xiu">
+                        <rect key="frame" x="20" y="16" width="31" height="30"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <accessibility key="accessibilityConfiguration" identifier="TitleLabel"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Mi-zo-tUJ">
+                        <rect key="frame" x="345" y="16" width="51" height="30"/>
+                        <color key="onTintColor" name="confirmation"/>
+                        <connections>
+                            <action selector="toggleValueChanged:" destination="ey0-9m-bRe" eventType="valueChanged" id="56p-pt-VOu"/>
+                        </connections>
+                    </switch>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="1f7-Yt-Xiu" firstAttribute="top" secondItem="I0B-dP-MKw" secondAttribute="topMargin" constant="5" id="65o-pT-ZsY"/>
+                    <constraint firstItem="1f7-Yt-Xiu" firstAttribute="leading" secondItem="I0B-dP-MKw" secondAttribute="leading" constant="20" id="8Fz-89-XLd"/>
+                    <constraint firstAttribute="trailing" secondItem="0Mi-zo-tUJ" secondAttribute="trailing" constant="20" id="BK6-bW-Hxk"/>
+                    <constraint firstItem="0Mi-zo-tUJ" firstAttribute="top" secondItem="1f7-Yt-Xiu" secondAttribute="top" id="FHH-eC-Ayb"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="0Mi-zo-tUJ" secondAttribute="bottom" constant="16" id="HEz-y8-kNa"/>
+                    <constraint firstItem="0Mi-zo-tUJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1f7-Yt-Xiu" secondAttribute="trailing" constant="8" id="Iwx-Fe-mgd"/>
+                    <constraint firstItem="1f7-Yt-Xiu" firstAttribute="centerY" secondItem="I0B-dP-MKw" secondAttribute="centerY" id="b8x-Gn-bbu"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="1f7-Yt-Xiu" secondAttribute="bottom" constant="16" id="t2a-af-JfO"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="titleLabel" destination="1f7-Yt-Xiu" id="OCJ-j0-7Xi"/>
+                <outlet property="toggle" destination="0Mi-zo-tUJ" id="2gX-Ac-w0Z"/>
+            </connections>
+            <point key="canvasLocation" x="140.57971014492756" y="129.91071428571428"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <namedColor name="confirmation">
+            <color red="0.32899999618530273" green="0.32400000095367432" blue="0.4779999852180481" alpha="0.33000001311302185" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

@@ -9,19 +9,30 @@ import UIKit
 
 class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol {
     @IBOutlet weak var signOutButton: UIBarButtonItem!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
     private var vm: InboxVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController( _ user: User, _ threads: [MessageThread], _ templates: [SaleItemTemplate]) -> UIViewController {
+    static func createViewController( _ user: User, _ templates: [SaleItemTemplate]) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = InboxVM(vc, user, threads, templates)
+        vc.vm = InboxVM(vc, user, templates)
         return vc
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        vm.viewWillAppear(onFetch)
     }
     
     // MARK: - IBActions
     @IBAction func signOutButtonClicked() {
         vm.signOutButtonClicked()
+    }
+    
+    @IBAction func segmentedControlClicked() {
+        vm.segmentedControlClicked(segmentedControl.selectedSegmentIndex)
+        reload()
     }
     
     // MARK: - Table Methods
@@ -37,6 +48,10 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
         vm.tableView(tableView, didSelectRowAt: indexPath)
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        vm.tableView(tableView, commit: editingStyle, forRowAt: indexPath, completion: onFetch)
+    }
+    
     // MARK: - ViewControllerProtocol
     func pushViewController(_ vc: UIViewController) {
         navigationController?.pushViewController(vc, animated: true)
@@ -48,5 +63,11 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     
     func reload() {
         tableView.reloadData()
+    }
+    
+    // MARK: - Private Helpers
+    private func onFetch(_ saleItems: [SaleItem], _ threads: [MessageThread]) {
+        vm.onFetch(saleItems, threads)
+        reload()
     }
 }

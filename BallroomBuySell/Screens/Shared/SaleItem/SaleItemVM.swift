@@ -9,7 +9,7 @@ import UIKit
 
 struct SaleItemVM {
     enum Mode {
-        case create, view
+        case create, view, filter
     }
     
     private var saleItem: SaleItem
@@ -18,19 +18,15 @@ struct SaleItemVM {
     private let mode: Mode
     private var screenStructure = [SaleItemCellStructure]()
     private let templates: [SaleItemTemplate]
+    private let hideContactSeller: Bool
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, _ templates: [SaleItemTemplate], _ saleItem: SaleItem? = nil) {
+    init(_ owner: ViewControllerProtocol, mode: Mode, templates: [SaleItemTemplate], saleItem: SaleItem? = nil, hideContactSeller: Bool = false) {
         delegate = owner
+        self.mode = mode
         self.templates = templates
-        
-        if let saleItem = saleItem {
-            mode = .view
-            self.saleItem = saleItem
-        } else {
-            mode = .create
-            self.saleItem = SaleItem(userId: AuthenticationManager().user?.id ?? "")
-        }
+        self.saleItem = saleItem ?? SaleItem(userId: AuthenticationManager().user?.id ?? "")
+        self.hideContactSeller = AuthenticationManager().user?.id == self.saleItem.userId || hideContactSeller // TODO! re-evaluate
     }
     
     mutating func viewDidLoad(_ tableView: UITableView) {
@@ -39,14 +35,23 @@ struct SaleItemVM {
         PickerTableCell.registerCell(tableView)
         TextFieldTableCell.registerCell(tableView)
         ImageTableCell.registerCell(tableView)
+        SwitchTableCell.registerCell(tableView)
+        TextViewTableCell.registerCell(tableView)
         ButtonTableCell.registerCell(tableView)
     }
     
     // MARK: - IBActions
-    mutating func doneButtonClicked() {
+    mutating func doneButtonClicked(_ updateFilter: ((SaleItem) -> Void)? = nil) {
         saleItem.dateAdded = Date()
-        DatabaseManager.sharedInstance.createDocument(.items, saleItem)
-        Image.uploadImages(saleItem.images)
+        switch mode {
+        case .create:
+            DatabaseManager.sharedInstance.createDocument(.items, saleItem)
+            Image.uploadImages(saleItem.images)
+        case .filter:
+            updateFilter?(saleItem)
+        case .view:
+            break
+        }
     }
     
     // MARK: - Table Methods
@@ -57,14 +62,28 @@ struct SaleItemVM {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
         let cellStructure = screenStructure[indexPath.row]
         switch cellStructure.type {
-        case .picker, .numberPicker:
+        case .picker:
             guard let cell = PickerTableCell.createCell(tableView) else {
                 return UITableViewCell()
             }
             
+            var pickerValues: [PickerValue]
+            switch cellStructure.inputType {
+            case .country:
+                pickerValues = Country.getCountryPickerValues.map({ PickerValue(serverKey: $0.code, localizationKey: $0.localizedString) })
+            case .measurement:
+                guard let max = cellStructure.max else {
+                    return UITableViewCell()
+                }
+                
+                pickerValues = PickerValue.getPickerValues(for: (min: cellStructure.min, max: max), with: cellStructure.increment)
+            default:
+                pickerValues = cellStructure.values
+            }
+            
             cell.configureCell(PickerCellDM(titleText: cellStructure.title,
                                             selectedValues: [saleItem.fields[cellStructure.serverKey] ?? ""],
-                                            pickerValues: [cellStructure.values],
+                                            pickerValues: [pickerValues],
                                             showRequiredAsterisk: cellStructure.required))
             cell.delegate = owner as? PickerCellDelegate
             return cell
@@ -76,7 +95,8 @@ struct SaleItemVM {
             cell.configureCell(TextFieldCellDM(inputType: cellStructure.inputType,
                                                title: cellStructure.title,
                                                detail: saleItem.fields[cellStructure.serverKey] ?? "",
-                                               returnKeyType: .done))
+                                               returnKeyType: .done,
+                                               isEnabled: mode != .view))
             cell.delegate = owner as? TextFieldCellDelegate
             return cell
         case .imageCollection:
@@ -88,6 +108,26 @@ struct SaleItemVM {
                                            images: saleItem.images.compactMap({ $0.data }),
                                            editable: mode == .create))
             cell.delegate = owner as? (ImageCellDelegate & UIViewController)
+            return cell
+        case .toggle:
+            guard let cell = SwitchTableCell.createCell(tableView) else {
+                return UITableViewCell()
+            }
+            
+            cell.configureCell(SwitchCellDM(title: cellStructure.title,
+                                            isSelected: saleItem.useStandardSizing,
+                                            isEnabled: mode != .view))
+            cell.delegate = owner as? SwitchCellDelegate
+            return cell
+        case .textView:
+            guard let cell = TextViewTableCell.createCell(tableView) else {
+                return UITableViewCell()
+            }
+            
+            cell.configureCell(TextViewCellDM(title: cellStructure.title,
+                                               detail: saleItem.fields[cellStructure.serverKey] ?? "",
+                                               isEnabled: mode != .view))
+            cell.delegate = owner as? TextViewCellDelegate
             return cell
         case .button:
             guard let cell = ButtonTableCell.createCell(tableView) else {
@@ -116,6 +156,12 @@ struct SaleItemVM {
         saleItem.images.remove(at: index)
     }
     
+    // MARK: - SwitchCellDelegate
+    mutating func updateSwitchDetail(_ newValue: Bool, for cell: SwitchTableCell) {
+        saleItem.useStandardSizing = newValue
+        screenStructure = getScreenStructure()
+    }
+    
     // MARK: - ButtonCellDelegate
     func buttonClicked(_ signIn: () -> Void) {
         guard let user = AuthenticationManager().user else {
@@ -123,12 +169,18 @@ struct SaleItemVM {
             return
         }
         
-        delegate?.pushViewController(MessageThreadVC.createViewController(MessageThread(userIds: [user.id, saleItem.userId],
-                                                                                        saleItemId: saleItem.id,
-                                                                                        imageURL: saleItem.images.first?.url ?? "",
-                                                                                        title: saleItem.fields[SaleItemTemplate.serverKey] ?? ""),
-                                                                          user,
-                                                                          templates))
+        DatabaseManager.sharedInstance.getThreads(for: user.id) { threads in
+            let messageThread = threads.first(where: { $0.saleItemId == saleItem.id }) ??
+            MessageThread(userIds: [user.id, saleItem.userId],
+                          saleItemId: saleItem.id,
+                          imageURL: saleItem.images.first?.url ?? "",
+                          title: saleItem.fields[SaleItemTemplate.serverKey] ?? "")
+            
+            delegate?.pushViewController(MessageThreadVC.createViewController(messageThread,
+                                                                              user: user,
+                                                                              templates: templates,
+                                                                              hideItemInfo: true))
+        }
     }
     
     // MARK: - Public Helpers
@@ -143,15 +195,21 @@ struct SaleItemVM {
     
     // MARK: - Private Helpers
     private func getScreenStructure() -> [SaleItemCellStructure] {
-        let templateId = saleItem.fields[SaleItemTemplate.serverKey]
-        let structure = [SaleItemTemplate.getTemplateSelectorCell(templates)] +
-            [SaleItemTemplate.getImageCollectionCelll()] +
-            (templates.first(where: { $0.id == templateId })?.screenStructure.filter({ mode == .create || !(saleItem.fields[$0.serverKey] ?? "").isEmpty }) ?? []) // only include blank fields for create mode
+        var structure = SaleItemTemplate.getHeaderCells(templates) +
+            (templates.first(where: { $0.id == saleItem.fields[SaleItemTemplate.serverKey] })?.screenStructure ?? []).filter({ mode != .view || !(saleItem.fields[$0.serverKey] ?? "").isEmpty }) + // exclude blank fields for view mode
+            SaleItemTemplate.getFooterCells()
         
-        if AuthenticationManager().user?.id == saleItem.userId {
-            return structure
+        // determine size metrics used
+        structure = structure.filter({ saleItem.useStandardSizing ? $0.inputType != .measurement :  $0.inputType != .standardSize })
+        
+        if mode == .filter {
+            structure = structure.filter({ $0.filterEnabled })
         }
         
-        return structure + [SaleItemTemplate.getContactSellerCell()]
+        if !hideContactSeller {
+            structure.append(SaleItemTemplate.getContactSellerCell())
+        }
+        
+        return structure
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 struct MessageThread: Codable {
     enum QueryKeys: String {
-        case userIds
+        case userIds, saleItemId
     }
     
     var id = UUID().uuidString

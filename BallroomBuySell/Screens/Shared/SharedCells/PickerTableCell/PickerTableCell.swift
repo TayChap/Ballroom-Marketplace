@@ -10,12 +10,10 @@ import UIKit
 protocol PickerCellDelegate {
     func pickerValueUpdated(_ newValues: [String], for cell: PickerTableCell)
     func clearButtonClicked(for cell: PickerTableCell)
-    func pickerTextUpdated(_ newValue: String, for cell: PickerTableCell)
 }
 
 extension PickerCellDelegate {
     func clearButtonClicked(for cell: PickerTableCell){}
-    func pickerTextUpdated(_ newValue: String, for cell: PickerTableCell){}
 }
 
 class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, PickerDelegate {
@@ -25,7 +23,6 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var detailLabel: UILabel!
-    @IBOutlet weak var otherTextField: UITextField!
     @IBOutlet weak var clearButton: UIButton!
     @IBOutlet weak var underline: UIView!
     
@@ -33,7 +30,6 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
     
     var delegate: PickerCellDelegate?
     
-    static let otherMapping = "otherMapping"
     private let clearButtonWidthSize: CGFloat = 30
     private var pickerType = PickerTypes.picker
     private var pickerValues = [[PickerValue]]()
@@ -75,14 +71,7 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
         titleLabel.attributedText = NSAttributedString(string: dm.titleText)
         
         // Detail label
-        detailLabel.text = dm.detailText ?? getLocalizedText()
-        
-        // Other text field
-        otherTextField.isHidden = detailLabel.text != "generic.other.colon"
-        if selectedValues.first != PickerTableCell.otherMapping {
-            otherTextField.text = selectedValues.first
-        }
-        otherTextField.delegate = self
+        detailLabel.text = dm.pickerValues[0].first(where: { $0.serverKey == selectedValues[0] })?.localizationKey
         
         // Clear button
         clearButton.isHidden = dm.pickerType != .date || !dm.isEnabled || dm.selectedValues.first?.isEmpty == true
@@ -93,12 +82,8 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
     func clearContent() {
         titleLabel.attributedText = nil
         detailLabel.text = nil
-        otherTextField.text = nil
-        otherTextField.attributedPlaceholder = nil
-        otherTextField.isHidden = false
         clearButton.isHidden = true
         clearButtonWidth.constant = clearButtonWidthSize
-        
         accessoryType = .none
     }
     
@@ -159,44 +144,5 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
     
     func pickerViewClickDoneFor(datePicker: UIDatePicker) {
         delegate?.pickerValueUpdated([datePicker.date.toReadableString()], for: self)
-    }
-    
-    // MARK: - TextField Delegate
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard
-            let text = textField.text,
-            let textRange = Range(range, in: text)
-        else {
-            return false
-        }
-        
-        delegate?.pickerTextUpdated(text.replacingCharacters(in: textRange, with: string), for: self)
-        return true
-    }
-    
-    // MARK: - Private Helpers
-    private func getLocalizedText() -> String { // TODO!
-        guard let first = selectedValues.first else {
-            return ""
-        }
-        
-//        switch pickerType {
-//        case .picker:
-//            if let key = pickerValues.first?.first(where: { first == $0.serverMapping })?.localizationKey {
-//                if first.isEmpty {
-//                    let localizedText = key.isEmpty ? LocalizationManager.localizedString(forKey: "generic.select.one") : LocalizationManager.localizedString(forKey: key)
-//                    return isEnabled ? localizedText : ""
-//                }
-//
-//                return key.isEmpty ? first : LocalizationManager.localizedString(forKey: key)
-//            }
-//
-//            // if disabled or Other is not an option, then do not display Other
-//            return isEnabled && pickerValues.first?.first(where: { $0.serverMapping == PickerTableCell.otherMapping }) != nil ? LocalizationManager.localizedString(forKey: "generic.other.colon") : first
-//        case .date, .dateTime:
-//            return first.isEmpty ? LocalizationManager.localizedString(forKey: "generic.select.one") : first
-//        }
-        
-        return first
     }
 }

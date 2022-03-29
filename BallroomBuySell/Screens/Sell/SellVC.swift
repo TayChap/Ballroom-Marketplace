@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol, PickerCellDelegate, TextFieldCellDelegate, ImageCellDelegate {
+class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol, PickerCellDelegate, TextFieldCellDelegate, ImageCellDelegate, SwitchCellDelegate, TextViewCellDelegate {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     private var vm: SaleItemVM!
@@ -15,7 +15,7 @@ class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, View
     // MARK: - Lifecycle Methods
     static func createViewController(_ templates: [SaleItemTemplate]) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = SaleItemVM(vc, templates)
+        vc.vm = SaleItemVM(vc, mode: .create, templates: templates)
         
         return vc
     }
@@ -23,6 +23,34 @@ class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, View
     override func viewDidLoad() {
         super.viewDidLoad()
         vm.viewDidLoad(tableView)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // For RTP Notes, shift up table when keyboard covers field
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // MARK: - Notifications
+    @objc func keyboardChange(_ notification: Notification) {
+        guard
+            let info = notification.userInfo,
+            let keyboardRect = (info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+        else {
+            return
+        }
+        
+        tableView.contentInset.bottom = keyboardRect.height
+    }
+    
+    @objc func keyboardHide(_ notification: Notification) {
+        tableView.contentInset.bottom = 0
     }
     
     // MARK: - IBActions
@@ -79,6 +107,26 @@ class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, View
     func deleteImage(at index: Int) {
         vm.deleteImage(at: index)
         reload()
+    }
+    
+    // MARK: - SwitchCellDelegate
+    func updateSwitchDetail(_ newValue: Bool, for cell: SwitchTableCell) {
+        vm.updateSwitchDetail(newValue, for: cell)
+        reload()
+    }
+    
+    // MARK: - TextViewCellDelegate
+    func textDidBeginEditing(_ cell: TextViewTableCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+        
+        tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+    }
+    
+    func updateTextViewDetail(_ newText: String, for cell: TextViewTableCell) {
+        setData(newText, for: cell)
+        tableView.performBatchUpdates(nil, completion: nil) // Need to adjust cell height without reloading the table view
     }
     
     // MARK: - Private Helpers
