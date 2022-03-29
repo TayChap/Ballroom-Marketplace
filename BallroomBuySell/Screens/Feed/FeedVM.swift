@@ -1,5 +1,5 @@
 //
-//  BuyVM.swift
+//  FeedVM.swift
 //  BallroomBuySell
 //
 //  Created by Taylor Chapman on 2022-01-07.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct BuyVM {
+struct FeedVM {
     enum Section: Int, CaseIterable {
         case recentItems, categories
     }
@@ -26,7 +26,7 @@ struct BuyVM {
         collectionView.collectionViewLayout = createCollectionViewLayout(collectionView)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier:  UICollectionViewCell.defaultRegister)
         SaleItemCollectionCell.registerCell(collectionView)
-        BuySectionHeader.registerCell(collectionView)
+        FeedSectionHeader.registerCell(collectionView)
         
 //        TemplateManager.updateTemplates()
     }
@@ -71,7 +71,7 @@ struct BuyVM {
     
     // MARK: - CollectionView Methods
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let sectionHeader = BuySectionHeader.createCell(collectionView, ofKind: kind, for: indexPath) else {
+        guard let sectionHeader = FeedSectionHeader.createCell(collectionView, ofKind: kind, for: indexPath) else {
             return UICollectionReusableView()
         }
         

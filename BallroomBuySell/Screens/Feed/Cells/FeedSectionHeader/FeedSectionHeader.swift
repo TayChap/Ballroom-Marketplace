@@ -7,16 +7,16 @@
 
 import UIKit
 
-class BuySectionHeader: UICollectionReusableView {
+class FeedSectionHeader: UICollectionReusableView {
     @IBOutlet weak var buySectionLabel: UILabel!
     
     static func registerCell(_ collectionView: UICollectionView) {
-        let identifier = String(describing: BuySectionHeader.self)
+        let identifier = String(describing: FeedSectionHeader.self)
         collectionView.register(UINib(nibName: identifier, bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: identifier)
     }
     
-    static func createCell(_ collectionView: UICollectionView, ofKind kind: String, for indexPath: IndexPath) -> BuySectionHeader? {
-        guard let cell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: String(describing: BuySectionHeader.self), for: indexPath) as? BuySectionHeader else {
+    static func createCell(_ collectionView: UICollectionView, ofKind kind: String, for indexPath: IndexPath) -> FeedSectionHeader? {
+        guard let cell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: String(describing: FeedSectionHeader.self), for: indexPath) as? FeedSectionHeader else {
             assertionFailure("Can't Find Cell")
             return nil
         }

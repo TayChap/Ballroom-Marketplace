@@ -50,25 +50,7 @@ struct TemplateManager {
         SaleItemTemplate(id: "tailsuit",
                          name: "tailsuit_key",
                          imageURL: "\(imageURLPrefix)tailsuit.jpeg",
-                         screenStructure: [SaleItemCellStructure(type: .picker,
-                                                                 inputType: .standard,
-                                                                 serverKey: "picker",
-                                                                 title: "picker test_title",
-                                                                 subtitle: "",
-                                                                 placeholder: "",
-                                                                 required: true,
-                                                                 filterEnabled: true,
-                                                                 values: [PickerValue(serverKey: "", localizationKey: ""),
-                                                                          PickerValue(serverKey: "value", localizationKey: "value_key")]),
-                                           SaleItemCellStructure(type: .textField,
-                                                                 inputType: .standard,
-                                                                 serverKey: "text",
-                                                                 title: "text test_title",
-                                                                 subtitle: "test_subtitle",
-                                                                 placeholder: "test_placeholder",
-                                                                 required: true,
-                                                                 filterEnabled: false)] +
-                         Sizing.tails.measurementCells)
+                         screenStructure: Sizing.tails.measurementCells)
     }
     
     private static func getStandardDressTemplate() -> SaleItemTemplate {
