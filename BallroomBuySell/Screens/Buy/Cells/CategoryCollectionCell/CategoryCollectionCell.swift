@@ -23,6 +23,7 @@ class CategoryCollectionCell: UICollectionViewCell, CollectionCellProtocol  {
     func configureCell(_ dm: CategoryCollectionCellDM) {
         clearContent()
         
+        categoryImageView.roundViewCorners(5.0)
         ImageManager.sharedInstance.downloadImage(at: dm.imageURL) { [weak self] image in // weak self because cell might be deallocated before network call returns
             
             // TODO! evaluate if this check is required

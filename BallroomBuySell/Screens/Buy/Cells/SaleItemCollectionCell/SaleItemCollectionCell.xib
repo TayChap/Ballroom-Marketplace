@@ -20,18 +20,18 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="BaC-iQ-0W7">
-                        <rect key="frame" x="8" y="44" width="197" height="128"/>
+                        <rect key="frame" x="16" y="52" width="181" height="119.5"/>
                         <color key="backgroundColor" systemColor="systemPurpleColor"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="$10.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tIG-av-wRJ">
-                        <rect key="frame" x="8" y="180" width="197" height="21.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <rect key="frame" x="16" y="179.5" width="181" height="24"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                         <color key="textColor" systemColor="systemGreenColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Jan 5, 2022" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s43-55-D9f">
-                        <rect key="frame" x="8" y="205.5" width="197" height="21.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <rect key="frame" x="16" y="207.5" width="181" height="19.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -42,13 +42,13 @@
             <constraints>
                 <constraint firstItem="s43-55-D9f" firstAttribute="leading" secondItem="BaC-iQ-0W7" secondAttribute="leading" id="71g-dS-QQT"/>
                 <constraint firstItem="s43-55-D9f" firstAttribute="trailing" secondItem="BaC-iQ-0W7" secondAttribute="trailing" id="9ai-vM-8Hc"/>
-                <constraint firstAttribute="trailing" secondItem="BaC-iQ-0W7" secondAttribute="trailing" constant="8" id="GgV-YV-dn6"/>
-                <constraint firstItem="BaC-iQ-0W7" firstAttribute="leading" secondItem="YAi-6G-30i" secondAttribute="leading" constant="8" id="M81-OX-T1M"/>
+                <constraint firstAttribute="trailing" secondItem="BaC-iQ-0W7" secondAttribute="trailing" constant="16" id="GgV-YV-dn6"/>
+                <constraint firstItem="BaC-iQ-0W7" firstAttribute="leading" secondItem="YAi-6G-30i" secondAttribute="leading" constant="16" id="M81-OX-T1M"/>
                 <constraint firstAttribute="bottomMargin" secondItem="s43-55-D9f" secondAttribute="bottom" constant="8" id="MSh-Zj-k4m"/>
                 <constraint firstItem="tIG-av-wRJ" firstAttribute="leading" secondItem="BaC-iQ-0W7" secondAttribute="leading" id="Sip-6g-Hsi"/>
                 <constraint firstItem="tIG-av-wRJ" firstAttribute="trailing" secondItem="BaC-iQ-0W7" secondAttribute="trailing" id="X1o-E5-jLN"/>
                 <constraint firstItem="s43-55-D9f" firstAttribute="top" secondItem="tIG-av-wRJ" secondAttribute="bottom" constant="4" id="biF-Ew-PJR"/>
-                <constraint firstItem="BaC-iQ-0W7" firstAttribute="top" secondItem="YAi-6G-30i" secondAttribute="topMargin" id="vOg-Yk-6DX"/>
+                <constraint firstItem="BaC-iQ-0W7" firstAttribute="top" secondItem="YAi-6G-30i" secondAttribute="topMargin" constant="8" id="vOg-Yk-6DX"/>
                 <constraint firstItem="tIG-av-wRJ" firstAttribute="top" secondItem="BaC-iQ-0W7" secondAttribute="bottom" constant="8" id="x0q-Wu-DDb"/>
             </constraints>
             <size key="customSize" width="213" height="235"/>
