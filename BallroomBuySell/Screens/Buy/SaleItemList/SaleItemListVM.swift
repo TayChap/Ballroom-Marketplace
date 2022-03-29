@@ -49,7 +49,33 @@ struct SaleItemListVM {
                                                                          saleItem: saleItems[indexPath.item]))
     }
     
-    mutating func updateFilter(_ saleItem: SaleItem) {
-        saleItems.append(saleItem)
+    // MARK: - Public Helpers
+    mutating func updateFilter(_ filterSaleItem: SaleItem) { // TODO! update based on formalized templates
+        var saleItemScores = [(item: SaleItem, score: Double)]()
+        
+        for saleItem in saleItems {
+            var score = 0.0
+            
+            for filterField in filterSaleItem.fields {
+                guard let itemStringValue = saleItem.fields[filterField.key] else {
+                    // TODO! adjust score since not in field
+                    continue
+                }
+                
+                guard
+                    let filterValue = Double(filterField.value),
+                    let itemValue = Double(itemStringValue)
+                else {
+                    // TODO! it's a string like a template id or country
+                    continue
+                }
+                
+                score += abs(filterValue - itemValue)
+            }
+            
+            saleItemScores.append((item: saleItem, score: score))
+        }
+        
+        saleItems = saleItemScores.sorted(by: { $0.score < $1.score }).map({ $0.item }) // higher score means higher difference
     }
 }
