@@ -56,7 +56,7 @@ struct LoginVM {
     }
     
     // MARK: - IBActions
-    func loginButtonClicked(_ delegate: ViewControllerProtocol, _ enableButton: () -> Void) {
+    func loginButtonClicked(_ delegate: ViewControllerProtocol) {
         guard
             let email = dm[LoginItem.email],
             let password = dm[LoginItem.password]
@@ -66,8 +66,6 @@ struct LoginVM {
         
         AuthenticationManager().loginStagingUser(email: email) {
             delegate.dismiss()
-        } onFail: { errorMessage in
-            delegate.showAlertWith(message: errorMessage)
         }
     }
     

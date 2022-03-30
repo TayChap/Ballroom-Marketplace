@@ -32,7 +32,7 @@ struct AuthenticationManager {
         }
     }
     
-    func changeRequest(displayName: String? = nil, photoURL: String? = nil, completion: @escaping () -> Void) {
+    func changeRequest(displayName: String? = nil, photoURL: String? = nil, completion: @escaping () -> Void, onFail: @escaping () -> Void) {
         let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
         
         if let displayName = displayName {
@@ -44,35 +44,34 @@ struct AuthenticationManager {
         }
         
         changeRequest?.commitChanges { error in
-            if let error = error {
-                //onFail(getErrorMessage(error)) // TODO! return fail message
+            if let _ = error {
+                onFail()
                 return
             }
-
+            
             completion()
         }
     }
     
     // MARK: - Staging only authentication
-    func createStagingUser(email: String, password: String = "Tester", displayName: String, photo: Image, completion: @escaping () -> Void, onFail: @escaping (_ errorMessage: String) -> Void) {
+    func createStagingUser(email: String, password: String = "Tester", displayName: String, photo: Image, completion: @escaping () -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-            if let error = error {
-                onFail(getErrorMessage(error))
-                return
+            if let _ = error {
+                return // staging so no error message required
             }
             
             Image.uploadImages([photo])
             changeRequest(displayName: displayName,
                           photoURL: photo.url,
-                          completion: completion) // TODO! on fail
+                          completion: completion,
+                          onFail: {}) // staging so no error message required
         }
     }
     
-    func loginStagingUser(email: String, completion: @escaping () -> Void, onFail: @escaping (_ errorMessage: String) -> Void) {
+    func loginStagingUser(email: String, completion: @escaping () -> Void) {
         Auth.auth().signIn(withEmail: email, password: "Tester") { authResult, error in
-            if let error = error {
-                onFail(getErrorMessage(error))
-                return
+            if let _ = error {
+                return // staging so no error message required
             }
             
             completion()
@@ -86,10 +85,5 @@ struct AuthenticationManager {
         } catch {
             onFail()
         }
-    }
-    
-    // MARK: - Private Helpers
-    private func getErrorMessage(_ error: Error) -> String {
-        error.localizedDescription // TODO! user facing errors
     }
 }

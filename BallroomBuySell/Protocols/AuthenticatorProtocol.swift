@@ -36,28 +36,28 @@ extension AuthenticatorProtocol {
         
         AuthenticationManager().appleSignIn(idTokenString, nonce) {
             if AuthenticationManager().user != nil {
-                self.showAlertWith(message: "sign in successful") // TODO! verbiage
+                self.showAlertWith(message: LocalizedString.string("login.success.message"))
                 return
             }
             
             let name = "\(appleIDCredential.fullName?.givenName ?? "") \(appleIDCredential.fullName?.familyName ?? "")"
-            
             AuthenticationManager().changeRequest(displayName: name) {
                 // Display alert to optionally add profile photo
-                let now = UIAlertAction(title: "_now_", style: .default) { _ in // TODO! verbiage
+                let now = UIAlertAction(title: LocalizedString.string("generic.now"), style: .default) { _ in
                     self.displayMediaActionSheet()
                 }
                 
-                let later = UIAlertAction(title: "_later_", style: .cancel)
-                self.showAlertWith(message: "add a profile picture?", // TODO! verbiage
+                let later = UIAlertAction(title: LocalizedString.string("generic.later"), style: .cancel)
+                self.showAlertWith(message: LocalizedString.string("login.add.picture.message"),
                                    alertActions: [now, later])
+            } onFail: {
+                self.showNetworkError()
             }
         }
     }
     
     func authorizationController(controller: ASAuthorizationController, error: Error) {
-        // TODO! Handle error
-        print("Sign in with Apple errored: \(error)")
+        showNetworkError()
     }
     
     func profilePictureSelected(info: [UIImagePickerController.InfoKey : Any]) {
@@ -65,12 +65,12 @@ extension AuthenticatorProtocol {
             return
         }
         
-        //        let normalizedImage = normalizedImage(selectedImage)
-        //        let resizedImage = resize(sourceImage: normalizedImage, newWidth: CGFloat(imageWidth))
         let image = Image(data: selectedImageData)
         Image.uploadImages([image])
         AuthenticationManager().changeRequest(photoURL: image.url) {
-            self.showAlertWith(message: "_apple complete_")
+            self.showAlertWith(message: LocalizedString.string("login.success.message"))
+        } onFail: {
+            self.showNetworkError()
         }
     }
     
@@ -88,6 +88,7 @@ extension AuthenticatorProtocol {
         authorizationController.performRequests()
     }
     
+    // TODO! why is this in authenticator protocol
     private func displayMediaActionSheet() {
         var actionItems = [UIAlertAction]()
         

@@ -57,23 +57,19 @@ struct SignUpVM {
     }
     
     // MARK: - IBActions
-    func signUpButtonClicked(_ delegate: ViewControllerProtocol, _ enableButton: @escaping () -> Void) {
+    func signUpButtonClicked(_ delegate: ViewControllerProtocol) {
         guard // validity of email and password checked on server side
             let photo = photo,
             let email = dm[SignUpItem.email],
             let password = dm[SignUpItem.password],
             let displayName = dm[SignUpItem.displayName], !displayName.isEmpty
         else {
-            delegate.showAlertWith(message: "req_fields") // TODO! localize
-            enableButton()
+            delegate.showAlertWith(message: LocalizedString.string("alert.required.fields.message"))
             return
         }
         
         AuthenticationManager().createStagingUser(email: email, displayName: displayName, photo: photo) {
             delegate.dismiss()
-        } onFail: { errorMessage in
-            delegate.showAlertWith(message: errorMessage)
-            enableButton()
         }
     }
     

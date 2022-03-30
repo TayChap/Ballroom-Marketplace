@@ -1,13 +1,19 @@
 /* Generic */
 "generic.category" = "Category";
 "generic.close" = "Close";
+"generic.later" = "Later";
 "generic.location" = "Location";
 "generic.notes" = "Notes";
+"generic.now" = "Now";
 
 /* Alert */
 "alert.network.title" = "Network Error";
 "alert.network.message" = "Please ensure you are connected to the internet and relaunch the app to try again";
 "alert.required.fields.message" = "Please fill out all required fields";
+
+/* Login */
+"login.success.message" = "Login successful!";
+"login.add.picture.message" = "Add a profile picture?";
 
 /* Feed */
 "feed.recent.items" = "Recent Items";
