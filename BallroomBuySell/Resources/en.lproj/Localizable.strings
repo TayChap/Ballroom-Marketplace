@@ -1,4 +1,5 @@
 /* Generic */
+"generic.cancel" = "Cancel";
 "generic.category" = "Category";
 "generic.close" = "Close";
 "generic.later" = "Later";
@@ -6,10 +7,16 @@
 "generic.notes" = "Notes";
 "generic.now" = "Now";
 
-/* Alert */
+/* Errors */
 "alert.network.title" = "Network Error";
 "alert.network.message" = "Please ensure you are connected to the internet and relaunch the app to try again";
 "alert.required.fields.message" = "Please fill out all required fields";
+
+/* Permissions */
+"apple.settings.app" = "Settings";
+"apple.camera.app" = "Camera";
+"apple.photos.app" = "Photo Library";
+"permissions.request" = "Please turn on your %@ permissions in settings";
 
 /* Login */
 "login.success.message" = "Login successful!";
