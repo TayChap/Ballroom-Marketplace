@@ -82,7 +82,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         }
         
         let actionItems = collectionView.numberOfItems(inSection: 0) - 1 == indexPath.row && isEditable && imagesList.count < maxImageCount ? getEmptyActionSheetItems() : getNonEmptyActionSheetItems(indexPath)
-        delegate.showActionSheetOrPopover(message: "notes.attachment.actions", alertActions: actionItems)
+        delegate.showActionSheetOrPopover(message: LocalizedString.string("sale.item.images.actions"), alertActions: actionItems)
     }
     
     // MARK: - UIImagePickerController Delegate
@@ -103,13 +103,13 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     // MARK: - Private Helpers
     private func getEmptyActionSheetItems() -> [UIAlertAction] {
         var actionItems = [UIAlertAction]()
+        actionItems.append(UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel))
         
-        actionItems.append(UIAlertAction(title: "generic.cancel", style: .cancel))
-        actionItems.append(UIAlertAction(title: "select_camera", style: .default) { _ in
+        actionItems.append(UIAlertAction(title: LocalizedString.string("apple.camera.app"), style: .default) { _ in
             MediaManager.displayCamera(self, displayingVC: self.delegate)
         })
         
-        actionItems.append(UIAlertAction(title: "select_gallery", style: .default) { _ in
+        actionItems.append(UIAlertAction(title: LocalizedString.string("apple.photos.app"), style: .default) { _ in
             MediaManager.displayGallery(self, displayingVC: self.delegate)
         })
         
@@ -120,14 +120,14 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         let imageData = imagesList[indexPath.row]
         var actionItems = [UIAlertAction]()
         
-        actionItems.append(UIAlertAction(title: "generic.cancel", style: .cancel))
+        actionItems.append(UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel))
         
-        actionItems.append(UIAlertAction(title: "notes.view.attachment", style: .default) { _ in
+        actionItems.append(UIAlertAction(title: LocalizedString.string("generic.view"), style: .default) { _ in
             self.displayImage(imageData)
         })
         
         if isEditing {
-            actionItems.append(UIAlertAction(title: "notes.remove.attachment", style: .destructive) { _ in
+            actionItems.append(UIAlertAction(title: LocalizedString.string("generic.remove"), style: .destructive) { _ in
                 self.delegate?.deleteImage(at: indexPath.row)
             })
         }

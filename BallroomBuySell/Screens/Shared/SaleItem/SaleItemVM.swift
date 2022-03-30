@@ -25,9 +25,13 @@ struct SaleItemVM {
             return false
         }
         
-        let requiredFields = screenStructure.filter({ $0.required }).map({ $0.serverKey })
-        return saleItem.fields.allSatisfy { field in
-            !requiredFields.contains(field.key) || !field.value.isEmpty
+        let requiredFields = screenStructure.filter({ $0.required && !$0.serverKey.isEmpty }).map({ $0.serverKey })
+        return requiredFields.allSatisfy { requiredField in
+            guard let value = saleItem.fields[requiredField] else {
+                return false
+            }
+            
+            return !value.isEmpty
         }
     }
     

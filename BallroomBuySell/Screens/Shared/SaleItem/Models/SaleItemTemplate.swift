@@ -79,7 +79,7 @@ struct SaleItemTemplate: Codable {
                               titleKey: "generic.notes",
                               subtitleKey: "",
                               placeholderKey: "",
-                              required: true,
+                              required: false,
                               filterEnabled: false,
                               values: [])
     }

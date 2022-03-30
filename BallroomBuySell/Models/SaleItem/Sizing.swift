@@ -35,7 +35,7 @@ enum Sizing: String, Codable {
         SaleItemCellStructure(type: .toggle,
                               inputType: .standard,
                               serverKey: "",
-                              titleKey: "sale.item.sizing.standard.size",
+                              titleKey: "sale.item.sizing.standard.size.option",
                               subtitleKey: "",
                               placeholderKey: "",
                               required: false,

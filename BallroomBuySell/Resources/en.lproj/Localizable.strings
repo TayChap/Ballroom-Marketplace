@@ -6,6 +6,8 @@
 "generic.location" = "Location";
 "generic.notes" = "Notes";
 "generic.now" = "Now";
+"generic.remove" = "Remove";
+"generic.view" = "View";
 
 /* Errors */
 "alert.network.title" = "Network Error";
@@ -28,6 +30,7 @@
 /* Sale Item */
 "sale.item.price" = "Price (USD)";
 "sale.item.images" = "Images";
+"sale.item.images.actions" = "Image Actions";
 "sale.item.contact.seller" = "Contact Seller";
 
 "sale.item.tailsuit.title" = "Tailsuit";
