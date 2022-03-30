@@ -13,5 +13,6 @@ struct TextFieldCellDM {
     var subtitle: String = ""
     let detail: String
     let returnKeyType: UIReturnKeyType
+    var showRequiredAsterisk = false
     var isEnabled = true
 }

@@ -68,7 +68,7 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
         pickerValues = dm.pickerValues
         
         // Title label
-        titleLabel.attributedText = NSAttributedString(string: dm.titleText)
+        titleLabel.attributedText = dm.titleText.attributedText(color: UIColor(named: "primaryText") ?? .blue, required: dm.showRequiredAsterisk)
         
         // Detail label
         detailLabel.text = LocalizedString.string(dm.pickerValues[0].first(where: { $0.serverKey == selectedValues[0] })?.localizationKey ?? "")

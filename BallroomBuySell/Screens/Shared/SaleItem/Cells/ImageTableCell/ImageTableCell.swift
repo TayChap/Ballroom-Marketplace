@@ -47,7 +47,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     func configureCell(_ dm: ImageCellDM) {
         clearContent()
         
-        titleLabel.text = dm.title
+        titleLabel.attributedText = dm.title.attributedText(color: UIColor(named: "primaryText") ?? .blue, required: dm.showRequiredAsterisk)
         imagesList = dm.images
         maxImageCount = dm.maxImages
         isEditable = dm.editable
@@ -58,7 +58,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     }
     
     func clearContent() {
-        titleLabel.text = ""
+        titleLabel.attributedText = nil
         imagesList.removeAll()
     }
     

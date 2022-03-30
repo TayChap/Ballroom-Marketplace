@@ -90,6 +90,7 @@
 		8DA71D1A27A63F590025C1D5 /* Sender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA71D1927A63F590025C1D5 /* Sender.swift */; };
 		8DCC41C327F0A3670090EDDE /* Sizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCC41C227F0A3670090EDDE /* Sizing.swift */; };
 		8DCC41C927F382730090EDDE /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCC41C827F382730090EDDE /* UIView.swift */; };
+		8DCC41CB27F4913E0090EDDE /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCC41CA27F4913E0090EDDE /* String.swift */; };
 		8DCD6E1127F00782008FF5A7 /* SwitchTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCD6E1027F00782008FF5A7 /* SwitchTableCell.swift */; };
 		8DCD6E1327F00796008FF5A7 /* SwitchTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DCD6E1227F00796008FF5A7 /* SwitchTableCell.xib */; };
 		8DCD6E1527F007A1008FF5A7 /* SwitchCellDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCD6E1427F007A1008FF5A7 /* SwitchCellDM.swift */; };
@@ -194,6 +195,7 @@
 		8DA71D1927A63F590025C1D5 /* Sender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sender.swift; sourceTree = "<group>"; };
 		8DCC41C227F0A3670090EDDE /* Sizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sizing.swift; sourceTree = "<group>"; };
 		8DCC41C827F382730090EDDE /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		8DCC41CA27F4913E0090EDDE /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		8DCD6E1027F00782008FF5A7 /* SwitchTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableCell.swift; sourceTree = "<group>"; };
 		8DCD6E1227F00796008FF5A7 /* SwitchTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SwitchTableCell.xib; sourceTree = "<group>"; };
 		8DCD6E1427F007A1008FF5A7 /* SwitchCellDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchCellDM.swift; sourceTree = "<group>"; };
@@ -472,6 +474,7 @@
 				8D9D45B1279E1285004C5565 /* Image.swift */,
 				8D9D45722788D929004C5565 /* User.swift */,
 				8D408F3427CED7B900F13038 /* LocalizedString.swift */,
+				8DCC41CA27F4913E0090EDDE /* String.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -825,6 +828,7 @@
 				8D9D4589279096C6004C5565 /* InputType.swift in Sources */,
 				8D9D44ED2770C64A004C5565 /* UIViewController.swift in Sources */,
 				8D9D456A2787788A004C5565 /* Date.swift in Sources */,
+				8DCC41CB27F4913E0090EDDE /* String.swift in Sources */,
 				8D9D45832789F79D004C5565 /* TemplateManager.swift in Sources */,
 				8D9D45772788E038004C5565 /* SaleItem.swift in Sources */,
 				8D9D4541277CDEFC004C5565 /* TableCellProtocol.swift in Sources */,

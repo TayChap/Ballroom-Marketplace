@@ -96,6 +96,7 @@ struct SaleItemVM {
                                                title: LocalizedString.string(cellStructure.title),
                                                detail: saleItem.fields[cellStructure.serverKey] ?? "",
                                                returnKeyType: .done,
+                                               showRequiredAsterisk: cellStructure.required,
                                                isEnabled: mode != .view))
             cell.delegate = owner as? TextFieldCellDelegate
             return cell
@@ -106,6 +107,7 @@ struct SaleItemVM {
             
             cell.configureCell(ImageCellDM(title: LocalizedString.string(cellStructure.title),
                                            images: saleItem.images.compactMap({ $0.data }),
+                                           showRequiredAsterisk: cellStructure.required,
                                            editable: mode == .create))
             cell.delegate = owner as? (ImageCellDelegate & UIViewController)
             return cell

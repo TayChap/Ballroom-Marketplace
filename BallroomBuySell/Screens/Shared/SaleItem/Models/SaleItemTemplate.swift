@@ -43,7 +43,7 @@ struct SaleItemTemplate: Codable {
                               titleKey: "sale.item.price",
                               subtitleKey: "",
                               placeholderKey: "",
-                              required: false,
+                              required: true,
                               filterEnabled: false,
                               values: [])
     }
