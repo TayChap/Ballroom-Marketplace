@@ -13,6 +13,7 @@ struct SaleItemTemplate: Codable {
     let id: String // human readable
     let name: String
     let imageURL: String
+    let order: Int
     var screenStructure: [SaleItemCellStructure]
     
     // MARK: - Public Helpers

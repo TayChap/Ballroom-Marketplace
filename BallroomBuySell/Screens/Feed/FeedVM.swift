@@ -144,7 +144,7 @@ struct FeedVM {
     
     // MARK: - Public Helpers
     mutating func onItemsFetched(_ templatesFetched: [SaleItemTemplate], _ saleItemsFetched: [SaleItem]) {
-        templates = templatesFetched
+        templates = templatesFetched.sorted(by: { $0.order < $1.order })
         saleItems = saleItemsFetched
     }
     

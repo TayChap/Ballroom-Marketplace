@@ -52,6 +52,7 @@ struct TemplateManager {
         SaleItemTemplate(id: "tailsuit",
                          name: "sale.item.tailsuit.title",
                          imageURL: "\(imageURLPrefix)tailsuit.jpeg",
+                         order: 100,
                          screenStructure: Sizing.tails.measurementCells)
     }
     
@@ -59,6 +60,7 @@ struct TemplateManager {
         SaleItemTemplate(id: "standardDress",
                          name: "sale.item.womens.standard.dress.title",
                          imageURL: "\(imageURLPrefix)standardDress.jpeg",
+                         order: 200,
                          screenStructure: Sizing.dress.measurementCells)
     }
     
@@ -66,6 +68,7 @@ struct TemplateManager {
         SaleItemTemplate(id: "latinDress",
                          name: "sale.item.womens.latin.dress.title",
                          imageURL: "\(imageURLPrefix)latinDress.jpeg",
+                         order: 300,
                          screenStructure: Sizing.dress.measurementCells)
     }
     
@@ -73,6 +76,7 @@ struct TemplateManager {
         SaleItemTemplate(id: "mensLatinTop",
                          name: "sale.item.mens.latin.top.title",
                          imageURL: "\(imageURLPrefix)mensLatinTop.jpeg",
+                         order: 400,
                          screenStructure: Sizing.shirt.measurementCells)
     }
     
@@ -80,6 +84,7 @@ struct TemplateManager {
         SaleItemTemplate(id: "mensLatinBottom",
                          name: "sale.item.mens.latin.bottom.title",
                          imageURL: "\(imageURLPrefix)mensBottom.jpeg",
+                         order: 500,
                          screenStructure: Sizing.pant.measurementCells)
     }
     
@@ -87,6 +92,7 @@ struct TemplateManager {
         SaleItemTemplate(id: "mensPracticeTop",
                          name: "sale.item.mens.practice.top.title",
                          imageURL: "\(imageURLPrefix)mensPracticeTop.jpeg",
+                         order: 600,
                          screenStructure: Sizing.shirt.measurementCells)
     }
     
@@ -94,6 +100,7 @@ struct TemplateManager {
         SaleItemTemplate(id: "womansPracticeTop",
                          name: "sale.item.womens.practice.top.title",
                          imageURL: "\(imageURLPrefix)womansPracticeTop.jpeg",
+                         order: 700,
                          screenStructure: Sizing.shirt.measurementCells)
     }
     
@@ -101,6 +108,7 @@ struct TemplateManager {
         SaleItemTemplate(id: "womansPracticeBottom",
                          name: "sale.item.womens.practice.bottom.title",
                          imageURL: "\(imageURLPrefix)womansPracticeBottom.jpeg",
+                         order: 800,
                          screenStructure: Sizing.pant.measurementCells)
     }
     
@@ -108,6 +116,7 @@ struct TemplateManager {
         SaleItemTemplate(id: "mensStandardShoes",
                          name: "sale.item.mens.standard.shoes.title",
                          imageURL: "\(imageURLPrefix)mensStandardShoes",
+                         order: 900,
                          screenStructure: Sizing.mensFlatShoes.measurementCells)
     }
     
@@ -115,6 +124,7 @@ struct TemplateManager {
         SaleItemTemplate(id: "mensLatinShoes",
                          name: "sale.item.mens.latin.shoes.title",
                          imageURL: "\(imageURLPrefix)mensLatinShoes",
+                         order: 1000,
                          screenStructure: Sizing.mensHeelShoes.measurementCells)
     }
     
@@ -122,6 +132,7 @@ struct TemplateManager {
         SaleItemTemplate(id: "womansStandardShoes",
                          name: "sale.item.womens.standard.shoes.title",
                          imageURL: "\(imageURLPrefix)womansStandardShoes",
+                         order: 1100,
                          screenStructure: Sizing.womansHeelShoes.measurementCells)
     }
     
@@ -129,6 +140,7 @@ struct TemplateManager {
         SaleItemTemplate(id: "womanLatinShoes",
                          name: "sale.item.womens.latin.shoes.title",
                          imageURL: "\(imageURLPrefix)womanLatinShoes",
+                         order: 1200,
                          screenStructure: Sizing.womansHeelShoes.measurementCells)
     }
 }
