@@ -11,10 +11,12 @@ struct TemplateManager {
     }
     
     // MARK: - Public Helpers
-    static func refreshTemplates(_ completion: @escaping (_ templates: [SaleItemTemplate]) -> Void) {
-        DatabaseManager.sharedInstance.getTemplates { templates in
+    static func refreshTemplates(_ completion: @escaping (_ templates: [SaleItemTemplate]) -> Void, _ onFail: @escaping () -> Void) {
+        DatabaseManager.sharedInstance.getTemplates({ templates in
             completion(templates)
-        }
+        }, {
+            onFail()
+        })
     }
     
     /// This method adds a hardcoded template to the templates collection
@@ -40,7 +42,7 @@ struct TemplateManager {
                 getMensLatinShoesTemplate()
             ]
             for template in templates {
-                DatabaseManager.sharedInstance.createDocument(.templates, template)
+                DatabaseManager.sharedInstance.createDocument(.templates, template, nil, {}, onFail: {}) // dev only so no handling
             }
         }
     }

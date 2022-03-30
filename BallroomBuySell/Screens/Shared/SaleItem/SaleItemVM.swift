@@ -61,8 +61,12 @@ struct SaleItemVM {
                 return
             }
             
-            DatabaseManager.sharedInstance.createDocument(.items, saleItem)
-            Image.uploadImages(saleItem.images)
+            DatabaseManager.sharedInstance.createDocument(.items, saleItem, nil) {
+                Image.uploadImages(saleItem.images)
+                delegate?.dismiss()
+            } onFail: {
+                delegate?.showNetworkError()
+            }
         case .filter:
             updateFilter?(saleItem)
         case .view:
@@ -187,7 +191,7 @@ struct SaleItemVM {
             return
         }
         
-        DatabaseManager.sharedInstance.getThreads(for: user.id) { threads in
+        DatabaseManager.sharedInstance.getThreads(for: user.id, { threads in
             let messageThread = threads.first(where: { $0.saleItemId == saleItem.id }) ??
             MessageThread(userIds: [user.id, saleItem.userId],
                           saleItemId: saleItem.id,
@@ -198,7 +202,9 @@ struct SaleItemVM {
                                                                               user: user,
                                                                               templates: templates,
                                                                               hideItemInfo: true))
-        }
+        }, {
+            delegate?.showNetworkError()
+        })
     }
     
     // MARK: - Public Helpers

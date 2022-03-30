@@ -33,11 +33,15 @@ struct FeedVM {
     
     func viewWillAppear(_ completion: @escaping (_ templates: [SaleItemTemplate], _ saleItems: [SaleItem]) -> Void) {
         // refresh templates and pull most recent sale items
-        TemplateManager.refreshTemplates { templates in
-            DatabaseManager.sharedInstance.getRecentSaleItems(for: maxRecentItems) { items in
+        TemplateManager.refreshTemplates({ templates in
+            DatabaseManager.sharedInstance.getRecentSaleItems(for: maxRecentItems, { items in
                 completion(templates, items)
-            }
-        }
+            }, {
+                delegate?.showNetworkError()
+            })
+        }, {
+            delegate?.showNetworkError()
+        })
     }
     
     // MARK: - IBActions
@@ -131,9 +135,11 @@ struct FeedVM {
         }
         
         let templateFilter = (key: "fields.\(SaleItemTemplate.serverKey.templateId.rawValue)", value: templates[indexPath.row].id)
-        DatabaseManager.sharedInstance.getSaleItems(where: templateFilter) { filteredSaleItems in
+        DatabaseManager.sharedInstance.getSaleItems(where: templateFilter, { filteredSaleItems in
             delegate?.pushViewController(SaleItemListVC.createViewController(templates, filteredSaleItems))
-        }
+        }, {
+            delegate?.showNetworkError()
+        })
     }
     
     // MARK: - Public Helpers

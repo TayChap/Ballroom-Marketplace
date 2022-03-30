@@ -27,11 +27,15 @@ struct InboxVM {
     }
     
     func viewWillAppear(_ completion: @escaping (_ saleItems: [SaleItem], _ threads: [MessageThread]) -> Void) {
-        DatabaseManager.sharedInstance.getSaleItems(where: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id)) { saleItems in
-            DatabaseManager.sharedInstance.getThreads(for: user.id) { threads in
+        DatabaseManager.sharedInstance.getSaleItems(where: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id), { saleItems in
+            DatabaseManager.sharedInstance.getThreads(for: user.id, { threads in
                 completion(saleItems, threads)
-            }
-        }
+            }, {
+                delegate?.showNetworkError()
+            })
+        }, {
+            delegate?.showNetworkError()
+        })
     }
     
     // MARK: - IBActions
@@ -96,13 +100,13 @@ struct InboxVM {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath, completion: @escaping (_ saleItems: [SaleItem], _ threads: [MessageThread]) -> Void) {
         if editingStyle == .delete {
             if inboxState == .threads {
-                DatabaseManager.sharedInstance.deleteDocument(in: .threads, with: threads[indexPath.row].id) {
+                DatabaseManager.sharedInstance.deleteDocument(in: .threads, with: threads[indexPath.row].id, {
                     fetchItems(completion)
-                }
+                }, onFail)
             } else {
-                DatabaseManager.sharedInstance.deleteSaleItem(with: saleItems[indexPath.row].id) {
+                DatabaseManager.sharedInstance.deleteSaleItem(with: saleItems[indexPath.row].id, {
                     fetchItems(completion)
-                }
+                }, onFail)
             }
         }
     }
@@ -115,10 +119,18 @@ struct InboxVM {
     
     // MARK: - Private Helpers
     private func fetchItems(_ completion: @escaping (_ saleItems: [SaleItem], _ threads: [MessageThread]) -> Void) {
-        DatabaseManager.sharedInstance.getSaleItems(where: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id)) { saleItems in
-            DatabaseManager.sharedInstance.getThreads(for: user.id) { threads in
+        DatabaseManager.sharedInstance.getSaleItems(where: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id), { saleItems in
+            DatabaseManager.sharedInstance.getThreads(for: user.id, { threads in
                 completion(saleItems, threads)
-            }
-        }
+            }, {
+                delegate?.showNetworkError()
+            })
+        }, {
+            delegate?.showNetworkError()
+        })
+    }
+    
+    private func onFail() {
+        delegate?.showNetworkError()
     }
 }

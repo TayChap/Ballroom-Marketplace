@@ -28,7 +28,7 @@ class MessageThreadVM { // TODO! deal with sim access issue and change to struct
     
     // MARK: - IBActions
     func infoButtonClicked() {
-        DatabaseManager.sharedInstance.getSaleItems(where: ("id", thread.saleItemId)) { saleItems in
+        DatabaseManager.sharedInstance.getSaleItems(where: ("id", thread.saleItemId), { saleItems in
             guard var saleItem = saleItems.first else {
                 return
             }
@@ -41,7 +41,9 @@ class MessageThreadVM { // TODO! deal with sim access issue and change to struct
                                                                                           hideContactSeller: true))
                 }
             }
-        }
+        }, {
+            self.delegate?.showNetworkError()
+        })
     }
     
     // MARK: - MessagesDataSource
@@ -76,6 +78,10 @@ class MessageThreadVM { // TODO! deal with sim access issue and change to struct
         
         thread.messages.append(message)
         completion()
-        DatabaseManager.sharedInstance.createDocument(.threads, thread, thread.id)
+        DatabaseManager.sharedInstance.createDocument(.threads, thread, thread.id) {
+            // no action on completion
+        } onFail: {
+            delegate?.showNetworkError()
+        }
     }
 }
