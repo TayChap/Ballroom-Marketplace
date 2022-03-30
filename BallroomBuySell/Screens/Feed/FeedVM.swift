@@ -100,7 +100,7 @@ struct FeedVM {
             }
             
             cell.configureCell(SaleItemCellDM(imageURL: coverImageURL,
-                                              price: "$\(cellData.fields["price"] ?? "")",
+                                              price: "$\(cellData.fields["price"] ?? "?")", // TODO! price empty?
                                               date: cellData.dateAdded ?? Date()))
             return cell
         }
@@ -164,7 +164,7 @@ struct FeedVM {
         let width = collectionView.frame.width / 2.5
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .absolute(width),
-            heightDimension: .absolute(width * 1.2))
+            heightDimension: .absolute(width * 1.4))
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize,
             subitem: item,

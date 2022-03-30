@@ -28,6 +28,7 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
     override func viewDidLoad() {
         super.viewDidLoad()
         messageInputBar.delegate = self
+        messagesCollectionView.backgroundColor = UIColor(named: "background")
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self

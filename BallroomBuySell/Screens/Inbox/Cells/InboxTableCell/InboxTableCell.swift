@@ -26,6 +26,7 @@ class InboxTableCell: UITableViewCell, TableCellProtocol {
     func configureCell(_ dm: InboxCellDM) {
         clearContent()
         
+        saleItemImage.roundViewCorners(5.0)
         ImageManager.sharedInstance.downloadImage(at: dm.imageURL) { [weak self] image in // weak self because cell might be deallocated before network call returns
             self?.saleItemImage.image = UIImage(data: image)
         }
