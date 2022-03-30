@@ -108,7 +108,7 @@ struct SaleItemVM {
             cell.configureCell(PickerCellDM(titleText: LocalizedString.string(cellStructure.title),
                                             selectedValues: [saleItem.fields[cellStructure.serverKey] ?? ""],
                                             pickerValues: [pickerValues],
-                                            showRequiredAsterisk: cellStructure.required))
+                                            showRequiredAsterisk: cellStructure.required && mode == .create))
             cell.delegate = owner as? PickerCellDelegate
             return cell
         case .textField:
@@ -120,7 +120,7 @@ struct SaleItemVM {
                                                title: LocalizedString.string(cellStructure.title),
                                                detail: saleItem.fields[cellStructure.serverKey] ?? "",
                                                returnKeyType: .done,
-                                               showRequiredAsterisk: cellStructure.required,
+                                               showRequiredAsterisk: cellStructure.required && mode == .create,
                                                isEnabled: mode != .view))
             cell.delegate = owner as? TextFieldCellDelegate
             return cell
@@ -131,7 +131,7 @@ struct SaleItemVM {
             
             cell.configureCell(ImageCellDM(title: LocalizedString.string(cellStructure.title),
                                            images: saleItem.images.compactMap({ $0.data }),
-                                           showRequiredAsterisk: cellStructure.required,
+                                           showRequiredAsterisk: cellStructure.required && mode == .create,
                                            editable: mode == .create))
             cell.delegate = owner as? (ImageCellDelegate & UIViewController)
             return cell

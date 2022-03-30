@@ -13,7 +13,7 @@ struct FeedVM {
     }
     
     private weak var delegate: (ViewControllerProtocol & AuthenticatorProtocol)?
-    private var templates = [SaleItemTemplate]() // TODO! change to an optional (no empty case)
+    private var templates = [SaleItemTemplate]()
     private var saleItems = [SaleItem]()
     private var maxRecentItems: Int { 20 }
     
