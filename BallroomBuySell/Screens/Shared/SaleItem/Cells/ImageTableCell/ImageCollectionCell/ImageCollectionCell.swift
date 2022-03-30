@@ -9,7 +9,6 @@ import UIKit
 
 class ImageCollectionCell: UICollectionViewCell, CollectionCellProtocol {
     @IBOutlet weak var imageView: UIImageView!
-    
     private let emptyCellImage = UIImage(systemName: "plus")
     
     static func registerCell(_ collectionView: UICollectionView) {
@@ -35,6 +34,7 @@ class ImageCollectionCell: UICollectionViewCell, CollectionCellProtocol {
         else {
             imageView.backgroundColor = UIColor(named: "cardBackground")
             imageView.image = UIImage(systemName: "plus")
+            imageView.contentMode = .center
             return
         }
         
@@ -45,6 +45,5 @@ class ImageCollectionCell: UICollectionViewCell, CollectionCellProtocol {
     
     func clearContent() {
         imageView.image = nil
-        imageView.contentMode = .center
     }
 }
