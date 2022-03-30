@@ -20,6 +20,17 @@ struct SaleItemVM {
     private let templates: [SaleItemTemplate]
     private let hideContactSeller: Bool
     
+    private var requiredFieldsFilled: Bool {
+        if saleItem.images.isEmpty {
+            return false
+        }
+        
+        let requiredFields = screenStructure.filter({ $0.required }).map({ $0.serverKey })
+        return saleItem.fields.allSatisfy { field in
+            !requiredFields.contains(field.key) || !field.value.isEmpty
+        }
+    }
+    
     // MARK: - Lifecycle Methods
     init(_ owner: ViewControllerProtocol, mode: Mode, templates: [SaleItemTemplate], saleItem: SaleItem? = nil, hideContactSeller: Bool = false) {
         delegate = owner
@@ -45,6 +56,11 @@ struct SaleItemVM {
         saleItem.dateAdded = Date()
         switch mode {
         case .create:
+            guard requiredFieldsFilled else {
+                delegate?.showAlertWith(message: LocalizedString.string("alert.required.fields.message"))
+                return
+            }
+            
             DatabaseManager.sharedInstance.createDocument(.items, saleItem)
             Image.uploadImages(saleItem.images)
         case .filter:

@@ -5,6 +5,9 @@
 "generic.notes" = "Notes";
 
 /* Alert */
+"alert.network.title" = "Network Error";
+"alert.network.message" = "Please ensure you are connected to the internet and relaunch the app to try again";
+"alert.required.fields.message" = "Please fill out all required fields";
 
 /* Feed */
 "feed.recent.items" = "Recent Items";
