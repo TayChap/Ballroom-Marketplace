@@ -16,7 +16,7 @@
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0vX-Dh-jqR">
-                    <rect key="frame" x="20" y="0.0" width="374" height="50"/>
+                    <rect key="frame" x="16" y="0.0" width="382" height="50"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="34"/>
                     <color key="textColor" name="primaryText"/>
                     <nil key="highlightedColor"/>
@@ -25,9 +25,9 @@
             <viewLayoutGuide key="safeArea" id="mX7-tQ-f6n"/>
             <constraints>
                 <constraint firstAttribute="bottomMargin" secondItem="0vX-Dh-jqR" secondAttribute="bottom" id="C98-nD-cMh"/>
-                <constraint firstAttribute="trailingMargin" secondItem="0vX-Dh-jqR" secondAttribute="trailing" id="CCD-oS-1LG"/>
+                <constraint firstAttribute="trailing" secondItem="0vX-Dh-jqR" secondAttribute="trailing" constant="16" id="CCD-oS-1LG"/>
                 <constraint firstItem="0vX-Dh-jqR" firstAttribute="top" secondItem="wRF-YE-qwk" secondAttribute="topMargin" id="x7J-zs-tqO"/>
-                <constraint firstItem="0vX-Dh-jqR" firstAttribute="leading" secondItem="wRF-YE-qwk" secondAttribute="leadingMargin" id="yHk-ch-1gy"/>
+                <constraint firstItem="0vX-Dh-jqR" firstAttribute="leading" secondItem="wRF-YE-qwk" secondAttribute="leading" constant="16" id="yHk-ch-1gy"/>
             </constraints>
             <connections>
                 <outlet property="buySectionLabel" destination="0vX-Dh-jqR" id="K4n-H2-Mft"/>
@@ -37,7 +37,7 @@
     </objects>
     <resources>
         <namedColor name="primaryText">
-            <color red="0.15299999713897705" green="0.15299999713897705" blue="0.15299999713897705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.8784313725490196" green="0.8784313725490196" blue="0.8784313725490196" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

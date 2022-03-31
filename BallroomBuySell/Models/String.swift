@@ -17,7 +17,7 @@ extension String {
         
         let attributedText = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.foregroundColor: color])
         if required {
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red, range: (text as NSString).range(of: requiredIndicator))
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: Theme.Color.error.value, range: (text as NSString).range(of: requiredIndicator))
         }
         
         return attributedText

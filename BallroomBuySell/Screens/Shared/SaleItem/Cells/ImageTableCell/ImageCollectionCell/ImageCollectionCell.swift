@@ -32,13 +32,11 @@ class ImageCollectionCell: UICollectionViewCell, CollectionCellProtocol {
             let data = image,
             let image = UIImage(data: data)
         else {
-            imageView.backgroundColor = UIColor(named: "cardBackground")
             imageView.image = UIImage(systemName: "plus")
             imageView.contentMode = .center
             return
         }
         
-        imageView.backgroundColor = .clear
         imageView.image = image
         imageView.contentMode = .scaleAspectFill
     }

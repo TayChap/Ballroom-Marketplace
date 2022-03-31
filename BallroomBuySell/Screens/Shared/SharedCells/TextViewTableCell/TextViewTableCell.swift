@@ -71,10 +71,10 @@ class TextViewTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol 
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         delegate?.textDidBeginEditing(self)
-        textView.layer.borderColor = UIColor.blue.cgColor
+        textView.layer.borderColor = Theme.Color.interactivity.value.cgColor
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        textView.layer.borderColor = UIColor.black.cgColor
+        textView.layer.borderColor = Theme.Color.cardBackground.value.cgColor
     }
 }

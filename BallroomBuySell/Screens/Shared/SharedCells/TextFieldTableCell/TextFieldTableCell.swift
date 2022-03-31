@@ -37,7 +37,7 @@ class TextFieldTableCell: UITableViewCell, TableCellProtocol, UITextFieldDelegat
     func configureCell(_ dm: TextFieldCellDM) {
         clearContent()
         
-        titleLabel.attributedText = dm.title.attributedText(color: UIColor(named: "primaryText") ?? .blue, required: dm.showRequiredAsterisk)
+        titleLabel.attributedText = dm.title.attributedText(color: Theme.Color.primaryText.value, required: dm.showRequiredAsterisk)
         
         subtitleLabel.text = dm.subtitle
         subtitleLabel.isHidden = dm.subtitle.isEmpty

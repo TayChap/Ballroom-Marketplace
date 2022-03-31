@@ -17,6 +17,8 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="B2d-zL-Zhh">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" name="background"/>
+                        <color key="tintColor" name="interactivity"/>
                     </navigationBar>
                     <connections>
                         <segue destination="tzZ-SI-Im0" kind="relationship" relationship="rootViewController" id="Byh-co-hVl"/>
@@ -54,7 +56,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aeW-z2-ila">
                                                     <rect key="frame" x="16" y="91.5" width="96" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" name="primaryText"/>
+                                                    <color key="textColor" name="secondaryText"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1es-gt-pf7">
@@ -153,6 +155,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="w2P-QN-ah2">
                         <barButtonItem key="rightBarButtonItem" image="checkmark" catalog="system" id="fzm-br-B4e">
+                            <color key="tintColor" name="interactivity"/>
                             <connections>
                                 <action selector="doneButtonClicked" destination="5h3-fC-z8R" id="Ygj-zs-ZEA"/>
                             </connections>
@@ -252,7 +255,7 @@
                                                         <constraint firstAttribute="width" constant="100" id="rfJ-C1-gxc"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" name="secondaryText"/>
+                                                    <color key="textColor" name="primaryText"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -398,11 +401,13 @@
                     </view>
                     <navigationItem key="navigationItem" id="1ZT-ni-dbo">
                         <barButtonItem key="leftBarButtonItem" image="xmark" catalog="system" id="Nmc-78-eK3">
+                            <color key="tintColor" name="interactivity"/>
                             <connections>
                                 <action selector="backButtonClicked" destination="WLI-9L-WRj" id="pWw-Pb-RMg"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="checkmark" catalog="system" id="vcJ-2Y-mwH">
+                            <color key="tintColor" name="interactivity"/>
                             <connections>
                                 <action selector="doneButtonClicked" destination="WLI-9L-WRj" id="l7X-mX-2fN"/>
                             </connections>
@@ -469,19 +474,19 @@
         <image name="slider.horizontal.3" catalog="system" width="128" height="100"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="background">
-            <color red="0.99199998378753662" green="1" blue="0.71399998664855957" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.14901960784313725" green="0.27450980392156865" blue="0.32549019607843138" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="cardBackground">
-            <color red="1" green="0.83899998664855957" blue="0.6470000147819519" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.9137254901960784" green="0.7686274509803922" blue="0.41568627450980394" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="interactivity">
-            <color red="0.0" green="0.60799998044967651" blue="0.83099997043609619" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.95686274509803926" green="0.63529411764705879" blue="0.38039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="primaryText">
-            <color red="0.15299999713897705" green="0.15299999713897705" blue="0.15299999713897705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.8784313725490196" green="0.8784313725490196" blue="0.8784313725490196" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="secondaryText">
-            <color red="0.62699997425079346" green="0.62699997425079346" blue="0.62699997425079346" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.15299999713897705" green="0.15299999713897705" blue="0.15299999713897705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

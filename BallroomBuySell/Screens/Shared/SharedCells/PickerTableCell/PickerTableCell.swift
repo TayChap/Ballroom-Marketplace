@@ -68,7 +68,7 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
         pickerValues = dm.pickerValues
         
         // Title label
-        titleLabel.attributedText = dm.titleText.attributedText(color: UIColor(named: "primaryText") ?? .blue, required: dm.showRequiredAsterisk)
+        titleLabel.attributedText = dm.titleText.attributedText(color: Theme.Color.primaryText.value, required: dm.showRequiredAsterisk)
         
         // Detail label
         detailLabel.text = LocalizedString.string(dm.pickerValues[0].first(where: { $0.serverKey == selectedValues[0] })?.localizationKey ?? "")
@@ -94,7 +94,7 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
     
     // MARK: - Picker Datasource
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        NSAttributedString(string: LocalizedString.string(pickerValues[component][row].localizationKey), attributes: [.foregroundColor: UIColor.red])
+        NSAttributedString(string: LocalizedString.string(pickerValues[component][row].localizationKey), attributes: [.foregroundColor: Theme.Color.secondaryText.value])
     }
     
     // MARK: - Picker Delegate
