@@ -100,7 +100,7 @@ struct SaleItemVM {
                     return UITableViewCell()
                 }
                 
-                pickerValues = PickerValue.getPickerValues(for: (min: cellStructure.min, max: max), with: cellStructure.increment)
+                pickerValues = PickerValue.getMeasurements(for: (min: cellStructure.min, max: max), with: cellStructure.increment)
             default:
                 pickerValues = cellStructure.values
             }

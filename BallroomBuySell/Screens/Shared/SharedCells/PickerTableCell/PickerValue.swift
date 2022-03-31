@@ -13,8 +13,8 @@ struct PickerValue: Codable {
         PickerValue(serverKey: "", localizationKey: "")
     }
     
-    static func getPickerValues(for range: (min: Double, max: Double), with increment: Double) -> [PickerValue] {
+    static func getMeasurements(for range: (min: Double, max: Double), with increment: Double) -> [PickerValue] {
         let values = stride(from: range.min, through: range.max, by: increment)
-        return values.map({ PickerValue(serverKey: "\($0)", localizationKey: "\($0)") })
+        return values.map({ PickerValue(serverKey: "\($0)", localizationKey: "\($0) \"") })
     }
 }
