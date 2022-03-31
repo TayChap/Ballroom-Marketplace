@@ -26,6 +26,7 @@
 
 /* Feed */
 "feed.recent.items" = "Recent Items";
+"list.empty.message" = "There's nothing to see here yet";
 
 /* Sale Item */
 "sale.item.price" = "Price (USD)";

@@ -43,7 +43,7 @@ struct InboxVM {
         AuthenticationManager().signOut {
             delegate?.dismiss()
         } onFail: {
-            // TODO!
+            delegate?.showNetworkError()
         }
     }
     
@@ -53,10 +53,19 @@ struct InboxVM {
     
     // MARK: - Table Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        inboxState == .threads ? threads.count : saleItems.count
+        numberOfItems() == 0 ? 1 : numberOfItems()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
+        if numberOfItems() == 0 { // empty message
+            guard let cell = InboxEmptyTableCell.createCell(tableView) else {
+                return UITableViewCell()
+            }
+            
+            cell.configureCell(LocalizedString.string("list.empty.message"))
+            return cell
+        }
+        
         guard let cell = InboxTableCell.createCell(tableView) else {
             return UITableViewCell()
         }
@@ -82,6 +91,10 @@ struct InboxVM {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if numberOfItems() == 0 { // empty message
+            return
+        }
+        
         if inboxState == .threads {
             delegate?.pushViewController(MessageThreadVC.createViewController(threads[indexPath.row],
                                                                               user: user,
@@ -132,5 +145,9 @@ struct InboxVM {
     
     private func onFail() {
         delegate?.showNetworkError()
+    }
+    
+    private func numberOfItems() -> Int {
+        inboxState == .threads ? threads.count : saleItems.count
     }
 }
