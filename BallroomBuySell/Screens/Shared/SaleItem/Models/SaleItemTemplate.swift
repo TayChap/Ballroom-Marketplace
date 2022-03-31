@@ -64,7 +64,7 @@ struct SaleItemTemplate: Codable {
     private static func getImageCollectionCelll() -> SaleItemCellStructure {
         SaleItemCellStructure(type: .imageCollection,
                               inputType: .standard,
-                              serverKey: "",
+                              serverKey: SaleItem.QueryKeys.images.rawValue,
                               titleKey: "sale.item.images",
                               subtitleKey: "",
                               placeholderKey: "",

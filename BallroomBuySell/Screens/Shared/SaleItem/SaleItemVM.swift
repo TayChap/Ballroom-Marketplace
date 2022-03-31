@@ -223,19 +223,24 @@ struct SaleItemVM {
     
     // MARK: - Private Helpers
     private func getScreenStructure() -> [SaleItemCellStructure] {
-        var structure = SaleItemTemplate.getHeaderCells(templates) +
-            (templates.first(where: { $0.id == saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] })?.screenStructure ?? []).filter({ mode != .view || !(saleItem.fields[$0.serverKey] ?? "").isEmpty }) + // exclude blank fields for view mode
-            SaleItemTemplate.getFooterCells()
+        let templateSpecificCells = templates.first(where: { $0.id == saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] })?.screenStructure ?? []
+        var structure = SaleItemTemplate.getHeaderCells(templates) + templateSpecificCells + SaleItemTemplate.getFooterCells()
         
         // determine size metrics used
         structure = structure.filter({ saleItem.useStandardSizing ? $0.inputType != .measurement :  $0.inputType != .standardSize })
         
-        if mode == .filter {
-            structure = structure.filter({ $0.filterEnabled })
-        }
-        
         if !hideContactSeller {
             structure.append(SaleItemTemplate.getContactSellerCell())
+        }
+        
+        switch mode {
+        case .create:
+            break
+        case .view:
+            // exclude blank fields for view mode
+            structure = structure.filter({ !(saleItem.fields[$0.serverKey] ?? "").isEmpty || $0.serverKey == SaleItem.QueryKeys.images.rawValue })
+        case .filter:
+            structure = structure.filter({ $0.filterEnabled })
         }
         
         return structure
