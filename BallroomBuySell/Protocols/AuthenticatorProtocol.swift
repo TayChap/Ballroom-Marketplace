@@ -30,7 +30,7 @@ extension AuthenticatorProtocol {
             let appleIDToken = appleIDCredential.identityToken,
             let idTokenString = String(data: appleIDToken, encoding: .utf8)
         else {
-            // TODO! handle error
+            self.showNetworkError()
             return
         }
         

@@ -12,6 +12,7 @@ class InboxTableCell: UITableViewCell, TableCellProtocol {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var detailLabel: UILabel!
+    private var imageURL = ""
     
     // MARK: - Lifecycle Methods
     static func createCell(_ tableView: UITableView) -> InboxTableCell? {
@@ -27,7 +28,12 @@ class InboxTableCell: UITableViewCell, TableCellProtocol {
         clearContent()
         
         saleItemImage.roundViewCorners(5.0)
+        imageURL = dm.imageURL
         ImageManager.sharedInstance.downloadImage(at: dm.imageURL) { [weak self] image in // weak self because cell might be deallocated before network call returns
+            guard self?.imageURL == dm.imageURL else { // check if captured imageURL is same as current cell
+                return
+            }
+            
             self?.saleItemImage.image = UIImage(data: image)
         }
         

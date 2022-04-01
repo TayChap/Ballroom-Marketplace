@@ -52,7 +52,7 @@ struct FeedVM {
         }
         
         if templates.isEmpty {
-            networkError()
+            delegate?.showNetworkError()
             return
         }
         
@@ -66,7 +66,7 @@ struct FeedVM {
         }
         
         if templates.isEmpty {
-            networkError()
+            delegate?.showNetworkError()
             return
         }
         
@@ -104,7 +104,7 @@ struct FeedVM {
             }
             
             cell.configureCell(SaleItemCellDM(imageURL: coverImageURL,
-                                              price: "$\(cellData.fields["price"] ?? "?")", // TODO! price empty?
+                                              price: "$\(cellData.fields["price"] ?? "?")",
                                               date: cellData.dateAdded ?? Date()))
             return cell
         }
@@ -146,11 +146,6 @@ struct FeedVM {
     mutating func onItemsFetched(_ templatesFetched: [SaleItemTemplate], _ saleItemsFetched: [SaleItem]) {
         templates = templatesFetched.sorted(by: { $0.order < $1.order })
         saleItems = saleItemsFetched
-    }
-    
-    // MARK: - Private Helpers
-    private func networkError() {
-        // TODO! please connect to the internet
     }
     
     // MARK: - CompositionalLayout Methods

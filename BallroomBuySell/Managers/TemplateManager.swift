@@ -22,7 +22,6 @@ struct TemplateManager {
     /// This method adds a hardcoded template to the templates collection
     /// The templates collection is only accessible when the app is signed into the superuser account and not in release mode
     static func updateTemplates() {
-        // TODO! add DEBUG flag here (not for release) // Firebase does not recommend deleting whole collections from mobile client
         DatabaseManager.sharedInstance.stagingDeleteAllDocuments(in: .templates) {
             let templates = [
                 // Competition

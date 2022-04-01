@@ -41,7 +41,7 @@ struct SaleItemVM {
         self.mode = mode
         self.templates = templates
         self.saleItem = saleItem ?? SaleItem(userId: AuthenticationManager().user?.id ?? "")
-        self.hideContactSeller = AuthenticationManager().user?.id == self.saleItem.userId || hideContactSeller // TODO! re-evaluate
+        self.hideContactSeller = AuthenticationManager().user?.id == self.saleItem.userId || hideContactSeller
     }
     
     mutating func viewDidLoad(_ tableView: UITableView) {

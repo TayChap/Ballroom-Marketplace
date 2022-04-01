@@ -64,7 +64,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     
     // MARK: - CollectionView Methods
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        imagesList.count + (isEditable && imagesList.count < maxImageCount ? 1 : 0) // TODO!
+        imagesList.count + (isEditable && imagesList.count < maxImageCount ? 1 : 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

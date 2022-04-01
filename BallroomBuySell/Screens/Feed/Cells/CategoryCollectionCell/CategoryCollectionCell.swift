@@ -10,6 +10,7 @@ import UIKit
 class CategoryCollectionCell: UICollectionViewCell, CollectionCellProtocol  {
     @IBOutlet weak var categoryImageView: UIImageView!
     @IBOutlet weak var categoryLabel: UILabel!
+    private var imageURL = ""
     
     static func createCell(_ collectionView: UICollectionView, for indexPath: IndexPath) -> CategoryCollectionCell? {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CategoryCollectionCell.self), for: indexPath) as? CategoryCollectionCell else {
@@ -24,10 +25,11 @@ class CategoryCollectionCell: UICollectionViewCell, CollectionCellProtocol  {
         clearContent()
         
         categoryImageView.roundViewCorners(5.0)
+        imageURL = dm.imageURL
         ImageManager.sharedInstance.downloadImage(at: dm.imageURL) { [weak self] image in // weak self because cell might be deallocated before network call returns
-            
-            // TODO! evaluate if this check is required
-            //if self?.imageURL == dm.imageURL { // check if captured imageURL is same as current cell
+            guard self?.imageURL == dm.imageURL else { // check if captured imageURL is same as current cell
+                return
+            }
             
             self?.categoryImageView.image = UIImage(data: image)
         }

@@ -39,7 +39,7 @@ struct SaleItemListVM {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.frame.width / 2 - 25 // TODO! remove magic numbers
+        let width = collectionView.frame.width / 2 - 25
         return CGSize(width: width, height: width * 1.4)
     }
     
@@ -55,7 +55,7 @@ struct SaleItemListVM {
         
         cell.configureCell(SaleItemCellDM(imageURL: cellData.images.map({ $0.url }).first ?? "",
                                           price: "$\(cellData.fields["price"] ?? "?")",
-                                          date: cellData.dateAdded ?? Date())) // TODO should dateAdded be optional ?
+                                          date: cellData.dateAdded ?? Date()))
         return cell
     }
     

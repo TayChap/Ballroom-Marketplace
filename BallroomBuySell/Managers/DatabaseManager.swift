@@ -130,7 +130,7 @@ struct DatabaseManager {
         }
         
         query.getDocuments { querySnapshot, error  in
-            guard let docs = querySnapshot?.documents, error == nil else { // TODO! check network connectivity status
+            guard let docs = querySnapshot?.documents, error == nil else {
                 onFail()
                 return
             }
