@@ -94,6 +94,8 @@
 		8DCC41CD27F4E0980090EDDE /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCC41CC27F4E0980090EDDE /* Reachability.swift */; };
 		8DCC41CF27F60E270090EDDE /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCC41CE27F60E270090EDDE /* Theme.swift */; };
 		8DCC41D227F649890090EDDE /* InboxEmptyTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCC41D127F649890090EDDE /* InboxEmptyTableCell.swift */; };
+		8DCC41D527F653CA0090EDDE /* EmptyListCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCC41D427F653CA0090EDDE /* EmptyListCollectionReusableView.swift */; };
+		8DCC41D727F656580090EDDE /* EmptyListCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DCC41D627F656580090EDDE /* EmptyListCollectionReusableView.xib */; };
 		8DCD6E1127F00782008FF5A7 /* SwitchTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCD6E1027F00782008FF5A7 /* SwitchTableCell.swift */; };
 		8DCD6E1327F00796008FF5A7 /* SwitchTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DCD6E1227F00796008FF5A7 /* SwitchTableCell.xib */; };
 		8DCD6E1527F007A1008FF5A7 /* SwitchCellDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCD6E1427F007A1008FF5A7 /* SwitchCellDM.swift */; };
@@ -202,6 +204,8 @@
 		8DCC41CC27F4E0980090EDDE /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		8DCC41CE27F60E270090EDDE /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		8DCC41D127F649890090EDDE /* InboxEmptyTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxEmptyTableCell.swift; sourceTree = "<group>"; };
+		8DCC41D427F653CA0090EDDE /* EmptyListCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyListCollectionReusableView.swift; sourceTree = "<group>"; };
+		8DCC41D627F656580090EDDE /* EmptyListCollectionReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmptyListCollectionReusableView.xib; sourceTree = "<group>"; };
 		8DCD6E1027F00782008FF5A7 /* SwitchTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableCell.swift; sourceTree = "<group>"; };
 		8DCD6E1227F00796008FF5A7 /* SwitchTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SwitchTableCell.xib; sourceTree = "<group>"; };
 		8DCD6E1427F007A1008FF5A7 /* SwitchCellDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchCellDM.swift; sourceTree = "<group>"; };
@@ -556,6 +560,7 @@
 		8D9D45B3279F372D004C5565 /* SaleItemList */ = {
 			isa = PBXGroup;
 			children = (
+				8DCC41D327F652870090EDDE /* EmptyListCollectionReusableView */,
 				8D9D45B5279F3758004C5565 /* SaleItemListVC.swift */,
 				8D9D45BD27A07C8B004C5565 /* SaleItemListVM.swift */,
 			);
@@ -663,6 +668,15 @@
 			path = InboxEmptyTableCell;
 			sourceTree = "<group>";
 		};
+		8DCC41D327F652870090EDDE /* EmptyListCollectionReusableView */ = {
+			isa = PBXGroup;
+			children = (
+				8DCC41D427F653CA0090EDDE /* EmptyListCollectionReusableView.swift */,
+				8DCC41D627F656580090EDDE /* EmptyListCollectionReusableView.xib */,
+			);
+			path = EmptyListCollectionReusableView;
+			sourceTree = "<group>";
+		};
 		8DCD6E0F27F00769008FF5A7 /* SwitchTableCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -755,6 +769,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D9D459B2791F690004C5565 /* ImageCollectionCell.xib in Resources */,
+				8DCC41D727F656580090EDDE /* EmptyListCollectionReusableView.xib in Resources */,
 				8D9D456627876E6F004C5565 /* PickerTableCell.xib in Resources */,
 				8D9D455527822B91004C5565 /* ButtonTableCell.xib in Resources */,
 				8D9D45C627A08E55004C5565 /* SaleItemCollectionCell.xib in Resources */,
@@ -858,6 +873,7 @@
 				8DA71D1827A4A2C50025C1D5 /* InboxCellDM.swift in Sources */,
 				8D1BB52B273EF97700677EF7 /* SceneDelegate.swift in Sources */,
 				8D9D4547277D15AD004C5565 /* LoginVM.swift in Sources */,
+				8DCC41D527F653CA0090EDDE /* EmptyListCollectionReusableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -223,14 +223,14 @@
                                 <color key="separatorColor" name="cardBackground"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="InboxEmptyTableCell" id="9xO-gO-d04" customClass="InboxEmptyTableCell" customModule="BallroomBuySell" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="414" height="37.5"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="37"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9xO-gO-d04" id="i3w-Me-kAD">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="37.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="37"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Table Empty Message" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gtY-dz-abJ">
-                                                    <rect key="frame" x="16" y="8" width="382" height="21.5"/>
+                                                    <rect key="frame" x="16" y="8" width="382" height="21"/>
                                                     <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
                                                     <color key="textColor" name="primaryText"/>
                                                     <nil key="highlightedColor"/>
@@ -249,7 +249,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="InboxTableCell" id="AZV-q8-4VD" customClass="InboxTableCell" customModule="BallroomBuySell" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="82" width="414" height="167.5"/>
+                                        <rect key="frame" x="0.0" y="81.5" width="414" height="167.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="AZV-q8-4VD" id="aoR-eK-P4o">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="167.5"/>
@@ -486,7 +486,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="VcG-2H-Dkw"/>
+        <segue reference="y7q-Vn-rEQ"/>
         <segue reference="7Tz-QB-BGX"/>
     </inferredMetricsTieBreakers>
     <resources>
