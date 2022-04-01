@@ -126,7 +126,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
             self.displayImage(imageData)
         })
         
-        if isEditing {
+        if isEditable {
             actionItems.append(UIAlertAction(title: LocalizedString.string("generic.remove"), style: .destructive) { _ in
                 self.delegate?.deleteImage(at: indexPath.row)
             })
