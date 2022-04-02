@@ -37,15 +37,15 @@
 "sale.item.tailsuit.title" = "Tailsuit";
 "sale.item.womens.standard.dress.title" = "Standard Dress";
 "sale.item.womens.latin.dress.title" = "Latin Dress";
-"sale.item.mens.latin.top.title" = "Mens Latin Shirt";
 "sale.item.mens.latin.bottom.title" = "Mens Pants";
-"sale.item.mens.practice.top.title" = "Mens Practice Shirt";
+"sale.item.mens.latin.top.title" = "Mens Latin Top";
+"sale.item.mens.standard.top.title" = "Mens Standard Top";
 "sale.item.womens.practice.top.title" = "Womens Practice Top";
 "sale.item.womens.practice.bottom.title" = "Womens Practice Bottom";
-"sale.item.mens.standard.shoes.title" = "Mens Standard Shoes";
-"sale.item.mens.latin.shoes.title" = "Mens Latin Shoes";
-"sale.item.womens.standard.shoes.title" = "Womens Standard Shoes";
-"sale.item.womens.latin.shoes.title" = "Womens Latin Shoes";
+"sale.item.womens.practice.dress.title" = "Womens Practice Dress";
+"sale.item.mens.shoes.title" = "Mens Shoes";
+"sale.item.womens.shoes.title" = "Womens Shoes";
+"sale.item.misc.title" = "Miscellaneous Item";
 
 /* Sizing */
 "sale.item.sizing.standard.size.option" = "Use standard sizes?";

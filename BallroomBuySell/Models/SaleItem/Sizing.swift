@@ -6,7 +6,7 @@
 //
 
 enum Sizing: String, Codable {
-    case standard, dress, shirt, pant, skirt, tails, mensFlatShoes, womensFlatShoes, mensHeelShoes, womansHeelShoes
+    case standard, dress, shirt, pant, skirt, tails, mensShoes, womansShoes
     
     var measurementCells: [SaleItemCellStructure] {
         switch self {
@@ -19,13 +19,11 @@ enum Sizing: String, Codable {
                     [chest, waist, hips, inseam, sleeveLength, sleeveWidth]
         case .shirt:
             return [standardSizeOptionCell, standardSizeCell] +
-            [chest, sleeveLength, sleeveWidth]
+            [chest, sleeveLength, sleeveWidth, neckCircumference]
         case .pant, .skirt:
             return [standardSizeOptionCell, standardSizeCell] +
             [waist, inseam]
-        case .mensFlatShoes, .womensFlatShoes:
-            return [shoeSize]
-        case .mensHeelShoes, .womansHeelShoes:
+        case .mensShoes, .womansShoes:
             return [shoeSize, heelHeight]
         }
     }
@@ -136,6 +134,20 @@ enum Sizing: String, Codable {
                               inputType: .measurement,
                               serverKey: "sleeveWidth",
                               titleKey: "sale.item.sizing.sleeve.width",
+                              subtitleKey: "",
+                              placeholderKey: "",
+                              required: false,
+                              filterEnabled: true,
+                              min: 0.5,
+                              max: 10.0,
+                              increment: 0.5)
+    }
+    
+    private var neckCircumference: SaleItemCellStructure {
+        SaleItemCellStructure(type: .picker,
+                              inputType: .measurement,
+                              serverKey: "neckCircumference",
+                              titleKey: "sale.item.sizing.neck.circumference",
                               subtitleKey: "",
                               placeholderKey: "",
                               required: false,
