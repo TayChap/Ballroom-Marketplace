@@ -10,13 +10,11 @@ import UIKit
 struct LoginVM {
     enum LoginItem: CaseIterable {
         case email
-        case password
         case signUp
         
         var text: String {
             switch self {
             case .email: return "email"
-            case .password: return "password"
             case .signUp: return "Sign Up"
             }
         }
@@ -24,14 +22,12 @@ struct LoginVM {
         var type: InputType {
             switch self {
             case .email: return .email
-            case .password: return .password
             default: return .standard
             }
         }
         
         var returnKeyType: UIReturnKeyType {
             switch self {
-            case .password: return .done
             default: return .next
             }
         }
@@ -57,10 +53,7 @@ struct LoginVM {
     
     // MARK: - IBActions
     func loginButtonClicked(_ delegate: ViewControllerProtocol) {
-        guard
-            let email = dm[LoginItem.email],
-            let password = dm[LoginItem.password]
-        else {
+        guard let email = dm[LoginItem.email] else {
             return
         }
         
