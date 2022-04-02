@@ -99,7 +99,7 @@ struct TemplateManager {
     private static func getWomansPracticeTop() -> SaleItemTemplate {
         SaleItemTemplate(id: "womansPracticeTop",
                          name: "sale.item.womens.practice.top.title",
-                         imageURL: "\(imageURLPrefix)womansPracticeTop.jpeg",
+                         imageURL: "\(imageURLPrefix)womensPracticeTop.jpeg",
                          order: 700,
                          screenStructure: Sizing.shirt.measurementCells)
     }
@@ -107,15 +107,15 @@ struct TemplateManager {
     private static func getWomansPracticeBottom() -> SaleItemTemplate {
         SaleItemTemplate(id: "womansPracticeBottom",
                          name: "sale.item.womens.practice.bottom.title",
-                         imageURL: "\(imageURLPrefix)womansPracticeBottom.jpeg",
+                         imageURL: "\(imageURLPrefix)womensBottom.jpeg",
                          order: 800,
                          screenStructure: Sizing.pant.measurementCells)
     }
     
     private static func getWomansPracticeDressTemplate() -> SaleItemTemplate {
-        SaleItemTemplate(id: "womansPracticeDress",
+        SaleItemTemplate(id: "womensPracticeDress",
                          name: "sale.item.womens.practice.dress.title",
-                         imageURL: "\(imageURLPrefix)practiceDress.jpeg",
+                         imageURL: "\(imageURLPrefix)womensPracticeDress.jpeg",
                          order: 850,
                          screenStructure: Sizing.dress.measurementCells)
     }
@@ -123,15 +123,15 @@ struct TemplateManager {
     private static func getMensShoesTemplate() -> SaleItemTemplate {
         SaleItemTemplate(id: "mensShoes",
                          name: "sale.item.mens.shoes.title",
-                         imageURL: "\(imageURLPrefix)mensShoes",
+                         imageURL: "\(imageURLPrefix)mensShoes.jpeg",
                          order: 900,
                          screenStructure: Sizing.mensShoes.measurementCells)
     }
     
     private static func getWomansShoesTemplate() -> SaleItemTemplate {
-        SaleItemTemplate(id: "womansShoes",
+        SaleItemTemplate(id: "womensShoes",
                          name: "sale.item.womens.shoes.title",
-                         imageURL: "\(imageURLPrefix)womansShoes",
+                         imageURL: "\(imageURLPrefix)womensShoes.jpeg",
                          order: 1100,
                          screenStructure: Sizing.womansShoes.measurementCells)
     }
@@ -139,7 +139,7 @@ struct TemplateManager {
     private static func getMiscTemplate() -> SaleItemTemplate {
         SaleItemTemplate(id: "misc",
                          name: "sale.item.misc.title",
-                         imageURL: "\(imageURLPrefix)misc",
+                         imageURL: "\(imageURLPrefix)misc.jpeg",
                          order: 1200,
                          screenStructure: [])
     }
