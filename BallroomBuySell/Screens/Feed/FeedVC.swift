@@ -1,5 +1,5 @@
 //
-//  BuyVC.swift
+//  FeedVC.swift
 //  BallroomBuySell
 //
 //  Created by Taylor Chapman on 2021-12-27.
@@ -8,16 +8,16 @@
 import AuthenticationServices
 import UIKit
 
-class BuyVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ViewControllerProtocol, AuthenticatorProtocol {
+class FeedVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ViewControllerProtocol, AuthenticatorProtocol {
     @IBOutlet weak var sellButton: UIBarButtonItem!
     @IBOutlet weak var inboxButton: UIBarButtonItem!
     @IBOutlet weak var collectionView: UICollectionView!
-    private var vm: BuyVM!
+    private var vm: FeedVM!
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        vm = BuyVM(self)
+        vm = FeedVM(self)
         vm.viewDidLoad(collectionView)
     }
     

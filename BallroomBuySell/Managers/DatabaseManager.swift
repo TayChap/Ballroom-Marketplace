@@ -24,51 +24,61 @@ struct DatabaseManager {
     private init() { } // to ensure sharedInstance is accessed, rather than new instance
     
     // MARK: - Public Helpers
-    func createDocument<T: Codable>(_ collection: Collection, _ data: T, _ documentId: String? = nil) {
+    func createDocument<T: Codable>(_ collection: Collection, _ data: T, _ documentId: String? = nil, _ completion: () -> Void, onFail: () -> Void) {
+        if !Reachability.isConnectedToNetwork {
+            onFail()
+            return
+        }
+        
         do {
             guard let documentId = documentId else {
                 try db.collection(collection.collectionId).document().setData(from: data)
+                completion()
                 return
             }
             
             try db.collection(collection.collectionId).document(documentId).setData(from: data)
+            completion()
           }
           catch {
-            print(error)
+            onFail()
           }
     }
     
-    func getTemplates(_ completion: @escaping ([SaleItemTemplate]) -> Void) {
-        getDocuments(db.collection(Collection.templates.collectionId), of: SaleItemTemplate.self, completion)
+    func getTemplates(_ completion: @escaping ([SaleItemTemplate]) -> Void, _ onFail: @escaping () -> Void) {
+        getDocuments(db.collection(Collection.templates.collectionId), of: SaleItemTemplate.self, completion, onFail)
     }
     
-    func getRecentSaleItems(for maxItems: Int, _ completion: @escaping ([SaleItem]) -> Void) {
+    func getRecentSaleItems(for maxItems: Int, _ completion: @escaping ([SaleItem]) -> Void, _ onFail: @escaping () -> Void) {
         let reference = db.collection(Collection.items.collectionId)
-        getDocuments(reference.order(by: SaleItem.QueryKeys.dateAdded.rawValue, descending: true).limit(to: maxItems), of: SaleItem.self, completion)
+        getDocuments(reference.order(by: SaleItem.QueryKeys.dateAdded.rawValue, descending: true).limit(to: maxItems), of: SaleItem.self, completion, onFail)
         
     }
     
-    func getSaleItems(where equalsRelationship: (key: String, value: String)? = nil, _ completion: @escaping ([SaleItem]) -> Void) { // TODO! refactor tuple weirdness
+    func getSaleItems(where equalsRelationship: (key: String, value: String)? = nil, _ completion: @escaping ([SaleItem]) -> Void, _ onFail: @escaping () -> Void) {
         var reference = db.collection(Collection.items.collectionId) as Query
         if let keyValue = equalsRelationship {
             reference = reference.whereField(keyValue.key, isEqualTo: keyValue.value)
         }
         
-        getDocuments(reference, of: SaleItem.self, completion)
+        getDocuments(reference, of: SaleItem.self, completion, onFail)
     }
     
-    func getThreads(for userId: String, _ completion: @escaping ([MessageThread]) -> Void) {
+    func getThreads(for userId: String, _ completion: @escaping ([MessageThread]) -> Void, _ onFail: @escaping () -> Void) {
         let query = db.collection(Collection.threads.collectionId).whereField(MessageThread.QueryKeys.userIds.rawValue, arrayContains: userId)
-        getDocuments(query, of: MessageThread.self) { threads in
+        getDocuments(query, of: MessageThread.self, { threads in
             completion(threads)
-        }
+        }, {
+            onFail()
+        })
     }
     
-    func deleteSaleItem(with id: String, _ completion: @escaping () -> Void) {
-        deleteDocument(in: .items, with: id) {
+    func deleteSaleItem(with id: String, _ completion: @escaping () -> Void, _ onFail: @escaping () -> Void) {
+        deleteDocument(in: .items, with: id, {
             // delete all threads associated with that sale item
             db.collection(Collection.threads.collectionId).whereField(MessageThread.QueryKeys.saleItemId.rawValue, in: [id]).getDocuments { querySnapshot, error in
-                guard let docs = querySnapshot?.documents else {
+                guard let docs = querySnapshot?.documents, error == nil else {
+                    onFail()
                     return
                 }
                 
@@ -78,12 +88,13 @@ struct DatabaseManager {
                 
                 completion()
             }
-        }
+        }, onFail)
     }
     
-    func deleteDocument(in collection: Collection, with id: String, _ completion: @escaping () -> Void) {
-        db.collection(collection.collectionId).whereField("id", in: [id]).getDocuments { querySnapshot, error in // TODO!
-            guard let doc = querySnapshot?.documents.first else {
+    func deleteDocument(in collection: Collection, with id: String, _ completion: @escaping () -> Void, _ onFail: @escaping () -> Void) {
+        db.collection(collection.collectionId).whereField("id", in: [id]).getDocuments { querySnapshot, error in
+            guard let doc = querySnapshot?.documents.first, error == nil else {
+                onFail()
                 return
             }
             
@@ -97,24 +108,30 @@ struct DatabaseManager {
         if Environment.current == .production {
             return // Firebase does not recommend deleting entire collections from mobile clients
         }
-
+        
         db.collection(collection.collectionId).getDocuments { querySnapshot, error  in
             guard let docs = querySnapshot?.documents else {
-                return
+                return // staging so no error message required
             }
-
+            
             for doc in docs {
                 db.collection(collection.collectionId).document(doc.documentID).delete()
             }
-
+            
             completion()
         }
     }
     
     // MARK: Private Helpers
-    private func getDocuments<T: Decodable>(_ query: Query, of _: T.Type, where equalsRelationship: (key: String, value: String)? = nil, _ completion: @escaping ([T]) -> Void) {
+    private func getDocuments<T: Decodable>(_ query: Query, of _: T.Type, where equalsRelationship: (key: String, value: String)? = nil, _ completion: @escaping ([T]) -> Void, _ onFail: @escaping () -> Void) {
+        if !Reachability.isConnectedToNetwork {
+            onFail()
+            return
+        }
+        
         query.getDocuments { querySnapshot, error  in
-            guard let docs = querySnapshot?.documents else {
+            guard let docs = querySnapshot?.documents, error == nil else {
+                onFail()
                 return
             }
             

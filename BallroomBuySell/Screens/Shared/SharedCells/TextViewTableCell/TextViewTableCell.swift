@@ -51,6 +51,7 @@ class TextViewTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol 
         textView.text = dm.detail
         textView.isEditable = dm.isEnabled
         textView.layer.borderWidth = 1.0
+        textView.layer.borderColor = Theme.Color.primaryText.value.cgColor
         textView.delegate = self
     }
     
@@ -71,10 +72,10 @@ class TextViewTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol 
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         delegate?.textDidBeginEditing(self)
-        textView.layer.borderColor = UIColor.blue.cgColor
+        textView.layer.borderColor = Theme.Color.interactivity.value.cgColor
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        textView.layer.borderColor = UIColor.black.cgColor
+        textView.layer.borderColor = Theme.Color.primaryText.value.cgColor
     }
 }

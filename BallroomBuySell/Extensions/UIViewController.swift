@@ -14,6 +14,10 @@ extension UIViewController {
     }
     
     // MARK: - Alert Methods
+    func showNetworkError() {
+        showAlertWith(title: LocalizedString.string("alert.network.title"), message: LocalizedString.string("alert.network.message"))
+    }
+    
     func showAlertWith(title: String? = "", message: String, alertActions: [UIAlertAction]? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         

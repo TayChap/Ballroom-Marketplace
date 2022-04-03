@@ -34,6 +34,14 @@ class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     // MARK: - CollectionView Methods
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        vm.collectionView(collectionView, layout: collectionViewLayout, referenceSizeForHeaderInSection: section)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        vm.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         vm.collectionView(collectionView, layout: collectionViewLayout, sizeForItemAt: indexPath)
     }

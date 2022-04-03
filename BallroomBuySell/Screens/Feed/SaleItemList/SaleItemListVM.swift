@@ -20,12 +20,27 @@ struct SaleItemListVM {
     }
     
     func viewDidLoad(_ collectionView: UICollectionView) {
+        EmptyListCollectionReusableView.registerCell(collectionView)
         SaleItemCollectionCell.registerCell(collectionView)
     }
     
     // MARK: - CollectionView Methods
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        CGSize(width: collectionView.frame.size.width, height: saleItems.count == 0 ? 50 : 0)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header = EmptyListCollectionReusableView.createCell(collectionView, ofKind: kind, for: indexPath) else {
+            return UICollectionReusableView()
+        }
+        
+        header.configureCell(LocalizedString.string("list.empty.message"))
+        return header
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: 190, height: 200) // TODO! calculate based on itemsPerRow?
+        let width = collectionView.frame.width / 2 - 25
+        return CGSize(width: width, height: width * 1.4)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -39,8 +54,8 @@ struct SaleItemListVM {
         }
         
         cell.configureCell(SaleItemCellDM(imageURL: cellData.images.map({ $0.url }).first ?? "",
-                                          price: "$50.00",
-                                          date: cellData.dateAdded ?? Date())) // TODO should dateAdded be optional ?
+                                          price: "$\(cellData.fields["price"] ?? "?")",
+                                          date: cellData.dateAdded ?? Date()))
         return cell
     }
     

@@ -11,6 +11,7 @@ class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    private var imageURL = ""
     
     static func registerCell(_ collectionView: UICollectionView) {
         let identifier = String(describing: SaleItemCollectionCell.self)
@@ -29,7 +30,13 @@ class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
     func configureCell(_ dm: SaleItemCellDM) {
         clearContent()
         
+        coverImage.roundViewCorners(5.0)
+        imageURL = dm.imageURL
         ImageManager.sharedInstance.downloadImage(at: dm.imageURL) { [weak self] image in // weak self because cell might be deallocated before network call returns
+            guard self?.imageURL == dm.imageURL else { // check if captured imageURL is same as current cell
+                return
+            }
+            
             self?.coverImage.image = UIImage(data: image)
         }
         

@@ -55,9 +55,7 @@ class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, View
     
     // MARK: - IBActions
     @IBAction func doneButtonClicked() {
-        doneButton.isEnabled = false
         vm.doneButtonClicked()
-        dismiss()
     }
     
     // MARK: - Table Methods

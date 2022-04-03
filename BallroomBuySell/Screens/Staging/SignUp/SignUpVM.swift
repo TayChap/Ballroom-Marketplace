@@ -12,28 +12,24 @@ struct SignUpVM {
         case photo
         case email
         case displayName
-        case password
         
         var text: String {
             switch self {
             case .photo: return "photo"
             case .email: return "email"
             case .displayName: return "name"
-            case .password: return "password"
             }
         }
         
         var type: InputType {
             switch self {
             case .email: return .email
-            case .password: return .password
             default: return .standard
             }
         }
         
         var returnKeyType: UIReturnKeyType {
             switch self {
-            case .password: return .done
             default: return .next
             }
         }
@@ -57,23 +53,18 @@ struct SignUpVM {
     }
     
     // MARK: - IBActions
-    func signUpButtonClicked(_ delegate: ViewControllerProtocol, _ enableButton: @escaping () -> Void) {
+    func signUpButtonClicked(_ delegate: ViewControllerProtocol) {
         guard // validity of email and password checked on server side
             let photo = photo,
             let email = dm[SignUpItem.email],
-            let password = dm[SignUpItem.password],
             let displayName = dm[SignUpItem.displayName], !displayName.isEmpty
         else {
-            delegate.showAlertWith(message: "req_fields") // TODO! localize
-            enableButton()
+            delegate.showAlertWith(message: LocalizedString.string("alert.required.fields.message"))
             return
         }
         
         AuthenticationManager().createStagingUser(email: email, displayName: displayName, photo: photo) {
             delegate.dismiss()
-        } onFail: { errorMessage in
-            delegate.showAlertWith(message: errorMessage)
-            enableButton()
         }
     }
     
@@ -100,7 +91,7 @@ struct SignUpVM {
                                            maxImages: 1))
             cell.delegate = owner as? (ImageCellDelegate & UIViewController)
             return cell
-        case .email, .displayName, .password:
+        case .email, .displayName:
             guard let cell = TextFieldTableCell.createCell(tableView) else {
                 return UITableViewCell()
             }

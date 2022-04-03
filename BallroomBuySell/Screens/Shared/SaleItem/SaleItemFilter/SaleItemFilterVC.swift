@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate, ViewControllerProtocol, PickerCellDelegate {
+class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate, ViewControllerProtocol, PickerCellDelegate, SwitchCellDelegate {
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
@@ -15,7 +15,7 @@ class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDele
     var updateFilter: ((SaleItem) -> Void)?
     
     // MARK: - Lifecycle Methods
-    static func createViewController(_ templates: [SaleItemTemplate],  _ updateFilter: @escaping (SaleItem) -> Void) -> UIViewController {
+    static func createViewController(_ templates: [SaleItemTemplate], _ updateFilter: @escaping (SaleItem) -> Void) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
         vc.updateFilter = updateFilter
         vc.vm = SaleItemVM(vc,
@@ -66,6 +66,12 @@ class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDele
     // MARK: - PickerCellDelegate
     func pickerValueUpdated(_ newValues: [String], for cell: PickerTableCell) {
         setData(newValues.first ?? "", for: cell)
+        reload()
+    }
+    
+    // MARK: - SwitchCellDelegate
+    func updateSwitchDetail(_ newValue: Bool, for cell: SwitchTableCell) {
+        vm.updateSwitchDetail(newValue, for: cell)
         reload()
     }
     

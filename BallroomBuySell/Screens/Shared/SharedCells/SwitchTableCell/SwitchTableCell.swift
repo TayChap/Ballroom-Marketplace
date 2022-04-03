@@ -42,16 +42,9 @@ class SwitchTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol {
     func clearContent() {
         titleLabel.text = ""
         toggle.setOn(false, animated: false)
-        //toggle.removeBorder() // TODO! do we want a toggle?
     }
     
     @IBAction func toggleValueChanged(_ sender: UISwitch) {
         delegate?.updateSwitchDetail(sender.isOn, for: self)
-        applyToggleBorderTheme()
-    }
-    
-    // MARK: Private Helpers
-    private func applyToggleBorderTheme() {
-        //toggle.addBorder(withColor: toggle.isOn ? ThemeManager.sharedInstance.theme.confirmationColor : ThemeManager.sharedInstance.theme.primaryTextColor)
     }
 }

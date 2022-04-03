@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="syJ-2L-0Jq" customClass="EmptyListCollectionReusableView" customModule="BallroomBuySell" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="456" height="93"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Empty List Message" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fBQ-Hx-mwv">
+                    <rect key="frame" x="16" y="52" width="424" height="20.5"/>
+                    <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                    <color key="textColor" name="primaryText"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="rxd-MS-L92"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="fBQ-Hx-mwv" firstAttribute="top" secondItem="rxd-MS-L92" secondAttribute="top" constant="8" id="Q10-di-5Xw"/>
+                <constraint firstItem="fBQ-Hx-mwv" firstAttribute="leading" secondItem="syJ-2L-0Jq" secondAttribute="leading" constant="16" id="a79-Op-Bab"/>
+                <constraint firstAttribute="trailing" secondItem="fBQ-Hx-mwv" secondAttribute="trailing" constant="16" id="agQ-py-27D"/>
+            </constraints>
+            <connections>
+                <outlet property="emptyListMessage" destination="fBQ-Hx-mwv" id="NVs-61-QTh"/>
+            </connections>
+            <point key="canvasLocation" x="168.11594202898553" y="69.977678571428569"/>
+        </collectionReusableView>
+    </objects>
+    <resources>
+        <namedColor name="primaryText">
+            <color red="0.8784313725490196" green="0.8784313725490196" blue="0.8784313725490196" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

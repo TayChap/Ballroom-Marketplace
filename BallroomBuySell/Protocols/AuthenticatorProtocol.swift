@@ -30,34 +30,34 @@ extension AuthenticatorProtocol {
             let appleIDToken = appleIDCredential.identityToken,
             let idTokenString = String(data: appleIDToken, encoding: .utf8)
         else {
-            // TODO! handle error
+            self.showNetworkError()
             return
         }
         
         AuthenticationManager().appleSignIn(idTokenString, nonce) {
             if AuthenticationManager().user != nil {
-                self.showAlertWith(message: "sign in successful") // TODO! verbiage
+                self.showAlertWith(message: LocalizedString.string("login.success.message"))
                 return
             }
             
             let name = "\(appleIDCredential.fullName?.givenName ?? "") \(appleIDCredential.fullName?.familyName ?? "")"
-            
             AuthenticationManager().changeRequest(displayName: name) {
                 // Display alert to optionally add profile photo
-                let now = UIAlertAction(title: "_now_", style: .default) { _ in // TODO! verbiage
+                let now = UIAlertAction(title: LocalizedString.string("generic.now"), style: .default) { _ in
                     self.displayMediaActionSheet()
                 }
                 
-                let later = UIAlertAction(title: "_later_", style: .cancel)
-                self.showAlertWith(message: "add a profile picture?", // TODO! verbiage
+                let later = UIAlertAction(title: LocalizedString.string("generic.later"), style: .cancel)
+                self.showAlertWith(message: LocalizedString.string("login.add.picture.message"),
                                    alertActions: [now, later])
+            } onFail: {
+                self.showNetworkError()
             }
         }
     }
     
     func authorizationController(controller: ASAuthorizationController, error: Error) {
-        // TODO! Handle error
-        print("Sign in with Apple errored: \(error)")
+        showNetworkError()
     }
     
     func profilePictureSelected(info: [UIImagePickerController.InfoKey : Any]) {
@@ -65,12 +65,12 @@ extension AuthenticatorProtocol {
             return
         }
         
-        //        let normalizedImage = normalizedImage(selectedImage)
-        //        let resizedImage = resize(sourceImage: normalizedImage, newWidth: CGFloat(imageWidth))
         let image = Image(data: selectedImageData)
         Image.uploadImages([image])
         AuthenticationManager().changeRequest(photoURL: image.url) {
-            self.showAlertWith(message: "_apple complete_")
+            self.showAlertWith(message: LocalizedString.string("login.success.message"))
+        } onFail: {
+            self.showNetworkError()
         }
     }
     
@@ -90,17 +90,17 @@ extension AuthenticatorProtocol {
     
     private func displayMediaActionSheet() {
         var actionItems = [UIAlertAction]()
+        actionItems.append(UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel))
         
-        actionItems.append(UIAlertAction(title: "generic.cancel", style: .cancel))
-        actionItems.append(UIAlertAction(title: "select_camera", style: .default) { _ in
+        actionItems.append(UIAlertAction(title: LocalizedString.string("apple.camera.app"), style: .default) { _ in
             MediaManager.displayCamera(self, displayingVC: self)
         })
         
-        actionItems.append(UIAlertAction(title: "select_gallery", style: .default) { _ in
+        actionItems.append(UIAlertAction(title: LocalizedString.string("apple.photos.app"), style: .default) { _ in
             MediaManager.displayGallery(self, displayingVC: self)
         })
         
-        showActionSheetOrPopover(message: "Select_Profile_From", alertActions: actionItems)
+        showActionSheetOrPopover(message: LocalizedString.string("sale.item.images.actions"), alertActions: actionItems)
     }
     
     private func randomNonceString(length: Int = 32) -> String { // Firebase recommended method; do not alter

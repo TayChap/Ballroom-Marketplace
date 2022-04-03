@@ -6,7 +6,7 @@
 //
 
 enum Sizing: String, Codable {
-    case standard, dress, shirt, pant, skirt, tails, mensFlatShoes, womensFlatShoes, mensHeelShoes, womansHeelShoes
+    case standard, dress, shirt, pant, skirt, tails, mensShoes, womansShoes
     
     var measurementCells: [SaleItemCellStructure] {
         switch self {
@@ -19,13 +19,11 @@ enum Sizing: String, Codable {
                     [chest, waist, hips, inseam, sleeveLength, sleeveWidth]
         case .shirt:
             return [standardSizeOptionCell, standardSizeCell] +
-            [chest, sleeveLength, sleeveWidth]
+            [chest, sleeveLength, sleeveWidth, neckCircumference]
         case .pant, .skirt:
             return [standardSizeOptionCell, standardSizeCell] +
             [waist, inseam]
-        case .mensFlatShoes, .womensFlatShoes:
-            return [shoeSize]
-        case .mensHeelShoes, .womansHeelShoes:
+        case .mensShoes, .womansShoes:
             return [shoeSize, heelHeight]
         }
     }
@@ -35,9 +33,9 @@ enum Sizing: String, Codable {
         SaleItemCellStructure(type: .toggle,
                               inputType: .standard,
                               serverKey: "",
-                              title: "use std sizes?",
-                              subtitle: "",
-                              placeholder: "test_placeholder",
+                              titleKey: "sale.item.sizing.standard.size.option",
+                              subtitleKey: "",
+                              placeholderKey: "",
                               required: false,
                               filterEnabled: true)
     }
@@ -46,32 +44,32 @@ enum Sizing: String, Codable {
         SaleItemCellStructure(type: .picker,
                               inputType: .standardSize,
                               serverKey: "standardSize",
-                              title: "standardSize",
-                              subtitle: "",
-                              placeholder: "",
+                              titleKey: "sale.item.sizing.standard.size",
+                              subtitleKey: "",
+                              placeholderKey: "",
                               required: true,
                               filterEnabled: true,
                               values: [PickerValue(serverKey: "", localizationKey: ""),
-                                       PickerValue(serverKey: "XXS", localizationKey: "xxs_key"),
-                                       PickerValue(serverKey: "XS", localizationKey: "xs_key"),
-                                       PickerValue(serverKey: "S", localizationKey: "s_key"),
-                                       PickerValue(serverKey: "M", localizationKey: "m_key"),
-                                       PickerValue(serverKey: "L", localizationKey: "l_key"),
-                                       PickerValue(serverKey: "XL", localizationKey: "xl_key"),
-                                       PickerValue(serverKey: "XXL", localizationKey: "xxl_key")])
+                                       PickerValue(serverKey: "xxs", localizationKey: "sale.item.sizing.xxs"),
+                                       PickerValue(serverKey: "xs", localizationKey: "sale.item.sizing.xs"),
+                                       PickerValue(serverKey: "s", localizationKey: "sale.item.sizing.s"),
+                                       PickerValue(serverKey: "m", localizationKey: "sale.item.sizing.m"),
+                                       PickerValue(serverKey: "l", localizationKey: "sale.item.sizing.l"),
+                                       PickerValue(serverKey: "xl", localizationKey: "sale.item.sizing.xl"),
+                                       PickerValue(serverKey: "xxl", localizationKey: "sale.item.sizing.xxl")])
     }
     
     private var chest: SaleItemCellStructure {
         SaleItemCellStructure(type: .picker,
                               inputType: .measurement,
                               serverKey: "bust",
-                              title: "text bust",
-                              subtitle: "bust description",
-                              placeholder: "test_placeholder",
+                              titleKey: "sale.item.sizing.bust",
+                              subtitleKey: "",
+                              placeholderKey: "",
                               required: false,
                               filterEnabled: true,
-                              min: 0.5,
-                              max: 10.0,
+                              min: 15.0,
+                              max: 70.0,
                               increment: 0.5)
     }
     
@@ -79,13 +77,13 @@ enum Sizing: String, Codable {
         SaleItemCellStructure(type: .picker,
                               inputType: .measurement,
                               serverKey: "waist",
-                              title: "text waist",
-                              subtitle: "test_subtitle waist description",
-                              placeholder: "test_placeholder",
+                              titleKey: "sale.item.sizing.waist",
+                              subtitleKey: "",
+                              placeholderKey: "",
                               required: false,
                               filterEnabled: true,
-                              min: 0.5,
-                              max: 10.0,
+                              min: 15.0,
+                              max: 60.0,
                               increment: 0.5)
     }
     
@@ -93,13 +91,13 @@ enum Sizing: String, Codable {
         SaleItemCellStructure(type: .picker,
                               inputType: .measurement,
                               serverKey: "hips",
-                              title: "text hips",
-                              subtitle: "test_subtitle hips description",
-                              placeholder: "test_placeholder",
+                              titleKey: "sale.item.sizing.hips",
+                              subtitleKey: "",
+                              placeholderKey: "",
                               required: false,
                               filterEnabled: true,
-                              min: 0.5,
-                              max: 10.0,
+                              min: 15.0,
+                              max: 60.0,
                               increment: 0.5)
     }
     
@@ -107,13 +105,13 @@ enum Sizing: String, Codable {
         SaleItemCellStructure(type: .picker,
                               inputType: .measurement,
                               serverKey: "inseam",
-                              title: "text inseam",
-                              subtitle: "test_subtitle inseam description",
-                              placeholder: "test_placeholder",
+                              titleKey: "sale.item.sizing.inseam",
+                              subtitleKey: "",
+                              placeholderKey: "",
                               required: false,
                               filterEnabled: true,
-                              min: 0.5,
-                              max: 10.0,
+                              min: 10.0,
+                              max: 40.0,
                               increment: 0.5)
     }
     
@@ -121,13 +119,13 @@ enum Sizing: String, Codable {
         SaleItemCellStructure(type: .picker,
                               inputType: .measurement,
                               serverKey: "sleeveLength",
-                              title: "text arm_length",
-                              subtitle: "test_subtitle arm description",
-                              placeholder: "test_placeholder",
+                              titleKey: "sale.item.sizing.sleeve.length",
+                              subtitleKey: "",
+                              placeholderKey: "",
                               required: false,
                               filterEnabled: true,
-                              min: 0.5,
-                              max: 10.0,
+                              min: 10.0,
+                              max: 40.0,
                               increment: 0.5)
     }
     
@@ -135,13 +133,27 @@ enum Sizing: String, Codable {
         SaleItemCellStructure(type: .picker,
                               inputType: .measurement,
                               serverKey: "sleeveWidth",
-                              title: "text sleeve width title",
-                              subtitle: "test_subtitle arm description",
-                              placeholder: "test_placeholder",
+                              titleKey: "sale.item.sizing.sleeve.width",
+                              subtitleKey: "",
+                              placeholderKey: "",
                               required: false,
                               filterEnabled: true,
                               min: 0.5,
-                              max: 10.0,
+                              max: 15.0,
+                              increment: 0.5)
+    }
+    
+    private var neckCircumference: SaleItemCellStructure {
+        SaleItemCellStructure(type: .picker,
+                              inputType: .measurement,
+                              serverKey: "neckCircumference",
+                              titleKey: "sale.item.sizing.neck.circumference",
+                              subtitleKey: "",
+                              placeholderKey: "",
+                              required: false,
+                              filterEnabled: true,
+                              min: 0.5,
+                              max: 25.0,
                               increment: 0.5)
     }
     
@@ -149,9 +161,9 @@ enum Sizing: String, Codable {
         SaleItemCellStructure(type: .picker,
                                inputType: .measurement,
                                serverKey: "mensShoesSize",
-                               title: "shoe size (US SIZING INDICATOR)",
-                               subtitle: "test_subtitle arm description",
-                               placeholder: "test_placeholder",
+                               titleKey: "sale.item.sizing.shoe",
+                               subtitleKey: "",
+                               placeholderKey: "",
                                required: false,
                                filterEnabled: true,
                                min: 4.0,
@@ -163,9 +175,9 @@ enum Sizing: String, Codable {
         SaleItemCellStructure(type: .picker,
                               inputType: .measurement,
                               serverKey: "heelHeight",
-                              title: "text arm_length",
-                              subtitle: "test_subtitle arm description",
-                              placeholder: "test_placeholder",
+                              titleKey: "sale.item.sizing.heel",
+                              subtitleKey: "",
+                              placeholderKey: "",
                               required: false,
                               filterEnabled: true,
                               min: 0.0,

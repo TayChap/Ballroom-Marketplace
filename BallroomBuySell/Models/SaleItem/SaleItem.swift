@@ -9,7 +9,7 @@ import Foundation
 
 struct SaleItem: Codable {
     enum QueryKeys: String {
-        case id, dateAdded, userId
+        case id, dateAdded, userId, images
     }
     
     var id = UUID().uuidString

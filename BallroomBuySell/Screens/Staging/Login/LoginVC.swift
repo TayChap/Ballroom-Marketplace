@@ -29,9 +29,7 @@ class LoginVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     }
     
     @IBAction func loginButtonClicked() {
-        vm.loginButtonClicked(self) {
-            loginButton.isEnabled = true
-        }
+        vm.loginButtonClicked(self)
     }
     
     // MARK: - ViewControllerProtocol

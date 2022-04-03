@@ -20,13 +20,28 @@ struct SaleItemVM {
     private let templates: [SaleItemTemplate]
     private let hideContactSeller: Bool
     
+    private var requiredFieldsFilled: Bool {
+        if saleItem.images.isEmpty {
+            return false
+        }
+        
+        let requiredFields = screenStructure.filter({ $0.required && !$0.serverKey.isEmpty }).map({ $0.serverKey })
+        return requiredFields.allSatisfy { requiredField in
+            guard let value = saleItem.fields[requiredField] else {
+                return false
+            }
+            
+            return !value.isEmpty
+        }
+    }
+    
     // MARK: - Lifecycle Methods
     init(_ owner: ViewControllerProtocol, mode: Mode, templates: [SaleItemTemplate], saleItem: SaleItem? = nil, hideContactSeller: Bool = false) {
         delegate = owner
         self.mode = mode
         self.templates = templates
         self.saleItem = saleItem ?? SaleItem(userId: AuthenticationManager().user?.id ?? "")
-        self.hideContactSeller = AuthenticationManager().user?.id == self.saleItem.userId || hideContactSeller // TODO! re-evaluate
+        self.hideContactSeller = AuthenticationManager().user?.id == self.saleItem.userId || hideContactSeller
     }
     
     mutating func viewDidLoad(_ tableView: UITableView) {
@@ -45,8 +60,17 @@ struct SaleItemVM {
         saleItem.dateAdded = Date()
         switch mode {
         case .create:
-            DatabaseManager.sharedInstance.createDocument(.items, saleItem)
-            Image.uploadImages(saleItem.images)
+            guard requiredFieldsFilled else {
+                delegate?.showAlertWith(message: LocalizedString.string("alert.required.fields.message"))
+                return
+            }
+            
+            DatabaseManager.sharedInstance.createDocument(.items, saleItem, nil) {
+                Image.uploadImages(saleItem.images)
+                delegate?.dismiss()
+            } onFail: {
+                delegate?.showNetworkError()
+            }
         case .filter:
             updateFilter?(saleItem)
         case .view:
@@ -76,15 +100,15 @@ struct SaleItemVM {
                     return UITableViewCell()
                 }
                 
-                pickerValues = PickerValue.getPickerValues(for: (min: cellStructure.min, max: max), with: cellStructure.increment)
+                pickerValues = PickerValue.getMeasurements(for: (min: cellStructure.min, max: max), with: cellStructure.increment)
             default:
                 pickerValues = cellStructure.values
             }
             
-            cell.configureCell(PickerCellDM(titleText: cellStructure.title,
+            cell.configureCell(PickerCellDM(titleText: LocalizedString.string(cellStructure.title),
                                             selectedValues: [saleItem.fields[cellStructure.serverKey] ?? ""],
                                             pickerValues: [pickerValues],
-                                            showRequiredAsterisk: cellStructure.required))
+                                            showRequiredAsterisk: cellStructure.required && mode == .create))
             cell.delegate = owner as? PickerCellDelegate
             return cell
         case .textField:
@@ -93,9 +117,10 @@ struct SaleItemVM {
             }
             
             cell.configureCell(TextFieldCellDM(inputType: cellStructure.inputType,
-                                               title: cellStructure.title,
+                                               title: LocalizedString.string(cellStructure.title),
                                                detail: saleItem.fields[cellStructure.serverKey] ?? "",
                                                returnKeyType: .done,
+                                               showRequiredAsterisk: cellStructure.required && mode == .create,
                                                isEnabled: mode != .view))
             cell.delegate = owner as? TextFieldCellDelegate
             return cell
@@ -104,8 +129,9 @@ struct SaleItemVM {
                 return UITableViewCell()
             }
             
-            cell.configureCell(ImageCellDM(title: cellStructure.title,
+            cell.configureCell(ImageCellDM(title: LocalizedString.string(cellStructure.title),
                                            images: saleItem.images.compactMap({ $0.data }),
+                                           showRequiredAsterisk: cellStructure.required && mode == .create,
                                            editable: mode == .create))
             cell.delegate = owner as? (ImageCellDelegate & UIViewController)
             return cell
@@ -114,7 +140,7 @@ struct SaleItemVM {
                 return UITableViewCell()
             }
             
-            cell.configureCell(SwitchCellDM(title: cellStructure.title,
+            cell.configureCell(SwitchCellDM(title: LocalizedString.string(cellStructure.title),
                                             isSelected: saleItem.useStandardSizing,
                                             isEnabled: mode != .view))
             cell.delegate = owner as? SwitchCellDelegate
@@ -169,18 +195,20 @@ struct SaleItemVM {
             return
         }
         
-        DatabaseManager.sharedInstance.getThreads(for: user.id) { threads in
+        DatabaseManager.sharedInstance.getThreads(for: user.id, { threads in
             let messageThread = threads.first(where: { $0.saleItemId == saleItem.id }) ??
             MessageThread(userIds: [user.id, saleItem.userId],
                           saleItemId: saleItem.id,
                           imageURL: saleItem.images.first?.url ?? "",
-                          title: saleItem.fields[SaleItemTemplate.serverKey] ?? "")
+                          title: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "")
             
             delegate?.pushViewController(MessageThreadVC.createViewController(messageThread,
                                                                               user: user,
                                                                               templates: templates,
                                                                               hideItemInfo: true))
-        }
+        }, {
+            delegate?.showNetworkError()
+        })
     }
     
     // MARK: - Public Helpers
@@ -188,26 +216,31 @@ struct SaleItemVM {
         let cellStructure = screenStructure[indexPath.row]
         saleItem.fields[cellStructure.serverKey] = data
         
-        if cellStructure.serverKey == SaleItemTemplate.serverKey {
+        if cellStructure.serverKey == SaleItemTemplate.serverKey.templateId.rawValue {
             screenStructure = getScreenStructure()
         }
     }
     
     // MARK: - Private Helpers
     private func getScreenStructure() -> [SaleItemCellStructure] {
-        var structure = SaleItemTemplate.getHeaderCells(templates) +
-            (templates.first(where: { $0.id == saleItem.fields[SaleItemTemplate.serverKey] })?.screenStructure ?? []).filter({ mode != .view || !(saleItem.fields[$0.serverKey] ?? "").isEmpty }) + // exclude blank fields for view mode
-            SaleItemTemplate.getFooterCells()
+        let templateSpecificCells = templates.first(where: { $0.id == saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] })?.screenStructure ?? []
+        var structure = SaleItemTemplate.getHeaderCells(templates) + templateSpecificCells + SaleItemTemplate.getFooterCells()
         
         // determine size metrics used
         structure = structure.filter({ saleItem.useStandardSizing ? $0.inputType != .measurement :  $0.inputType != .standardSize })
         
-        if mode == .filter {
-            structure = structure.filter({ $0.filterEnabled })
-        }
-        
         if !hideContactSeller {
             structure.append(SaleItemTemplate.getContactSellerCell())
+        }
+        
+        switch mode {
+        case .create:
+            break
+        case .view:
+            // exclude blank fields for view mode
+            structure = structure.filter({ !(saleItem.fields[$0.serverKey] ?? "").isEmpty || $0.serverKey == SaleItem.QueryKeys.images.rawValue })
+        case .filter:
+            structure = structure.filter({ $0.filterEnabled })
         }
         
         return structure

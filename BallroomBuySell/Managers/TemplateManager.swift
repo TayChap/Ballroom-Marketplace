@@ -11,16 +11,17 @@ struct TemplateManager {
     }
     
     // MARK: - Public Helpers
-    static func refreshTemplates(_ completion: @escaping (_ templates: [SaleItemTemplate]) -> Void) {
-        DatabaseManager.sharedInstance.getTemplates { templates in
+    static func refreshTemplates(_ completion: @escaping (_ templates: [SaleItemTemplate]) -> Void, _ onFail: @escaping () -> Void) {
+        DatabaseManager.sharedInstance.getTemplates({ templates in
             completion(templates)
-        }
+        }, {
+            onFail()
+        })
     }
     
     /// This method adds a hardcoded template to the templates collection
     /// The templates collection is only accessible when the app is signed into the superuser account and not in release mode
     static func updateTemplates() {
-        // TODO! add DEBUG flag here (not for release) // Firebase does not recommend deleting whole collections from mobile client
         DatabaseManager.sharedInstance.stagingDeleteAllDocuments(in: .templates) {
             let templates = [
                 // Competition
@@ -30,121 +31,116 @@ struct TemplateManager {
                 getMensLatinTop(),
                 getMensBottom(),
                 // Practice
-                getMensPracticeTop(),
+                getMensStandardTop(),
                 getWomansPracticeTop(),
                 getWomansPracticeBottom(),
+                getWomansPracticeDressTemplate(),
                 // Shoes
-//                getWomansStandardShoesTemplate(),
-//                getWomansLatinShoesTemplate(),
-//                getMensStandardShoesTemplate(),
-//                getMensLatinShoesTemplate()
+                getWomansShoesTemplate(),
+                getMensShoesTemplate(),
+                // Misc
+                getMiscTemplate()
             ]
             for template in templates {
-                DatabaseManager.sharedInstance.createDocument(.templates, template)
+                DatabaseManager.sharedInstance.createDocument(.templates, template, nil, {}, onFail: {}) // dev only so no handling
             }
         }
     }
     
     // MARK: - Private Methods
-    private static func getTailsuitTemplate() -> SaleItemTemplate {
-        SaleItemTemplate(id: "tailsuit",
-                         name: "tailsuit_key",
-                         imageURL: "\(imageURLPrefix)tailsuit.jpeg",
-                         screenStructure: [SaleItemCellStructure(type: .picker,
-                                                                 inputType: .standard,
-                                                                 serverKey: "picker",
-                                                                 title: "picker test_title",
-                                                                 subtitle: "",
-                                                                 placeholder: "",
-                                                                 required: true,
-                                                                 filterEnabled: true,
-                                                                 values: [PickerValue(serverKey: "", localizationKey: ""),
-                                                                          PickerValue(serverKey: "value", localizationKey: "value_key")]),
-                                           SaleItemCellStructure(type: .textField,
-                                                                 inputType: .standard,
-                                                                 serverKey: "text",
-                                                                 title: "text test_title",
-                                                                 subtitle: "test_subtitle",
-                                                                 placeholder: "test_placeholder",
-                                                                 required: true,
-                                                                 filterEnabled: false)] +
-                         Sizing.tails.measurementCells)
-    }
-    
     private static func getStandardDressTemplate() -> SaleItemTemplate {
         SaleItemTemplate(id: "standardDress",
-                         name: "standardDress",
+                         name: "sale.item.womens.standard.dress.title",
                          imageURL: "\(imageURLPrefix)standardDress.jpeg",
+                         order: 200,
                          screenStructure: Sizing.dress.measurementCells)
     }
     
     private static func getLatinDressTemplate() -> SaleItemTemplate {
         SaleItemTemplate(id: "latinDress",
-                         name: "latinDress",
+                         name: "sale.item.womens.latin.dress.title",
                          imageURL: "\(imageURLPrefix)latinDress.jpeg",
+                         order: 300,
                          screenStructure: Sizing.dress.measurementCells)
     }
     
-    private static func getMensLatinTop() -> SaleItemTemplate {
-        SaleItemTemplate(id: "mensLatinTop",
-                         name: "mensLatinTop",
-                         imageURL: "\(imageURLPrefix)mensLatinTop.jpeg",
-                         screenStructure: Sizing.shirt.measurementCells)
+    private static func getTailsuitTemplate() -> SaleItemTemplate {
+        SaleItemTemplate(id: "tailsuit",
+                         name: "sale.item.tailsuit.title",
+                         imageURL: "\(imageURLPrefix)tailsuit.jpeg",
+                         order: 350,
+                         screenStructure: Sizing.tails.measurementCells)
     }
     
     private static func getMensBottom() -> SaleItemTemplate {
         SaleItemTemplate(id: "mensLatinBottom",
-                         name: "mensLatinBottom",
+                         name: "sale.item.mens.latin.bottom.title",
                          imageURL: "\(imageURLPrefix)mensBottom.jpeg",
+                         order: 375,
                          screenStructure: Sizing.pant.measurementCells)
     }
     
-    private static func getMensPracticeTop() -> SaleItemTemplate {
-        SaleItemTemplate(id: "mensPracticeTop",
-                         name: "mensPracticeTop",
-                         imageURL: "\(imageURLPrefix)mensPracticeTop.jpeg",
+    private static func getMensLatinTop() -> SaleItemTemplate {
+        SaleItemTemplate(id: "mensLatinTop",
+                         name: "sale.item.mens.latin.top.title",
+                         imageURL: "\(imageURLPrefix)mensLatinTop.jpeg",
+                         order: 400,
+                         screenStructure: Sizing.shirt.measurementCells)
+    }
+    
+    private static func getMensStandardTop() -> SaleItemTemplate {
+        SaleItemTemplate(id: "mensStandardTop",
+                         name: "sale.item.mens.standard.top.title",
+                         imageURL: "\(imageURLPrefix)mensStandardTop.jpeg",
+                         order: 600,
                          screenStructure: Sizing.shirt.measurementCells)
     }
     
     private static func getWomansPracticeTop() -> SaleItemTemplate {
         SaleItemTemplate(id: "womansPracticeTop",
-                         name: "womansPracticeTop",
-                         imageURL: "\(imageURLPrefix)womansPracticeTop.jpeg",
+                         name: "sale.item.womens.practice.top.title",
+                         imageURL: "\(imageURLPrefix)womensPracticeTop.jpeg",
+                         order: 700,
                          screenStructure: Sizing.shirt.measurementCells)
     }
     
     private static func getWomansPracticeBottom() -> SaleItemTemplate {
         SaleItemTemplate(id: "womansPracticeBottom",
-                         name: "womansPracticeBottom",
-                         imageURL: "\(imageURLPrefix)womansPracticeBottom.jpeg",
+                         name: "sale.item.womens.practice.bottom.title",
+                         imageURL: "\(imageURLPrefix)womensBottom.jpeg",
+                         order: 800,
                          screenStructure: Sizing.pant.measurementCells)
     }
     
-    private static func getMensStandardShoesTemplate() -> SaleItemTemplate {
-        SaleItemTemplate(id: "mensStandardShoes",
-                         name: "mensStandardShoes shoes_key",
-                         imageURL: "\(imageURLPrefix)mensStandardShoes",
-                         screenStructure: Sizing.mensFlatShoes.measurementCells)
+    private static func getWomansPracticeDressTemplate() -> SaleItemTemplate {
+        SaleItemTemplate(id: "womensPracticeDress",
+                         name: "sale.item.womens.practice.dress.title",
+                         imageURL: "\(imageURLPrefix)womensPracticeDress.jpeg",
+                         order: 850,
+                         screenStructure: Sizing.dress.measurementCells)
     }
     
-    private static func getMensLatinShoesTemplate() -> SaleItemTemplate {
-        SaleItemTemplate(id: "mensLatinShoes",
-                         name: "mensLatinShoes shoes_key",
-                         imageURL: "\(imageURLPrefix)mensLatinShoes",
-                         screenStructure: Sizing.mensHeelShoes.measurementCells)
+    private static func getMensShoesTemplate() -> SaleItemTemplate {
+        SaleItemTemplate(id: "mensShoes",
+                         name: "sale.item.mens.shoes.title",
+                         imageURL: "\(imageURLPrefix)mensShoes.jpeg",
+                         order: 900,
+                         screenStructure: Sizing.mensShoes.measurementCells)
     }
     
-    private static func getWomansStandardShoesTemplate() -> SaleItemTemplate {
-        SaleItemTemplate(id: "womansStandardShoes",
-                         name: "WomansStandardShoes shoes_key",
-                         imageURL: "\(imageURLPrefix)womansStandardShoes",
-                         screenStructure: Sizing.womansHeelShoes.measurementCells)
+    private static func getWomansShoesTemplate() -> SaleItemTemplate {
+        SaleItemTemplate(id: "womensShoes",
+                         name: "sale.item.womens.shoes.title",
+                         imageURL: "\(imageURLPrefix)womensShoes.jpeg",
+                         order: 1100,
+                         screenStructure: Sizing.womansShoes.measurementCells)
     }
     
-    private static func getWomansLatinShoesTemplate() -> SaleItemTemplate {
-        SaleItemTemplate(id: "womanLatinShoes",
-                         name: "womanLatinShoes shoes_key",
-                         imageURL: "\(imageURLPrefix)womanLatinShoes",
-                         screenStructure: Sizing.womansHeelShoes.measurementCells)
+    private static func getMiscTemplate() -> SaleItemTemplate {
+        SaleItemTemplate(id: "misc",
+                         name: "sale.item.misc.title",
+                         imageURL: "\(imageURLPrefix)misc.jpeg",
+                         order: 1200,
+                         screenStructure: [])
     }
 }

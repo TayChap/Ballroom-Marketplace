@@ -6,14 +6,15 @@
 //
 
 struct SaleItemTemplate: Codable {
+    enum serverKey: String {
+        case templateId, price
+    }
+    
     let id: String // human readable
     let name: String
     let imageURL: String
+    let order: Int
     var screenStructure: [SaleItemCellStructure]
-    
-    static var serverKey: String {
-        "templateId"
-    }
     
     // MARK: - Public Helpers
     static func getHeaderCells(_ templates: [SaleItemTemplate]) -> [SaleItemCellStructure] {
@@ -27,10 +28,10 @@ struct SaleItemTemplate: Codable {
     private static func getTemplateSelectorCell(_ templates: [SaleItemTemplate]) -> SaleItemCellStructure {
         SaleItemCellStructure(type: .picker,
                               inputType: .standard,
-                              serverKey: SaleItemTemplate.serverKey,
-                              title: "template_selector_title",
-                              subtitle: "",
-                              placeholder: "",
+                              serverKey: SaleItemTemplate.serverKey.templateId.rawValue,
+                              titleKey: "generic.category",
+                              subtitleKey: "",
+                              placeholderKey: "",
                               required: true,
                               filterEnabled: true,
                               values: templates.map({ PickerValue(serverKey: $0.id, localizationKey: $0.name) }))
@@ -39,11 +40,11 @@ struct SaleItemTemplate: Codable {
     private static func getPriceCell() -> SaleItemCellStructure {
         SaleItemCellStructure(type: .textField,
                               inputType: .numbers,
-                              serverKey: "price",
-                              title: "price (USD)",
-                              subtitle: "",
-                              placeholder: "",
-                              required: false,
+                              serverKey: SaleItemTemplate.serverKey.price.rawValue,
+                              titleKey: "sale.item.price",
+                              subtitleKey: "",
+                              placeholderKey: "",
+                              required: true,
                               filterEnabled: false,
                               values: [])
     }
@@ -52,9 +53,9 @@ struct SaleItemTemplate: Codable {
         SaleItemCellStructure(type: .picker,
                               inputType: .country,
                               serverKey: "location",
-                              title: "_location_",
-                              subtitle: "",
-                              placeholder: "",
+                              titleKey: "generic.location",
+                              subtitleKey: "",
+                              placeholderKey: "",
                               required: true,
                               filterEnabled: true,
                               values: [])
@@ -63,10 +64,10 @@ struct SaleItemTemplate: Codable {
     private static func getImageCollectionCelll() -> SaleItemCellStructure {
         SaleItemCellStructure(type: .imageCollection,
                               inputType: .standard,
-                              serverKey: "",
-                              title: "image test_title",
-                              subtitle: "",
-                              placeholder: "",
+                              serverKey: SaleItem.QueryKeys.images.rawValue,
+                              titleKey: "sale.item.images",
+                              subtitleKey: "",
+                              placeholderKey: "",
                               required: true,
                               filterEnabled: false,
                               values: [])
@@ -76,10 +77,10 @@ struct SaleItemTemplate: Codable {
         SaleItemCellStructure(type: .textView,
                               inputType: .standard,
                               serverKey: "notes",
-                              title: "_notes_",
-                              subtitle: "",
-                              placeholder: "",
-                              required: true,
+                              titleKey: "generic.notes",
+                              subtitleKey: "",
+                              placeholderKey: "",
+                              required: false,
                               filterEnabled: false,
                               values: [])
     }
@@ -88,9 +89,9 @@ struct SaleItemTemplate: Codable {
         SaleItemCellStructure(type: .button,
                               inputType: .standard,
                               serverKey: "",
-                              title: "contact_seller",
-                              subtitle: "",
-                              placeholder: "",
+                              titleKey: "sale.item.contact.seller",
+                              subtitleKey: "",
+                              placeholderKey: "",
                               required: false,
                               filterEnabled: false,
                               values: [])

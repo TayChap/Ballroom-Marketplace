@@ -1,3 +1,69 @@
-/* Closes alert */
+/* Generic */
+"generic.cancel" = "Cancel";
+"generic.category" = "Category";
 "generic.close" = "Close";
+"generic.later" = "Later";
+"generic.location" = "Location";
+"generic.notes" = "Notes";
+"generic.now" = "Now";
+"generic.remove" = "Remove";
+"generic.view" = "View";
 
+/* Errors */
+"alert.network.title" = "Network Error";
+"alert.network.message" = "Please ensure you are connected to the internet and relaunch the app to try again";
+"alert.required.fields.message" = "Please fill out all required fields";
+
+/* Permissions */
+"apple.settings.app" = "Settings";
+"apple.camera.app" = "Camera";
+"apple.photos.app" = "Photo Library";
+"permissions.request" = "Please turn on your %@ permissions in settings";
+
+/* Login */
+"login.success.message" = "Login successful!";
+"login.add.picture.message" = "Add a profile picture?";
+
+/* Feed */
+"feed.recent.items" = "Recent Items";
+"list.empty.message" = "There's nothing to see here yet";
+
+/* Sale Item */
+"sale.item.price" = "Price (USD)";
+"sale.item.images" = "Images";
+"sale.item.images.actions" = "Image Actions";
+"sale.item.contact.seller" = "Contact Seller";
+
+"sale.item.tailsuit.title" = "Tailsuit";
+"sale.item.womens.standard.dress.title" = "Standard Dress";
+"sale.item.womens.latin.dress.title" = "Latin Dress";
+"sale.item.mens.latin.bottom.title" = "Mens Pants";
+"sale.item.mens.latin.top.title" = "Mens Latin Top";
+"sale.item.mens.standard.top.title" = "Mens Standard Top";
+"sale.item.womens.practice.top.title" = "Womens Top";
+"sale.item.womens.practice.bottom.title" = "Womens Bottom";
+"sale.item.womens.practice.dress.title" = "Womens Practice Dress";
+"sale.item.mens.shoes.title" = "Mens Shoes";
+"sale.item.womens.shoes.title" = "Womens Shoes";
+"sale.item.misc.title" = "Miscellaneous";
+
+/* Sizing */
+"sale.item.sizing.standard.size.option" = "Use standard sizes?";
+"sale.item.sizing.standard.size" = "Standard Size";
+"sale.item.sizing.xxs" = "XXS / Junior";
+"sale.item.sizing.xs" = "XS / Junior";
+"sale.item.sizing.s" = "S";
+"sale.item.sizing.m" = "M";
+"sale.item.sizing.l" = "L";
+"sale.item.sizing.xl" = "XL";
+"sale.item.sizing.xxl" = "XXL";
+
+// measurements
+"sale.item.sizing.bust" = "Bust";
+"sale.item.sizing.waist" = "Waist";
+"sale.item.sizing.hips" = "Hips";
+"sale.item.sizing.inseam" = "Inseam";
+"sale.item.sizing.sleeve.length" = "Sleeve Length";
+"sale.item.sizing.sleeve.width" = "Sleeve Width";
+"sale.item.sizing.shoe" = "Shoe Size (US)";
+"sale.item.sizing.heel" = "Heel Height";

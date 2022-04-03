@@ -11,5 +11,6 @@ struct ImageCellDM {
     let title: String
     let images: [Data]
     var maxImages = 10
+    var showRequiredAsterisk = false
     var editable = true
 }

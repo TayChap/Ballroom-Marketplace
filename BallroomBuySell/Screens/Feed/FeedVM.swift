@@ -1,5 +1,5 @@
 //
-//  BuyVM.swift
+//  FeedVM.swift
 //  BallroomBuySell
 //
 //  Created by Taylor Chapman on 2022-01-07.
@@ -7,13 +7,13 @@
 
 import UIKit
 
-struct BuyVM {
+struct FeedVM {
     enum Section: Int, CaseIterable {
         case recentItems, categories
     }
     
     private weak var delegate: (ViewControllerProtocol & AuthenticatorProtocol)?
-    private var templates = [SaleItemTemplate]() // TODO! change to an optional (no empty case)
+    private var templates = [SaleItemTemplate]()
     private var saleItems = [SaleItem]()
     private var maxRecentItems: Int { 20 }
     
@@ -23,21 +23,25 @@ struct BuyVM {
     }
     
     func viewDidLoad(_ collectionView: UICollectionView) {
-        collectionView.collectionViewLayout = createCollectionViewLayout()
+        collectionView.collectionViewLayout = createCollectionViewLayout(collectionView)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier:  UICollectionViewCell.defaultRegister)
         SaleItemCollectionCell.registerCell(collectionView)
-        BuySectionHeader.registerCell(collectionView)
+        FeedSectionHeader.registerCell(collectionView)
         
 //        TemplateManager.updateTemplates()
     }
     
     func viewWillAppear(_ completion: @escaping (_ templates: [SaleItemTemplate], _ saleItems: [SaleItem]) -> Void) {
         // refresh templates and pull most recent sale items
-        TemplateManager.refreshTemplates { templates in
-            DatabaseManager.sharedInstance.getRecentSaleItems(for: maxRecentItems) { items in
+        TemplateManager.refreshTemplates({ templates in
+            DatabaseManager.sharedInstance.getRecentSaleItems(for: maxRecentItems, { items in
                 completion(templates, items)
-            }
-        }
+            }, {
+                delegate?.showNetworkError()
+            })
+        }, {
+            delegate?.showNetworkError()
+        })
     }
     
     // MARK: - IBActions
@@ -48,7 +52,7 @@ struct BuyVM {
         }
         
         if templates.isEmpty {
-            networkError()
+            delegate?.showNetworkError()
             return
         }
         
@@ -62,7 +66,7 @@ struct BuyVM {
         }
         
         if templates.isEmpty {
-            networkError()
+            delegate?.showNetworkError()
             return
         }
         
@@ -71,11 +75,11 @@ struct BuyVM {
     
     // MARK: - CollectionView Methods
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let sectionHeader = BuySectionHeader.createCell(collectionView, ofKind: kind, for: indexPath) else {
+        guard let sectionHeader = FeedSectionHeader.createCell(collectionView, ofKind: kind, for: indexPath) else {
             return UICollectionReusableView()
         }
         
-        sectionHeader.configureCell(indexPath.section == 0 ? "recent_items" : "categories")
+        sectionHeader.configureCell(LocalizedString.string(indexPath.section == 0 ? "feed.recent.items" : "generic.category"))
         return sectionHeader
     }
     
@@ -100,7 +104,7 @@ struct BuyVM {
             }
             
             cell.configureCell(SaleItemCellDM(imageURL: coverImageURL,
-                                              price: "$50.00",
+                                              price: "$\(cellData.fields["price"] ?? "?")",
                                               date: cellData.dateAdded ?? Date()))
             return cell
         }
@@ -111,7 +115,7 @@ struct BuyVM {
         }
         
         let template = templates[indexPath.row]
-        cell.configureCell(CategoryCollectionCellDM(categoryTitle: template.name,
+        cell.configureCell(CategoryCollectionCellDM(categoryTitle: LocalizedString.string(template.name),
                                                     imageURL: template.imageURL))
         return cell
     }
@@ -130,42 +134,38 @@ struct BuyVM {
             return
         }
         
-        let templateFilter = (key: "fields.\(SaleItemTemplate.serverKey)", value: templates[indexPath.row].id)
-        DatabaseManager.sharedInstance.getSaleItems(where: templateFilter) { filteredSaleItems in
+        let templateFilter = (key: "fields.\(SaleItemTemplate.serverKey.templateId.rawValue)", value: templates[indexPath.row].id)
+        DatabaseManager.sharedInstance.getSaleItems(where: templateFilter, { filteredSaleItems in
             delegate?.pushViewController(SaleItemListVC.createViewController(templates, filteredSaleItems))
-        }
+        }, {
+            delegate?.showNetworkError()
+        })
     }
     
     // MARK: - Public Helpers
     mutating func onItemsFetched(_ templatesFetched: [SaleItemTemplate], _ saleItemsFetched: [SaleItem]) {
-        templates = templatesFetched
+        templates = templatesFetched.sorted(by: { $0.order < $1.order })
         saleItems = saleItemsFetched
     }
     
-    // MARK: - Private Helpers
-    private func networkError() {
-        // TODO! please connect to the internet
-    }
-    
     // MARK: - CompositionalLayout Methods
-    private func createCollectionViewLayout() -> UICollectionViewLayout {
+    private func createCollectionViewLayout(_ collectionView: UICollectionView) -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             switch Section.allCases[sectionIndex] {
-            case .recentItems: return self.generateRecentItemsLayout()
-            case .categories: return self.generateCategoriesLayout()
+            case .recentItems: return self.generateRecentItemsLayout(collectionView)
+            case .categories: return self.generateCategoriesLayout(collectionView)
             }
         }
     }
     
-    private func generateRecentItemsLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalWidth(1.0))
+    private func generateRecentItemsLayout(_ collectionView: UICollectionView) -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
+        let width = collectionView.frame.width / 2.5
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(180),
-            heightDimension: .absolute(186))
+            widthDimension: .absolute(width),
+            heightDimension: .absolute(width * 1.4))
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize,
             subitem: item,
@@ -179,13 +179,15 @@ struct BuyVM {
         return section
     }
     
-    private func generateCategoriesLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
+    private func generateCategoriesLayout(_ collectionView: UICollectionView) -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.5))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(collectionView.frame.width),
+            heightDimension: .absolute((collectionView.frame.width / 2) * (4/3)))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         group.contentInsets = getGroupInsets()
         
         let section = NSCollectionLayoutSection(group: group)
