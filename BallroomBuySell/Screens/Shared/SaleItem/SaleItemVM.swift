@@ -12,6 +12,7 @@ struct SaleItemVM {
         case create, view, filter
     }
     
+    // MARK: - Stored Properties
     private var saleItem: SaleItem
     private weak var delegate: ViewControllerProtocol?
     
@@ -19,6 +20,11 @@ struct SaleItemVM {
     private var screenStructure = [SaleItemCellStructure]()
     private let templates: [SaleItemTemplate]
     private let hideContactSeller: Bool
+    
+    // MARK: Computed Properties
+    private var selectedTemplate: SaleItemTemplate? {
+        templates.first(where: { $0.id == saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] })
+    }
     
     private var requiredFieldsFilled: Bool {
         if saleItem.images.isEmpty {
@@ -35,13 +41,33 @@ struct SaleItemVM {
         }
     }
     
+    var title: String {
+        switch mode {
+        case .create, .view:
+            return ""
+        case .filter:
+            guard let selectedTemplate = selectedTemplate else {
+                return ""
+            }
+            
+            return "\(LocalizedString.string("generic.filter")): \(LocalizedString.string(selectedTemplate.name))"
+        }
+    }
+    
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, mode: Mode, templates: [SaleItemTemplate], saleItem: SaleItem? = nil, hideContactSeller: Bool = false) {
+    init(_ owner: ViewControllerProtocol, mode: Mode, templates: [SaleItemTemplate], selectedTemplate: SaleItemTemplate? = nil, saleItem: SaleItem? = nil, hideContactSeller: Bool = false) {
         delegate = owner
         self.mode = mode
         self.templates = templates
         self.saleItem = saleItem ?? SaleItem(userId: AuthenticationManager().user?.id ?? "")
         self.hideContactSeller = AuthenticationManager().user?.id == self.saleItem.userId || hideContactSeller
+        
+        // update pre selected template for filter mode
+        guard let selectedTemplateId = selectedTemplate?.id else {
+            return
+        }
+        
+        self.saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] = selectedTemplateId
     }
     
     mutating func viewDidLoad(_ tableView: UITableView) {
@@ -223,7 +249,7 @@ struct SaleItemVM {
     
     // MARK: - Private Helpers
     private func getScreenStructure() -> [SaleItemCellStructure] {
-        let templateSpecificCells = templates.first(where: { $0.id == saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] })?.screenStructure ?? []
+        let templateSpecificCells = selectedTemplate?.screenStructure ?? []
         var structure = SaleItemTemplate.getHeaderCells(templates) + templateSpecificCells + SaleItemTemplate.getFooterCells()
         
         // determine size metrics used

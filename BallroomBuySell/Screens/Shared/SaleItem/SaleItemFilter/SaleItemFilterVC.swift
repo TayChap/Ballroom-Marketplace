@@ -15,18 +15,20 @@ class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDele
     var updateFilter: ((SaleItem) -> Void)?
     
     // MARK: - Lifecycle Methods
-    static func createViewController(_ templates: [SaleItemTemplate], _ updateFilter: @escaping (SaleItem) -> Void) -> UIViewController {
+    static func createViewController(_ templates: [SaleItemTemplate], _ selectedTemplate: SaleItemTemplate, _ updateFilter: @escaping (SaleItem) -> Void) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
         vc.updateFilter = updateFilter
         vc.vm = SaleItemVM(vc,
                            mode: .filter,
                            templates: templates,
+                           selectedTemplate: selectedTemplate,
                            hideContactSeller: true)
         return vc
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = vm.title
         vm.viewDidLoad(tableView)
     }
     

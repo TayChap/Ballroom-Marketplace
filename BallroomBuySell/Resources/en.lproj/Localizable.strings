@@ -2,6 +2,7 @@
 "generic.cancel" = "Cancel";
 "generic.category" = "Category";
 "generic.close" = "Close";
+"generic.filter" = "Filter";
 "generic.later" = "Later";
 "generic.location" = "Location";
 "generic.notes" = "Notes";
@@ -9,7 +10,8 @@
 "generic.remove" = "Remove";
 "generic.view" = "View";
 
-/* Errors */
+/* Warnings and Errors */
+"list.empty.message" = "There's nothing to see here yet";
 "alert.network.title" = "Network Error";
 "alert.network.message" = "Please ensure you are connected to the internet and relaunch the app to try again";
 "alert.required.fields.message" = "Please fill out all required fields";
@@ -26,7 +28,6 @@
 
 /* Feed */
 "feed.recent.items" = "Recent Items";
-"list.empty.message" = "There's nothing to see here yet";
 
 /* Sale Item */
 "sale.item.price" = "Price (USD)";

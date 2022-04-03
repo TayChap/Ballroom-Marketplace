@@ -33,7 +33,7 @@ struct SaleItemTemplate: Codable {
                               subtitleKey: "",
                               placeholderKey: "",
                               required: true,
-                              filterEnabled: true,
+                              filterEnabled: false,
                               values: templates.map({ PickerValue(serverKey: $0.id, localizationKey: $0.name) }))
     }
     

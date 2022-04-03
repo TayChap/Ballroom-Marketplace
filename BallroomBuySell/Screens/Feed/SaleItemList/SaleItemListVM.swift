@@ -8,11 +8,13 @@
 import UIKit
 
 struct SaleItemListVM {
+    // MARK: - Stored Properties
     private weak var delegate: ViewControllerProtocol?
     private var saleItems: [SaleItem]
     private let selectedTemplate: SaleItemTemplate
-    private(set) var templates: [SaleItemTemplate]
+    private let templates: [SaleItemTemplate]
     
+    // MARK: Computed Properties
     var title: String {
         LocalizedString.string(selectedTemplate.name)
     }
@@ -28,6 +30,13 @@ struct SaleItemListVM {
     func viewDidLoad(_ collectionView: UICollectionView) {
         EmptyListCollectionReusableView.registerCell(collectionView)
         SaleItemCollectionCell.registerCell(collectionView)
+    }
+    
+    // MARK: - IBActions
+    func filterButtonClicked(_ completion: @escaping (SaleItem) -> Void) {
+        delegate?.presentViewController(SaleItemFilterVC.createViewController(templates, selectedTemplate) { saleItem in
+            completion(saleItem)
+        })
     }
     
     // MARK: - CollectionView Methods
