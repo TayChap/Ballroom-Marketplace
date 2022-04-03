@@ -68,8 +68,8 @@ enum Sizing: String, Codable {
                               placeholderKey: "",
                               required: false,
                               filterEnabled: true,
-                              min: 0.5,
-                              max: 10.0,
+                              min: 15.0,
+                              max: 70.0,
                               increment: 0.5)
     }
     
@@ -82,8 +82,8 @@ enum Sizing: String, Codable {
                               placeholderKey: "",
                               required: false,
                               filterEnabled: true,
-                              min: 0.5,
-                              max: 10.0,
+                              min: 15.0,
+                              max: 60.0,
                               increment: 0.5)
     }
     
@@ -96,8 +96,8 @@ enum Sizing: String, Codable {
                               placeholderKey: "",
                               required: false,
                               filterEnabled: true,
-                              min: 0.5,
-                              max: 10.0,
+                              min: 15.0,
+                              max: 60.0,
                               increment: 0.5)
     }
     
@@ -110,8 +110,8 @@ enum Sizing: String, Codable {
                               placeholderKey: "",
                               required: false,
                               filterEnabled: true,
-                              min: 0.5,
-                              max: 10.0,
+                              min: 10.0,
+                              max: 40.0,
                               increment: 0.5)
     }
     
@@ -124,8 +124,8 @@ enum Sizing: String, Codable {
                               placeholderKey: "",
                               required: false,
                               filterEnabled: true,
-                              min: 0.5,
-                              max: 10.0,
+                              min: 10.0,
+                              max: 40.0,
                               increment: 0.5)
     }
     
@@ -139,7 +139,7 @@ enum Sizing: String, Codable {
                               required: false,
                               filterEnabled: true,
                               min: 0.5,
-                              max: 10.0,
+                              max: 15.0,
                               increment: 0.5)
     }
     
@@ -153,7 +153,7 @@ enum Sizing: String, Codable {
                               required: false,
                               filterEnabled: true,
                               min: 0.5,
-                              max: 10.0,
+                              max: 25.0,
                               increment: 0.5)
     }
     

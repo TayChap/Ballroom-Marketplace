@@ -50,8 +50,8 @@
 /* Sizing */
 "sale.item.sizing.standard.size.option" = "Use standard sizes?";
 "sale.item.sizing.standard.size" = "Standard Size";
-"sale.item.sizing.xxs" = "XXS";
-"sale.item.sizing.xs" = "XS";
+"sale.item.sizing.xxs" = "XXS / Junior";
+"sale.item.sizing.xs" = "XS / Junior";
 "sale.item.sizing.s" = "S";
 "sale.item.sizing.m" = "M";
 "sale.item.sizing.l" = "L";
