@@ -134,9 +134,10 @@ struct FeedVM {
             return
         }
         
-        let templateFilter = (key: "fields.\(SaleItemTemplate.serverKey.templateId.rawValue)", value: templates[indexPath.row].id)
+        let selectedTemplate = templates[indexPath.row]
+        let templateFilter = (key: "fields.\(SaleItemTemplate.serverKey.templateId.rawValue)", value: selectedTemplate.id)
         DatabaseManager.sharedInstance.getSaleItems(where: templateFilter, { filteredSaleItems in
-            delegate?.pushViewController(SaleItemListVC.createViewController(templates, filteredSaleItems))
+            delegate?.pushViewController(SaleItemListVC.createViewController(templates, selectedTemplate, filteredSaleItems))
         }, {
             delegate?.showNetworkError()
         })

@@ -10,12 +10,18 @@ import UIKit
 struct SaleItemListVM {
     private weak var delegate: ViewControllerProtocol?
     private var saleItems: [SaleItem]
+    private let selectedTemplate: SaleItemTemplate
     private(set) var templates: [SaleItemTemplate]
     
+    var title: String {
+        LocalizedString.string(selectedTemplate.name)
+    }
+    
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, _ templates: [SaleItemTemplate], _ unfilteredSaleItems: [SaleItem]) {
+    init(_ owner: ViewControllerProtocol, _ templates: [SaleItemTemplate], _ selectedTemplate: SaleItemTemplate, _ unfilteredSaleItems: [SaleItem]) {
         delegate = owner
         self.templates = templates
+        self.selectedTemplate = selectedTemplate
         saleItems = unfilteredSaleItems
     }
     

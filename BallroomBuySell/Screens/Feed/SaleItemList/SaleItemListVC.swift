@@ -13,15 +13,16 @@ class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollection
     private var vm: SaleItemListVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController(_ templates: [SaleItemTemplate], _ saleItems: [SaleItem]) -> UIViewController {
+    static func createViewController(_ templates: [SaleItemTemplate], _ selectedTemplate: SaleItemTemplate, _ saleItems: [SaleItem]) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = SaleItemListVM(vc, templates, saleItems)
+        vc.vm = SaleItemListVM(vc, templates, selectedTemplate, saleItems)
         
         return vc
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = vm.title
         vm.viewDidLoad(collectionView)
     }
     
