@@ -73,12 +73,12 @@ struct SaleItemVM {
     mutating func viewDidLoad(_ tableView: UITableView) {
         screenStructure = getScreenStructure()
         
-        PickerTableCell.registerCell(tableView)
-        TextFieldTableCell.registerCell(tableView)
-        ImageTableCell.registerCell(tableView)
-        SwitchTableCell.registerCell(tableView)
-        TextViewTableCell.registerCell(tableView)
-        ButtonTableCell.registerCell(tableView)
+        PickerTableCell.registerCell(for: tableView)
+        TextFieldTableCell.registerCell(for: tableView)
+        ImageTableCell.registerCell(for: tableView)
+        SwitchTableCell.registerCell(for: tableView)
+        TextViewTableCell.registerCell(for: tableView)
+        ButtonTableCell.registerCell(for: tableView)
     }
     
     // MARK: - IBActions
@@ -113,7 +113,7 @@ struct SaleItemVM {
         let cellStructure = screenStructure[indexPath.row]
         switch cellStructure.type {
         case .picker:
-            guard let cell = PickerTableCell.createCell(tableView) else {
+            guard let cell = PickerTableCell.createCell(for: tableView) else {
                 return UITableViewCell()
             }
             
@@ -131,62 +131,62 @@ struct SaleItemVM {
                 pickerValues = cellStructure.values
             }
             
-            cell.configureCell(PickerCellDM(titleText: LocalizedString.string(cellStructure.title),
-                                            selectedValues: [saleItem.fields[cellStructure.serverKey] ?? ""],
-                                            pickerValues: [pickerValues],
-                                            showRequiredAsterisk: cellStructure.required && mode == .create))
+            cell.configureCell(with: PickerCellDM(titleText: LocalizedString.string(cellStructure.title),
+                                                  selectedValues: [saleItem.fields[cellStructure.serverKey] ?? ""],
+                                                  pickerValues: [pickerValues],
+                                                  showRequiredAsterisk: cellStructure.required && mode == .create))
             cell.delegate = owner as? PickerCellDelegate
             return cell
         case .textField:
-            guard let cell = TextFieldTableCell.createCell(tableView) else {
+            guard let cell = TextFieldTableCell.createCell(for: tableView) else {
                 return UITableViewCell()
             }
             
-            cell.configureCell(TextFieldCellDM(inputType: cellStructure.inputType,
-                                               title: LocalizedString.string(cellStructure.title),
-                                               detail: saleItem.fields[cellStructure.serverKey] ?? "",
-                                               returnKeyType: .done,
-                                               showRequiredAsterisk: cellStructure.required && mode == .create,
-                                               isEnabled: mode != .view))
+            cell.configureCell(with: TextFieldCellDM(inputType: cellStructure.inputType,
+                                                     title: LocalizedString.string(cellStructure.title),
+                                                     detail: saleItem.fields[cellStructure.serverKey] ?? "",
+                                                     returnKeyType: .done,
+                                                     showRequiredAsterisk: cellStructure.required && mode == .create,
+                                                     isEnabled: mode != .view))
             cell.delegate = owner as? TextFieldCellDelegate
             return cell
         case .imageCollection:
-            guard let cell = ImageTableCell.createCell(tableView) else {
+            guard let cell = ImageTableCell.createCell(for: tableView) else {
                 return UITableViewCell()
             }
             
-            cell.configureCell(ImageCellDM(title: LocalizedString.string(cellStructure.title),
-                                           images: saleItem.images.compactMap({ $0.data }),
-                                           showRequiredAsterisk: cellStructure.required && mode == .create,
-                                           editable: mode == .create))
+            cell.configureCell(with: ImageCellDM(title: LocalizedString.string(cellStructure.title),
+                                                 images: saleItem.images.compactMap({ $0.data }),
+                                                 showRequiredAsterisk: cellStructure.required && mode == .create,
+                                                 editable: mode == .create))
             cell.delegate = owner as? (ImageCellDelegate & UIViewController)
             return cell
         case .toggle:
-            guard let cell = SwitchTableCell.createCell(tableView) else {
+            guard let cell = SwitchTableCell.createCell(for: tableView) else {
                 return UITableViewCell()
             }
             
-            cell.configureCell(SwitchCellDM(title: LocalizedString.string(cellStructure.title),
-                                            isSelected: saleItem.useStandardSizing,
-                                            isEnabled: mode != .view))
+            cell.configureCell(with: SwitchCellDM(title: LocalizedString.string(cellStructure.title),
+                                                  isSelected: saleItem.useStandardSizing,
+                                                  isEnabled: mode != .view))
             cell.delegate = owner as? SwitchCellDelegate
             return cell
         case .textView:
-            guard let cell = TextViewTableCell.createCell(tableView) else {
+            guard let cell = TextViewTableCell.createCell(for: tableView) else {
                 return UITableViewCell()
             }
             
-            cell.configureCell(TextViewCellDM(title: cellStructure.title,
-                                               detail: saleItem.fields[cellStructure.serverKey] ?? "",
-                                               isEnabled: mode != .view))
+            cell.configureCell(with: TextViewCellDM(title: cellStructure.title,
+                                                    detail: saleItem.fields[cellStructure.serverKey] ?? "",
+                                                    isEnabled: mode != .view))
             cell.delegate = owner as? TextViewCellDelegate
             return cell
         case .button:
-            guard let cell = ButtonTableCell.createCell(tableView) else {
+            guard let cell = ButtonTableCell.createCell(for: tableView) else {
                 return UITableViewCell()
             }
             
-            cell.configureCell(cellStructure.title)
+            cell.configureCell(with: cellStructure.title)
             cell.delegate = owner as? ButtonCellDelegate
             return cell
         }

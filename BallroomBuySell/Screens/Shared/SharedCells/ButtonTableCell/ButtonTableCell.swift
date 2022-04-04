@@ -17,12 +17,12 @@ class ButtonTableCell: UITableViewCell, TableCellProtocol {
     weak var delegate: ButtonCellDelegate? // weak to prevent strong reference cycle
     
     // MARK: - Lifecycle Methods
-    static func registerCell(_ tableView: UITableView) {
+    static func registerCell(for tableView: UITableView) {
         let identifier = String(describing: ButtonTableCell.self)
         tableView.register(UINib(nibName: identifier, bundle: nil), forCellReuseIdentifier: identifier)
     }
     
-    static func createCell(_ tableView: UITableView) -> ButtonTableCell? {
+    static func createCell(for tableView: UITableView) -> ButtonTableCell? {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ButtonTableCell.self)) as? ButtonTableCell else {
             assertionFailure("Can't find cell")
             return nil
@@ -31,7 +31,7 @@ class ButtonTableCell: UITableViewCell, TableCellProtocol {
         return cell
     }
     
-    func configureCell(_ title: String) {
+    func configureCell(with title: String) {
         clearContent()
         button.setTitle(title)
     }

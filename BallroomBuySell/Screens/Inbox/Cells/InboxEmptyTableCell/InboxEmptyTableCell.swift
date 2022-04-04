@@ -11,7 +11,7 @@ class InboxEmptyTableCell: UITableViewCell, TableCellProtocol {
     @IBOutlet weak var emptyMessageLabel: UILabel!
     
     // MARK: - Lifecycle Methods
-    static func createCell(_ tableView: UITableView) -> InboxEmptyTableCell? {
+    static func createCell(for tableView: UITableView) -> InboxEmptyTableCell? {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: InboxEmptyTableCell.self)) as? InboxEmptyTableCell else {
             assertionFailure("Can't Find Cell")
             return nil
@@ -20,7 +20,7 @@ class InboxEmptyTableCell: UITableViewCell, TableCellProtocol {
         return cell
     }
     
-    func configureCell(_ title: String) {
+    func configureCell(with title: String) {
         clearContent()
         emptyMessageLabel.text = title
     }

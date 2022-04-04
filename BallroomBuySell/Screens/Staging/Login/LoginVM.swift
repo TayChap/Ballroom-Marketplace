@@ -47,8 +47,8 @@ struct LoginVM {
     }
     
     func viewDidLoad(_ tableView: UITableView) {
-        TextFieldTableCell.registerCell(tableView)
-        ButtonTableCell.registerCell(tableView)
+        TextFieldTableCell.registerCell(for: tableView)
+        ButtonTableCell.registerCell(for: tableView)
     }
     
     // MARK: - IBActions
@@ -71,24 +71,24 @@ struct LoginVM {
         let cellData = LoginItem.allCases[indexPath.row]
         // button cell
         if cellData == .signUp {
-            guard let cell = ButtonTableCell.createCell(tableView) else {
+            guard let cell = ButtonTableCell.createCell(for: tableView) else {
                 return UITableViewCell()
             }
             
-            cell.configureCell(cellData.text)
+            cell.configureCell(with: cellData.text)
             cell.delegate = owner as? ButtonCellDelegate
             return cell
         }
         
         // text field cell
-        guard let cell = TextFieldTableCell.createCell(tableView) else {
+        guard let cell = TextFieldTableCell.createCell(for: tableView) else {
             return UITableViewCell()
         }
         
-        cell.configureCell(TextFieldCellDM(inputType: cellData.type,
-                                           title: cellData.text,
-                                           detail: dm[cellData] ?? "",
-                                           returnKeyType: .done))
+        cell.configureCell(with: TextFieldCellDM(inputType: cellData.type,
+                                                 title: cellData.text,
+                                                 detail: dm[cellData] ?? "",
+                                                 returnKeyType: .done))
         cell.delegate = owner as? TextFieldCellDelegate
         return cell
     }

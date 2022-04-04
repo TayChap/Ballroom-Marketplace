@@ -11,12 +11,12 @@ protocol TableCellProtocol: UITableViewCell {
     associatedtype DataModal
     associatedtype Cell
     
-    static func registerCell(_ tableView: UITableView)
-    static func createCell(_ tableView: UITableView) -> Cell
-    func configureCell(_ dm: DataModal)
+    static func registerCell(for tableView: UITableView)
+    static func createCell(for tableView: UITableView) -> Cell
+    func configureCell(with dm: DataModal)
     func clearContent()
 }
 
 extension TableCellProtocol {
-    static func registerCell(_ tableView: UITableView) {} // some cells are associated with table view using IB instead
+    static func registerCell(for tableView: UITableView) {} // some cells are associated with table view using IB instead
 }

@@ -11,12 +11,12 @@ class ImageCollectionCell: UICollectionViewCell, CollectionCellProtocol {
     @IBOutlet weak var imageView: UIImageView!
     private let emptyCellImage = UIImage(systemName: "plus")
     
-    static func registerCell(_ collectionView: UICollectionView) {
+    static func registerCell(for collectionView: UICollectionView) {
         let identifier = String(describing: ImageCollectionCell.self)
         collectionView.register(UINib(nibName: identifier, bundle: nil), forCellWithReuseIdentifier: identifier)
     }
     
-    static func createCell(_ collectionView: UICollectionView, for indexPath: IndexPath) -> ImageCollectionCell? {
+    static func createCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> ImageCollectionCell? {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ImageCollectionCell.self), for: indexPath) as? ImageCollectionCell else {
             assertionFailure("Can't Find Cell")
             return nil
@@ -25,7 +25,7 @@ class ImageCollectionCell: UICollectionViewCell, CollectionCellProtocol {
         return cell
     }
     
-    func configureCell(_ image: Data?) {
+    func configureCell(with image: Data?) {
         clearContent()
         
         guard

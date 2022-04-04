@@ -58,15 +58,15 @@ struct InboxVM {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
         if numberOfItems() == 0 { // empty message
-            guard let cell = InboxEmptyTableCell.createCell(tableView) else {
+            guard let cell = InboxEmptyTableCell.createCell(for: tableView) else {
                 return UITableViewCell()
             }
             
-            cell.configureCell(LocalizedString.string("list.empty.message"))
+            cell.configureCell(with: LocalizedString.string("list.empty.message"))
             return cell
         }
         
-        guard let cell = InboxTableCell.createCell(tableView) else {
+        guard let cell = InboxTableCell.createCell(for: tableView) else {
             return UITableViewCell()
         }
         
@@ -76,17 +76,17 @@ struct InboxVM {
                 return UITableViewCell()
             }
             
-            cell.configureCell(InboxCellDM(imageURL: thread.imageURL,
-                                      title: thread.title,
-                                      date: lastMessageUnwrapped.sentDate,
-                                      detail: "\(lastMessageUnwrapped.displayName): \(lastMessageUnwrapped.content)"))
+            cell.configureCell(with: InboxCellDM(imageURL: thread.imageURL,
+                                                 title: thread.title,
+                                                 date: lastMessageUnwrapped.sentDate,
+                                                 detail: "\(lastMessageUnwrapped.displayName): \(lastMessageUnwrapped.content)"))
             return cell
         }
         
         let saleItem = saleItems[indexPath.row]
-        cell.configureCell(InboxCellDM(imageURL: saleItem.images.first?.url ?? "",
-                                       title: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "",
-                                       date: saleItem.dateAdded))
+        cell.configureCell(with: InboxCellDM(imageURL: saleItem.images.first?.url ?? "",
+                                             title: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "",
+                                             date: saleItem.dateAdded))
         return cell
     }
     

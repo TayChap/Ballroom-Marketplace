@@ -30,12 +30,12 @@ class TextViewTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol 
         }
     }
     
-    static func registerCell(_ tableView: UITableView) {
+    static func registerCell(for tableView: UITableView) {
         let identifier = String(describing: TextViewTableCell.self)
         tableView.register(UINib(nibName: identifier, bundle: nil), forCellReuseIdentifier: identifier)
     }
     
-    static func createCell(_ tableView: UITableView) -> TextViewTableCell? {
+    static func createCell(for tableView: UITableView) -> TextViewTableCell? {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TextViewTableCell.self)) as? TextViewTableCell else {
             assertionFailure("Can't Find Cell")
             return nil
@@ -44,7 +44,7 @@ class TextViewTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol 
         return cell
     }
     
-    func configureCell(_ dm: TextViewCellDM) {
+    func configureCell(with dm: TextViewCellDM) {
         clearContent()
         
         titleLabel.text = dm.title

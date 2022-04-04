@@ -29,22 +29,22 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     var delegate: (ImageCellDelegate & UIViewController)?
     
     // MARK: - Life Cycle
-    static func registerCell(_ tableView: UITableView) {
+    static func registerCell(for tableView: UITableView) {
         let identifier = String(describing: ImageTableCell.self)
         tableView.register(UINib(nibName: identifier, bundle: nil), forCellReuseIdentifier: identifier)
     }
     
-    static func createCell(_ tableView: UITableView) -> ImageTableCell? {
+    static func createCell(for tableView: UITableView) -> ImageTableCell? {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ImageTableCell.self)) as? ImageTableCell else {
             assertionFailure("Can't Find Cell")
             return nil
         }
         
-        ImageCollectionCell.registerCell(cell.collectionView)
+        ImageCollectionCell.registerCell(for: cell.collectionView)
         return cell
     }
     
-    func configureCell(_ dm: ImageCellDM) {
+    func configureCell(with dm: ImageCellDM) {
         clearContent()
         
         titleLabel.attributedText = dm.title.attributedText(color: Theme.Color.primaryText.value, required: dm.showRequiredAsterisk)
@@ -68,11 +68,11 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = ImageCollectionCell.createCell(collectionView, for: indexPath) else {
+        guard let cell = ImageCollectionCell.createCell(for: collectionView, at: indexPath) else {
             return UICollectionViewCell()
         }
         
-        cell.configureCell(indexPath.row < imagesList.count ? imagesList[indexPath.row] : nil)
+        cell.configureCell(with: indexPath.row < imagesList.count ? imagesList[indexPath.row] : nil)
         return cell
     }
     

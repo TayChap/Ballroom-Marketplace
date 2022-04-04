@@ -10,12 +10,12 @@ import UIKit
 class EmptyListCollectionReusableView: UICollectionReusableView {
     @IBOutlet weak var emptyListMessage: UILabel!
     
-    static func registerCell(_ collectionView: UICollectionView) {
+    static func registerCell(for collectionView: UICollectionView) {
         let identifier = String(describing: EmptyListCollectionReusableView.self)
         collectionView.register(UINib(nibName: identifier, bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: identifier)
     }
     
-    static func createCell(_ collectionView: UICollectionView, ofKind kind: String, for indexPath: IndexPath) -> EmptyListCollectionReusableView? {
+    static func createCell(for collectionView: UICollectionView, ofKind kind: String, at indexPath: IndexPath) -> EmptyListCollectionReusableView? {
         guard let cell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: String(describing: EmptyListCollectionReusableView.self), for: indexPath) as? EmptyListCollectionReusableView else {
             assertionFailure("Can't Find Cell")
             return nil
@@ -24,7 +24,7 @@ class EmptyListCollectionReusableView: UICollectionReusableView {
         return cell
     }
     
-    func configureCell(_ dm: String) {
+    func configureCell(with dm: String) {
         clearContent()
         emptyListMessage.text = dm
     }

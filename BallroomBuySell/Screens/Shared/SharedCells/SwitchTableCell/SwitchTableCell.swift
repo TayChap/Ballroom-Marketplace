@@ -17,12 +17,12 @@ class SwitchTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol {
     
     var delegate: SwitchCellDelegate?
     
-    static func registerCell(_ tableView: UITableView) {
+    static func registerCell(for tableView: UITableView) {
           let identifier = String(describing: SwitchTableCell.self)
           tableView.register(UINib(nibName: identifier, bundle: nil), forCellReuseIdentifier: identifier)
     }
     
-    static func createCell(_ tableView: UITableView) -> SwitchTableCell? {
+    static func createCell(for tableView: UITableView) -> SwitchTableCell? {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: SwitchTableCell.self)) as? SwitchTableCell else {
             assertionFailure("Can't Find Cell")
             return nil
@@ -31,7 +31,7 @@ class SwitchTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol {
         return cell
     }
     
-    func configureCell(_ dm: SwitchCellDM) {
+    func configureCell(with dm: SwitchCellDM) {
         clearContent()
         
         titleLabel.text = dm.title

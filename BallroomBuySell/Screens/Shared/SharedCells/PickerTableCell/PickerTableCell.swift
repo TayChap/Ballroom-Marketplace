@@ -41,12 +41,12 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
     
     private(set) var isEnabled = false
     
-    static func registerCell(_ tableView: UITableView) {
+    static func registerCell(for tableView: UITableView) {
           let identifier = String(describing: PickerTableCell.self)
           tableView.register(UINib(nibName: identifier, bundle: nil), forCellReuseIdentifier: identifier)
     }
     
-    static func createCell(_ tableView: UITableView) -> PickerTableCell? {
+    static func createCell(for tableView: UITableView) -> PickerTableCell? {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PickerTableCell.self)) as? PickerTableCell else {
             assertionFailure("Can't Find Cell")
             return nil
@@ -55,7 +55,7 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
         return cell
     }
     
-    func configureCell(_ dm: PickerCellDM) {
+    func configureCell(with dm: PickerCellDM) {
         clearContent()
         
         isEnabled = dm.isEnabled

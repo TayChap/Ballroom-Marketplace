@@ -13,12 +13,12 @@ class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
     @IBOutlet weak var dateLabel: UILabel!
     private var imageURL = ""
     
-    static func registerCell(_ collectionView: UICollectionView) {
+    static func registerCell(for collectionView: UICollectionView) {
         let identifier = String(describing: SaleItemCollectionCell.self)
         collectionView.register(UINib(nibName: identifier, bundle: nil), forCellWithReuseIdentifier: identifier)
     }
     
-    static func createCell(_ collectionView: UICollectionView, for indexPath: IndexPath) -> SaleItemCollectionCell? {
+    static func createCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> SaleItemCollectionCell? {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: SaleItemCollectionCell.self), for: indexPath) as? SaleItemCollectionCell else {
             assertionFailure("Can't Find Cell")
             return nil
@@ -27,7 +27,7 @@ class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
         return cell
     }
     
-    func configureCell(_ dm: SaleItemCellDM) {
+    func configureCell(with dm: SaleItemCellDM) {
         clearContent()
         
         coverImage.roundViewCorners(5.0)

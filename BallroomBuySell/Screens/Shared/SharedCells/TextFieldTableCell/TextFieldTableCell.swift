@@ -20,12 +20,12 @@ class TextFieldTableCell: UITableViewCell, TableCellProtocol, UITextFieldDelegat
     weak var delegate: TextFieldCellDelegate? // weak to prevent strong reference cycle
     
     // MARK: - Lifecycle Methods
-    static func registerCell(_ tableView: UITableView) {
+    static func registerCell(for tableView: UITableView) {
         let identifier = String(describing: TextFieldTableCell.self)
         tableView.register(UINib(nibName: identifier, bundle: nil), forCellReuseIdentifier: identifier)
     }
     
-    static func createCell(_ tableView: UITableView) -> TextFieldTableCell? {
+    static func createCell(for tableView: UITableView) -> TextFieldTableCell? {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TextFieldTableCell.self)) as? TextFieldTableCell else {
             assertionFailure("Can't Find Cell")
             return nil
@@ -34,7 +34,7 @@ class TextFieldTableCell: UITableViewCell, TableCellProtocol, UITextFieldDelegat
         return cell
     }
     
-    func configureCell(_ dm: TextFieldCellDM) {
+    func configureCell(with dm: TextFieldCellDM) {
         clearContent()
         
         titleLabel.attributedText = dm.title.attributedText(color: Theme.Color.primaryText.value, required: dm.showRequiredAsterisk)

@@ -20,16 +20,16 @@ struct SaleItemListVM {
     }
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, _ templates: [SaleItemTemplate], _ selectedTemplate: SaleItemTemplate, _ unfilteredSaleItems: [SaleItem]) {
+    init(owner: ViewControllerProtocol, templates: [SaleItemTemplate], selectedTemplate: SaleItemTemplate, unfilteredSaleItems: [SaleItem]) {
         delegate = owner
         self.templates = templates
         self.selectedTemplate = selectedTemplate
         saleItems = unfilteredSaleItems
     }
     
-    func viewDidLoad(_ collectionView: UICollectionView) {
-        EmptyListCollectionReusableView.registerCell(collectionView)
-        SaleItemCollectionCell.registerCell(collectionView)
+    func viewDidLoad(with collectionView: UICollectionView) {
+        EmptyListCollectionReusableView.registerCell(for: collectionView)
+        SaleItemCollectionCell.registerCell(for: collectionView)
     }
     
     // MARK: - IBActions
@@ -45,11 +45,13 @@ struct SaleItemListVM {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = EmptyListCollectionReusableView.createCell(collectionView, ofKind: kind, for: indexPath) else {
+        guard let header = EmptyListCollectionReusableView.createCell(for: collectionView,
+                                                                      ofKind: kind,
+                                                                      at: indexPath) else {
             return UICollectionReusableView()
         }
         
-        header.configureCell(LocalizedString.string("list.empty.message"))
+        header.configureCell(with: LocalizedString.string("list.empty.message"))
         return header
     }
     
@@ -64,13 +66,13 @@ struct SaleItemListVM {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellData = saleItems[indexPath.item]
-        guard let cell = SaleItemCollectionCell.createCell(collectionView, for: indexPath) else {
+        guard let cell = SaleItemCollectionCell.createCell(for: collectionView, at: indexPath) else {
             return UICollectionViewCell()
         }
         
-        cell.configureCell(SaleItemCellDM(imageURL: cellData.images.map({ $0.url }).first ?? "",
-                                          price: "$\(cellData.fields["price"] ?? "?")",
-                                          date: cellData.dateAdded ?? Date()))
+        cell.configureCell(with: SaleItemCellDM(imageURL: cellData.images.map({ $0.url }).first ?? "",
+                                                price: "$\(cellData.fields["price"] ?? "?")",
+                                                date: cellData.dateAdded ?? Date()))
         return cell
     }
     
@@ -80,7 +82,7 @@ struct SaleItemListVM {
     }
     
     // MARK: - Public Helpers
-    mutating func updateFilter(_ filterSaleItem: SaleItem) { // TODO! update based on formalized templates
+    mutating func updateFilter(for filterSaleItem: SaleItem) { // TODO! update based on formalized templates
         var saleItemScores = [(item: SaleItem, score: Double)]()
         
         for saleItem in saleItems {
