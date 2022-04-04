@@ -55,7 +55,7 @@ struct SaleItemVM {
     }
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, mode: Mode, templates: [SaleItemTemplate], selectedTemplate: SaleItemTemplate? = nil, saleItem: SaleItem? = nil, hideContactSeller: Bool = false) {
+    init(owner: ViewControllerProtocol, mode: Mode, templates: [SaleItemTemplate], selectedTemplate: SaleItemTemplate? = nil, saleItem: SaleItem? = nil, hideContactSeller: Bool = false) {
         delegate = owner
         self.mode = mode
         self.templates = templates
@@ -70,7 +70,7 @@ struct SaleItemVM {
         self.saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] = selectedTemplateId
     }
     
-    mutating func viewDidLoad(_ tableView: UITableView) {
+    mutating func viewDidLoad(with tableView: UITableView) {
         screenStructure = getScreenStructure()
         
         PickerTableCell.registerCell(for: tableView)
@@ -209,8 +209,8 @@ struct SaleItemVM {
     }
     
     // MARK: - SwitchCellDelegate
-    mutating func updateSwitchDetail(_ newValue: Bool, for cell: SwitchTableCell) {
-        saleItem.useStandardSizing = newValue
+    mutating func updateSwitchDetail(_ isOn: Bool, for cell: SwitchTableCell) {
+        saleItem.useStandardSizing = isOn
         screenStructure = getScreenStructure()
     }
     

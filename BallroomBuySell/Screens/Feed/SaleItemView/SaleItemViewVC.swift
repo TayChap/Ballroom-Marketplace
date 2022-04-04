@@ -15,13 +15,13 @@ class SaleItemViewVC: UIViewController, UITableViewDataSource, ViewControllerPro
     // MARK: - Lifecycle Methods
     static func createViewController(templates: [SaleItemTemplate], saleItem: SaleItem, hideContactSeller: Bool = false) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = SaleItemVM(vc, mode: .view, templates: templates, saleItem: saleItem, hideContactSeller: hideContactSeller)
+        vc.vm = SaleItemVM(owner: vc, mode: .view, templates: templates, saleItem: saleItem, hideContactSeller: hideContactSeller)
         return vc
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        vm.viewDidLoad(tableView)
+        vm.viewDidLoad(with: tableView)
     }
     
     // MARK: - Table Methods

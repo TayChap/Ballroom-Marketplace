@@ -8,8 +8,8 @@
 import UIKit
 
 protocol TextViewCellDelegate {
-    func textDidBeginEditing(_ cell: TextViewTableCell)
-    func updateTextViewDetail(_ newText: String, for cell: TextViewTableCell)
+    func textDidBeginEditing(for cell: TextViewTableCell)
+    func updateTextViewDetail(with text: String, for cell: TextViewTableCell)
 }
 
 class TextViewTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol {
@@ -66,12 +66,12 @@ class TextViewTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol 
             return
         }
         
-        delegate?.updateTextViewDetail(newText, for: self)
+        delegate?.updateTextViewDetail(with: newText, for: self)
         textViewIsOversized = textView.contentSize.height > maxTextViewHeight
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        delegate?.textDidBeginEditing(self)
+        delegate?.textDidBeginEditing(for: self)
         textView.layer.borderColor = Theme.Color.interactivity.value.cgColor
     }
     

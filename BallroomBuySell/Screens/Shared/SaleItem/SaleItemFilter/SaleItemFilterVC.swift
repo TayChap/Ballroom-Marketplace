@@ -18,7 +18,7 @@ class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDele
     static func createViewController(_ templates: [SaleItemTemplate], _ selectedTemplate: SaleItemTemplate, _ updateFilter: @escaping (SaleItem) -> Void) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
         vc.updateFilter = updateFilter
-        vc.vm = SaleItemVM(vc,
+        vc.vm = SaleItemVM(owner: vc,
                            mode: .filter,
                            templates: templates,
                            selectedTemplate: selectedTemplate,
@@ -29,7 +29,7 @@ class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         title = vm.title
-        vm.viewDidLoad(tableView)
+        vm.viewDidLoad(with: tableView)
     }
     
     // MARK: - IBActions
@@ -66,14 +66,14 @@ class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     // MARK: - PickerCellDelegate
-    func pickerValueUpdated(_ newValues: [String], for cell: PickerTableCell) {
+    func pickerUpdated(with newValues: [String], for cell: PickerTableCell) {
         setData(newValues.first ?? "", for: cell)
         reload()
     }
     
     // MARK: - SwitchCellDelegate
-    func updateSwitchDetail(_ newValue: Bool, for cell: SwitchTableCell) {
-        vm.updateSwitchDetail(newValue, for: cell)
+    func updateSwitchDetail(with isOn: Bool, for cell: SwitchTableCell) {
+        vm.updateSwitchDetail(isOn, for: cell)
         reload()
     }
     

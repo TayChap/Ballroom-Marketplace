@@ -8,12 +8,12 @@
 import UIKit
 
 protocol ImageCellDelegate {
-    func newImage(_ data: Data)
+    func addImage(_ data: Data)
     func deleteImage(at index: Int)
 }
 
 extension ImageCellDelegate { // for view only case no need for image update methods
-    func newImage(_ data: Data){}
+    func addImage(_ data: Data){}
     func deleteImage(at index: Int){}
 }
 
@@ -96,7 +96,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         
         picker.dismiss(animated: true, completion: nil)
         if let imageData = resizedImage.pngData() {
-            delegate?.newImage(imageData)
+            delegate?.addImage(imageData)
         }
     }
     

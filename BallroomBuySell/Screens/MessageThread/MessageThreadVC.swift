@@ -21,7 +21,10 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
             vc.navigationItem.rightBarButtonItem = nil
         }
         
-        vc.vm = MessageThreadVM(vc, thread, user, templates)
+        vc.vm = MessageThreadVM(owner: vc,
+                                thread: thread,
+                                user: user,
+                                templates: templates)
         return vc
     }
     

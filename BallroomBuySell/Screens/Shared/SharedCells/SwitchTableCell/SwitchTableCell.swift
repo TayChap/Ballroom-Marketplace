@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SwitchCellDelegate {
-    func updateSwitchDetail(_ newValue: Bool, for cell: SwitchTableCell)
+    func updateSwitchDetail(with isOn: Bool, for cell: SwitchTableCell)
 }
 
 class SwitchTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol {
@@ -45,6 +45,6 @@ class SwitchTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol {
     }
     
     @IBAction func toggleValueChanged(_ sender: UISwitch) {
-        delegate?.updateSwitchDetail(sender.isOn, for: self)
+        delegate?.updateSwitchDetail(with: sender.isOn, for: self)
     }
 }

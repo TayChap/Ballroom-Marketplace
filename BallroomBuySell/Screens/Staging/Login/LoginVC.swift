@@ -20,7 +20,7 @@ class LoginVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        vm.viewDidLoad(tableView)
+        vm.viewDidLoad(with: tableView)
     }
     
     // MARK: - IBActions
@@ -51,7 +51,7 @@ class LoginVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     }
     
     // MARK: - TextFieldCellDelegate
-    func textFieldUpdated(_ newText: String, for cell: TextFieldTableCell) {
+    func textFieldUpdated(with newText: String, for cell: TextFieldTableCell) {
         guard let indexPath = tableView.indexPath(for: cell) else {
             return
         }

@@ -40,14 +40,14 @@ struct SignUpVM {
     private var dm = [SignUpItem: String]()
     
     // MARK: - Lifecycle Methods
-    init(_ delegate: ViewControllerProtocol) {
+    init(delegate: ViewControllerProtocol) {
         self.delegate = delegate
         for item in SignUpItem.allCases {
             dm[item] = ""
         }
     }
     
-    func viewDidLoad(_ tableView: UITableView) {
+    func viewDidLoad(with tableView: UITableView) {
         ImageTableCell.registerCell(for: tableView)
         TextFieldTableCell.registerCell(for: tableView)
     }

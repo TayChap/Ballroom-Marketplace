@@ -8,7 +8,7 @@
 import UIKit
 
 protocol PickerCellDelegate {
-    func pickerValueUpdated(_ newValues: [String], for cell: PickerTableCell)
+    func pickerUpdated(with newValues: [String], for cell: PickerTableCell)
     func clearButtonClicked(for cell: PickerTableCell)
 }
 
@@ -126,7 +126,7 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
             values.append(pickerValues[i][picker.selectedRow(inComponent: i)].serverKey)
         }
         
-        delegate?.pickerValueUpdated(values, for: self)
+        delegate?.pickerUpdated(with: values, for: self)
     }
     
     // MARK: Date Picker Methods
@@ -143,6 +143,6 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
     }
     
     func pickerViewClickDoneFor(datePicker: UIDatePicker) {
-        delegate?.pickerValueUpdated([datePicker.date.toReadableString()], for: self)
+        delegate?.pickerUpdated(with: [datePicker.date.toReadableString()], for: self)
     }
 }

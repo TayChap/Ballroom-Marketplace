@@ -8,7 +8,7 @@
 import UIKit
 
 protocol TextFieldCellDelegate: AnyObject { // AnyObject because it must be a class for weak delegate reference
-    func textFieldUpdated(_ newText: String, for cell: TextFieldTableCell)
+    func textFieldUpdated(with text: String, for cell: TextFieldTableCell)
 }
 
 class TextFieldTableCell: UITableViewCell, TableCellProtocol, UITextFieldDelegate {
@@ -68,7 +68,7 @@ class TextFieldTableCell: UITableViewCell, TableCellProtocol, UITextFieldDelegat
             return false
         }
         
-        delegate?.textFieldUpdated(text.replacingCharacters(in: textRange, with: string), for: self)
+        delegate?.textFieldUpdated(with: text.replacingCharacters(in: textRange, with: string), for: self)
         return true
     }
 }

@@ -20,7 +20,7 @@ struct InboxVM {
     private var inboxState = InboxState.threads
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, _ user: User, _ templates: [SaleItemTemplate]) {
+    init(owner: ViewControllerProtocol, user: User, templates: [SaleItemTemplate]) {
         delegate = owner
         self.user = user
         self.templates = templates

@@ -46,7 +46,7 @@ struct LoginVM {
         }
     }
     
-    func viewDidLoad(_ tableView: UITableView) {
+    func viewDidLoad(with tableView: UITableView) {
         TextFieldTableCell.registerCell(for: tableView)
         ButtonTableCell.registerCell(for: tableView)
     }

@@ -16,7 +16,9 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     // MARK: - Lifecycle Methods
     static func createViewController( _ user: User, _ templates: [SaleItemTemplate]) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = InboxVM(vc, user, templates)
+        vc.vm = InboxVM(owner: vc,
+                        user: user,
+                        templates: templates)
         return vc
     }
     
