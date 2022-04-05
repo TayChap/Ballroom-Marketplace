@@ -34,6 +34,7 @@ class ButtonTableCell: UITableViewCell, TableCellProtocol {
     func configureCell(with title: String) {
         clearContent()
         button.setTitle(title)
+        button.addBorder(of: 2, with: Theme.Color.interactivity.value.cgColor, cornerRadius: 5.0)
     }
     
     func clearContent() {

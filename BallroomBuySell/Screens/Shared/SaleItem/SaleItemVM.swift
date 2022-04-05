@@ -257,10 +257,6 @@ struct SaleItemVM {
         // determine size metrics used
         structure = structure.filter({ saleItem.useStandardSizing ? $0.inputType != .measurement :  $0.inputType != .standardSize })
         
-        if !hideContactSeller {
-            structure.append(SaleItemTemplate.getContactSellerCell())
-        }
-        
         switch mode {
         case .create:
             break
@@ -269,6 +265,10 @@ struct SaleItemVM {
             structure = structure.filter({ !(saleItem.fields[$0.serverKey] ?? "").isEmpty || $0.serverKey == SaleItem.QueryKeys.images.rawValue })
         case .filter:
             structure = structure.filter({ $0.filterEnabled })
+        }
+        
+        if !hideContactSeller {
+            structure.append(SaleItemTemplate.getContactSellerCell())
         }
         
         return structure
