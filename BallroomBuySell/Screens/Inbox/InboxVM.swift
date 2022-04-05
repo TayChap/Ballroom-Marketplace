@@ -131,6 +131,8 @@ struct InboxVM {
     }
     
     // MARK: - Private Helpers
+    /// Query server for both sale items and threads
+    /// - Parameter completion: on successfully fetching the saleItem and thread data
     private func fetchItems(_ completion: @escaping (_ saleItems: [SaleItem], _ threads: [MessageThread]) -> Void) {
         DatabaseManager.sharedInstance.getSaleItems(where: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id), { saleItems in
             DatabaseManager.sharedInstance.getThreads(for: user.id, { threads in
@@ -143,10 +145,13 @@ struct InboxVM {
         })
     }
     
+    /// Displays a network error on failied query
     private func onFail() {
         delegate?.showNetworkError()
     }
     
+    /// get total number of items for the currently active state
+    /// - Returns: number of items for currently active state
     private func numberOfItems() -> Int {
         inboxState == .threads ? threads.count : saleItems.count
     }

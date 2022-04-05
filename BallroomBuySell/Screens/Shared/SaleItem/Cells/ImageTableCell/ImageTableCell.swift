@@ -101,6 +101,8 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     }
     
     // MARK: - Private Helpers
+    /// Return all action items when the user wants to add an image
+    /// - Returns: set of actions to add a image
     private func getEmptyActionSheetItems() -> [UIAlertAction] {
         var actionItems = [UIAlertAction]()
         actionItems.append(UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel))
@@ -116,6 +118,9 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         return actionItems
     }
     
+    /// Return all action items when the user wants to interact with an image
+    /// - Parameter indexPath: indexPath referring to the index of the image
+    /// - Returns: set of actions to interact with an image
     private func getNonEmptyActionSheetItems(_ indexPath: IndexPath) -> [UIAlertAction] {
         let imageData = imagesList[indexPath.row]
         var actionItems = [UIAlertAction]()
@@ -135,6 +140,8 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         return actionItems
     }
     
+    /// Display image to user
+    /// - Parameter imageData: image to display
     private func displayImage(_ imageData: Data) {
         guard let image = UIImage(data: imageData) else {
             return
@@ -145,6 +152,9 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         self.delegate?.present(imageViewer, animated: true, completion: nil)
     }
     
+    /// Return a new image with modified orientation, scale and size
+    /// - Parameter image: the image to modify
+    /// - Returns: the new modified image
     private func normalizedImage(_ image: UIImage) -> UIImage {
         if image.imageOrientation == .up {
             return image
@@ -160,6 +170,11 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         return UIImage()
     }
     
+    /// Return a new image with modified size
+    /// - Parameters:
+    ///   - sourceImage: the image to modify
+    ///   - newWidth: the width to make the new image
+    /// - Returns: the new modified image
     private func resize(sourceImage: UIImage, newWidth: CGFloat) -> UIImage {
         let oldWidth = sourceImage.size.width
         let scaleFactor = newWidth / oldWidth

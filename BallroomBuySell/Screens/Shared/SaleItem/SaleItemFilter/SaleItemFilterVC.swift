@@ -78,6 +78,10 @@ class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     // MARK: - Private Helpers
+    /// Update the data in the DM
+    /// - Parameters:
+    ///   - data: data to update
+    ///   - cell: cell corresponding to data to update
     private func setData(_ data: String, for cell: UITableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else {
             return

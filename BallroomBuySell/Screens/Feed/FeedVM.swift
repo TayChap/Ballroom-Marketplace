@@ -154,6 +154,9 @@ struct FeedVM {
     }
     
     // MARK: - CompositionalLayout Methods
+    /// Generate the  layout for the given collection view
+    /// - Parameter collectionView: the collection view to assign the layout to
+    /// - Returns: the layout for the collection view
     private func createCollectionViewLayout(for collectionView: UICollectionView) -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             switch Section.allCases[sectionIndex] {
@@ -163,6 +166,9 @@ struct FeedVM {
         }
     }
     
+    /// Generate the layout for the recent items section in the collection view
+    /// - Parameter collectionView:the collection view to generate the layout for
+    /// - Returns: the layout for the recent items section in the collection view
     private func generateRecentItemsLayout(for collectionView: UICollectionView) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -184,6 +190,9 @@ struct FeedVM {
         return section
     }
     
+    /// Generate the layout for the category items section in the collection view
+    /// - Parameter collectionView:the collection view to generate the layout for
+    /// - Returns: the layout for the recent items section in the collection view
     private func generateCategoriesLayout(for collectionView: UICollectionView) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)

@@ -68,6 +68,10 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     }
     
     // MARK: - Private Helpers
+    /// On fetching items, call down to the VM to update the data and then reload the screen
+    /// - Parameters:
+    ///   - saleItems: the saleItems fetched
+    ///   - threads: the threads fetched
     private func onFetch(_ saleItems: [SaleItem], _ threads: [MessageThread]) {
         vm.onFetch(saleItems, threads)
         reload()

@@ -248,6 +248,8 @@ struct SaleItemVM {
     }
     
     // MARK: - Private Helpers
+    /// Get filtered screen structure for current screen mode and data state
+    /// - Returns: screenStructure for current screen mode and data state
     private func getScreenStructure() -> [SaleItemCellStructure] {
         let templateSpecificCells = selectedTemplate?.screenStructure ?? []
         var structure = SaleItemTemplate.getHeaderCells(templates) + templateSpecificCells + SaleItemTemplate.getFooterCells()
