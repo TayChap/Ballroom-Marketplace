@@ -79,6 +79,5 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
     func reload() {
         messagesCollectionView.reloadData()
         messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
-        // messagesCollectionView.scrollToBottom(animated: true)
     }
 }
