@@ -13,7 +13,7 @@ struct SaleItem: Codable {
     }
     
     var id = UUID().uuidString
-    var dateAdded: Date? = nil
+    var dateAdded = Date()
     var userId: String
     var images = [Image]()
     var useStandardSizing = false

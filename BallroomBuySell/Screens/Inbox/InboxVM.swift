@@ -126,8 +126,8 @@ struct InboxVM {
     
     // MARK: - Public Helpers
     mutating func onFetch(_ saleItemsFetched: [SaleItem], _ threadsFetched: [MessageThread]) {
-        saleItems = saleItemsFetched
-        threads = threadsFetched
+        saleItems = saleItemsFetched.sorted(by: { $0.dateAdded.compare($1.dateAdded) == .orderedDescending })
+        threads = threadsFetched.sorted(by: { $0.messages.last?.sentDate.compare($1.messages.last?.sentDate ?? Date()) == .orderedDescending })
     }
     
     // MARK: - Private Helpers
