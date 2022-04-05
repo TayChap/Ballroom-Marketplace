@@ -31,7 +31,7 @@ struct SaleItemVM {
             return false
         }
         
-        let requiredFields = screenStructure.filter({ $0.required && !$0.serverKey.isEmpty }).map({ $0.serverKey })
+        let requiredFields = screenStructure.filter({ $0.required && !$0.serverKey.isEmpty && $0.serverKey != SaleItem.QueryKeys.images.rawValue }).map({ $0.serverKey })
         return requiredFields.allSatisfy { requiredField in
             guard let value = saleItem.fields[requiredField] else {
                 return false

@@ -70,7 +70,7 @@ class PickerViewController: UIViewController, UIPickerViewDataSource {
 //        actionContainerView.backgroundColor = ThemeManager.sharedInstance.theme.cardBackgroundColor
 //        doneButton.setTitle(LocalizationManager.localizedString(forKey: "generic.done"), withColor: ThemeManager.sharedInstance.theme.primaryTextColor)
 //        cancelButton.setTitle(LocalizationManager.localizedString(forKey: "generic.cancel"), withColor: ThemeManager.sharedInstance.theme.primaryTextColor)
-//
+
         pickerView.isHidden = pickerType != .picker
         //pickerView.backgroundColor = ThemeManager.sharedInstance.theme.backgroundColor
         
