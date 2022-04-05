@@ -35,6 +35,7 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
+        messagesCollectionView.keyboardDismissMode = .onDrag
     }
     
     // MARK: - IBActions
