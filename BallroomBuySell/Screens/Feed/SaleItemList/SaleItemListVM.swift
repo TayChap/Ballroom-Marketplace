@@ -82,15 +82,19 @@ struct SaleItemListVM {
     }
     
     // MARK: - Public Helpers
-    mutating func updateFilter(for filterSaleItem: SaleItem) { // TODO! update based on formalized templates
+    /// Re-orders the sale items based on the least differences from sale item passed in
+    /// - Parameter filterSaleItem: Sale item to calculate the least differences from
+    mutating func orderSaleItems(by filterSaleItem: SaleItem) {
+        let filterFields = filterSaleItem.filterFields
         var saleItemScores = [(item: SaleItem, score: Double)]()
         
         for saleItem in saleItems {
             var score = 0.0
+            let saleItemFields = saleItem.filterFields
             
-            for filterField in filterSaleItem.fields {
-                guard let itemStringValue = saleItem.fields[filterField.key] else {
-                    // TODO! adjust score since not in field
+            for filterField in filterFields {
+                guard let itemStringValue = saleItemFields[filterField.key] else {
+                    score += 100.0 // if field filtered for not in scale item
                     continue
                 }
                 
@@ -98,7 +102,10 @@ struct SaleItemListVM {
                     let filterValue = Double(filterField.value),
                     let itemValue = Double(itemStringValue)
                 else {
-                    // TODO! it's a string like a template id or country
+                    if filterField.value != itemStringValue {
+                        score += 1000.0 // non-measurement fields prioritized in filtering
+                    }
+                    
                     continue
                 }
                 

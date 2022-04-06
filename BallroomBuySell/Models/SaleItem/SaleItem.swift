@@ -12,6 +12,11 @@ struct SaleItem: Codable {
         case id, dateAdded, userId, images
     }
     
+    var filterFields: [String: String] {
+        // TODO!
+        return [:]
+    }
+    
     var id = UUID().uuidString
     var dateAdded = Date()
     var userId: String

@@ -32,7 +32,7 @@ class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollection
     // MARK: - IBActions
     @IBAction func filterButtonClicked() {
         vm.filterButtonClicked { saleItem in
-            self.vm.updateFilter(for: saleItem)
+            self.vm.orderSaleItems(by: saleItem)
             self.reload()
         }
     }
