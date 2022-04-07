@@ -17,6 +17,10 @@ struct SaleItemTemplate: Codable {
     var screenStructure: [SaleItemCellStructure]
     
     // MARK: - Public Helpers
+    static func getItemTitle(by typeId: String, in templates: [SaleItemTemplate]) -> String {
+        LocalizedString.string(templates.first(where: { $0.id == typeId })?.name ?? "")
+    }
+    
     static func getHeaderCells(_ templates: [SaleItemTemplate]) -> [SaleItemCellStructure] {
         [getTemplateSelectorCell(templates), getPriceCell(), getLocationCell(), getImageCollectionCelll()]
     }

@@ -8,7 +8,7 @@
 import Foundation
 
 struct SaleItem: Codable {
-    enum QueryKeys: String {
+    enum QueryKeys: String { // TODO! evaluate why separate from keys in SaleItemTemplate - standardize use of hardcoded keys
         case id, dateAdded, userId, images
     }
     

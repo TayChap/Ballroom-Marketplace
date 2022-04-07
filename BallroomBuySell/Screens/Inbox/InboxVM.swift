@@ -77,7 +77,7 @@ struct InboxVM {
             }
             
             cell.configureCell(with: InboxCellDM(imageURL: thread.imageURL,
-                                                 title: thread.title,
+                                                 title: SaleItemTemplate.getItemTitle(by: thread.title, in: templates),
                                                  date: lastMessageUnwrapped.sentDate,
                                                  detail: "\(lastMessageUnwrapped.displayName): \(lastMessageUnwrapped.content)"))
             return cell
@@ -85,7 +85,7 @@ struct InboxVM {
         
         let saleItem = saleItems[indexPath.row]
         cell.configureCell(with: InboxCellDM(imageURL: saleItem.images.first?.url ?? "",
-                                             title: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "",
+                                             title: SaleItemTemplate.getItemTitle(by: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "", in: templates),
                                              date: saleItem.dateAdded))
         return cell
     }
