@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="infinity" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="QzD-Ph-OOP">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppIcon-Asset" translatesAutoresizingMaskIntoConstraints="NO" id="QzD-Ph-OOP">
                                 <rect key="frame" x="107" y="348" width="200" height="200"/>
                                 <color key="tintColor" name="cardBackground"/>
                                 <constraints>
@@ -40,7 +40,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="infinity" catalog="system" width="128" height="61"/>
+        <image name="AppIcon-Asset" width="90" height="90"/>
         <namedColor name="background">
             <color red="0.14901960784313725" green="0.27450980392156865" blue="0.32549019607843138" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
