@@ -25,7 +25,7 @@ struct TemplateManager {
         DatabaseManager.sharedInstance.stagingDeleteAllDocuments(in: .templates) {
             let templates = [
                 // Competition
-//                getTailsuitTemplate(), // TODO!
+                getTailsuitTemplate(),
                 getStandardDressTemplate(),
                 getLatinDressTemplate(),
                 getMensLatinTop(),

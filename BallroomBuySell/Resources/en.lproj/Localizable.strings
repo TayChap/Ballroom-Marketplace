@@ -68,3 +68,6 @@
 "sale.item.sizing.sleeve.width" = "Sleeve Width";
 "sale.item.sizing.shoe" = "Shoe Size (US)";
 "sale.item.sizing.heel" = "Heel Height";
+"sale.item.sizing.neck.circumference" = "Neck Circumference";
+"sale.item.sizing.nape.to.waist" = "Nape to Waist";
+"sale.item.sizing.waist.to.hip" = "Waist to Hip";

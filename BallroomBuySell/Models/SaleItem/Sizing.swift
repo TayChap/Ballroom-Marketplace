@@ -17,7 +17,7 @@ enum Sizing: String, Codable { // TODO! enum naming
         case .standard:
             return [standardSizeCell]
         case .tails:
-            return []
+            return [chest, waist, hips, sleeveLength, sleeveWidth, inseam, napeToWaist, waistToHip, neckCircumference]
         case .dress:
             return [standardSizeOptionCell, standardSizeCell] +
                     [chest, waist, hips, inseam, sleeveLength, sleeveWidth]
@@ -117,13 +117,13 @@ enum Sizing: String, Codable { // TODO! enum naming
                               min: 15.0,
                               max: 60.0,
                               increment: 0.5,
-                              measurements: [StandardSize.xxs: 5,
-                                             StandardSize.xs: 10,
-                                             StandardSize.s: 10,
-                                             StandardSize.m: 10,
-                                             StandardSize.l: 10,
-                                             StandardSize.xl: 10,
-                                             StandardSize.xxl: 10])
+                              measurements: [StandardSize.xxs: 33.5,
+                                             StandardSize.xs: 35.5,
+                                             StandardSize.s: 37.5,
+                                             StandardSize.m: 39.5,
+                                             StandardSize.l: 42.5,
+                                             StandardSize.xl: 48.0,
+                                             StandardSize.xxl: 52.0])
     }
     
     private var inseam: SaleItemCellStructure {
@@ -207,6 +207,35 @@ enum Sizing: String, Codable { // TODO! enum naming
                               filterEnabled: true,
                               min: 0.0,
                               max: 5.0,
+                              increment: 0.5)
+    }
+    
+    // MARK: - Tailsuit Specific
+    private var napeToWaist: SaleItemCellStructure {
+        SaleItemCellStructure(type: .picker,
+                              inputType: .measurement,
+                              serverKey: "napeToWaist",
+                              titleKey: "sale.item.sizing.nape.to.waist",
+                              subtitleKey: "",
+                              placeholderKey: "",
+                              required: false,
+                              filterEnabled: true,
+                              min: 5.0,
+                              max: 60.0, // TODO! proper max
+                              increment: 0.5)
+    }
+    
+    private var waistToHip: SaleItemCellStructure {
+        SaleItemCellStructure(type: .picker,
+                              inputType: .measurement,
+                              serverKey: "waistToHip",
+                              titleKey: "sale.item.sizing.waist.to.hip",
+                              subtitleKey: "",
+                              placeholderKey: "",
+                              required: false,
+                              filterEnabled: true,
+                              min: 0.5,
+                              max: 30.0, // TODO! proper max
                               increment: 0.5)
     }
 }
