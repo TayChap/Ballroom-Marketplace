@@ -12,9 +12,32 @@ struct SaleItem: Codable {
         case id, dateAdded, userId, images
     }
     
-    var filterFields: [String: String] {
-        // TODO!
-        return [:]
+    func getFilterFields(basedOn template: SaleItemTemplate) -> [String: String] { // TODO! test and refactor method
+        let filterFields = fields.filter({ _ in
+            template.screenStructure.contains(where: { $0.filterEnabled })
+        })
+        
+        let measurements = template.screenStructure.filter({ $0.inputType == .measurement })
+        var finalFields = [String: String]()
+        for field in filterFields {
+            guard let templateEntry = template.screenStructure.first(where: { $0.serverKey == field.key }) else {
+                continue // field not in template
+            }
+            
+            if templateEntry.inputType != .standardSize && !measurements.isEmpty {
+                finalFields[field.key] = field.value
+            }
+            
+            guard let standardSize = Sizing.StandardSize(rawValue: field.value) else {
+                continue
+            }
+            
+            for measurement in measurements {
+                finalFields[measurement.serverKey] = String(measurement.measurements?[standardSize] ?? 0)
+            }
+        }
+        
+        return finalFields
     }
     
     var id = UUID().uuidString

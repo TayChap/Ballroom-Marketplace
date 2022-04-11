@@ -85,16 +85,16 @@ struct SaleItemListVM {
     /// Re-orders the sale items based on the least differences from sale item passed in
     /// - Parameter filterSaleItem: Sale item to calculate the least differences from
     mutating func orderSaleItems(by filterSaleItem: SaleItem) {
-        let filterFields = filterSaleItem.filterFields
+        let filterFields = filterSaleItem.getFilterFields(basedOn: selectedTemplate)
         var saleItemScores = [(item: SaleItem, score: Double)]()
         
         for saleItem in saleItems {
             var score = 0.0
-            let saleItemFields = saleItem.filterFields
+            let saleItemFields = saleItem.getFilterFields(basedOn: selectedTemplate)
             
             for filterField in filterFields {
                 guard let itemStringValue = saleItemFields[filterField.key] else {
-                    score += 100.0 // if field filtered for not in scale item
+                    score += 100.0 // if field filtered for is not in sale item
                     continue
                 }
                 

@@ -5,7 +5,11 @@
 //  Created by Taylor Chapman on 2022-03-27.
 //
 
-enum Sizing: String, Codable {
+enum Sizing: String, Codable { // TODO! enum naming
+    enum StandardSize: String, Codable {
+        case xxs, xs, s, m, l, xl, xxl
+    }
+    
     case standard, dress, shirt, pant, skirt, tails, mensShoes, womansShoes
     
     var measurementCells: [SaleItemCellStructure] {
@@ -47,16 +51,16 @@ enum Sizing: String, Codable {
                               titleKey: "sale.item.sizing.standard.size",
                               subtitleKey: "",
                               placeholderKey: "",
-                              required: true,
+                              required: false,
                               filterEnabled: true,
                               values: [PickerValue(serverKey: "", localizationKey: ""),
-                                       PickerValue(serverKey: "xxs", localizationKey: "sale.item.sizing.xxs"),
-                                       PickerValue(serverKey: "xs", localizationKey: "sale.item.sizing.xs"),
-                                       PickerValue(serverKey: "s", localizationKey: "sale.item.sizing.s"),
-                                       PickerValue(serverKey: "m", localizationKey: "sale.item.sizing.m"),
-                                       PickerValue(serverKey: "l", localizationKey: "sale.item.sizing.l"),
-                                       PickerValue(serverKey: "xl", localizationKey: "sale.item.sizing.xl"),
-                                       PickerValue(serverKey: "xxl", localizationKey: "sale.item.sizing.xxl")])
+                                       PickerValue(serverKey: StandardSize.xxs.rawValue, localizationKey: "sale.item.sizing.xxs"),
+                                       PickerValue(serverKey: StandardSize.xs.rawValue, localizationKey: "sale.item.sizing.xs"),
+                                       PickerValue(serverKey: StandardSize.s.rawValue, localizationKey: "sale.item.sizing.s"),
+                                       PickerValue(serverKey: StandardSize.m.rawValue, localizationKey: "sale.item.sizing.m"),
+                                       PickerValue(serverKey: StandardSize.l.rawValue, localizationKey: "sale.item.sizing.l"),
+                                       PickerValue(serverKey: StandardSize.xl.rawValue, localizationKey: "sale.item.sizing.xl"),
+                                       PickerValue(serverKey: StandardSize.xxl.rawValue, localizationKey: "sale.item.sizing.xxl")])
     }
     
     private var chest: SaleItemCellStructure {
@@ -70,7 +74,14 @@ enum Sizing: String, Codable {
                               filterEnabled: true,
                               min: 15.0,
                               max: 70.0,
-                              increment: 0.5)
+                              increment: 0.5,
+                              measurements: [StandardSize.xxs: 31.0,
+                                             StandardSize.xs: 33.0,
+                                             StandardSize.s: 35.0,
+                                             StandardSize.m: 37.0,
+                                             StandardSize.l: 40.0,
+                                             StandardSize.xl: 44.0,
+                                             StandardSize.xxl: 48.0])
     }
     
     private var waist: SaleItemCellStructure {
@@ -84,7 +95,14 @@ enum Sizing: String, Codable {
                               filterEnabled: true,
                               min: 15.0,
                               max: 60.0,
-                              increment: 0.5)
+                              increment: 0.5,
+                              measurements: [StandardSize.xxs: 22.5,
+                                             StandardSize.xs: 24.5,
+                                             StandardSize.s: 26.5,
+                                             StandardSize.m: 28.5,
+                                             StandardSize.l: 32.0,
+                                             StandardSize.xl: 38.0,
+                                             StandardSize.xxl: 42.5])
     }
     
     private var hips: SaleItemCellStructure {
@@ -98,7 +116,14 @@ enum Sizing: String, Codable {
                               filterEnabled: true,
                               min: 15.0,
                               max: 60.0,
-                              increment: 0.5)
+                              increment: 0.5,
+                              measurements: [StandardSize.xxs: 5,
+                                             StandardSize.xs: 10,
+                                             StandardSize.s: 10,
+                                             StandardSize.m: 10,
+                                             StandardSize.l: 10,
+                                             StandardSize.xl: 10,
+                                             StandardSize.xxl: 10])
     }
     
     private var inseam: SaleItemCellStructure {
@@ -159,16 +184,16 @@ enum Sizing: String, Codable {
     
     private var shoeSize: SaleItemCellStructure {
         SaleItemCellStructure(type: .picker,
-                               inputType: .measurement,
-                               serverKey: "mensShoesSize",
-                               titleKey: "sale.item.sizing.shoe",
-                               subtitleKey: "",
-                               placeholderKey: "",
-                               required: false,
-                               filterEnabled: true,
-                               min: 4.0,
-                               max: 16.0,
-                               increment: 0.5)
+                              inputType: .measurement,
+                              serverKey: "mensShoesSize",
+                              titleKey: "sale.item.sizing.shoe",
+                              subtitleKey: "",
+                              placeholderKey: "",
+                              required: false,
+                              filterEnabled: true,
+                              min: 4.0,
+                              max: 16.0,
+                              increment: 0.5)
     }
     
     private var heelHeight: SaleItemCellStructure {
