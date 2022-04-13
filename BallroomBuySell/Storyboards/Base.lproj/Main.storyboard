@@ -216,7 +216,7 @@
                                     <segment title="" image="message" catalog="system"/>
                                     <segment title="" image="dollarsign.circle" catalog="system"/>
                                 </segments>
-                                <color key="selectedSegmentTintColor" name="cardBackground"/>
+                                <color key="selectedSegmentTintColor" name="interactivity"/>
                                 <connections>
                                     <action selector="segmentedControlClicked" destination="vnn-B4-q01" eventType="valueChanged" id="f3m-8x-zAI"/>
                                 </connections>
@@ -504,19 +504,19 @@
         <image name="slider.horizontal.3" catalog="system" width="128" height="100"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="background">
-            <color red="0.14901960784313725" green="0.27450980392156865" blue="0.32549019607843138" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.98500001430511475" green="1" blue="0.97899997234344482" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="cardBackground">
-            <color red="0.9137254901960784" green="0.7686274509803922" blue="0.41568627450980394" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="interactivity">
-            <color red="0.95686274509803926" green="0.63529411764705879" blue="0.38039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.035294117647058823" blue="0.90980392156862744" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="primaryText">
-            <color red="0.87800002098083496" green="0.87800002098083496" blue="0.87800002098083496" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.15299999713897705" green="0.15299999713897705" blue="0.15299999713897705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="secondaryText">
-            <color red="0.15299999713897705" green="0.15299999713897705" blue="0.15299999713897705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.87800002098083496" green="0.87800002098083496" blue="0.87800002098083496" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
