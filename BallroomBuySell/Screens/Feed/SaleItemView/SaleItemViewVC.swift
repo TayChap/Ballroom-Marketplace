@@ -21,6 +21,7 @@ class SaleItemViewVC: UIViewController, UITableViewDataSource, ViewControllerPro
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = vm.title
         vm.viewDidLoad(with: tableView)
     }
     

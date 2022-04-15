@@ -43,8 +43,10 @@ struct SaleItemVM {
     
     var title: String {
         switch mode {
-        case .create, .view:
+        case .view:
             return ""
+        case .create:
+            return LocalizedString.string("generic.new.listing")
         case .filter:
             guard let selectedTemplate = selectedTemplate else {
                 return ""

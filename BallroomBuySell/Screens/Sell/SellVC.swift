@@ -24,6 +24,7 @@ class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, View
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = vm.title
         vm.viewDidLoad(with: tableView)
     }
     
