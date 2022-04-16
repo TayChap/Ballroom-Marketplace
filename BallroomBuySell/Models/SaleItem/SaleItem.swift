@@ -20,11 +20,16 @@ struct SaleItem: Codable {
     var fields: [String: String] = [:] // [serverKey: value]
     
     func getFilterFields(basedOn template: SaleItemTemplate) -> [String: String] {
-        let measurements = template.screenStructure.filter({ $0.inputType == .measurement })
         var finalFields = [String: String]()
+        let templateScreenStructure = SaleItemTemplate.getScreenStructure(with: [], for: template)
         
-        for field in fields.filter({ _ in template.screenStructure.contains(where: { $0.filterEnabled }) }) {
-            guard let templateEntry = template.screenStructure.first(where: { $0.serverKey == field.key }) else {
+        let fields = fields.filter({ field in
+            templateScreenStructure.first(where: { $0.serverKey == field.key })?.filterEnabled == true
+        })
+        
+        let measurements = templateScreenStructure.filter({ $0.inputType == .measurement })
+        for field in fields {
+            guard let templateEntry = templateScreenStructure.first(where: { $0.serverKey == field.key }) else {
                 continue // field not in template
             }
             

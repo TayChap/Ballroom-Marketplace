@@ -253,8 +253,7 @@ struct SaleItemVM {
     /// Get filtered screen structure for current screen mode and data state
     /// - Returns: screenStructure for current screen mode and data state
     private func getScreenStructure() -> [SaleItemCellStructure] {
-        let templateSpecificCells = selectedTemplate?.screenStructure ?? []
-        var structure = SaleItemTemplate.getHeaderCells(templates) + templateSpecificCells + SaleItemTemplate.getFooterCells()
+        var structure = SaleItemTemplate.getScreenStructure(with: templates, for: selectedTemplate)
         
         // determine size metrics used
         structure = structure.filter({ saleItem.useStandardSizing ? $0.inputType != .measurement :  $0.inputType != .standardSize })

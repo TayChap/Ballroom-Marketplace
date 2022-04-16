@@ -21,11 +21,15 @@ struct SaleItemTemplate: Codable {
         LocalizedString.string(templates.first(where: { $0.id == typeId })?.name ?? "")
     }
     
-    static func getHeaderCells(_ templates: [SaleItemTemplate]) -> [SaleItemCellStructure] {
+    static func getScreenStructure(with templates: [SaleItemTemplate], for selectedTemplate: SaleItemTemplate?) -> [SaleItemCellStructure] {
+        getHeaderCells(templates) + (selectedTemplate?.screenStructure ?? []) + getFooterCells()
+    }
+    
+    private static func getHeaderCells(_ templates: [SaleItemTemplate]) -> [SaleItemCellStructure] {
         [getTemplateSelectorCell(templates), getPriceCell(), getLocationCell(), getImageCollectionCelll()]
     }
     
-    static func getFooterCells() -> [SaleItemCellStructure] {
+    private static func getFooterCells() -> [SaleItemCellStructure] {
         [getNotesCell()]
     }
     
