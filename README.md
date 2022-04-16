@@ -1,7 +1,6 @@
 <h1 align="center">
   
   ![github_50](https://user-images.githubusercontent.com/12243409/163683336-f5338315-d5b5-4154-ad29-240d66feff3b.png)
-
   <br> Ballroom Marketplace </br>
 </h1>
 <p><font size="3">
