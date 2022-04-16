@@ -227,7 +227,7 @@ struct SaleItemVM {
             let messageThread = threads.first(where: { $0.saleItemId == saleItem.id }) ??
             MessageThread(userIds: [user.id, saleItem.userId],
                           saleItemId: saleItem.id,
-                          title: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "",
+                          saleItemType: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "",
                           imageURL: saleItem.images.first?.url ?? "")
             
             delegate?.pushViewController(MessageThreadVC.createViewController(messageThread,

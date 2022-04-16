@@ -8,9 +8,16 @@
 import Foundation
 
 struct SaleItem: Codable {
-    enum QueryKeys: String { // TODO! evaluate why separate from keys in SaleItemTemplate - standardize use of hardcoded keys
+    enum QueryKeys: String {
         case id, dateAdded, userId, images
     }
+    
+    var id = UUID().uuidString
+    var dateAdded = Date()
+    var userId: String
+    var images = [Image]()
+    var useStandardSizing = false
+    var fields: [String: String] = [:] // [serverKey: value]
     
     func getFilterFields(basedOn template: SaleItemTemplate) -> [String: String] { // TODO! test and refactor method
         let filterFields = fields.filter({ _ in
@@ -39,11 +46,4 @@ struct SaleItem: Codable {
         
         return finalFields
     }
-    
-    var id = UUID().uuidString
-    var dateAdded = Date()
-    var userId: String
-    var images = [Image]()
-    var useStandardSizing = false
-    var fields: [String: String] = [:] // [serverKey: value]
 }

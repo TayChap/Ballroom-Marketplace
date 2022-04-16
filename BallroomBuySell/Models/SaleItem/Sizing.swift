@@ -5,7 +5,7 @@
 //  Created by Taylor Chapman on 2022-03-27.
 //
 
-enum Sizing: String, Codable { // TODO! enum naming
+enum Sizing: String, Codable {
     enum StandardSize: String, Codable {
         case xxs, xs, s, m, l, xl, xxl
     }
@@ -164,8 +164,8 @@ enum Sizing: String, Codable { // TODO! enum naming
                               required: false,
                               filterEnabled: true,
                               min: 0.5,
-                              max: 15.0,
-                              increment: 0.5)
+                              max: 10.0,
+                              increment: 0.25)
     }
     
     private var neckCircumference: SaleItemCellStructure {
@@ -221,7 +221,7 @@ enum Sizing: String, Codable { // TODO! enum naming
                               required: false,
                               filterEnabled: true,
                               min: 5.0,
-                              max: 60.0, // TODO! proper max
+                              max: 40.0,
                               increment: 0.5)
     }
     
@@ -235,7 +235,7 @@ enum Sizing: String, Codable { // TODO! enum naming
                               required: false,
                               filterEnabled: true,
                               min: 0.5,
-                              max: 30.0, // TODO! proper max
+                              max: 30.0,
                               increment: 0.5)
     }
 }
