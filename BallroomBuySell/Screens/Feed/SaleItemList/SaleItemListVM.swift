@@ -72,13 +72,19 @@ struct SaleItemListVM {
         
         cell.configureCell(with: SaleItemCellDM(imageURL: cellData.images.map({ $0.url }).first ?? "",
                                                 price: "$\(cellData.fields["price"] ?? "?")",
-                                                date: cellData.dateAdded ?? Date()))
+                                                date: cellData.dateAdded))
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.pushViewController(SaleItemViewVC.createViewController(templates: templates,
-                                                                         saleItem: saleItems[indexPath.item]))
+        var saleItem = saleItems[indexPath.item]
+        Image.downloadImages(saleItem.images.map({ $0.url })) { images in
+            if !templates.isEmpty {
+                saleItem.images = images
+                delegate?.pushViewController(SaleItemViewVC.createViewController(templates: templates,
+                                                                                 saleItem: saleItem))
+            }
+        }
     }
     
     // MARK: - Public Helpers
