@@ -94,7 +94,7 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
     
     // MARK: - Picker Datasource
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        NSAttributedString(string: LocalizedString.string(pickerValues[component][row].localizationKey), attributes: [.foregroundColor: Theme.Color.secondaryText.value])
+        NSAttributedString(string: LocalizedString.string(pickerValues[component][row].localizationKey), attributes: [.foregroundColor: Theme.Color.primaryText.value])
     }
     
     // MARK: - Picker Delegate

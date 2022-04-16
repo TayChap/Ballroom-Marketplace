@@ -52,7 +52,7 @@ struct SaleItemVM {
                 return ""
             }
             
-            return "\(LocalizedString.string("generic.filter")): \(LocalizedString.string(selectedTemplate.name))"
+            return "\(LocalizedString.string("generic.order")): \(LocalizedString.string(selectedTemplate.name))"
         }
     }
     
