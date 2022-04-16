@@ -18,15 +18,15 @@ struct FeedVM {
     private var maxRecentItems: Int { 20 }
     
     // MARK: - Lifecycle Methods
-    init(_ delegate: ViewControllerProtocol & AuthenticatorProtocol) {
+    init(delegate: ViewControllerProtocol & AuthenticatorProtocol) {
         self.delegate = delegate
     }
     
-    func viewDidLoad(_ collectionView: UICollectionView) {
-        collectionView.collectionViewLayout = createCollectionViewLayout(collectionView)
+    func viewDidLoad(with collectionView: UICollectionView) {
+        collectionView.collectionViewLayout = createCollectionViewLayout(for: collectionView)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier:  UICollectionViewCell.defaultRegister)
-        SaleItemCollectionCell.registerCell(collectionView)
-        FeedSectionHeader.registerCell(collectionView)
+        SaleItemCollectionCell.registerCell(for: collectionView)
+        FeedSectionHeader.registerCell(for: collectionView)
         
 //        TemplateManager.updateTemplates()
     }
@@ -75,11 +75,13 @@ struct FeedVM {
     
     // MARK: - CollectionView Methods
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let sectionHeader = FeedSectionHeader.createCell(collectionView, ofKind: kind, for: indexPath) else {
+        guard let sectionHeader = FeedSectionHeader.createCell(for: collectionView,
+                                                               ofKind: kind,
+                                                               at: indexPath) else {
             return UICollectionReusableView()
         }
         
-        sectionHeader.configureCell(LocalizedString.string(indexPath.section == 0 ? "feed.recent.items" : "generic.category"))
+        sectionHeader.configureCell(with: LocalizedString.string(indexPath.section == 0 ? "feed.recent.items" : "generic.category"))
         return sectionHeader
     }
     
@@ -96,27 +98,27 @@ struct FeedVM {
             let cellData = saleItems[indexPath.item]
             
             guard
-                let cell = SaleItemCollectionCell.createCell(collectionView, for: indexPath),
+                let cell = SaleItemCollectionCell.createCell(for: collectionView, at: indexPath),
                 let coverImageURL = cellData.images.first?.url
             else {
                 return collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewCell
                                                             .defaultRegister, for: indexPath)
             }
             
-            cell.configureCell(SaleItemCellDM(imageURL: coverImageURL,
-                                              price: "$\(cellData.fields["price"] ?? "?")",
-                                              date: cellData.dateAdded ?? Date()))
+            cell.configureCell(with: SaleItemCellDM(imageURL: coverImageURL,
+                                                    price: "$\(cellData.fields["price"] ?? "?")",
+                                                    date: cellData.dateAdded ?? Date()))
             return cell
         }
         
         // categories section
-        guard let cell = CategoryCollectionCell.createCell(collectionView, for: indexPath) else {
+        guard let cell = CategoryCollectionCell.createCell(for: collectionView, at: indexPath) else {
             return collectionView.dequeueReusableCell(withReuseIdentifier:  UICollectionViewCell.defaultRegister, for: indexPath)
         }
         
         let template = templates[indexPath.row]
-        cell.configureCell(CategoryCollectionCellDM(categoryTitle: LocalizedString.string(template.name),
-                                                    imageURL: template.imageURL))
+        cell.configureCell(with: CategoryCollectionCellDM(categoryTitle: LocalizedString.string(template.name),
+                                                          imageURL: template.imageURL))
         return cell
     }
     
@@ -137,29 +139,37 @@ struct FeedVM {
         let selectedTemplate = templates[indexPath.row]
         let templateFilter = (key: "fields.\(SaleItemTemplate.serverKey.templateId.rawValue)", value: selectedTemplate.id)
         DatabaseManager.sharedInstance.getSaleItems(where: templateFilter, { filteredSaleItems in
-            delegate?.pushViewController(SaleItemListVC.createViewController(templates, selectedTemplate, filteredSaleItems))
+            delegate?.pushViewController(SaleItemListVC.createViewController(templates: templates,
+                                                                             selectedTemplate: selectedTemplate,
+                                                                             saleItems: filteredSaleItems))
         }, {
             delegate?.showNetworkError()
         })
     }
     
     // MARK: - Public Helpers
-    mutating func onItemsFetched(_ templatesFetched: [SaleItemTemplate], _ saleItemsFetched: [SaleItem]) {
+    mutating func onItemsFetched(templatesFetched: [SaleItemTemplate], saleItemsFetched: [SaleItem]) {
         templates = templatesFetched.sorted(by: { $0.order < $1.order })
         saleItems = saleItemsFetched
     }
     
     // MARK: - CompositionalLayout Methods
-    private func createCollectionViewLayout(_ collectionView: UICollectionView) -> UICollectionViewLayout {
+    /// Generate the  layout for the given collection view
+    /// - Parameter collectionView: the collection view to assign the layout to
+    /// - Returns: the layout for the collection view
+    private func createCollectionViewLayout(for collectionView: UICollectionView) -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             switch Section.allCases[sectionIndex] {
-            case .recentItems: return self.generateRecentItemsLayout(collectionView)
-            case .categories: return self.generateCategoriesLayout(collectionView)
+            case .recentItems: return self.generateRecentItemsLayout(for: collectionView)
+            case .categories: return self.generateCategoriesLayout(for: collectionView)
             }
         }
     }
     
-    private func generateRecentItemsLayout(_ collectionView: UICollectionView) -> NSCollectionLayoutSection {
+    /// Generate the layout for the recent items section in the collection view
+    /// - Parameter collectionView:the collection view to generate the layout for
+    /// - Returns: the layout for the recent items section in the collection view
+    private func generateRecentItemsLayout(for collectionView: UICollectionView) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
@@ -180,7 +190,10 @@ struct FeedVM {
         return section
     }
     
-    private func generateCategoriesLayout(_ collectionView: UICollectionView) -> NSCollectionLayoutSection {
+    /// Generate the layout for the category items section in the collection view
+    /// - Parameter collectionView:the collection view to generate the layout for
+    /// - Returns: the layout for the recent items section in the collection view
+    private func generateCategoriesLayout(for collectionView: UICollectionView) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)

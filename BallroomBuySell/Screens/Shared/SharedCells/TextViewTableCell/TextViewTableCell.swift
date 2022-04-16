@@ -8,8 +8,8 @@
 import UIKit
 
 protocol TextViewCellDelegate {
-    func textDidBeginEditing(_ cell: TextViewTableCell)
-    func updateTextViewDetail(_ newText: String, for cell: TextViewTableCell)
+    func textDidBeginEditing(for cell: TextViewTableCell)
+    func updateTextViewDetail(with text: String, for cell: TextViewTableCell)
 }
 
 class TextViewTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol {
@@ -30,12 +30,12 @@ class TextViewTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol 
         }
     }
     
-    static func registerCell(_ tableView: UITableView) {
+    static func registerCell(for tableView: UITableView) {
         let identifier = String(describing: TextViewTableCell.self)
         tableView.register(UINib(nibName: identifier, bundle: nil), forCellReuseIdentifier: identifier)
     }
     
-    static func createCell(_ tableView: UITableView) -> TextViewTableCell? {
+    static func createCell(for tableView: UITableView) -> TextViewTableCell? {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TextViewTableCell.self)) as? TextViewTableCell else {
             assertionFailure("Can't Find Cell")
             return nil
@@ -44,7 +44,7 @@ class TextViewTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol 
         return cell
     }
     
-    func configureCell(_ dm: TextViewCellDM) {
+    func configureCell(with dm: TextViewCellDM) {
         clearContent()
         
         titleLabel.text = dm.title
@@ -66,12 +66,12 @@ class TextViewTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol 
             return
         }
         
-        delegate?.updateTextViewDetail(newText, for: self)
+        delegate?.updateTextViewDetail(with: newText, for: self)
         textViewIsOversized = textView.contentSize.height > maxTextViewHeight
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        delegate?.textDidBeginEditing(self)
+        delegate?.textDidBeginEditing(for: self)
         textView.layer.borderColor = Theme.Color.interactivity.value.cgColor
     }
     

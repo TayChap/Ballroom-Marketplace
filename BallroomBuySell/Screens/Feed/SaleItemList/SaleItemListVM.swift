@@ -20,16 +20,16 @@ struct SaleItemListVM {
     }
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, _ templates: [SaleItemTemplate], _ selectedTemplate: SaleItemTemplate, _ unfilteredSaleItems: [SaleItem]) {
+    init(owner: ViewControllerProtocol, templates: [SaleItemTemplate], selectedTemplate: SaleItemTemplate, unfilteredSaleItems: [SaleItem]) {
         delegate = owner
         self.templates = templates
         self.selectedTemplate = selectedTemplate
         saleItems = unfilteredSaleItems
     }
     
-    func viewDidLoad(_ collectionView: UICollectionView) {
-        EmptyListCollectionReusableView.registerCell(collectionView)
-        SaleItemCollectionCell.registerCell(collectionView)
+    func viewDidLoad(with collectionView: UICollectionView) {
+        EmptyListCollectionReusableView.registerCell(for: collectionView)
+        SaleItemCollectionCell.registerCell(for: collectionView)
     }
     
     // MARK: - IBActions
@@ -45,11 +45,13 @@ struct SaleItemListVM {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = EmptyListCollectionReusableView.createCell(collectionView, ofKind: kind, for: indexPath) else {
+        guard let header = EmptyListCollectionReusableView.createCell(for: collectionView,
+                                                                      ofKind: kind,
+                                                                      at: indexPath) else {
             return UICollectionReusableView()
         }
         
-        header.configureCell(LocalizedString.string("list.empty.message"))
+        header.configureCell(with: LocalizedString.string("list.empty.message"))
         return header
     }
     
@@ -64,31 +66,41 @@ struct SaleItemListVM {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellData = saleItems[indexPath.item]
-        guard let cell = SaleItemCollectionCell.createCell(collectionView, for: indexPath) else {
+        guard let cell = SaleItemCollectionCell.createCell(for: collectionView, at: indexPath) else {
             return UICollectionViewCell()
         }
         
-        cell.configureCell(SaleItemCellDM(imageURL: cellData.images.map({ $0.url }).first ?? "",
-                                          price: "$\(cellData.fields["price"] ?? "?")",
-                                          date: cellData.dateAdded ?? Date()))
+        cell.configureCell(with: SaleItemCellDM(imageURL: cellData.images.map({ $0.url }).first ?? "",
+                                                price: "$\(cellData.fields["price"] ?? "?")",
+                                                date: cellData.dateAdded))
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.pushViewController(SaleItemViewVC.createViewController(templates: templates,
-                                                                         saleItem: saleItems[indexPath.item]))
+        var saleItem = saleItems[indexPath.item]
+        Image.downloadImages(saleItem.images.map({ $0.url })) { images in
+            if !templates.isEmpty {
+                saleItem.images = images
+                delegate?.pushViewController(SaleItemViewVC.createViewController(templates: templates,
+                                                                                 saleItem: saleItem))
+            }
+        }
     }
     
     // MARK: - Public Helpers
-    mutating func updateFilter(_ filterSaleItem: SaleItem) { // TODO! update based on formalized templates
+    /// Re-orders the sale items based on the least differences from sale item passed in
+    /// - Parameter filterSaleItem: Sale item to calculate the least differences from
+    mutating func orderSaleItems(by filterSaleItem: SaleItem) {
+        let filterFields = filterSaleItem.getFilterFields(basedOn: selectedTemplate)
         var saleItemScores = [(item: SaleItem, score: Double)]()
         
         for saleItem in saleItems {
             var score = 0.0
+            let saleItemFields = saleItem.getFilterFields(basedOn: selectedTemplate)
             
-            for filterField in filterSaleItem.fields {
-                guard let itemStringValue = saleItem.fields[filterField.key] else {
-                    // TODO! adjust score since not in field
+            for filterField in filterFields {
+                guard let itemStringValue = saleItemFields[filterField.key] else {
+                    score += 100.0 // if field filtered for is not in sale item
                     continue
                 }
                 
@@ -96,7 +108,10 @@ struct SaleItemListVM {
                     let filterValue = Double(filterField.value),
                     let itemValue = Double(itemStringValue)
                 else {
-                    // TODO! it's a string like a template id or country
+                    if filterField.value != itemStringValue {
+                        score += 1000.0 // non-measurement fields prioritized in filtering
+                    }
+                    
                     continue
                 }
                 

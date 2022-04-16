@@ -15,7 +15,7 @@ struct MessageThread: Codable {
     var id = UUID().uuidString
     var userIds: Set<String>
     let saleItemId: String
+    let saleItemType: String
     let imageURL: String
-    let title: String
     var messages: [Message] = []
 }

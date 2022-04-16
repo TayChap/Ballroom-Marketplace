@@ -40,16 +40,16 @@ struct SignUpVM {
     private var dm = [SignUpItem: String]()
     
     // MARK: - Lifecycle Methods
-    init(_ delegate: ViewControllerProtocol) {
+    init(delegate: ViewControllerProtocol) {
         self.delegate = delegate
         for item in SignUpItem.allCases {
             dm[item] = ""
         }
     }
     
-    func viewDidLoad(_ tableView: UITableView) {
-        ImageTableCell.registerCell(tableView)
-        TextFieldTableCell.registerCell(tableView)
+    func viewDidLoad(with tableView: UITableView) {
+        ImageTableCell.registerCell(for: tableView)
+        TextFieldTableCell.registerCell(for: tableView)
     }
     
     // MARK: - IBActions
@@ -77,7 +77,7 @@ struct SignUpVM {
         let cellData = SignUpItem.allCases[indexPath.row]
         switch cellData {
         case .photo:
-            guard let cell = ImageTableCell.createCell(tableView) else {
+            guard let cell = ImageTableCell.createCell(for: tableView) else {
                 return UITableViewCell()
             }
             
@@ -86,20 +86,20 @@ struct SignUpVM {
                 images.append(image)
             }
             
-            cell.configureCell(ImageCellDM(title: cellData.text,
-                                           images: images,
-                                           maxImages: 1))
+            cell.configureCell(with: ImageCellDM(title: cellData.text,
+                                                 images: images,
+                                                 maxImages: 1))
             cell.delegate = owner as? (ImageCellDelegate & UIViewController)
             return cell
         case .email, .displayName:
-            guard let cell = TextFieldTableCell.createCell(tableView) else {
+            guard let cell = TextFieldTableCell.createCell(for: tableView) else {
                 return UITableViewCell()
             }
             
-            cell.configureCell(TextFieldCellDM(inputType: cellData.type,
-                                               title: cellData.text,
-                                               detail: dm[cellData] ?? "",
-                                               returnKeyType: .done))
+            cell.configureCell(with: TextFieldCellDM(inputType: cellData.type,
+                                                     title: cellData.text,
+                                                     detail: dm[cellData] ?? "",
+                                                     returnKeyType: .done))
             cell.delegate = owner as? TextFieldCellDelegate
             return cell
         }

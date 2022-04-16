@@ -21,7 +21,10 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
             vc.navigationItem.rightBarButtonItem = nil
         }
         
-        vc.vm = MessageThreadVM(vc, thread, user, templates)
+        vc.vm = MessageThreadVM(owner: vc,
+                                thread: thread,
+                                user: user,
+                                templates: templates)
         return vc
     }
     
@@ -32,6 +35,7 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
+        messagesCollectionView.keyboardDismissMode = .onDrag
     }
     
     // MARK: - IBActions
@@ -75,6 +79,5 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
     func reload() {
         messagesCollectionView.reloadData()
         messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
-        // messagesCollectionView.scrollToBottom(animated: true)
     }
 }

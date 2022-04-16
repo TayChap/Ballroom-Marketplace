@@ -17,7 +17,7 @@ class MessageThreadVM {
     private let templates: [SaleItemTemplate]
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, _ thread: MessageThread, _ user: User, _ templates: [SaleItemTemplate]) {
+    init(owner: ViewControllerProtocol, thread: MessageThread, user: User, templates: [SaleItemTemplate]) {
         delegate = owner
         self.thread = thread
         self.user = user

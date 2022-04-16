@@ -18,6 +18,7 @@ struct SaleItemCellStructure: Codable {
     var min = 0.0 // the minimum value for a picker
     var max: Double? // the maximum value for a picker
     var increment = 1.0 // the amount to increment between the minimum and maximum
+    var measurements: [Sizing.StandardSize: Double]? = nil // conversion from standard size to specific measurements
     
     var title: String {
         LocalizedString.string(titleKey)

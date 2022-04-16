@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SwitchCellDelegate {
-    func updateSwitchDetail(_ newValue: Bool, for cell: SwitchTableCell)
+    func updateSwitchDetail(with isOn: Bool, for cell: SwitchTableCell)
 }
 
 class SwitchTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol {
@@ -17,12 +17,12 @@ class SwitchTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol {
     
     var delegate: SwitchCellDelegate?
     
-    static func registerCell(_ tableView: UITableView) {
+    static func registerCell(for tableView: UITableView) {
           let identifier = String(describing: SwitchTableCell.self)
           tableView.register(UINib(nibName: identifier, bundle: nil), forCellReuseIdentifier: identifier)
     }
     
-    static func createCell(_ tableView: UITableView) -> SwitchTableCell? {
+    static func createCell(for tableView: UITableView) -> SwitchTableCell? {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: SwitchTableCell.self)) as? SwitchTableCell else {
             assertionFailure("Can't Find Cell")
             return nil
@@ -31,7 +31,7 @@ class SwitchTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol {
         return cell
     }
     
-    func configureCell(_ dm: SwitchCellDM) {
+    func configureCell(with dm: SwitchCellDM) {
         clearContent()
         
         titleLabel.text = dm.title
@@ -45,6 +45,6 @@ class SwitchTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol {
     }
     
     @IBAction func toggleValueChanged(_ sender: UISwitch) {
-        delegate?.updateSwitchDetail(sender.isOn, for: self)
+        delegate?.updateSwitchDetail(with: sender.isOn, for: self)
     }
 }

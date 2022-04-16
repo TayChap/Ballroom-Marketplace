@@ -17,14 +17,15 @@ class FeedVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        vm = FeedVM(self)
-        vm.viewDidLoad(collectionView)
+        vm = FeedVM(delegate: self)
+        vm.viewDidLoad(with: collectionView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         vm.viewWillAppear { templates, saleItems in
-            self.vm.onItemsFetched(templates, saleItems)
+            self.vm.onItemsFetched(templatesFetched: templates,
+                                   saleItemsFetched: saleItems)
             self.reload()
         }
     }

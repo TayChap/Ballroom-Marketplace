@@ -2,11 +2,12 @@
 "generic.cancel" = "Cancel";
 "generic.category" = "Category";
 "generic.close" = "Close";
-"generic.filter" = "Filter";
 "generic.later" = "Later";
 "generic.location" = "Location";
+"generic.new.listing" = "New Listing";
 "generic.notes" = "Notes";
 "generic.now" = "Now";
+"generic.order" = "Order";
 "generic.remove" = "Remove";
 "generic.view" = "View";
 
@@ -51,8 +52,8 @@
 /* Sizing */
 "sale.item.sizing.standard.size.option" = "Use standard sizes?";
 "sale.item.sizing.standard.size" = "Standard Size";
-"sale.item.sizing.xxs" = "XXS / Junior";
-"sale.item.sizing.xs" = "XS / Junior";
+"sale.item.sizing.xxs" = "XXS";
+"sale.item.sizing.xs" = "XS";
 "sale.item.sizing.s" = "S";
 "sale.item.sizing.m" = "M";
 "sale.item.sizing.l" = "L";
@@ -68,3 +69,6 @@
 "sale.item.sizing.sleeve.width" = "Sleeve Width";
 "sale.item.sizing.shoe" = "Shoe Size (US)";
 "sale.item.sizing.heel" = "Heel Height";
+"sale.item.sizing.neck.circumference" = "Neck Circumference";
+"sale.item.sizing.nape.to.waist" = "Nape to Waist";
+"sale.item.sizing.waist.to.hip" = "Waist to Hip";

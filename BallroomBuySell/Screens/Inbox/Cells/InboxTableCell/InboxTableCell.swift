@@ -15,7 +15,7 @@ class InboxTableCell: UITableViewCell, TableCellProtocol {
     private var imageURL = ""
     
     // MARK: - Lifecycle Methods
-    static func createCell(_ tableView: UITableView) -> InboxTableCell? {
+    static func createCell(for tableView: UITableView) -> InboxTableCell? {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: InboxTableCell.self)) as? InboxTableCell else {
             assertionFailure("Can't Find Cell")
             return nil
@@ -24,7 +24,7 @@ class InboxTableCell: UITableViewCell, TableCellProtocol {
         return cell
     }
     
-    func configureCell(_ dm: InboxCellDM) {
+    func configureCell(with dm: InboxCellDM) {
         clearContent()
         
         saleItemImage.roundViewCorners(5.0)

@@ -15,13 +15,13 @@ class SignUpVC: UIViewController, UITableViewDataSource, ViewControllerProtocol,
     // MARK: - Lifecycle Methods
     static func createViewController() -> UIViewController {
         let vc = UIViewController.getVC(from: .staging, of: self)
-        vc.vm = SignUpVM(vc)
+        vc.vm = SignUpVM(delegate: vc)
         return vc
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        vm.viewDidLoad(tableView)
+        vm.viewDidLoad(with: tableView)
     }
     
     // MARK: - IBActions
@@ -48,7 +48,7 @@ class SignUpVC: UIViewController, UITableViewDataSource, ViewControllerProtocol,
     }
     
     // MARK: - ImageCellDelegate
-    func newImage(_ data: Data) {
+    func addImage(_ data: Data) {
         vm.newImage(data)
         reload()
     }
@@ -59,7 +59,7 @@ class SignUpVC: UIViewController, UITableViewDataSource, ViewControllerProtocol,
     }
     
     // MARK: - TextFieldCellDelegate
-    func textFieldUpdated(_ newText: String, for cell: TextFieldTableCell) {
+    func textFieldUpdated(with newText: String, for cell: TextFieldTableCell) {
         guard let indexPath = tableView.indexPath(for: cell) else {
             return
         }

@@ -11,9 +11,9 @@ protocol CollectionCellProtocol: UICollectionViewCell {
     associatedtype DataModal
     associatedtype Cell: UICollectionViewCell
     
-    static func registerCell(_ collectionView: UICollectionView)
-    static func createCell(_ collectionView: UICollectionView, for indexPath: IndexPath) -> Cell?
-    func configureCell(_ dm: DataModal)
+    static func registerCell(for collectionView: UICollectionView)
+    static func createCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> Cell?
+    func configureCell(with dm: DataModal)
     func clearContent()
     
     // MARK: - Accessibility
@@ -21,7 +21,7 @@ protocol CollectionCellProtocol: UICollectionViewCell {
 }
 
 extension  CollectionCellProtocol {
-    static func registerCell(_ collectionView:  UICollectionView) {}
+    static func registerCell(for collectionView:  UICollectionView) {}
     
     // MARK: - Accessibility
     func setAccessibilityId(_ accessibilityId: String) {

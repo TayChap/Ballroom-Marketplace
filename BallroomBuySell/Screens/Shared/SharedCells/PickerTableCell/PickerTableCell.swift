@@ -8,7 +8,7 @@
 import UIKit
 
 protocol PickerCellDelegate {
-    func pickerValueUpdated(_ newValues: [String], for cell: PickerTableCell)
+    func pickerUpdated(with newValues: [String], for cell: PickerTableCell)
     func clearButtonClicked(for cell: PickerTableCell)
 }
 
@@ -41,12 +41,12 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
     
     private(set) var isEnabled = false
     
-    static func registerCell(_ tableView: UITableView) {
+    static func registerCell(for tableView: UITableView) {
           let identifier = String(describing: PickerTableCell.self)
           tableView.register(UINib(nibName: identifier, bundle: nil), forCellReuseIdentifier: identifier)
     }
     
-    static func createCell(_ tableView: UITableView) -> PickerTableCell? {
+    static func createCell(for tableView: UITableView) -> PickerTableCell? {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PickerTableCell.self)) as? PickerTableCell else {
             assertionFailure("Can't Find Cell")
             return nil
@@ -55,7 +55,7 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
         return cell
     }
     
-    func configureCell(_ dm: PickerCellDM) {
+    func configureCell(with dm: PickerCellDM) {
         clearContent()
         
         isEnabled = dm.isEnabled
@@ -94,7 +94,7 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
     
     // MARK: - Picker Datasource
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        NSAttributedString(string: LocalizedString.string(pickerValues[component][row].localizationKey), attributes: [.foregroundColor: Theme.Color.secondaryText.value])
+        NSAttributedString(string: LocalizedString.string(pickerValues[component][row].localizationKey), attributes: [.foregroundColor: Theme.Color.primaryText.value])
     }
     
     // MARK: - Picker Delegate
@@ -126,7 +126,7 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
             values.append(pickerValues[i][picker.selectedRow(inComponent: i)].serverKey)
         }
         
-        delegate?.pickerValueUpdated(values, for: self)
+        delegate?.pickerUpdated(with: values, for: self)
     }
     
     // MARK: Date Picker Methods
@@ -143,6 +143,6 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
     }
     
     func pickerViewClickDoneFor(datePicker: UIDatePicker) {
-        delegate?.pickerValueUpdated([datePicker.date.toReadableString()], for: self)
+        delegate?.pickerUpdated(with: [datePicker.date.toReadableString()], for: self)
     }
 }

@@ -15,14 +15,17 @@ class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, View
     // MARK: - Lifecycle Methods
     static func createViewController(_ templates: [SaleItemTemplate]) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = SaleItemVM(vc, mode: .create, templates: templates)
+        vc.vm = SaleItemVM(owner: vc,
+                           mode: .create,
+                           templates: templates)
         
         return vc
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        vm.viewDidLoad(tableView)
+        title = vm.title
+        vm.viewDidLoad(with: tableView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,18 +89,18 @@ class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, View
     }
     
     // MARK: - PickerCellDelegate
-    func pickerValueUpdated(_ newValues: [String], for cell: PickerTableCell) {
+    func pickerUpdated(with newValues: [String], for cell: PickerTableCell) {
         setData(newValues.first ?? "", for: cell)
         reload()
     }
     
     // MARK: - TextFieldCellDelegate
-    func textFieldUpdated(_ newText: String, for cell: TextFieldTableCell) {
-        setData(newText, for: cell)
+    func textFieldUpdated(with text: String, for cell: TextFieldTableCell) {
+        setData(text, for: cell)
     }
     
     // MARK: - ImageCellDelegate
-    func newImage(_ data: Data) {
+    func addImage(_ data: Data) {
         vm.newImage(data)
         reload()
     }
@@ -108,13 +111,13 @@ class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, View
     }
     
     // MARK: - SwitchCellDelegate
-    func updateSwitchDetail(_ newValue: Bool, for cell: SwitchTableCell) {
-        vm.updateSwitchDetail(newValue, for: cell)
+    func updateSwitchDetail(with isOn: Bool, for cell: SwitchTableCell) {
+        vm.updateSwitchDetail(isOn, for: cell)
         reload()
     }
     
     // MARK: - TextViewCellDelegate
-    func textDidBeginEditing(_ cell: TextViewTableCell) {
+    func textDidBeginEditing(for cell: TextViewTableCell) {
         guard let indexPath = tableView.indexPath(for: cell) else {
             return
         }
@@ -122,12 +125,16 @@ class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, View
         tableView.scrollToRow(at: indexPath, at: .top, animated: true)
     }
     
-    func updateTextViewDetail(_ newText: String, for cell: TextViewTableCell) {
-        setData(newText, for: cell)
+    func updateTextViewDetail(with text: String, for cell: TextViewTableCell) {
+        setData(text, for: cell)
         tableView.performBatchUpdates(nil, completion: nil) // Need to adjust cell height without reloading the table view
     }
     
     // MARK: - Private Helpers
+    /// Update the data in the DM
+    /// - Parameters:
+    ///   - data: data to update
+    ///   - cell: cell corresponding to data to update
     private func setData(_ data: String, for cell: UITableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else {
             return

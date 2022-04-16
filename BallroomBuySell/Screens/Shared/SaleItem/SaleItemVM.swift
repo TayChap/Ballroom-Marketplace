@@ -31,7 +31,7 @@ struct SaleItemVM {
             return false
         }
         
-        let requiredFields = screenStructure.filter({ $0.required && !$0.serverKey.isEmpty }).map({ $0.serverKey })
+        let requiredFields = screenStructure.filter({ $0.required && !$0.serverKey.isEmpty && $0.serverKey != SaleItem.QueryKeys.images.rawValue }).map({ $0.serverKey })
         return requiredFields.allSatisfy { requiredField in
             guard let value = saleItem.fields[requiredField] else {
                 return false
@@ -43,19 +43,21 @@ struct SaleItemVM {
     
     var title: String {
         switch mode {
-        case .create, .view:
+        case .view:
             return ""
+        case .create:
+            return LocalizedString.string("generic.new.listing")
         case .filter:
             guard let selectedTemplate = selectedTemplate else {
                 return ""
             }
             
-            return "\(LocalizedString.string("generic.filter")): \(LocalizedString.string(selectedTemplate.name))"
+            return "\(LocalizedString.string("generic.order")): \(LocalizedString.string(selectedTemplate.name))"
         }
     }
     
     // MARK: - Lifecycle Methods
-    init(_ owner: ViewControllerProtocol, mode: Mode, templates: [SaleItemTemplate], selectedTemplate: SaleItemTemplate? = nil, saleItem: SaleItem? = nil, hideContactSeller: Bool = false) {
+    init(owner: ViewControllerProtocol, mode: Mode, templates: [SaleItemTemplate], selectedTemplate: SaleItemTemplate? = nil, saleItem: SaleItem? = nil, hideContactSeller: Bool = false) {
         delegate = owner
         self.mode = mode
         self.templates = templates
@@ -70,15 +72,15 @@ struct SaleItemVM {
         self.saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] = selectedTemplateId
     }
     
-    mutating func viewDidLoad(_ tableView: UITableView) {
+    mutating func viewDidLoad(with tableView: UITableView) {
         screenStructure = getScreenStructure()
         
-        PickerTableCell.registerCell(tableView)
-        TextFieldTableCell.registerCell(tableView)
-        ImageTableCell.registerCell(tableView)
-        SwitchTableCell.registerCell(tableView)
-        TextViewTableCell.registerCell(tableView)
-        ButtonTableCell.registerCell(tableView)
+        PickerTableCell.registerCell(for: tableView)
+        TextFieldTableCell.registerCell(for: tableView)
+        ImageTableCell.registerCell(for: tableView)
+        SwitchTableCell.registerCell(for: tableView)
+        TextViewTableCell.registerCell(for: tableView)
+        ButtonTableCell.registerCell(for: tableView)
     }
     
     // MARK: - IBActions
@@ -113,7 +115,7 @@ struct SaleItemVM {
         let cellStructure = screenStructure[indexPath.row]
         switch cellStructure.type {
         case .picker:
-            guard let cell = PickerTableCell.createCell(tableView) else {
+            guard let cell = PickerTableCell.createCell(for: tableView) else {
                 return UITableViewCell()
             }
             
@@ -131,62 +133,62 @@ struct SaleItemVM {
                 pickerValues = cellStructure.values
             }
             
-            cell.configureCell(PickerCellDM(titleText: LocalizedString.string(cellStructure.title),
-                                            selectedValues: [saleItem.fields[cellStructure.serverKey] ?? ""],
-                                            pickerValues: [pickerValues],
-                                            showRequiredAsterisk: cellStructure.required && mode == .create))
+            cell.configureCell(with: PickerCellDM(titleText: LocalizedString.string(cellStructure.title),
+                                                  selectedValues: [saleItem.fields[cellStructure.serverKey] ?? ""],
+                                                  pickerValues: [pickerValues],
+                                                  showRequiredAsterisk: cellStructure.required && mode == .create))
             cell.delegate = owner as? PickerCellDelegate
             return cell
         case .textField:
-            guard let cell = TextFieldTableCell.createCell(tableView) else {
+            guard let cell = TextFieldTableCell.createCell(for: tableView) else {
                 return UITableViewCell()
             }
             
-            cell.configureCell(TextFieldCellDM(inputType: cellStructure.inputType,
-                                               title: LocalizedString.string(cellStructure.title),
-                                               detail: saleItem.fields[cellStructure.serverKey] ?? "",
-                                               returnKeyType: .done,
-                                               showRequiredAsterisk: cellStructure.required && mode == .create,
-                                               isEnabled: mode != .view))
+            cell.configureCell(with: TextFieldCellDM(inputType: cellStructure.inputType,
+                                                     title: LocalizedString.string(cellStructure.title),
+                                                     detail: saleItem.fields[cellStructure.serverKey] ?? "",
+                                                     returnKeyType: .done,
+                                                     showRequiredAsterisk: cellStructure.required && mode == .create,
+                                                     isEnabled: mode != .view))
             cell.delegate = owner as? TextFieldCellDelegate
             return cell
         case .imageCollection:
-            guard let cell = ImageTableCell.createCell(tableView) else {
+            guard let cell = ImageTableCell.createCell(for: tableView) else {
                 return UITableViewCell()
             }
             
-            cell.configureCell(ImageCellDM(title: LocalizedString.string(cellStructure.title),
-                                           images: saleItem.images.compactMap({ $0.data }),
-                                           showRequiredAsterisk: cellStructure.required && mode == .create,
-                                           editable: mode == .create))
+            cell.configureCell(with: ImageCellDM(title: LocalizedString.string(cellStructure.title),
+                                                 images: saleItem.images.compactMap({ $0.data }),
+                                                 showRequiredAsterisk: cellStructure.required && mode == .create,
+                                                 editable: mode == .create))
             cell.delegate = owner as? (ImageCellDelegate & UIViewController)
             return cell
         case .toggle:
-            guard let cell = SwitchTableCell.createCell(tableView) else {
+            guard let cell = SwitchTableCell.createCell(for: tableView) else {
                 return UITableViewCell()
             }
             
-            cell.configureCell(SwitchCellDM(title: LocalizedString.string(cellStructure.title),
-                                            isSelected: saleItem.useStandardSizing,
-                                            isEnabled: mode != .view))
+            cell.configureCell(with: SwitchCellDM(title: LocalizedString.string(cellStructure.title),
+                                                  isSelected: saleItem.useStandardSizing,
+                                                  isEnabled: mode != .view))
             cell.delegate = owner as? SwitchCellDelegate
             return cell
         case .textView:
-            guard let cell = TextViewTableCell.createCell(tableView) else {
+            guard let cell = TextViewTableCell.createCell(for: tableView) else {
                 return UITableViewCell()
             }
             
-            cell.configureCell(TextViewCellDM(title: cellStructure.title,
-                                               detail: saleItem.fields[cellStructure.serverKey] ?? "",
-                                               isEnabled: mode != .view))
+            cell.configureCell(with: TextViewCellDM(title: cellStructure.title,
+                                                    detail: saleItem.fields[cellStructure.serverKey] ?? "",
+                                                    isEnabled: mode != .view))
             cell.delegate = owner as? TextViewCellDelegate
             return cell
         case .button:
-            guard let cell = ButtonTableCell.createCell(tableView) else {
+            guard let cell = ButtonTableCell.createCell(for: tableView) else {
                 return UITableViewCell()
             }
             
-            cell.configureCell(cellStructure.title)
+            cell.configureCell(with: cellStructure.title)
             cell.delegate = owner as? ButtonCellDelegate
             return cell
         }
@@ -209,8 +211,8 @@ struct SaleItemVM {
     }
     
     // MARK: - SwitchCellDelegate
-    mutating func updateSwitchDetail(_ newValue: Bool, for cell: SwitchTableCell) {
-        saleItem.useStandardSizing = newValue
+    mutating func updateSwitchDetail(_ isOn: Bool, for cell: SwitchTableCell) {
+        saleItem.useStandardSizing = isOn
         screenStructure = getScreenStructure()
     }
     
@@ -225,8 +227,8 @@ struct SaleItemVM {
             let messageThread = threads.first(where: { $0.saleItemId == saleItem.id }) ??
             MessageThread(userIds: [user.id, saleItem.userId],
                           saleItemId: saleItem.id,
-                          imageURL: saleItem.images.first?.url ?? "",
-                          title: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "")
+                          saleItemType: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "",
+                          imageURL: saleItem.images.first?.url ?? "")
             
             delegate?.pushViewController(MessageThreadVC.createViewController(messageThread,
                                                                               user: user,
@@ -248,16 +250,13 @@ struct SaleItemVM {
     }
     
     // MARK: - Private Helpers
+    /// Get filtered screen structure for current screen mode and data state
+    /// - Returns: screenStructure for current screen mode and data state
     private func getScreenStructure() -> [SaleItemCellStructure] {
-        let templateSpecificCells = selectedTemplate?.screenStructure ?? []
-        var structure = SaleItemTemplate.getHeaderCells(templates) + templateSpecificCells + SaleItemTemplate.getFooterCells()
+        var structure = SaleItemTemplate.getScreenStructure(with: templates, for: selectedTemplate)
         
         // determine size metrics used
         structure = structure.filter({ saleItem.useStandardSizing ? $0.inputType != .measurement :  $0.inputType != .standardSize })
-        
-        if !hideContactSeller {
-            structure.append(SaleItemTemplate.getContactSellerCell())
-        }
         
         switch mode {
         case .create:
@@ -267,6 +266,10 @@ struct SaleItemVM {
             structure = structure.filter({ !(saleItem.fields[$0.serverKey] ?? "").isEmpty || $0.serverKey == SaleItem.QueryKeys.images.rawValue })
         case .filter:
             structure = structure.filter({ $0.filterEnabled })
+        }
+        
+        if !hideContactSeller {
+            structure.append(SaleItemTemplate.getContactSellerCell())
         }
         
         return structure

@@ -13,9 +13,12 @@ class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollection
     private var vm: SaleItemListVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController(_ templates: [SaleItemTemplate], _ selectedTemplate: SaleItemTemplate, _ saleItems: [SaleItem]) -> UIViewController {
+    static func createViewController(templates: [SaleItemTemplate], selectedTemplate: SaleItemTemplate, saleItems: [SaleItem]) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = SaleItemListVM(vc, templates, selectedTemplate, saleItems)
+        vc.vm = SaleItemListVM(owner: vc,
+                               templates: templates,
+                               selectedTemplate: selectedTemplate,
+                               unfilteredSaleItems: saleItems)
         
         return vc
     }
@@ -23,13 +26,13 @@ class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollection
     override func viewDidLoad() {
         super.viewDidLoad()
         title = vm.title
-        vm.viewDidLoad(collectionView)
+        vm.viewDidLoad(with: collectionView)
     }
     
     // MARK: - IBActions
     @IBAction func filterButtonClicked() {
         vm.filterButtonClicked { saleItem in
-            self.vm.updateFilter(saleItem)
+            self.vm.orderSaleItems(by: saleItem)
             self.reload()
         }
     }

@@ -75,6 +75,7 @@ extension AuthenticatorProtocol {
     }
     
     // MARK: - Private Helpers
+    /// Log in an existing production user or, if they have not registered yet, register using their available Apple information
     private func startSignInWithAppleFlow() {
         let nonce = randomNonceString()
         AuthenticationManager.currentNonce = nonce
@@ -88,6 +89,7 @@ extension AuthenticatorProtocol {
         authorizationController.performRequests()
     }
     
+    /// Display photo selection options to the user
     private func displayMediaActionSheet() {
         var actionItems = [UIAlertAction]()
         actionItems.append(UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel))
@@ -103,7 +105,8 @@ extension AuthenticatorProtocol {
         showActionSheetOrPopover(message: LocalizedString.string("sale.item.images.actions"), alertActions: actionItems)
     }
     
-    private func randomNonceString(length: Int = 32) -> String { // Firebase recommended method; do not alter
+    /// Firebase recommended method; do not alter
+    private func randomNonceString(length: Int = 32) -> String {
         precondition(length > 0)
         let charset: [Character] =
         Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
@@ -137,7 +140,8 @@ extension AuthenticatorProtocol {
         return result
     }
     
-    private func sha256(_ input: String) -> String { // Firebase recommended method; do not alter
+    /// Firebase recommended method; do not alter
+    private func sha256(_ input: String) -> String {
         let inputData = Data(input.utf8)
         let hashedData = SHA256.hash(data: inputData)
         let hashString = hashedData.compactMap {
