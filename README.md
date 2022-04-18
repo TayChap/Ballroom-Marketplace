@@ -4,7 +4,7 @@
   <br> Ballroom Marketplace </br>
 </h1>
 <p><font size="3">
-<strong>Ballroom Marketplace</strong> is a C2C (customer to customer) buy and sell app that enables people to exchange used ballroom dance performance wear. For more information, be sure to watch the marketing video (https://google.com)</p>
+<strong>Ballroom Marketplace</strong> is a C2C (customer to customer) buy and sell app that enables people to exchange used ballroom dance performance wear. For more information, be sure to watch the marketing video (TBD: https://google.com)</p>
 
 .
 
