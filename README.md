@@ -17,3 +17,5 @@ Two things that make this app special are (1) JSON driven templates for clothing
   
 <p><font size="3">
 (2) A general issue in the fashion and e-commerce space is that standard sizes aren't really standard. An XS in Taiwan is not the same as an XS in Canada. Also, standard sizing is incompatible with so-called 'non-standard' body proportions; after all, most people don't fit a simple formula where their height and waist circumfrence are enough to determine measurements like inseam and sleeve length. So, in this app, the users are encouraged to enter specific measurements rather than standard sizes; however, our algorithm allows for estimated conversion between these two sizing methods.</p>
+  
+Note: All APIs follow Apple's official API design guidelines outlined here: https://www.swift.org/documentation/api-design-guidelines/ - However, for simplicity I have only chosen to document private (non-standard) methods
