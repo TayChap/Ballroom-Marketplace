@@ -6,7 +6,7 @@
 <p><font size="3">
 <strong>Ballroom Marketplace</strong> is a C2C (customer to customer) buy and sell app that enables people to exchange used ballroom dance performance wear. For more information, be sure to watch the marketing video (https://google.com)</p>
 
-![Screenshot of Home Assistant Header](https://i.imgur.com/vjDH1LJ.png)
+.
 
 <p><font size="3">
 Two things that make this app special are (1) JSON driven templates for clothing items and (2) options for both standard sizes and specific measurements.</p>
