@@ -216,7 +216,7 @@
                                     <segment title="" image="message" catalog="system"/>
                                     <segment title="" image="dollarsign.circle" catalog="system"/>
                                 </segments>
-                                <color key="selectedSegmentTintColor" name="interactivity"/>
+                                <color key="selectedSegmentTintColor" name="interactiveBackground"/>
                                 <connections>
                                     <action selector="segmentedControlClicked" destination="vnn-B4-q01" eventType="valueChanged" id="f3m-8x-zAI"/>
                                 </connections>
@@ -227,14 +227,14 @@
                                 <color key="separatorColor" name="cardBackground"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="InboxEmptyTableCell" id="9xO-gO-d04" customClass="InboxEmptyTableCell" customModule="BallroomBuySell" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="414" height="37"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="37.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9xO-gO-d04" id="i3w-Me-kAD">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="37"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="37.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Table Empty Message" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gtY-dz-abJ">
-                                                    <rect key="frame" x="16" y="8" width="382" height="21"/>
+                                                    <rect key="frame" x="16" y="8" width="382" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
                                                     <color key="textColor" name="primaryText"/>
                                                     <nil key="highlightedColor"/>
@@ -253,7 +253,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="InboxTableCell" id="AZV-q8-4VD" customClass="InboxTableCell" customModule="BallroomBuySell" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="81.5" width="414" height="167.5"/>
+                                        <rect key="frame" x="0.0" y="82" width="414" height="167.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="AZV-q8-4VD" id="aoR-eK-P4o">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="167.5"/>
@@ -507,10 +507,13 @@
             <color red="0.98500001430511475" green="1" blue="0.97899997234344482" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="cardBackground">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.22428815389416878" green="0.22428815389416878" blue="0.22428815389416878" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="interactiveBackground">
+            <color red="0.22428815389416878" green="0.22428815389416878" blue="0.22428815389416878" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="interactivity">
-            <color red="0.0" green="0.035294117647058823" blue="0.90980392156862744" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.0" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="primaryText">
             <color red="0.15299999713897705" green="0.15299999713897705" blue="0.15299999713897705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

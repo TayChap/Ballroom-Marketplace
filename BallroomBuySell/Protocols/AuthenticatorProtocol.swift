@@ -17,7 +17,7 @@ extension AuthenticatorProtocol {
         switch Environment.current {
         case .production:
             startSignInWithAppleFlow()
-        case .staging:
+        case .staging, .marketing:
             presentViewController(LoginVC.createViewController())
         }
     }
