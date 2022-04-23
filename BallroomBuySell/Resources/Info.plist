@@ -23,9 +23,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>This app requires access to Camera, for taking avatar and sale item photos</string>
+	<string>This app requires access to Camera, for taking avatar and sale item photos - for instance, uploading a photo of a standard dress for sale</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to Photo Library for choosing pictures of sale items</string>
+	<string>This app requires access to Photo Library for choosing pictures of sale items - for instance, uploading a photo of a standard dress for sale</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
