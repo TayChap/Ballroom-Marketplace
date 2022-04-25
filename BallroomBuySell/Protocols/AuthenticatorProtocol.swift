@@ -36,7 +36,7 @@ extension AuthenticatorProtocol {
         
         AuthenticationManager().appleSignIn(idTokenString, nonce) {
             if AuthenticationManager().user != nil {
-                self.showAlertWith(message: LocalizedString.string("login.success.message"))
+                self.showAlertWith(message: LocalizedString.string("generic.success"))
                 return
             }
             
@@ -68,7 +68,7 @@ extension AuthenticatorProtocol {
         let image = Image(data: selectedImageData)
         Image.uploadImages([image])
         AuthenticationManager().changeRequest(photoURL: image.url) {
-            self.showAlertWith(message: LocalizedString.string("login.success.message"))
+            self.showAlertWith(message: LocalizedString.string("generic.success"))
         } onFail: {
             self.showNetworkError()
         }

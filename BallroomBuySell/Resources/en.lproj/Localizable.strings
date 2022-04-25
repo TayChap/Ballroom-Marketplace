@@ -10,6 +10,7 @@
 "generic.order" = "Order";
 "generic.remove" = "Remove";
 "generic.report" = "Report";
+"generic.success" = "Success";
 "generic.view" = "View";
 
 /* Warnings and Errors */
@@ -26,7 +27,6 @@
 "permissions.request" = "Please turn on your %@ permissions in settings";
 
 /* Login */
-"login.success.message" = "Login successful!";
 "login.add.picture.message" = "Add a profile picture?";
 
 /* Feed */

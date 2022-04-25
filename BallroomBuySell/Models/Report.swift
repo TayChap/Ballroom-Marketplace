@@ -21,7 +21,7 @@ struct Report<Item: Codable>: Codable {
             }
             
             DatabaseManager.sharedInstance.createDocument(in: .reports, for: Report(reason: textField.text ?? "", item: item)) {
-                delegate?.showAlertWith(message: LocalizedString.string(""))
+                delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
             } onFail: {
                 delegate?.showNetworkError()
             }

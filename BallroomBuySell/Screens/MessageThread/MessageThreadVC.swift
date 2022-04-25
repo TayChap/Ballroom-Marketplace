@@ -10,6 +10,7 @@ import MessageKit
 import UIKit
 
 class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate, InputBarAccessoryViewDelegate {
+    @IBOutlet weak var reportButton: UIBarButtonItem!
     @IBOutlet weak var infoButton: UIBarButtonItem!
     private var vm: MessageThreadVM!
     
@@ -39,6 +40,10 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
     }
     
     // MARK: - IBActions
+    @IBAction func reportButtonClicked() {
+        vm.reportButtonClicked()
+    }
+    
     @IBAction func infoButtonClicked() {
         vm.infoButtonClicked()
     }

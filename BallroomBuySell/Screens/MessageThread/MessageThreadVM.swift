@@ -27,6 +27,10 @@ class MessageThreadVM {
     }
     
     // MARK: - IBActions
+    func reportButtonClicked() {
+        Report.submitReport(for: thread, with: LocalizedString.string("flag.reason"), delegate: delegate)
+    }
+    
     func infoButtonClicked() {
         DatabaseManager.sharedInstance.getSaleItems(where: ("id", thread.saleItemId), { saleItems in
             guard var saleItem = saleItems.first else {
