@@ -16,7 +16,12 @@ extension AuthenticatorProtocol {
     func signIn() {
         switch Environment.current {
         case .production:
-            startSignInWithAppleFlow()
+            let cancel = UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel)
+            let accept = UIAlertAction(title: LocalizedString.string("generic.accept"), style: .default) { (action) in
+                self.startSignInWithAppleFlow()
+            }
+            
+            showAlertWith(title: LocalizedString.string("login.terms.title"), message: LocalizedString.string("login.terms.message"), alertActions: [cancel, accept])
         case .staging, .marketing:
             presentViewController(LoginVC.createViewController())
         }
