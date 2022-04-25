@@ -24,7 +24,7 @@ struct DatabaseManager {
     private init() { } // to ensure sharedInstance is accessed, rather than new instance
     
     // MARK: - Public Helpers
-    func createDocument<T: Codable>(_ collection: Collection, _ data: T, _ documentId: String? = nil, _ completion: () -> Void, onFail: () -> Void) {
+    func createDocument<T: Codable>(in collection: Collection, for data: T, with documentId: String? = nil, _ completion: () -> Void, onFail: () -> Void) {
         if !Reachability.isConnectedToNetwork {
             onFail()
             return
