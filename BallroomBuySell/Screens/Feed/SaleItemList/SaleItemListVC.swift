@@ -59,7 +59,10 @@ class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        vm.collectionView(collectionView, didSelectItemAt: indexPath)
+        collectionView.isUserInteractionEnabled = false // on click, disable collection view to avoid double clicking
+        vm.collectionView(collectionView, didSelectItemAt: indexPath) {
+            collectionView.isUserInteractionEnabled = true
+        }
     }
     
     // MARK: - ViewControllerProtocol

@@ -122,7 +122,7 @@ struct FeedVM {
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath, completion: @escaping () -> Void) {
         if indexPath.section == Section.recentItems.rawValue {
             var saleItem = saleItems[indexPath.row]
             Image.downloadImages(saleItem.images.map({ $0.url })) { images in
@@ -133,17 +133,21 @@ struct FeedVM {
                 }
             }
             
+            completion()
             return
         }
         
+        // category selected
         let selectedTemplate = templates[indexPath.row]
         let templateFilter = (key: "fields.\(SaleItemTemplate.serverKey.templateId.rawValue)", value: selectedTemplate.id)
         DatabaseManager.sharedInstance.getSaleItems(where: templateFilter, { filteredSaleItems in
             delegate?.pushViewController(SaleItemListVC.createViewController(templates: templates,
                                                                              selectedTemplate: selectedTemplate,
                                                                              saleItems: filteredSaleItems))
+            completion()
         }, {
             delegate?.showNetworkError()
+            completion()
         })
     }
     

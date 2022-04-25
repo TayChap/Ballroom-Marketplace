@@ -76,7 +76,7 @@ struct SaleItemListVM {
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath, completion: @escaping () -> Void) {
         var saleItem = saleItems[indexPath.item]
         Image.downloadImages(saleItem.images.map({ $0.url })) { images in
             if !templates.isEmpty {
@@ -84,6 +84,8 @@ struct SaleItemListVM {
                 delegate?.pushViewController(SaleItemViewVC.createViewController(templates: templates,
                                                                                  saleItem: saleItem))
             }
+            
+            completion()
         }
     }
     
