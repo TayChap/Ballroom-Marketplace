@@ -106,6 +106,10 @@ struct SaleItemVM {
         }
     }
     
+    func reportButtonClicked() {
+        Report.submitReport(for: saleItem, with: LocalizedString.string("flag.reason"), delegate: delegate)
+    }
+    
     // MARK: - Table Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         screenStructure.count

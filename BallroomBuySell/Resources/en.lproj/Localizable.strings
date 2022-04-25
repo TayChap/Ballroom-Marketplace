@@ -9,6 +9,7 @@
 "generic.now" = "Now";
 "generic.order" = "Order";
 "generic.remove" = "Remove";
+"generic.report" = "Report";
 "generic.view" = "View";
 
 /* Warnings and Errors */
@@ -16,6 +17,7 @@
 "alert.network.title" = "Network Error";
 "alert.network.message" = "Please ensure you are connected to the internet and relaunch the app to try again";
 "alert.required.fields.message" = "Please fill out all required fields";
+"report.reason" = "Please give a reason for your report";
 
 /* Permissions */
 "apple.settings.app" = "Settings";

@@ -10,7 +10,7 @@ import FirebaseFirestoreSwift
 
 struct DatabaseManager {
     enum Collection: String, CaseIterable {
-        case templates, items, threads
+        case templates, items, threads, reports
         
         var collectionId: String {
             "\(Environment.current.rawValue)-\(self.rawValue)"

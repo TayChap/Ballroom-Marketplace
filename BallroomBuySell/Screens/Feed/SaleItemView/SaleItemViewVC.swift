@@ -9,6 +9,7 @@ import AuthenticationServices
 import UIKit
 
 class SaleItemViewVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, AuthenticatorProtocol, ImageCellDelegate, ButtonCellDelegate {
+    @IBOutlet weak var reportButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     private var vm: SaleItemVM!
     
@@ -23,6 +24,11 @@ class SaleItemViewVC: UIViewController, UITableViewDataSource, ViewControllerPro
         super.viewDidLoad()
         title = vm.title
         vm.viewDidLoad(with: tableView)
+    }
+    
+    // MARK: - IBActions
+    @IBAction func reportButtonClicked() {
+        vm.reportButtonClicked()
     }
     
     // MARK: - Table Methods
