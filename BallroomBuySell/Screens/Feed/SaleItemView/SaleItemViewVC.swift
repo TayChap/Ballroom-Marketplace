@@ -8,8 +8,9 @@
 import AuthenticationServices
 import UIKit
 
-class SaleItemViewVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, AuthenticatorProtocol, ImageCellDelegate, ButtonCellDelegate {
+class SaleItemViewVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, AuthenticatorProtocol, ImageCellDelegate {
     @IBOutlet weak var reportButton: UIBarButtonItem!
+    @IBOutlet weak var contactSellerButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     private var vm: SaleItemVM!
     
@@ -24,11 +25,24 @@ class SaleItemViewVC: UIViewController, UITableViewDataSource, ViewControllerPro
         super.viewDidLoad()
         title = vm.title
         vm.viewDidLoad(with: tableView)
+        
+        if vm.hideContactSeller {
+            reportButton.isEnabled = false
+            reportButton.tintColor = .clear
+            contactSellerButton.isEnabled = false
+            contactSellerButton.tintColor = .clear
+        }
     }
     
     // MARK: - IBActions
     @IBAction func reportButtonClicked() {
         vm.reportButtonClicked()
+    }
+    
+    @IBAction func contactSellerButtonClicked() {
+        vm.messageButtonClicked {
+            signIn()
+        }
     }
     
     // MARK: - Table Methods
@@ -62,12 +76,5 @@ class SaleItemViewVC: UIViewController, UITableViewDataSource, ViewControllerPro
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true, completion: nil)
         profilePictureSelected(info: info)
-    }
-    
-    // MARK: - ButtonCellDelegate
-    func buttonClicked() {
-        vm.buttonClicked {
-            signIn()
-        }
     }
 }

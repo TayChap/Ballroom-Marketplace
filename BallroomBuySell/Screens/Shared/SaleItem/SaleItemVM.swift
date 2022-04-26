@@ -19,7 +19,7 @@ struct SaleItemVM {
     private let mode: Mode
     private var screenStructure = [SaleItemCellStructure]()
     private let templates: [SaleItemTemplate]
-    private let hideContactSeller: Bool
+    private(set) var hideContactSeller: Bool
     
     // MARK: Computed Properties
     private var selectedTemplate: SaleItemTemplate? {
@@ -106,6 +106,28 @@ struct SaleItemVM {
         }
     }
     
+    func messageButtonClicked(_ signIn: () -> Void) {
+        guard let user = AuthenticationManager().user else {
+            signIn()
+            return
+        }
+        
+        DatabaseManager.sharedInstance.getThreads(for: user.id, { threads in
+            let messageThread = threads.first(where: { $0.saleItemId == saleItem.id }) ??
+            MessageThread(userIds: [user.id, saleItem.userId],
+                          saleItemId: saleItem.id,
+                          saleItemType: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "",
+                          imageURL: saleItem.images.first?.url ?? "")
+            
+            delegate?.pushViewController(MessageThreadVC.createViewController(messageThread,
+                                                                              user: user,
+                                                                              templates: templates,
+                                                                              hideItemInfo: true))
+        }, {
+            delegate?.showNetworkError()
+        })
+    }
+    
     func reportButtonClicked() {
         Report.submitReport(for: saleItem, with: LocalizedString.string("flag.reason"), delegate: delegate)
     }
@@ -187,14 +209,6 @@ struct SaleItemVM {
                                                     isEnabled: mode != .view))
             cell.delegate = owner as? TextViewCellDelegate
             return cell
-        case .button:
-            guard let cell = ButtonTableCell.createCell(for: tableView) else {
-                return UITableViewCell()
-            }
-            
-            cell.configureCell(with: cellStructure.title)
-            cell.delegate = owner as? ButtonCellDelegate
-            return cell
         }
     }
     
@@ -218,29 +232,6 @@ struct SaleItemVM {
     mutating func updateSwitchDetail(_ isOn: Bool, for cell: SwitchTableCell) {
         saleItem.useStandardSizing = isOn
         screenStructure = getScreenStructure()
-    }
-    
-    // MARK: - ButtonCellDelegate
-    func buttonClicked(_ signIn: () -> Void) {
-        guard let user = AuthenticationManager().user else {
-            signIn()
-            return
-        }
-        
-        DatabaseManager.sharedInstance.getThreads(for: user.id, { threads in
-            let messageThread = threads.first(where: { $0.saleItemId == saleItem.id }) ??
-            MessageThread(userIds: [user.id, saleItem.userId],
-                          saleItemId: saleItem.id,
-                          saleItemType: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "",
-                          imageURL: saleItem.images.first?.url ?? "")
-            
-            delegate?.pushViewController(MessageThreadVC.createViewController(messageThread,
-                                                                              user: user,
-                                                                              templates: templates,
-                                                                              hideItemInfo: true))
-        }, {
-            delegate?.showNetworkError()
-        })
     }
     
     // MARK: - Public Helpers
@@ -270,10 +261,6 @@ struct SaleItemVM {
             structure = structure.filter({ !(saleItem.fields[$0.serverKey] ?? "").isEmpty || $0.serverKey == SaleItem.QueryKeys.images.rawValue })
         case .filter:
             structure = structure.filter({ $0.filterEnabled })
-        }
-        
-        if !hideContactSeller {
-            structure.append(SaleItemTemplate.getContactSellerCell())
         }
         
         return structure
