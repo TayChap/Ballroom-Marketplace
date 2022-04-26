@@ -16,6 +16,10 @@ class MessageThreadVM {
     private let user: User
     private let templates: [SaleItemTemplate]
     
+    var title: String {
+        thread.messages.filter({ $0.displayName != user.displayName }).first?.displayName ?? LocalizedString.string("sale.item.contact.seller")
+    }
+    
     // MARK: - Lifecycle Methods
     init(owner: ViewControllerProtocol, thread: MessageThread, user: User, templates: [SaleItemTemplate]) {
         delegate = owner
