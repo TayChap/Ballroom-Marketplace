@@ -5,6 +5,7 @@
 "generic.close" = "Close";
 "generic.later" = "Later";
 "generic.location" = "Location";
+"generic.logout" = "Logout";
 "generic.new.listing" = "New Listing";
 "generic.notes" = "Notes";
 "generic.now" = "Now";

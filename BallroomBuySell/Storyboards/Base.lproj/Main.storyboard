@@ -342,7 +342,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="zqN-2x-tvb">
-                        <barButtonItem key="rightBarButtonItem" image="pip.exit" catalog="system" id="JF4-7o-nsz">
+                        <barButtonItem key="rightBarButtonItem" title="Logout" id="JF4-7o-nsz">
                             <color key="tintColor" name="interactivity"/>
                             <connections>
                                 <action selector="signOutButtonClicked" destination="vnn-B4-q01" id="yec-rQ-pgu"/>
@@ -517,7 +517,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="y7q-Vn-rEQ"/>
-        <segue reference="bLY-tZ-MBb"/>
+        <segue reference="7Tz-QB-BGX"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="checkmark" catalog="system" width="128" height="114"/>
@@ -527,7 +527,6 @@
         <image name="info.circle" catalog="system" width="128" height="121"/>
         <image name="message" catalog="system" width="128" height="113"/>
         <image name="person" catalog="system" width="128" height="117"/>
-        <image name="pip.exit" catalog="system" width="128" height="96"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="slider.horizontal.3" catalog="system" width="128" height="100"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
