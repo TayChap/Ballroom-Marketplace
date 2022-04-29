@@ -8,6 +8,7 @@
 import UIKit
 
 class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, ViewControllerProtocol {
+    @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var filterButton: UIBarButtonItem!
     @IBOutlet weak var collectionView: UICollectionView!
     private var vm: SaleItemListVM!
@@ -30,6 +31,10 @@ class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     // MARK: - IBActions
+    @IBAction func backButtonClicked() {
+        vm.backButtonClicked()
+    }
+    
     @IBAction func filterButtonClicked() {
         vm.filterButtonClicked { saleItem in
             self.vm.orderSaleItems(by: saleItem)
@@ -72,6 +77,10 @@ class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollection
     
     func presentViewController(_ vc: UIViewController) {
         present(NavigationController(rootViewController: vc), animated: true)
+    }
+    
+    func dismiss() {
+        navigationController?.popViewController(animated: true)
     }
     
     func reload() {

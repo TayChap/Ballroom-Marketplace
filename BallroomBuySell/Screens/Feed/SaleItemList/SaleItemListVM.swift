@@ -33,6 +33,10 @@ struct SaleItemListVM {
     }
     
     // MARK: - IBActions
+    func backButtonClicked() {
+        delegate?.dismiss()
+    }
+    
     func filterButtonClicked(_ completion: @escaping (SaleItem) -> Void) {
         delegate?.presentViewController(SaleItemFilterVC.createViewController(templates, selectedTemplate) { saleItem in
             completion(saleItem)

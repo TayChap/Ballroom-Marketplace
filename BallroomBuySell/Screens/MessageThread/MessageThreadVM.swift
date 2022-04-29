@@ -31,6 +31,10 @@ class MessageThreadVM {
     }
     
     // MARK: - IBActions
+    func backButtonClicked() {
+        delegate?.dismiss()
+    }
+    
     func reportButtonClicked() {
         Report.submitReport(for: thread, with: LocalizedString.string("flag.reason"), delegate: delegate)
     }

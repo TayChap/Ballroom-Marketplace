@@ -9,6 +9,7 @@ import AuthenticationServices
 import UIKit
 
 class SaleItemViewVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, AuthenticatorProtocol, ImageCellDelegate {
+    @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var reportButton: UIBarButtonItem!
     @IBOutlet weak var contactSellerButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
@@ -35,6 +36,10 @@ class SaleItemViewVC: UIViewController, UITableViewDataSource, ViewControllerPro
     }
     
     // MARK: - IBActions
+    @IBAction func backButtonClicked() {
+        vm.backButtonClicked()
+    }
+    
     @IBAction func reportButtonClicked() {
         vm.reportButtonClicked()
     }
@@ -61,6 +66,10 @@ class SaleItemViewVC: UIViewController, UITableViewDataSource, ViewControllerPro
     
     func presentViewController(_ vc: UIViewController) {
         present(NavigationController(rootViewController: vc), animated: true)
+    }
+    
+    func dismiss() {
+        navigationController?.popViewController(animated: true)
     }
     
     // MARK: - ASAuthorizationControllerDelegate

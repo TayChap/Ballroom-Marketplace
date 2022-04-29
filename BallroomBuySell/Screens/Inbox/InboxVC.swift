@@ -8,6 +8,7 @@
 import UIKit
 
 class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol {
+    @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var signOutButton: UIBarButtonItem!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
@@ -29,6 +30,10 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     }
     
     // MARK: - IBActions
+    @IBAction func backButtonClicked() {
+        vm.backButtonClicked()
+    }
+    
     @IBAction func signOutButtonClicked() {
         vm.signOutButtonClicked()
     }

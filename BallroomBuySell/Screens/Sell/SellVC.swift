@@ -8,6 +8,7 @@
 import UIKit
 
 class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol, PickerCellDelegate, TextFieldCellDelegate, ImageCellDelegate, SwitchCellDelegate, TextViewCellDelegate {
+    @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     private var vm: SaleItemVM!
@@ -57,6 +58,10 @@ class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, View
     }
     
     // MARK: - IBActions
+    @IBAction func backButtonClicked() {
+        vm.backButtonClicked()
+    }
+    
     @IBAction func doneButtonClicked() {
         vm.doneButtonClicked()
     }

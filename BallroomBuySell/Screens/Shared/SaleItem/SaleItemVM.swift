@@ -84,6 +84,20 @@ struct SaleItemVM {
     }
     
     // MARK: - IBActions
+    func backButtonClicked() {
+        switch mode {
+        case .create:
+            let cancel = UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel)
+            let discard = UIAlertAction(title: LocalizedString.string("generic.discard"), style: .destructive) { _ in
+                delegate?.dismiss()
+            }
+            
+            delegate?.showAlertWith(message: LocalizedString.string("alert.unsaved.message"), alertActions: [cancel, discard])
+        case .view, .filter:
+            delegate?.dismiss()
+        }
+    }
+    
     mutating func doneButtonClicked(_ updateFilter: ((SaleItem) -> Void)? = nil) {
         saleItem.dateAdded = Date()
         switch mode {

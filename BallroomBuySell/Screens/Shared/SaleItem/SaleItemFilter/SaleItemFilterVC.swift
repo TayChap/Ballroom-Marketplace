@@ -34,7 +34,7 @@ class SaleItemFilterVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     // MARK: - IBActions
     @IBAction func backButtonClicked() {
-        dismiss()
+        vm.backButtonClicked()
     }
     
     @IBAction func doneButtonClicked() {

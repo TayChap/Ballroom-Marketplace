@@ -158,6 +158,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="w2P-QN-ah2">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="YEc-1e-toI">
+                            <connections>
+                                <action selector="backButtonClicked" destination="5h3-fC-z8R" id="JCl-kB-sx6"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="checkmark" catalog="system" id="fzm-br-B4e">
                             <color key="tintColor" name="interactivity"/>
                             <connections>
@@ -166,6 +171,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="backButton" destination="YEc-1e-toI" id="Uwc-ad-kFl"/>
                         <outlet property="doneButton" destination="fzm-br-B4e" id="Bt7-ef-eJx"/>
                         <outlet property="tableView" destination="X8D-d9-2Zi" id="M3u-CI-cdE"/>
                     </connections>
@@ -185,6 +191,11 @@
                         <color key="backgroundColor" name="background"/>
                     </view>
                     <navigationItem key="navigationItem" id="WhC-51-2aU">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="KzK-nD-vq1">
+                            <connections>
+                                <action selector="backButtonClicked" destination="mWj-2a-HLi" id="dkV-iF-4g7"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem image="info.circle" catalog="system" id="c0K-a0-7Dc">
                                 <color key="tintColor" name="interactivity"/>
@@ -201,6 +212,7 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="backButton" destination="KzK-nD-vq1" id="97E-OT-IlK"/>
                         <outlet property="infoButton" destination="c0K-a0-7Dc" id="f3G-cR-CYw"/>
                         <outlet property="reportButton" destination="1Zg-OC-Cl5" id="SV4-D9-pLD"/>
                         <segue destination="WLI-9L-WRj" kind="show" id="VcG-2H-Dkw"/>
@@ -236,14 +248,14 @@
                                 <color key="separatorColor" name="cardBackground"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="InboxEmptyTableCell" id="9xO-gO-d04" customClass="InboxEmptyTableCell" customModule="BallroomBuySell" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="414" height="37"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="37.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9xO-gO-d04" id="i3w-Me-kAD">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="37"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="37.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Table Empty Message" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gtY-dz-abJ">
-                                                    <rect key="frame" x="16" y="8" width="382" height="21"/>
+                                                    <rect key="frame" x="16" y="8" width="382" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
                                                     <color key="textColor" name="primaryText"/>
                                                     <nil key="highlightedColor"/>
@@ -262,7 +274,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="InboxTableCell" id="AZV-q8-4VD" customClass="InboxTableCell" customModule="BallroomBuySell" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="81.5" width="414" height="167.5"/>
+                                        <rect key="frame" x="0.0" y="82" width="414" height="167.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="AZV-q8-4VD" id="aoR-eK-P4o">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="167.5"/>
@@ -342,6 +354,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="zqN-2x-tvb">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="itO-6f-Uwo">
+                            <connections>
+                                <action selector="backButtonClicked" destination="vnn-B4-q01" id="nxm-dV-Nhl"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Logout" id="JF4-7o-nsz">
                             <color key="tintColor" name="interactivity"/>
                             <connections>
@@ -350,6 +367,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="backButton" destination="itO-6f-Uwo" id="cyc-fL-TG9"/>
                         <outlet property="segmentedControl" destination="C5O-ab-S4a" id="Kcv-LM-nWT"/>
                         <outlet property="signOutButton" destination="JF4-7o-nsz" id="MmH-Yf-a9E"/>
                         <outlet property="tableView" destination="HOP-c9-0Ob" id="hBW-I6-fyE"/>
@@ -394,6 +412,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Gj1-be-i4z">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="BWD-wY-AsA">
+                            <connections>
+                                <action selector="backButtonClicked" destination="Etr-Bo-Mt5" id="Jyu-9f-ecW"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="slider.horizontal.3" catalog="system" id="HdR-ii-IgM">
                             <color key="tintColor" name="interactivity"/>
                             <connections>
@@ -402,6 +425,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="backButton" destination="BWD-wY-AsA" id="XTX-f2-ln7"/>
                         <outlet property="collectionView" destination="Pjq-6F-QBw" id="lCO-f3-1RC"/>
                         <outlet property="filterButton" destination="HdR-ii-IgM" id="DIw-mv-gEp"/>
                         <segue destination="1zS-R9-jag" kind="show" id="pp1-yZ-4OT"/>
@@ -488,6 +512,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="rx0-7D-HwU">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="ufp-41-Up1">
+                            <connections>
+                                <action selector="backButtonClicked" destination="1zS-R9-jag" id="O1C-YQ-33s"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem image="envelope" catalog="system" id="ocQ-m3-lZ5">
                                 <color key="tintColor" name="interactivity"/>
@@ -504,6 +533,7 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="backButton" destination="ufp-41-Up1" id="eEe-1f-mjY"/>
                         <outlet property="contactSellerButton" destination="ocQ-m3-lZ5" id="mx7-1J-nNQ"/>
                         <outlet property="reportButton" destination="dU3-2X-Wai" id="WXL-b7-fcJ"/>
                         <outlet property="tableView" destination="vrF-ai-dCS" id="CHm-XJ-Whv"/>
@@ -521,6 +551,7 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="checkmark" catalog="system" width="128" height="114"/>
+        <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="dollarsign.circle" catalog="system" width="128" height="121"/>
         <image name="envelope" catalog="system" width="128" height="93"/>
         <image name="flag" catalog="system" width="128" height="121"/>

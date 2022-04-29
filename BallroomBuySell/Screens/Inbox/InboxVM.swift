@@ -39,6 +39,10 @@ struct InboxVM {
     }
     
     // MARK: - IBActions
+    func backButtonClicked() {
+        delegate?.dismiss()
+    }
+    
     func signOutButtonClicked() {
         AuthenticationManager().signOut {
             delegate?.dismiss()
