@@ -67,13 +67,7 @@ class PickerViewController: UIViewController, UIPickerViewDataSource {
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
-//        actionContainerView.backgroundColor = ThemeManager.sharedInstance.theme.cardBackgroundColor
-//        doneButton.setTitle(LocalizationManager.localizedString(forKey: "generic.done"), withColor: ThemeManager.sharedInstance.theme.primaryTextColor)
-//        cancelButton.setTitle(LocalizationManager.localizedString(forKey: "generic.cancel"), withColor: ThemeManager.sharedInstance.theme.primaryTextColor)
-
         pickerView.isHidden = pickerType != .picker
-        //pickerView.backgroundColor = ThemeManager.sharedInstance.theme.backgroundColor
-        
         datePicker.isHidden = pickerType != .datePicker
         
         pickerContainerBottom.constant = -pickerContainerHeight
