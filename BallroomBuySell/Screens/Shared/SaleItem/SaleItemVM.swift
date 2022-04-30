@@ -228,7 +228,7 @@ struct SaleItemVM {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath, _ viewController: ViewControllerProtocol) {
         if let selectedCell = tableView.cellForRow(at: indexPath) as? PickerTableCell {
-            let pickerVC = PickerViewController.createViewController(selectedCell)
+            let pickerVC = PickerViewController.createViewController(delegate: selectedCell, owner: delegate)
             pickerVC.presentLayerIn(viewController: viewController, withDataSource: selectedCell)
         }
     }

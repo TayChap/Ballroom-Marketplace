@@ -23,7 +23,7 @@ protocol CustomPickerViewDelegate {
     func pickerViewClickDoneFor(datePicker: UIDatePicker)
 }
 
-extension CustomPickerViewDelegate {
+extension CustomPickerViewDelegate { // TODO! remove as many as possible
     // Picker methods
     func numberOfComponents(in pickerView: UIPickerView) -> Int { return 0 }
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int { return 0 }
@@ -51,14 +51,16 @@ class PickerViewController: UIViewController, UIPickerViewDataSource {
     
     @IBOutlet weak var pickerContainerBottom: NSLayoutConstraint!
     
+    private var owner: UIViewController?
     private let pickerContainerHeight: CGFloat = 260
     private var pickerDataSource: PickerDelegate?
     private var delegate: PickerDelegate?
     private var pickerType: PickerViewType?
     
-    static func createViewController(_ delegate: PickerDelegate?, _ pickerType: PickerViewType = .picker) -> PickerViewController {
+    static func createViewController(delegate: PickerDelegate?, pickerType: PickerViewType = .picker, owner: UIViewController?) -> PickerViewController {
         let pickerViewController = PickerViewController(nibName: String(describing: PickerViewController.self), bundle: nil)
         pickerViewController.loadView()
+        pickerViewController.owner = owner
         pickerViewController.delegate = delegate
         pickerViewController.pickerType = pickerType
         pickerViewController.viewDidLoad()
@@ -67,11 +69,17 @@ class PickerViewController: UIViewController, UIPickerViewDataSource {
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
+        NavigationController.hideNavigationBar(owner)
         pickerView.isHidden = pickerType != .picker
         datePicker.isHidden = pickerType != .datePicker
         
         pickerContainerBottom.constant = -pickerContainerHeight
         setupAccessibilityId()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NavigationController.showNavigationBar(owner)
     }
     
     // MARK: - IBAction
