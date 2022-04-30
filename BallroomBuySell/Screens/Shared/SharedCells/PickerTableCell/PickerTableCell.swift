@@ -129,6 +129,10 @@ class PickerTableCell: UITableViewCell, UITextFieldDelegate, TableCellProtocol, 
         delegate?.pickerUpdated(with: values, for: self)
     }
     
+    func pickerView(controller: PickerViewController, didCancelForDataSource: PickerDelegate) {
+        // no action on cancel
+    }
+    
     // MARK: Date Picker Methods
     func setupDatePicker() -> (startingDate: Date?, maximumDate: Date?, minimumDate: Date?, mode: UIDatePicker.Mode)? {
         let datePickerMode: UIDatePicker.Mode = pickerType == .date ? .date : .dateAndTime

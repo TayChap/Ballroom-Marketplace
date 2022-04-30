@@ -23,19 +23,6 @@ protocol CustomPickerViewDelegate {
     func pickerViewClickDoneFor(datePicker: UIDatePicker)
 }
 
-extension CustomPickerViewDelegate { // TODO! remove as many as possible
-    // Picker methods
-    func numberOfComponents(in pickerView: UIPickerView) -> Int { return 0 }
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int { return 0 }
-    func startingSelectedIndexForComponent(component: Int) -> Int { return 0 }
-    func pickerView(picker: UIPickerView, clickDoneForDataSource: PickerDelegate) {}
-    func pickerView(controller: PickerViewController, didCancelForDataSource: PickerDelegate) {}
-    
-    // Date picker methods
-    func setupDatePicker() -> (startingDate: Date?, maximumDate: Date?, minimumDate: Date?, mode: UIDatePicker.Mode)? { return nil }
-    func pickerViewClickDoneFor(datePicker: UIDatePicker) {}
-}
-
 class PickerViewController: UIViewController, UIPickerViewDataSource {
     enum PickerViewType {
         case picker, datePicker
@@ -48,28 +35,28 @@ class PickerViewController: UIViewController, UIPickerViewDataSource {
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var pickerView: UIPickerView!
     @IBOutlet weak var datePicker: UIDatePicker!
-    
     @IBOutlet weak var pickerContainerBottom: NSLayoutConstraint!
-    
-    private var owner: UIViewController?
+
     private let pickerContainerHeight: CGFloat = 260
     private var pickerDataSource: PickerDelegate?
+    private var owner: UIViewController?
     private var delegate: PickerDelegate?
     private var pickerType: PickerViewType?
     
     static func createViewController(delegate: PickerDelegate?, pickerType: PickerViewType = .picker, owner: UIViewController?) -> PickerViewController {
         let pickerViewController = PickerViewController(nibName: String(describing: PickerViewController.self), bundle: nil)
-        pickerViewController.loadView()
         pickerViewController.owner = owner
         pickerViewController.delegate = delegate
         pickerViewController.pickerType = pickerType
-        pickerViewController.viewDidLoad()
         return pickerViewController
     }
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         NavigationController.hideNavigationBar(owner)
+        
         pickerView.isHidden = pickerType != .picker
         datePicker.isHidden = pickerType != .datePicker
         
