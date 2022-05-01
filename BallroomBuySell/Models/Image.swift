@@ -39,6 +39,8 @@ struct Image: Codable {
         for imageURL in imageURLs {
             FileSystemManager.getFile(at: imageURL) { data, error in
                 if error != nil {
+                    fetchedImages.append(Image()) // if image not in DB, add empty image
+                    checkCompletion()
                     return
                 }
                 
