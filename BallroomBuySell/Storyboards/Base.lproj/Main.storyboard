@@ -156,6 +156,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="w2P-QN-ah2">
                         <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="YEc-1e-toI">
+                            <color key="tintColor" name="interactivity"/>
                             <connections>
                                 <action selector="backButtonClicked" destination="5h3-fC-z8R" id="JCl-kB-sx6"/>
                             </connections>
@@ -352,6 +353,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="zqN-2x-tvb">
                         <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="itO-6f-Uwo">
+                            <color key="tintColor" name="interactivity"/>
                             <connections>
                                 <action selector="backButtonClicked" destination="vnn-B4-q01" id="nxm-dV-Nhl"/>
                             </connections>
@@ -410,6 +412,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Gj1-be-i4z">
                         <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="BWD-wY-AsA">
+                            <color key="tintColor" name="interactivity"/>
                             <connections>
                                 <action selector="backButtonClicked" destination="Etr-Bo-Mt5" id="Jyu-9f-ecW"/>
                             </connections>
@@ -510,6 +513,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="rx0-7D-HwU">
                         <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="ufp-41-Up1">
+                            <color key="tintColor" name="interactivity"/>
                             <connections>
                                 <action selector="backButtonClicked" destination="1zS-R9-jag" id="O1C-YQ-33s"/>
                             </connections>
@@ -543,8 +547,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="VcG-2H-Dkw"/>
-        <segue reference="7Tz-QB-BGX"/>
+        <segue reference="y7q-Vn-rEQ"/>
+        <segue reference="bLY-tZ-MBb"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="checkmark" catalog="system" width="128" height="114"/>
