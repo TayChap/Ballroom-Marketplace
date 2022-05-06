@@ -39,25 +39,25 @@ extension AuthenticatorProtocol {
             return
         }
         
-        AuthenticationManager().appleSignIn(idTokenString, nonce) {
+        let name = "\(appleIDCredential.fullName?.givenName ?? "") \(appleIDCredential.fullName?.familyName ?? "")"
+        AuthenticationManager().appleSignIn(name, idTokenString, nonce) { user in
+            // TODO! add user to authentication manager
+            
             if AuthenticationManager().user != nil {
                 self.showAlertWith(message: LocalizedString.string("generic.success"))
                 return
             }
             
-            let name = "\(appleIDCredential.fullName?.givenName ?? "") \(appleIDCredential.fullName?.familyName ?? "")"
-            AuthenticationManager().changeRequest(displayName: name) {
-                // Display alert to optionally add profile photo
-                let now = UIAlertAction(title: LocalizedString.string("generic.now"), style: .default) { _ in
-                    self.displayMediaActionSheet()
-                }
-                
-                let later = UIAlertAction(title: LocalizedString.string("generic.later"), style: .cancel)
-                self.showAlertWith(message: LocalizedString.string("login.add.picture.message"),
-                                   alertActions: [now, later])
-            } onFail: {
-                self.showNetworkError()
+            // Display alert to optionally add profile photo
+            let now = UIAlertAction(title: LocalizedString.string("generic.now"), style: .default) { _ in
+                self.displayMediaActionSheet()
             }
+            
+            let later = UIAlertAction(title: LocalizedString.string("generic.later"), style: .cancel)
+            self.showAlertWith(message: LocalizedString.string("login.add.picture.message"),
+                               alertActions: [now, later])
+        } onFail: {
+            self.showNetworkError()
         }
     }
     
@@ -72,11 +72,17 @@ extension AuthenticatorProtocol {
         
         let image = Image(data: selectedImageData)
         Image.uploadImages([image])
-        AuthenticationManager().changeRequest(photoURL: image.url) {
-            self.showAlertWith(message: LocalizedString.string("generic.success"))
-        } onFail: {
-            self.showNetworkError()
-        }
+        
+        // TODO! get user object and add imageURL to it
+        // then upload it to server
+        
+        // this should not be done here... method on User maybe ? In DB ?
+//
+//        AuthenticationManager().changeRequest(photoURL: image.url) {
+//            self.showAlertWith(message: LocalizedString.string("generic.success"))
+//        } onFail: {
+//            self.showNetworkError()
+//        }
     }
     
     // MARK: - Private Helpers

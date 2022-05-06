@@ -22,58 +22,55 @@ struct AuthenticationManager {
     }
     
     // MARK: - Production only authentication
-    func appleSignIn(_ idTokenString: String, _ nonce: String, _ completion: @escaping () -> Void) {
+    func appleSignIn(_ displayName: String, _ idTokenString: String, _ nonce: String, _ completion: @escaping (User) -> Void, onFail: @escaping () -> Void) {
         let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                   idToken: idTokenString,
                                                   rawNonce: nonce)
         
-        Auth.auth().signIn(with: credential) { _ , _ in
-            completion()
-        }
-    }
-    
-    func changeRequest(displayName: String? = nil, photoURL: String? = nil, completion: @escaping () -> Void, onFail: @escaping () -> Void) {
-        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-        
-        if let displayName = displayName {
-            changeRequest?.displayName = displayName
-        }
-        
-        if let photoURL = photoURL {
-            changeRequest?.photoURL = URL(string: photoURL)
-        }
-        
-        changeRequest?.commitChanges { error in
-            if let _ = error {
-                onFail()
+        Auth.auth().signIn(with: credential) { result, error in
+            guard let user = result?.user, error == nil else {
+                onFail() // TODO! apple sign in error
                 return
             }
             
-            completion()
+            DatabaseManager.sharedInstance.getUser(with: user.uid) { codableUser in
+                completion(codableUser)
+            } onFail: {
+                // user does not exist, so add to database
+                let codableUser = User(id: user.uid,
+                                       photoURL: nil,
+                                       displayName: displayName)
+                DatabaseManager.sharedInstance.putDocument(in: .users, for: codableUser, with: user.uid, {
+                    completion(codableUser)
+                }, onFail: onFail)
+            }
         }
     }
     
     // MARK: - Staging only authentication
     func createStagingUser(email: String, password: String = "Tester", displayName: String, photo: Image, completion: @escaping () -> Void) {
-        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+        Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let _ = error {
                 return // staging so no error message required
             }
-            
+            // TODO!
             Image.uploadImages([photo])
-            changeRequest(displayName: displayName,
-                          photoURL: photo.url,
-                          completion: completion,
-                          onFail: {}) // staging so no error message required
+            result?.user.uid
+//            changeRequest(displayName: displayName, // codable user passed through
+//                          photoURL: photo.url,
+//                          completion: completion,
+//                          onFail: {}) // staging so no error message required
         }
     }
     
     func loginStagingUser(email: String, completion: @escaping () -> Void) {
-        Auth.auth().signIn(withEmail: email, password: "Tester") { authResult, error in
+        Auth.auth().signIn(withEmail: email, password: "Tester") { result, error in
             if let _ = error {
                 return // staging so no error message required
             }
             
+            // TODO!
+            result?.user.uid
             completion()
         }
     }

@@ -107,7 +107,7 @@ struct SaleItemVM {
                 return
             }
             
-            DatabaseManager.sharedInstance.createDocument(in: .items, for: saleItem, with: nil) {
+            DatabaseManager.sharedInstance.putDocument(in: .items, for: saleItem, with: nil) {
                 Image.uploadImages(saleItem.images)
                 delegate?.dismiss()
             } onFail: {

@@ -10,7 +10,7 @@ import FirebaseFirestoreSwift
 
 struct DatabaseManager {
     enum Collection: String, CaseIterable {
-        case templates, items, threads, reports
+        case templates, users, items, threads, reports
         
         var collectionId: String {
             "\(Environment.current.rawValue)-\(self.rawValue)"
@@ -24,7 +24,7 @@ struct DatabaseManager {
     private init() { } // to ensure sharedInstance is accessed, rather than new instance
     
     // MARK: - Public Helpers
-    func createDocument<T: Codable>(in collection: Collection, for data: T, with documentId: String? = nil, _ completion: () -> Void, onFail: () -> Void) {
+    func putDocument<T: Codable>(in collection: Collection, for data: T, with documentId: String? = nil, _ completion: () -> Void, onFail: () -> Void) {
         if !Reachability.isConnectedToNetwork {
             onFail()
             return
@@ -45,6 +45,17 @@ struct DatabaseManager {
           }
     }
     
+    func getUser(with id: String, _ completion: @escaping (User) -> Void, onFail: @escaping () -> Void) {
+        getDocuments(getReference(to: .users, with: (key: "id", value: id)), of: User.self, { users in
+            guard let user = users.first else {
+                onFail()
+                return
+            }
+            
+            completion(user)
+        }, onFail)
+    }
+    
     func getTemplates(_ completion: @escaping ([SaleItemTemplate]) -> Void, _ onFail: @escaping () -> Void) {
         getDocuments(db.collection(Collection.templates.collectionId), of: SaleItemTemplate.self, completion, onFail)
     }
@@ -56,12 +67,7 @@ struct DatabaseManager {
     }
     
     func getSaleItems(where equalsRelationship: (key: String, value: String)? = nil, _ completion: @escaping ([SaleItem]) -> Void, _ onFail: @escaping () -> Void) {
-        var reference = db.collection(Collection.items.collectionId) as Query
-        if let keyValue = equalsRelationship {
-            reference = reference.whereField(keyValue.key, isEqualTo: keyValue.value)
-        }
-        
-        getDocuments(reference, of: SaleItem.self, completion, onFail)
+        getDocuments(getReference(to: .items, with: equalsRelationship), of: SaleItem.self, completion, onFail)
     }
     
     func getThreads(for userId: String, _ completion: @escaping ([MessageThread]) -> Void, _ onFail: @escaping () -> Void) {
@@ -143,5 +149,14 @@ struct DatabaseManager {
                 }
             }))
         }
+    }
+    
+    private func getReference(to collection: Collection, with equalsRelationship: (key: String, value: String)? = nil) -> Query {
+        var reference = db.collection(collection.collectionId) as Query
+        if let keyValue = equalsRelationship {
+            reference = reference.whereField(keyValue.key, isEqualTo: keyValue.value)
+        }
+        
+        return reference
     }
 }
