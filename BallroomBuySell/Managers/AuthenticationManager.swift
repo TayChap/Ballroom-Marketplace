@@ -50,16 +50,19 @@ struct AuthenticationManager {
     // MARK: - Staging only authentication
     func createStagingUser(email: String, password: String = "Tester", displayName: String, photo: Image, completion: @escaping () -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
-            if let _ = error {
+            guard let userId = result?.user.uid else {
                 return // staging so no error message required
             }
-            // TODO!
+            
             Image.uploadImages([photo])
-            result?.user.uid
-//            changeRequest(displayName: displayName, // codable user passed through
-//                          photoURL: photo.url,
-//                          completion: completion,
-//                          onFail: {}) // staging so no error message required
+            let codableUser = User(id: userId,
+                                   photoURL: photo.url,
+                                   displayName: displayName)
+            DatabaseManager.sharedInstance.putDocument(in: .users, for: codableUser, with: userId) {
+                completion() // TODO! fetch user and update singleton
+            } onFail: {
+                // staging so no error message required
+            }
         }
     }
     
@@ -69,8 +72,8 @@ struct AuthenticationManager {
                 return // staging so no error message required
             }
             
-            // TODO!
-            result?.user.uid
+            // TODO! fetch user and update singleton
+            
             completion()
         }
     }
