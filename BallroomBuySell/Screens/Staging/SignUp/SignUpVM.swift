@@ -53,19 +53,24 @@ struct SignUpVM {
     }
     
     // MARK: - IBActions
-    func signUpButtonClicked(_ delegate: ViewControllerProtocol) {
+    func signUpButtonClicked() {
         guard // validity of email and password checked on server side
             let photo = photo,
             let email = dm[SignUpItem.email],
             let displayName = dm[SignUpItem.displayName], !displayName.isEmpty
         else {
-            delegate.showAlertWith(message: LocalizedString.string("alert.required.fields.message"))
+            delegate?.showAlertWith(message: LocalizedString.string("alert.required.fields.message"))
             return
         }
         
-        AuthenticationManager().createStagingUser(email: email, displayName: displayName, photo: photo) {
-            delegate.dismiss()
+        let cancel = UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel)
+        let accept = UIAlertAction(title: LocalizedString.string("generic.accept"), style: .default) { (action) in
+            AuthenticationManager().createStagingUser(email: email, displayName: displayName, photo: photo) {
+                delegate?.dismiss()
+            }
         }
+        
+        delegate?.showAlertWith(title: LocalizedString.string("login.terms.title"), message: LocalizedString.string("login.terms.message"), alertActions: [cancel, accept])
     }
     
     // MARK: - Table Methods

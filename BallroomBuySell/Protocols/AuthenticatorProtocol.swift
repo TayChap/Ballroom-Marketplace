@@ -40,7 +40,7 @@ extension AuthenticatorProtocol {
         }
         
         let name = "\(appleIDCredential.fullName?.givenName ?? "") \(appleIDCredential.fullName?.familyName ?? "")"
-        AuthenticationManager().appleSignIn(name, idTokenString, nonce) { user in
+        AuthenticationManager().appleSignIn(name, appleIDCredential.email, idTokenString, nonce) { user in
             // TODO! add user to authentication manager
             
             if AuthenticationManager().user != nil {

@@ -7,6 +7,7 @@
 
 struct User: Codable {
     let id: String
+    let email: String?
     let photoURL: String?
     let displayName: String
     var blockedSaleItemIds = [String]()

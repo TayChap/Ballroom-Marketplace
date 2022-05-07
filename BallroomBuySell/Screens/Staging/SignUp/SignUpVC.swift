@@ -26,7 +26,7 @@ class SignUpVC: UIViewController, UITableViewDataSource, ViewControllerProtocol,
     
     // MARK: - IBActions
     @IBAction func signUpButtonClicked() {
-        vm.signUpButtonClicked(self)
+        vm.signUpButtonClicked()
     }
     
     // MARK: - Table Methods

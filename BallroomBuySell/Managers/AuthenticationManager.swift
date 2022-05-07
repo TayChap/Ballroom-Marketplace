@@ -18,11 +18,11 @@ struct AuthenticationManager {
             return nil
         }
         
-        return User(id: user.uid, photoURL: user.photoURL?.absoluteString, displayName: displayName)
+        return User(id: user.uid, email: user.email, photoURL: user.photoURL?.absoluteString, displayName: displayName)
     }
     
     // MARK: - Production only authentication
-    func appleSignIn(_ displayName: String, _ idTokenString: String, _ nonce: String, _ completion: @escaping (User) -> Void, onFail: @escaping () -> Void) {
+    func appleSignIn(_ displayName: String, _ email: String?, _ idTokenString: String, _ nonce: String, _ completion: @escaping (User) -> Void, onFail: @escaping () -> Void) {
         let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                   idToken: idTokenString,
                                                   rawNonce: nonce)
@@ -38,6 +38,7 @@ struct AuthenticationManager {
             } onFail: {
                 // user does not exist, so add to database
                 let codableUser = User(id: user.uid,
+                                       email: email,
                                        photoURL: nil,
                                        displayName: displayName)
                 DatabaseManager.sharedInstance.putDocument(in: .users, for: codableUser, with: user.uid, {
@@ -56,6 +57,7 @@ struct AuthenticationManager {
             
             Image.uploadImages([photo])
             let codableUser = User(id: userId,
+                                   email: email,
                                    photoURL: photo.url,
                                    displayName: displayName)
             DatabaseManager.sharedInstance.putDocument(in: .users, for: codableUser, with: userId) {
