@@ -61,8 +61,8 @@ struct SaleItemVM {
         delegate = owner
         self.mode = mode
         self.templates = templates
-        self.saleItem = saleItem ?? SaleItem(userId: AuthenticationManager().user?.id ?? "")
-        self.hideContactSeller = AuthenticationManager().user?.id == self.saleItem.userId || hideContactSeller
+        self.saleItem = saleItem ?? SaleItem(userId: AuthenticationManager.sharedInstance.user?.id ?? "")
+        self.hideContactSeller = AuthenticationManager.sharedInstance.user?.id == self.saleItem.userId || hideContactSeller
         
         // update pre selected template for filter mode
         guard let selectedTemplateId = selectedTemplate?.id else {
@@ -121,7 +121,7 @@ struct SaleItemVM {
     }
     
     func messageButtonClicked(_ signIn: () -> Void) {
-        guard let user = AuthenticationManager().user else {
+        guard let user = AuthenticationManager.sharedInstance.user else {
             signIn()
             return
         }

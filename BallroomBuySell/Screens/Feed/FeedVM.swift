@@ -46,7 +46,7 @@ struct FeedVM {
     
     // MARK: - IBActions
     func sellButtonClicked() {
-        if AuthenticationManager().user == nil {
+        if AuthenticationManager.sharedInstance.user == nil {
             delegate?.signIn()
             return
         }
@@ -60,7 +60,7 @@ struct FeedVM {
     }
     
     func inboxButtonClicked() {
-        guard let user = AuthenticationManager().user else {
+        guard let user = AuthenticationManager.sharedInstance.user else {
             delegate?.signIn()
             return
         }

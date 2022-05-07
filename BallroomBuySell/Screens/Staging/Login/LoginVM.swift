@@ -57,7 +57,7 @@ struct LoginVM {
             return
         }
         
-        AuthenticationManager().loginStagingUser(email: email) {
+        AuthenticationManager.sharedInstance.loginStagingUser(email: email) {
             delegate.dismiss()
         }
     }

@@ -44,7 +44,7 @@ struct InboxVM {
     }
     
     func signOutButtonClicked() {
-        AuthenticationManager().signOut {
+        AuthenticationManager.sharedInstance.signOut {
             delegate?.dismiss()
         } onFail: {
             delegate?.showNetworkError()

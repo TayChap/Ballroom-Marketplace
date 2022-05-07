@@ -65,7 +65,7 @@ struct SignUpVM {
         
         let cancel = UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel)
         let accept = UIAlertAction(title: LocalizedString.string("generic.accept"), style: .default) { (action) in
-            AuthenticationManager().createStagingUser(email: email, displayName: displayName, photo: photo) {
+            AuthenticationManager.sharedInstance.createStagingUser(email: email, displayName: displayName, photo: photo) {
                 delegate?.dismiss()
             }
         }

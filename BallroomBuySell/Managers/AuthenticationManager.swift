@@ -7,34 +7,30 @@
 
 import Firebase
 
-struct AuthenticationManager {
+class AuthenticationManager {
+    static let sharedInstance = AuthenticationManager()
+    
+    private(set) var user: User?
     static var currentNonce: String?
     
-    var user: User? {
-        guard
-            let user = Auth.auth().currentUser,
-            let displayName = user.displayName
-        else {
-            return nil
-        }
-        
-        return User(id: user.uid, email: user.email, photoURL: user.photoURL?.absoluteString, displayName: displayName)
-    }
+    // MARK: - Private Init
+    private init() { } // to ensure sharedInstance is accessed, rather than new instance
     
     // MARK: - Production only authentication
-    func appleSignIn(_ displayName: String, _ email: String?, _ idTokenString: String, _ nonce: String, _ completion: @escaping (User) -> Void, onFail: @escaping () -> Void) {
+    func appleSignIn(_ displayName: String, _ email: String?, _ idTokenString: String, _ nonce: String, _ completion: @escaping () -> Void, onFail: @escaping () -> Void) {
         let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                   idToken: idTokenString,
                                                   rawNonce: nonce)
         
         Auth.auth().signIn(with: credential) { result, error in
             guard let user = result?.user, error == nil else {
-                onFail() // TODO! apple sign in error
+                onFail()
                 return
             }
             
             DatabaseManager.sharedInstance.getUser(with: user.uid) { codableUser in
-                completion(codableUser)
+                self.user = codableUser
+                completion()
             } onFail: {
                 // user does not exist, so add to database
                 let codableUser = User(id: user.uid,
@@ -42,7 +38,8 @@ struct AuthenticationManager {
                                        photoURL: nil,
                                        displayName: displayName)
                 DatabaseManager.sharedInstance.putDocument(in: .users, for: codableUser, with: user.uid, {
-                    completion(codableUser)
+                    self.user = codableUser
+                    completion()
                 }, onFail: onFail)
             }
         }
@@ -61,7 +58,8 @@ struct AuthenticationManager {
                                    photoURL: photo.url,
                                    displayName: displayName)
             DatabaseManager.sharedInstance.putDocument(in: .users, for: codableUser, with: userId) {
-                completion() // TODO! fetch user and update singleton
+                self.user = codableUser
+                completion()
             } onFail: {
                 // staging so no error message required
             }
@@ -70,22 +68,30 @@ struct AuthenticationManager {
     
     func loginStagingUser(email: String, completion: @escaping () -> Void) {
         Auth.auth().signIn(withEmail: email, password: "Tester") { result, error in
-            if let _ = error {
+            guard let userId = result?.user.uid else {
                 return // staging so no error message required
             }
             
-            // TODO! fetch user and update singleton
-            
-            completion()
+            DatabaseManager.sharedInstance.getUser(with: userId) { user in
+                self.user = user
+                completion()
+            } onFail: {
+                return // staging so no error message required
+            }
         }
     }
     
     func signOut(onSuccess: () -> Void, onFail: () -> Void) {
         do {
             try Auth.auth().signOut()
+            self.user = nil
             onSuccess()
         } catch {
             onFail()
         }
+    }
+    
+    func setUserImage(url: String) {
+        user?.photoURL = url
     }
 }
