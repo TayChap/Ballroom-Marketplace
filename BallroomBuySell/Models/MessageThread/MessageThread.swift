@@ -12,6 +12,10 @@ struct MessageThread: Codable {
         case userIds, saleItemId
     }
     
+    var otherUserId: String {
+        userIds.filter({ AuthenticationManager.sharedInstance.user?.id != $0 }).first ?? ""
+    }
+    
     var id = UUID().uuidString
     var userIds: Set<String>
     let saleItemId: String

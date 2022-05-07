@@ -31,9 +31,11 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        vm.setTitle { otherUserDisplayName in
+            self.title = otherUserDisplayName
+        }
         
-        title = vm.title
+        // message collection view settings
         messageInputBar.delegate = self
         messagesCollectionView.backgroundColor = Theme.Color.background.value
         messagesCollectionView.messagesDataSource = self
