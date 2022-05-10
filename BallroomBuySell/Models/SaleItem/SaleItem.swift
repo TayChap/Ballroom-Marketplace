@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SaleItem: Codable {
+struct SaleItem: Codable, Reportable {
     enum QueryKeys: String {
         case id, dateAdded, userId, images
     }

@@ -41,7 +41,9 @@ class SaleItemViewVC: UIViewController, UITableViewDataSource, ViewControllerPro
     }
     
     @IBAction func reportButtonClicked() {
-        vm.reportButtonClicked()
+        vm.reportButtonClicked() {
+            signIn()
+        }
     }
     
     @IBAction func contactSellerButtonClicked() {

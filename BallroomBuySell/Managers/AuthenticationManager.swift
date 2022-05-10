@@ -91,7 +91,12 @@ class AuthenticationManager {
         }
     }
     
+    // MARK: - User Mutating Methods
     func setUserImage(url: String) {
         user?.photoURL = url
+    }
+    
+    func blockUser(_ id: String) {
+        self.user?.blockedUserIds.append(id)
     }
 }

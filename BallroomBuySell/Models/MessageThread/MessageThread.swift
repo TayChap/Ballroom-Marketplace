@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct MessageThread: Codable {
+struct MessageThread: Codable, Reportable {
     enum QueryKeys: String {
         case userIds, saleItemId
     }
     
-    var otherUserId: String {
+    var userId: String { // the id of the other user in the conversation
         userIds.filter({ AuthenticationManager.sharedInstance.user?.id != $0 }).first ?? ""
     }
     

@@ -32,7 +32,14 @@ class MessageThreadVM {
     }
     
     func reportButtonClicked() {
-        Report.submitReport(for: thread, with: LocalizedString.string("flag.reason"), delegate: delegate)
+        Report.submitReport(for: thread,
+                            with: LocalizedString.string("flag.reason"),
+                            delegate: delegate,
+                            reportingUser: user) {
+            self.delegate?.showAlertWith(message: "generic.success")
+        } onFail: {
+            self.delegate?.showNetworkError()
+        }
     }
     
     func infoButtonClicked() {
@@ -95,7 +102,7 @@ class MessageThreadVM {
     
     // MARK: - Public Helpers
     func setTitle(_ completion: @escaping (String) -> Void) {
-        DatabaseManager.sharedInstance.getUser(with: thread.otherUserId) { user in
+        DatabaseManager.sharedInstance.getUser(with: thread.userId) { user in
             completion(user.displayName)
         } onFail: {
             // no action required

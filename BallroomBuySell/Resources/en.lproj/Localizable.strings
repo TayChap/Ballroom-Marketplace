@@ -22,7 +22,8 @@
 "alert.network.message" = "Please ensure you are connected to the internet and relaunch the app to try again";
 "alert.unsaved.message" = "There are unsaved fields";
 "alert.required.fields.message" = "Please fill out all required fields";
-"report.reason" = "Please give a reason for your report";
+"report.reason.title" = "Reason for your report";
+"report.reason" = "Note: You will no longer be able to see any listings or messages from this user";
 
 /* Permissions */
 "apple.settings.app" = "Settings";

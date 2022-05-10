@@ -10,6 +10,5 @@ struct User: Codable {
     let email: String?
     var photoURL: String?
     let displayName: String
-    var blockedSaleItemIds = [String]()
     var blockedUserIds = [String]()
 }

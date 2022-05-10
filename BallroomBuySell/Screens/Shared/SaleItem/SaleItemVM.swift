@@ -142,8 +142,20 @@ struct SaleItemVM {
         })
     }
     
-    func reportButtonClicked() {
-        Report.submitReport(for: saleItem, with: LocalizedString.string("flag.reason"), delegate: delegate)
+    func reportButtonClicked(_ signIn: () -> Void) {
+        guard let user = AuthenticationManager.sharedInstance.user else {
+            signIn()
+            return
+        }
+        
+        Report.submitReport(for: saleItem,
+                            with: LocalizedString.string("flag.reason"),
+                            delegate: delegate,
+                            reportingUser: user) {
+            delegate?.showAlertWith(message: "generic.success")
+        } onFail: {
+            delegate?.showNetworkError()
+        }
     }
     
     // MARK: - Table Methods

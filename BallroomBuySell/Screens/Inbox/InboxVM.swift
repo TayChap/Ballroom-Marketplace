@@ -131,7 +131,14 @@ struct InboxVM {
     // MARK: - Public Helpers
     mutating func onFetch(_ saleItemsFetched: [SaleItem], _ threadsFetched: [MessageThread]) {
         saleItems = saleItemsFetched.sorted(by: { $0.dateAdded.compare($1.dateAdded) == .orderedDescending })
-        threads = threadsFetched.sorted(by: { $0.messages.last?.sentDate.compare($1.messages.last?.sentDate ?? Date()) == .orderedDescending })
+        
+        // sort and filter threads
+        var unfilteredThreads = threadsFetched.sorted(by: { $0.messages.last?.sentDate.compare($1.messages.last?.sentDate ?? Date()) == .orderedDescending })
+        if let user = AuthenticationManager.sharedInstance.user {
+            unfilteredThreads = unfilteredThreads.filter({ user.blockedUserIds.contains($0.userId) })
+        }
+        
+        threads = unfilteredThreads
     }
     
     // MARK: - Private Helpers
