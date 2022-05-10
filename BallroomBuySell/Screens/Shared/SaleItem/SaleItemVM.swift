@@ -152,7 +152,7 @@ struct SaleItemVM {
                             with: LocalizedString.string("flag.reason"),
                             delegate: delegate,
                             reportingUser: user) {
-            delegate?.showAlertWith(message: "generic.success")
+            delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
         } onFail: {
             delegate?.showNetworkError()
         }

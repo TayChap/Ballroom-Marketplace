@@ -36,7 +36,7 @@ class MessageThreadVM {
                             with: LocalizedString.string("flag.reason"),
                             delegate: delegate,
                             reportingUser: user) {
-            self.delegate?.showAlertWith(message: "generic.success")
+            self.delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
         } onFail: {
             self.delegate?.showNetworkError()
         }
