@@ -141,13 +141,13 @@ struct DatabaseManager {
                 return
             }
             
-            return completion(docs.compactMap({ doc in
-                do {
-                    return try doc.data(as: T.self)
-                } catch {
-                    return nil
-                }
-            }))
+            do {
+                return completion(try docs.compactMap({ doc in
+                        return try doc.data(as: T.self)
+                }).filter({ ($0 as? Reportable)?.isAcceptable() ?? true }))
+            } catch {
+                return
+            }
         }
     }
     
