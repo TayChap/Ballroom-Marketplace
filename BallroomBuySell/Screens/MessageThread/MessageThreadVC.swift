@@ -31,6 +31,8 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         vm.setTitle { otherUserDisplayName in
             self.title = otherUserDisplayName
         }
