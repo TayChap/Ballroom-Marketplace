@@ -4,7 +4,7 @@
   <br> Ballroom Marketplace </br>
 </h1>
 <p><font size="3">
-<strong>Ballroom Marketplace</strong> is a C2C (customer to customer) buy and sell app that enables people to exchange used ballroom dance performance wear.
+<strong>Ballroom Marketplace</strong> is a C2C (customer to customer) buy and sell app that enables people to exchange used ballroom dance performance wear. TODO! App Store Link:
 
 . TODO! app overview screenshots
 
