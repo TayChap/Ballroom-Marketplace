@@ -4,6 +4,7 @@
 "generic.category" = "Category";
 "generic.close" = "Close";
 "generic.discard" = "Discard";
+"generic.edit.listing" = "Edit Listing";
 "generic.later" = "Later";
 "generic.location" = "Location";
 "generic.logout" = "Logout";

@@ -56,7 +56,8 @@ struct FeedVM {
             return
         }
         
-        delegate?.pushViewController(SellVC.createViewController(templates))
+        delegate?.pushViewController(SellVC.createViewController(mode: .create,
+                                                                 templates: templates))
     }
     
     func inboxButtonClicked() {

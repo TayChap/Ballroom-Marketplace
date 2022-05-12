@@ -9,7 +9,18 @@ import UIKit
 
 struct SaleItemVM {
     enum Mode {
-        case create, view, filter
+        case create, edit, view, filter
+        
+        var showRequiredAsterisk: Bool {
+            switch self {
+            case .edit, .create: return true
+            case .view, .filter: return false
+            }
+        }
+        
+        var isEditable: Bool {
+            self != .view
+        }
     }
     
     // MARK: - Stored Properties
@@ -47,6 +58,8 @@ struct SaleItemVM {
             return ""
         case .create:
             return LocalizedString.string("generic.new.listing")
+        case .edit:
+            return LocalizedString.string("generic.edit.listing")
         case .filter:
             guard let selectedTemplate = selectedTemplate else {
                 return ""
@@ -93,7 +106,7 @@ struct SaleItemVM {
             }
             
             delegate?.showAlertWith(message: LocalizedString.string("alert.unsaved.message"), alertActions: [cancel, discard])
-        case .view, .filter:
+        case .view, .filter, .edit:
             delegate?.dismiss()
         }
     }
@@ -101,13 +114,13 @@ struct SaleItemVM {
     mutating func doneButtonClicked(_ updateFilter: ((SaleItem) -> Void)? = nil) {
         saleItem.dateAdded = Date()
         switch mode {
-        case .create:
+        case .create, .edit:
             guard requiredFieldsFilled else {
                 delegate?.showAlertWith(message: LocalizedString.string("alert.required.fields.message"))
                 return
             }
             
-            DatabaseManager.sharedInstance.putDocument(in: .items, for: saleItem, with: nil) {
+            DatabaseManager.sharedInstance.putDocument(in: .items, for: saleItem, with: saleItem.id) {
                 Image.uploadImages(saleItem.images)
                 delegate?.dismiss()
             } onFail: {
@@ -188,7 +201,7 @@ struct SaleItemVM {
             cell.configureCell(with: PickerCellDM(titleText: LocalizedString.string(cellStructure.title),
                                                   selectedValues: [saleItem.fields[cellStructure.serverKey] ?? ""],
                                                   pickerValues: [pickerValues],
-                                                  showRequiredAsterisk: cellStructure.required && mode == .create))
+                                                  showRequiredAsterisk: cellStructure.required && mode.showRequiredAsterisk))
             cell.delegate = owner as? PickerCellDelegate
             return cell
         case .textField:
@@ -200,8 +213,8 @@ struct SaleItemVM {
                                                      title: LocalizedString.string(cellStructure.title),
                                                      detail: saleItem.fields[cellStructure.serverKey] ?? "",
                                                      returnKeyType: .done,
-                                                     showRequiredAsterisk: cellStructure.required && mode == .create,
-                                                     isEnabled: mode != .view))
+                                                     showRequiredAsterisk: cellStructure.required && mode.showRequiredAsterisk,
+                                                     isEnabled: mode.isEditable))
             cell.delegate = owner as? TextFieldCellDelegate
             return cell
         case .imageCollection:
@@ -211,8 +224,8 @@ struct SaleItemVM {
             
             cell.configureCell(with: ImageCellDM(title: LocalizedString.string(cellStructure.title),
                                                  images: saleItem.images.compactMap({ $0.data }),
-                                                 showRequiredAsterisk: cellStructure.required && mode == .create,
-                                                 editable: mode == .create))
+                                                 showRequiredAsterisk: cellStructure.required && mode.showRequiredAsterisk,
+                                                 editable: mode.isEditable))
             cell.delegate = owner as? (ImageCellDelegate & UIViewController)
             return cell
         case .toggle:
@@ -222,7 +235,7 @@ struct SaleItemVM {
             
             cell.configureCell(with: SwitchCellDM(title: LocalizedString.string(cellStructure.title),
                                                   isSelected: saleItem.useStandardSizing,
-                                                  isEnabled: mode != .view))
+                                                  isEnabled: mode.isEditable))
             cell.delegate = owner as? SwitchCellDelegate
             return cell
         case .textView:
@@ -232,7 +245,7 @@ struct SaleItemVM {
             
             cell.configureCell(with: TextViewCellDM(title: cellStructure.title,
                                                     detail: saleItem.fields[cellStructure.serverKey] ?? "",
-                                                    isEnabled: mode != .view))
+                                                    isEnabled: mode.isEditable))
             cell.delegate = owner as? TextViewCellDelegate
             return cell
         }
@@ -280,7 +293,7 @@ struct SaleItemVM {
         structure = structure.filter({ saleItem.useStandardSizing ? $0.inputType != .measurement :  $0.inputType != .standardSize })
         
         switch mode {
-        case .create:
+        case .create, .edit:
             break
         case .view:
             // exclude blank fields for view mode
