@@ -33,15 +33,18 @@ struct FeedVM {
     
     func viewWillAppear(_ completion: @escaping (_ templates: [SaleItemTemplate], _ saleItems: [SaleItem]) -> Void) {
         // refresh templates and pull most recent sale items
-        TemplateManager.refreshTemplates({ templates in
-            DatabaseManager.sharedInstance.getRecentSaleItems(for: maxRecentItems, { items in
+        DatabaseManager.sharedInstance.getDocuments(to: .templates,
+                                                    of: SaleItemTemplate.self) { templates in
+            DatabaseManager.sharedInstance.getDocuments(to: .items,
+                                                        of: SaleItem.self,
+                                                        withOrderRule: (field: SaleItem.QueryKeys.dateAdded.rawValue, descending: true, limit: maxRecentItems)) { items in
                 completion(templates, items)
-            }, {
+            } onFail: {
                 delegate?.showNetworkError()
-            })
-        }, {
+            }
+        } onFail: {
             delegate?.showNetworkError()
-        })
+        }
     }
     
     // MARK: - IBActions
@@ -108,7 +111,7 @@ struct FeedVM {
             
             cell.configureCell(with: SaleItemCellDM(imageURL: coverImageURL,
                                                     price: "$\(cellData.fields["price"] ?? "?")",
-                                                    date: cellData.dateAdded ?? Date()))
+                                                    date: cellData.dateAdded))
             return cell
         }
         
@@ -141,15 +144,17 @@ struct FeedVM {
         // category selected
         let selectedTemplate = templates[indexPath.row]
         let templateFilter = (key: "fields.\(SaleItemTemplate.serverKey.templateId.rawValue)", value: selectedTemplate.id)
-        DatabaseManager.sharedInstance.getSaleItems(where: templateFilter, { filteredSaleItems in
+        DatabaseManager.sharedInstance.getDocuments(to: .items,
+                                                    of: SaleItem.self,
+                                                    whereFieldEquals: templateFilter) { filteredSaleItems in
             delegate?.pushViewController(SaleItemListVC.createViewController(templates: templates,
                                                                              selectedTemplate: selectedTemplate,
                                                                              saleItems: filteredSaleItems))
             completion()
-        }, {
+        } onFail: {
             delegate?.showNetworkError()
             completion()
-        })
+        }
     }
     
     // MARK: - Public Helpers

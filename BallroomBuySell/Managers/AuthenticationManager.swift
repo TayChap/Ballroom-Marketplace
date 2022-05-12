@@ -21,14 +21,15 @@ class AuthenticationManager {
         let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                   idToken: idTokenString,
                                                   rawNonce: nonce)
-        
         Auth.auth().signIn(with: credential) { result, error in
             guard let user = result?.user, error == nil else {
                 onFail()
                 return
             }
             
-            DatabaseManager.sharedInstance.getUser(with: user.uid) { codableUser in
+            DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                       of: User.self,
+                                                       with: user.uid) { codableUser in
                 self.user = codableUser
                 completion()
             } onFail: {
@@ -73,7 +74,9 @@ class AuthenticationManager {
                 return // staging so no error message required
             }
             
-            DatabaseManager.sharedInstance.getUser(with: userId) { user in
+            DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                       of: User.self,
+                                                       with: userId) { user in
                 self.user = user
                 completion()
             } onFail: {

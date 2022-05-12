@@ -27,15 +27,22 @@ struct InboxVM {
     }
     
     func viewWillAppear(_ completion: @escaping (_ saleItems: [SaleItem], _ threads: [MessageThread]) -> Void) {
-        DatabaseManager.sharedInstance.getSaleItems(where: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id), { saleItems in
-            DatabaseManager.sharedInstance.getThreads(for: user.id, { threads in
+        // TODO! evaluate call to fetch items
+        DatabaseManager.sharedInstance.getDocuments(to: .items,
+                                                    of: SaleItem.self,
+                                                    whereFieldEquals: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id)) { saleItems in
+            DatabaseManager.sharedInstance.getDocuments(to: .threads,
+                                                        of: MessageThread.self,
+                                                        whereArrayContains: (key: MessageThread.QueryKeys.userIds.rawValue, value: user.id)) { threads in
+                
+                
                 completion(saleItems, threads)
-            }, {
+            } onFail: {
                 delegate?.showNetworkError()
-            })
-        }, {
+            }
+        } onFail: {
             delegate?.showNetworkError()
-        })
+        }
     }
     
     // MARK: - IBActions
@@ -141,15 +148,19 @@ struct InboxVM {
     /// Query server for both sale items and threads
     /// - Parameter completion: on successfully fetching the saleItem and thread data
     private func fetchItems(_ completion: @escaping (_ saleItems: [SaleItem], _ threads: [MessageThread]) -> Void) {
-        DatabaseManager.sharedInstance.getSaleItems(where: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id), { saleItems in
-            DatabaseManager.sharedInstance.getThreads(for: user.id, { threads in
+        DatabaseManager.sharedInstance.getDocuments(to: .items,
+                                                    of: SaleItem.self,
+                                                    whereFieldEquals: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id)) { saleItems in
+            DatabaseManager.sharedInstance.getDocuments(to: .threads,
+                                                        of: MessageThread.self,
+                                                        whereArrayContains: (key: MessageThread.QueryKeys.userIds.rawValue, value: user.id)) { threads in
                 completion(saleItems, threads)
-            }, {
+            } onFail: {
                 delegate?.showNetworkError()
-            })
-        }, {
+            }
+        } onFail: {
             delegate?.showNetworkError()
-        })
+        }
     }
     
     /// Displays a network error on failied query

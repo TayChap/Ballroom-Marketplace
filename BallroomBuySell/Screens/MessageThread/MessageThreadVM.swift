@@ -43,11 +43,10 @@ class MessageThreadVM {
     }
     
     func infoButtonClicked() {
-        DatabaseManager.sharedInstance.getSaleItems(where: ("id", thread.saleItemId), { saleItems in
-            guard var saleItem = saleItems.first else {
-                return
-            }
-            
+        DatabaseManager.sharedInstance.getDocument(in: .items,
+                                                   of: SaleItem.self,
+                                                   with: thread.saleItemId) { saleItemFetched in
+            var saleItem = saleItemFetched
             Image.downloadImages(saleItem.images.map({ $0.url })) { images in
                 if !self.templates.isEmpty {
                     saleItem.images = images
@@ -56,9 +55,9 @@ class MessageThreadVM {
                                                                                           hideContactSeller: true))
                 }
             }
-        }, {
+        } onFail: {
             self.delegate?.showNetworkError()
-        })
+        }
     }
     
     // MARK: - MessagesDataSource
@@ -103,7 +102,9 @@ class MessageThreadVM {
     
     // MARK: - Public Helpers
     func setTitle(_ completion: @escaping (String) -> Void) {
-        DatabaseManager.sharedInstance.getUser(with: thread.userId) { user in
+        DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                   of: User.self,
+                                                   with: thread.userId) { user in
             completion(user.displayName)
         } onFail: {
             // no action required

@@ -140,7 +140,9 @@ struct SaleItemVM {
             return
         }
         
-        DatabaseManager.sharedInstance.getThreads(for: user.id, { threads in
+        DatabaseManager.sharedInstance.getDocuments(to: .threads,
+                                                    of: MessageThread.self,
+                                                    whereArrayContains: (key: MessageThread.QueryKeys.userIds.rawValue, value: user.id)) { threads in
             let messageThread = threads.first(where: { $0.saleItemId == saleItem.id }) ??
             MessageThread(userIds: [user.id, saleItem.userId],
                           saleItemId: saleItem.id,
@@ -151,9 +153,9 @@ struct SaleItemVM {
                                                                               user: user,
                                                                               templates: templates,
                                                                               hideItemInfo: true))
-        }, {
+        } onFail: {
             delegate?.showNetworkError()
-        })
+        }
     }
     
     func reportButtonClicked(_ signIn: () -> Void) {
