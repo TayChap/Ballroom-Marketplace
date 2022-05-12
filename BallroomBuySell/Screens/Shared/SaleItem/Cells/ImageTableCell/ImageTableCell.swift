@@ -23,7 +23,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
     
     private var maxImageCount = 0
-    private let imageWidth = 200
+    private let imageWidth = 800
     private var imagesList = [Data]()
     private var isEditable = true
     var delegate: (ImageCellDelegate & UIViewController)?
