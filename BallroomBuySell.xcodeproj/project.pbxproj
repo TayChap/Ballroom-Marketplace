@@ -16,6 +16,7 @@
 		8D1BB535273EF97900677EF7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D1BB533273EF97900677EF7 /* LaunchScreen.storyboard */; };
 		8D34D053282825FA008D690F /* Reportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D34D052282825FA008D690F /* Reportable.swift */; };
 		8D408F3527CED7B900F13038 /* LocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D408F3427CED7B900F13038 /* LocalizedString.swift */; };
+		8D677BC6282D8D37003051F6 /* Storable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D677BC5282D8D37003051F6 /* Storable.swift */; };
 		8D773D0E27ACA67D0089FD9F /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D773D0D27ACA67D0089FD9F /* ImageManager.swift */; };
 		8D78664727B0BB1400B1D817 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D78664627B0BB1400B1D817 /* Environment.swift */; };
 		8D9D44ED2770C64A004C5565 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D44EC2770C64A004C5565 /* UIViewController.swift */; };
@@ -126,6 +127,7 @@
 		8D34D052282825FA008D690F /* Reportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reportable.swift; sourceTree = "<group>"; };
 		8D39E12C27B2D7EA00C242C7 /* BallroomBuySell.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BallroomBuySell.entitlements; sourceTree = "<group>"; };
 		8D408F3427CED7B900F13038 /* LocalizedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedString.swift; sourceTree = "<group>"; };
+		8D677BC5282D8D37003051F6 /* Storable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storable.swift; sourceTree = "<group>"; };
 		8D773D0D27ACA67D0089FD9F /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		8D78664627B0BB1400B1D817 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		8D9D44EC2770C64A004C5565 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
@@ -362,6 +364,7 @@
 				8D0E0D0427B6D14C00E1EEE0 /* AuthenticatorProtocol.swift */,
 				8D9D45A02791F711004C5565 /* CollectionCellProtocol.swift */,
 				8D34D052282825FA008D690F /* Reportable.swift */,
+				8D677BC5282D8D37003051F6 /* Storable.swift */,
 				8D9D4540277CDEFC004C5565 /* TableCellProtocol.swift */,
 				8D9D451627721F77004C5565 /* ViewControllerProtocol.swift */,
 			);
@@ -816,6 +819,7 @@
 				8DF3B44027EFDB4800EE6A55 /* TextViewCellDM.swift in Sources */,
 				8D9D45942791D4F0004C5565 /* FileSystemManager.swift in Sources */,
 				8D9D457F2788F5EF004C5565 /* SaleItemCellType.swift in Sources */,
+				8D677BC6282D8D37003051F6 /* Storable.swift in Sources */,
 				8DA8D30428170F9F00F158CE /* Report.swift in Sources */,
 				8D9D45902790CF40004C5565 /* Storyboard.swift in Sources */,
 				8DCC41C327F0A3670090EDDE /* Sizing.swift in Sources */,

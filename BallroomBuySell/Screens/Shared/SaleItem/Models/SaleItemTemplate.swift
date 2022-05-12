@@ -5,7 +5,7 @@
 //  Created by Taylor Chapman on 2022-01-07.
 //
 
-struct SaleItemTemplate: Codable {
+struct SaleItemTemplate: Storable {
     enum serverKey: String {
         case templateId, price
     }

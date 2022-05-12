@@ -37,7 +37,7 @@ class AuthenticationManager {
                                        email: email,
                                        photoURL: nil,
                                        displayName: displayName)
-                DatabaseManager.sharedInstance.putDocument(in: .users, for: codableUser, with: user.uid, {
+                DatabaseManager.sharedInstance.putDocument(in: .users, for: codableUser, {
                     self.user = codableUser
                     completion()
                 }, onFail: onFail)
@@ -57,7 +57,8 @@ class AuthenticationManager {
                                    email: email,
                                    photoURL: photo.url,
                                    displayName: displayName)
-            DatabaseManager.sharedInstance.putDocument(in: .users, for: codableUser, with: userId) {
+            DatabaseManager.sharedInstance.putDocument(in: .users,
+                                                       for: codableUser) {
                 self.user = codableUser
                 completion()
             } onFail: {

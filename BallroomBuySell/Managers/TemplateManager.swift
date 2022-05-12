@@ -42,7 +42,8 @@ struct TemplateManager {
                 getMiscTemplate()
             ]
             for template in templates {
-                DatabaseManager.sharedInstance.putDocument(in: .templates, for: template, with: nil, {}, onFail: {}) // dev only so no handling
+                DatabaseManager.sharedInstance.putDocument(in: .templates,
+                                                           for: template, {}, onFail: {}) // dev only so no handling
             }
         }
     }

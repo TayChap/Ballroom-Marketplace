@@ -7,7 +7,8 @@
 
 import UIKit
 
-struct Report<Item: Codable & Reportable>: Codable {
+struct Report<Item: Storable & Reportable>: Storable {
+    var id = UUID().uuidString
     let reason: String
     let item: Item
     let reportedUserId: String
@@ -22,9 +23,20 @@ struct Report<Item: Codable & Reportable>: Codable {
                 return
             }
             
-            DatabaseManager.sharedInstance.putDocument(in: .reports, for: Report(reason: textField.text ?? "", item: item, reportedUserId: item.userId, reportingUserId: reportingUser.id)) {
+            DatabaseManager.sharedInstance.putDocument(in: .reports,
+                                                       for: Report(reason: textField.text ?? "",
+                                                                   item: item,
+                                                                   reportedUserId: item.userId,
+                                                                   reportingUserId: reportingUser.id)) {
                 AuthenticationManager.sharedInstance.blockUser(item.userId)
-                DatabaseManager.sharedInstance.putDocument(in: .users, for: AuthenticationManager.sharedInstance.user, with: reportingUser.id) {
+                
+                // TODO! refactor - put updated user on server
+                guard let user = AuthenticationManager.sharedInstance.user else {
+                    return
+                }
+                
+                DatabaseManager.sharedInstance.putDocument(in: .users,
+                                                           for: user) {
                     completion()
                 } onFail: {
                     onFail()

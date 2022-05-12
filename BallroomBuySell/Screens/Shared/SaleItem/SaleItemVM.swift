@@ -120,7 +120,8 @@ struct SaleItemVM {
                 return
             }
             
-            DatabaseManager.sharedInstance.putDocument(in: .items, for: saleItem, with: saleItem.id) {
+            DatabaseManager.sharedInstance.putDocument(in: .items,
+                                                       for: saleItem) {
                 Image.uploadImages(saleItem.images)
                 delegate?.dismiss()
             } onFail: {

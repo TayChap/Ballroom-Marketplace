@@ -24,20 +24,14 @@ struct DatabaseManager {
     private init() { } // to ensure sharedInstance is accessed, rather than new instance
     
     // MARK: - Public Helpers
-    func putDocument<T: Codable>(in collection: Collection, for data: T, with documentId: String? = nil, _ completion: () -> Void, onFail: () -> Void) {
+    func putDocument<T: Storable>(in collection: Collection, for data: T, _ completion: () -> Void, onFail: () -> Void) {
         if !Reachability.isConnectedToNetwork {
             onFail()
             return
         }
         
         do {
-            guard let documentId = documentId else {
-                try db.collection(collection.collectionId).document().setData(from: data)
-                completion()
-                return
-            }
-            
-            try db.collection(collection.collectionId).document(documentId).setData(from: data)
+            try db.collection(collection.collectionId).document(data.id).setData(from: data)
             completion()
           }
           catch {
@@ -63,7 +57,6 @@ struct DatabaseManager {
     func getRecentSaleItems(for maxItems: Int, _ completion: @escaping ([SaleItem]) -> Void, _ onFail: @escaping () -> Void) {
         let reference = db.collection(Collection.items.collectionId)
         getDocuments(reference.order(by: SaleItem.QueryKeys.dateAdded.rawValue, descending: true).limit(to: maxItems), of: SaleItem.self, completion, onFail)
-        
     }
     
     func getSaleItems(where equalsRelationship: (key: String, value: String)? = nil, _ completion: @escaping ([SaleItem]) -> Void, _ onFail: @escaping () -> Void) {

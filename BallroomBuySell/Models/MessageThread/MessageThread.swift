@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MessageThread: Codable, Reportable {
+struct MessageThread: Storable, Reportable {
     enum QueryKeys: String {
         case userIds, saleItemId
     }

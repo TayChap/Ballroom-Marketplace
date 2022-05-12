@@ -93,7 +93,8 @@ class MessageThreadVM {
         
         thread.messages.append(message)
         completion()
-        DatabaseManager.sharedInstance.putDocument(in: .threads, for: thread, with: thread.id) {
+        DatabaseManager.sharedInstance.putDocument(in: .threads,
+                                                   for: thread) {
             // no action on completion
         } onFail: {
             delegate?.showNetworkError()
