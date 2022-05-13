@@ -9,9 +9,8 @@ import Firebase
 
 class AuthenticationManager {
     static let sharedInstance = AuthenticationManager()
-    
-    private(set) var user: User?
     static var currentNonce: String?
+    private(set) var user: User?
     
     // MARK: - Private Init
     private init() { } // to ensure sharedInstance is accessed, rather than new instance
@@ -93,6 +92,18 @@ class AuthenticationManager {
         } catch {
             onFail()
         }
+    }
+    
+    func refreshUser() {
+        guard let id = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                   of: User.self,
+                                                   with: id) { user in
+            self.user = user
+        } onFail: {}
     }
     
     // MARK: - User Mutating Methods
