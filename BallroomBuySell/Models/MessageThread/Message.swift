@@ -15,8 +15,8 @@ struct Message: Codable, MessageType {
     var messageId = UUID().uuidString
     let senderId: String
     let sentDate: Date
-    let imageURL: String?
-    let displayName: String
+    let imageURL: String? // TODO! update to user's profile picture
+    let displayName: String // TODO! update to user's
     
     var sender: SenderType {
         Sender(senderId: senderId, displayName: displayName, imageURL: imageURL)

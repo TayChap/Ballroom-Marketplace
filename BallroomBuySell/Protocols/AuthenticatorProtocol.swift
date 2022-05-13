@@ -54,7 +54,7 @@ extension AuthenticatorProtocol {
     }
     
     func authorizationController(controller: ASAuthorizationController, error: Error) {
-        showNetworkError()
+        // user hit cancel - take no action
     }
     
     func profilePictureSelected(info: [UIImagePickerController.InfoKey : Any]) {
