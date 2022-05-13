@@ -7,27 +7,33 @@
 
 import UIKit
 
-class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol, PickerCellDelegate, TextFieldCellDelegate, ImageCellDelegate, SwitchCellDelegate, TextViewCellDelegate {
-    @IBOutlet weak var backButton: UIBarButtonItem!
-    @IBOutlet weak var doneButton: UIBarButtonItem!
+class SaleItemVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol, AuthenticatorProtocol, PickerCellDelegate, TextFieldCellDelegate, ImageCellDelegate, SwitchCellDelegate, TextViewCellDelegate {
     @IBOutlet weak var tableView: UITableView!
     private var vm: SaleItemVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController(mode: SaleItemVM.Mode, templates: [SaleItemTemplate], saleItem: SaleItem? = nil) -> UIViewController {
-        let vc = UIViewController.getVC(from: .main, of: self)
+    static func createViewController(mode: SaleItemVM.Mode,
+                                     templates: [SaleItemTemplate],
+                                     selectedTemplate: SaleItemTemplate? = nil,
+                                     saleItem: SaleItem? = nil,
+                                     hideContactSeller: Bool = false,
+                                     updateFilter: ((SaleItem) -> Void)? = nil) -> UIViewController {
+        let vc = SaleItemVC(nibName: String(describing: SaleItemVC.self), bundle: nil)
         vc.vm = SaleItemVM(owner: vc,
                            mode: mode,
                            templates: templates,
-                           saleItem: saleItem)
+                           selectedTemplate: selectedTemplate,
+                           saleItem: saleItem,
+                           hideContactSeller: hideContactSeller,
+                           updateFilter: updateFilter)
         
         return vc
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = vm.title
         vm.viewDidLoad(with: tableView)
+        setupNavigationBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,12 +65,24 @@ class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, View
     }
     
     // MARK: - IBActions
-    @IBAction func backButtonClicked() {
+    @objc func backButtonClicked() {
         vm.backButtonClicked()
     }
     
-    @IBAction func doneButtonClicked() {
+    @objc func doneButtonClicked() {
         vm.doneButtonClicked()
+    }
+    
+    @objc func reportButtonClicked() {
+        vm.reportButtonClicked() {
+            signIn()
+        }
+    }
+    
+    @objc func messageButtonClicked() {
+        vm.messageButtonClicked {
+            signIn()
+        }
     }
     
     // MARK: - Table Methods
@@ -82,12 +100,17 @@ class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, View
     }
     
     // MARK: - ViewControllerProtocol
+    func presentViewController(_ vc: UIViewController) {
+        present(NavigationController(rootViewController: vc), animated: true)
+    }
+    
     func pushViewController(_ vc: UIViewController) {
         navigationController?.pushViewController(vc, animated: true)
     }
     
     func dismiss() {
         navigationController?.popViewController(animated: true)
+        dismiss(animated: true)
     }
     
     func reload() {
@@ -147,5 +170,41 @@ class SellVC: UIViewController, UITableViewDelegate, UITableViewDataSource, View
         }
         
         vm.setData(data, at: indexPath)
+    }
+    
+    /// Initialize the title and navigation bar items based on VM state
+    private func setupNavigationBar() {
+        title = vm.title
+        
+        if let backButtonImage = vm.backButtonImage {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: backButtonImage, style: .plain, target: self, action: #selector(backButtonClicked))
+            navigationItem.leftBarButtonItem?.tintColor = Theme.Color.interactivity.value
+        }
+        
+        navigationItem.rightBarButtonItems = [] // must assign array before appending to it
+        addRightBarButtonItem(for: vm.doneButtonImage,
+                              with: Theme.Color.interactivity.value,
+                              performing: #selector(doneButtonClicked))
+        addRightBarButtonItem(for: vm.messageButtonImage,
+                              with: Theme.Color.interactivity.value,
+                              performing: #selector(messageButtonClicked))
+        addRightBarButtonItem(for: vm.reportButtonImage,
+                              with: Theme.Color.error.value,
+                              performing: #selector(reportButtonClicked))
+    }
+    
+    /// Add a right bar button item if image is provided
+    /// - Parameters:
+    ///   - image: image for bar button item
+    ///   - tint: tint of bar button item
+    ///   - selector: action of bar button item
+    private func addRightBarButtonItem(for image: UIImage?, with tint: UIColor, performing selector: Selector) {
+        guard let image = image else {
+            return
+        }
+        
+        let button = UIBarButtonItem(image: image, style: .plain, target: self, action: selector)
+        button.tintColor = tint
+        navigationItem.rightBarButtonItems?.append(button)
     }
 }

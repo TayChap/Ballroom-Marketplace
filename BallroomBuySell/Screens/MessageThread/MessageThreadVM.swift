@@ -50,9 +50,10 @@ class MessageThreadVM {
             Image.downloadImages(saleItem.images.map({ $0.url })) { images in
                 if !self.templates.isEmpty {
                     saleItem.images = images
-                    self.delegate?.pushViewController(SaleItemViewVC.createViewController(templates: self.templates,
-                                                                                          saleItem: saleItem,
-                                                                                          hideContactSeller: true))
+                    self.delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
+                                                                                  templates: self.templates,
+                                                                                  saleItem: saleItem,
+                                                                                  hideContactSeller: true))
                 }
             }
         } onFail: {

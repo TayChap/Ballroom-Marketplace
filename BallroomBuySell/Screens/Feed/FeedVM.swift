@@ -59,7 +59,7 @@ struct FeedVM {
             return
         }
         
-        delegate?.pushViewController(SellVC.createViewController(mode: .create,
+        delegate?.pushViewController(SaleItemVC.createViewController(mode: .create,
                                                                  templates: templates))
     }
     
@@ -132,8 +132,9 @@ struct FeedVM {
             Image.downloadImages(saleItem.images.map({ $0.url })) { images in
                 if !templates.isEmpty {
                     saleItem.images = images
-                    delegate?.pushViewController(SaleItemViewVC.createViewController(templates: templates,
-                                                                                     saleItem: saleItem))
+                    delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
+                                                                             templates: templates,
+                                                                             saleItem: saleItem))
                 }
             }
             

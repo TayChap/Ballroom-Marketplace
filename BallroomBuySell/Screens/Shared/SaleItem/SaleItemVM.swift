@@ -30,7 +30,8 @@ struct SaleItemVM {
     private let mode: Mode
     private var screenStructure = [SaleItemCellStructure]()
     private let templates: [SaleItemTemplate]
-    private(set) var hideContactSeller: Bool
+    private let hideContactSeller: Bool
+    private let updateFilter: ((SaleItem) -> Void)?
     
     // MARK: Computed Properties
     private var selectedTemplate: SaleItemTemplate? {
@@ -52,6 +53,7 @@ struct SaleItemVM {
         }
     }
     
+    // MARK: - Navigation Bar
     var title: String {
         switch mode {
         case .view:
@@ -69,13 +71,35 @@ struct SaleItemVM {
         }
     }
     
+    var backButtonImage: UIImage? {
+        UIImage(systemName: mode == .filter ? "xmark" : "chevron.left")
+    }
+    
+    var doneButtonImage: UIImage? {
+        switch mode {
+        case .edit, .create, .filter:
+            return UIImage(systemName: "checkmark")
+        case .view:
+            return nil
+        }
+    }
+    
+    var reportButtonImage: UIImage? {
+        mode == .view && !hideContactSeller ? UIImage(systemName: "flag")?.withTintColor(Theme.Color.error.value) : nil
+    }
+    
+    var messageButtonImage: UIImage? {
+        mode == .view && !hideContactSeller ? UIImage(systemName: "envelope") : nil
+    }
+    
     // MARK: - Lifecycle Methods
-    init(owner: ViewControllerProtocol, mode: Mode, templates: [SaleItemTemplate], selectedTemplate: SaleItemTemplate? = nil, saleItem: SaleItem? = nil, hideContactSeller: Bool = false) {
+    init(owner: ViewControllerProtocol, mode: Mode, templates: [SaleItemTemplate], selectedTemplate: SaleItemTemplate? = nil, saleItem: SaleItem? = nil, hideContactSeller: Bool, updateFilter: ((SaleItem) -> Void)?) {
         delegate = owner
         self.mode = mode
         self.templates = templates
         self.saleItem = saleItem ?? SaleItem(userId: AuthenticationManager.sharedInstance.user?.id ?? "")
         self.hideContactSeller = AuthenticationManager.sharedInstance.user?.id == self.saleItem.userId || hideContactSeller
+        self.updateFilter = updateFilter
         
         // update pre selected template for filter mode
         guard let selectedTemplateId = selectedTemplate?.id else {
@@ -111,7 +135,7 @@ struct SaleItemVM {
         }
     }
     
-    mutating func doneButtonClicked(_ updateFilter: ((SaleItem) -> Void)? = nil) {
+    mutating func doneButtonClicked() {
         saleItem.dateAdded = Date()
         switch mode {
         case .create, .edit:
@@ -129,6 +153,7 @@ struct SaleItemVM {
             }
         case .filter:
             updateFilter?(saleItem)
+            delegate?.dismiss()
         case .view:
             break
         }

@@ -116,9 +116,9 @@ struct InboxVM {
         var saleItem = saleItems[indexPath.row]
         Image.downloadImages(saleItem.images.map({ $0.url })) { images in
             saleItem.images = images
-            delegate?.pushViewController(SellVC.createViewController(mode: .edit,
-                                                                     templates: templates,
-                                                                     saleItem: saleItem))
+            delegate?.pushViewController(SaleItemVC.createViewController(mode: .edit,
+                                                                         templates: templates,
+                                                                         saleItem: saleItem))
         }
     }
     
