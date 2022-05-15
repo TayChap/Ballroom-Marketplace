@@ -10,5 +10,5 @@ import UIKit
 struct SaleItemCellDM {
     let imageURL: String
     let price: String
-    let date: Date
+    let location: String
 }

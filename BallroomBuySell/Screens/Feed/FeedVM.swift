@@ -111,7 +111,7 @@ struct FeedVM {
             
             cell.configureCell(with: SaleItemCellDM(imageURL: coverImageURL,
                                                     price: "$\(cellData.fields["price"] ?? "?")",
-                                                    date: cellData.dateAdded))
+                                                    location: Country.getCountryName(cellData.fields["location"]) ?? "?"))
             return cell
         }
         

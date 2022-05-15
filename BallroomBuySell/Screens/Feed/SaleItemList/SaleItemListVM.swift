@@ -77,8 +77,8 @@ struct SaleItemListVM {
         }
         
         cell.configureCell(with: SaleItemCellDM(imageURL: cellData.images.map({ $0.url }).first ?? "",
-                                                price: "$\(cellData.fields["price"] ?? "?")",
-                                                date: cellData.dateAdded))
+                                                price: "$\(cellData.fields["price"] ?? "?")", // TODO! hardcoded sale item field names
+                                                location: Country.getCountryName(cellData.fields["location"]) ?? "?"))
         return cell
     }
     
