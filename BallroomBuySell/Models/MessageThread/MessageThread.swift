@@ -17,7 +17,7 @@ struct MessageThread: Storable, Reportable {
     let sellerId: String
     let saleItemId: String
     let saleItemType: String // TODO! can change - investigate when review inbox UI/UX
-    let imageURL: String
+    let imageURL: String // TODO! can change - investigate when review inbox UI/UX
     var messages: [Message] = []
     
     // MARK: - Computed Properties

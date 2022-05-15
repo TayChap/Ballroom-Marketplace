@@ -75,7 +75,7 @@ struct InboxVM {
             cell.configureCell(with: InboxCellDM(imageURL: thread.imageURL,
                                                  title: SaleItemTemplate.getItemTitle(by: thread.saleItemType, in: templates),
                                                  date: lastMessageUnwrapped.sentDate,
-                                                 detail: "\(lastMessageUnwrapped.displayName): \(lastMessageUnwrapped.content)")) // TODO!
+                                                 detail: lastMessageUnwrapped.content))
             return cell
         }
         
