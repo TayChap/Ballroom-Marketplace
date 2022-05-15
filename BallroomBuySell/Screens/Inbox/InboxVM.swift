@@ -20,13 +20,16 @@ struct InboxVM {
     private var inboxState = InboxState.threads
     
     // MARK: - Lifecycle Methods
-    init(owner: ViewControllerProtocol, user: User, templates: [SaleItemTemplate]) {
+    init(owner: ViewControllerProtocol,
+         user: User,
+         templates: [SaleItemTemplate]) {
         delegate = owner
         self.user = user
         self.templates = templates
     }
     
-    func viewWillAppear(_ completion: @escaping (_ saleItems: [SaleItem], _ threads: [MessageThread]) -> Void) {
+    func viewWillAppear(_ completion: @escaping (_ saleItems: [SaleItem],
+                                                 _ threads: [MessageThread]) -> Void) {
         fetchItems(completion)
     }
     
@@ -52,7 +55,9 @@ struct InboxVM {
         numberOfItems() == 0 ? 1 : numberOfItems()
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath,
+                   _ owner: UIViewController) -> UITableViewCell {
         if numberOfItems() == 0 { // empty message
             guard let cell = InboxEmptyTableCell.createCell(for: tableView) else {
                 return UITableViewCell()
@@ -86,7 +91,8 @@ struct InboxVM {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   didSelectRowAt indexPath: IndexPath) {
         if numberOfItems() == 0 { // empty message
             return
         }
@@ -116,7 +122,11 @@ struct InboxVM {
         }
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath, completion: @escaping (_ saleItems: [SaleItem], _ threads: [MessageThread]) -> Void) {
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath,
+                   completion: @escaping (_ saleItems: [SaleItem],
+                                          _ threads: [MessageThread]) -> Void) {
         if editingStyle == .delete {
             if inboxState == .threads {
                 DatabaseManager.sharedInstance.deleteDocument(in: .threads, with: threads[indexPath.row].id, {
@@ -131,7 +141,8 @@ struct InboxVM {
     }
     
     // MARK: - Public Helpers
-    mutating func onFetch(_ saleItemsFetched: [SaleItem], _ threadsFetched: [MessageThread]) {
+    mutating func onFetch(_ saleItemsFetched: [SaleItem],
+                          _ threadsFetched: [MessageThread]) {
         saleItems = saleItemsFetched.sorted(by: { $0.dateAdded.compare($1.dateAdded) == .orderedDescending })
         
         // sort and filter threads
@@ -141,7 +152,8 @@ struct InboxVM {
     // MARK: - Private Helpers
     /// Query server for both sale items and threads where user is either the buyer or the seller
     /// - Parameter completion: on successfully fetching the saleItem and thread data
-    private func fetchItems(_ completion: @escaping (_ saleItems: [SaleItem], _ threads: [MessageThread]) -> Void) {
+    private func fetchItems(_ completion: @escaping (_ saleItems: [SaleItem],
+                                                     _ threads: [MessageThread]) -> Void) {
         DatabaseManager.sharedInstance.getDocuments(to: .items,
                                                     of: SaleItem.self,
                                                     whereFieldEquals: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id)) { saleItems in

@@ -235,7 +235,9 @@ struct SaleItemVM {
                     return UITableViewCell()
                 }
                 
-                pickerValues = PickerValue.getMeasurements(for: (min: cellStructure.min, max: max), with: cellStructure.increment)
+                pickerValues = PickerValue.getMeasurements(for: (min: cellStructure.min,
+                                                                 max: max),
+                                                           with: cellStructure.increment)
             default:
                 pickerValues = cellStructure.values
             }
@@ -299,7 +301,8 @@ struct SaleItemVM {
         }
         
         if let selectedCell = tableView.cellForRow(at: indexPath) as? PickerTableCell {
-            let pickerVC = PickerViewController.createViewController(delegate: selectedCell, owner: delegate)
+            let pickerVC = PickerViewController.createViewController(delegate: selectedCell,
+                                                                     owner: delegate)
             pickerVC.presentLayerIn(viewController: viewController, withDataSource: selectedCell)
         }
     }
@@ -314,13 +317,15 @@ struct SaleItemVM {
     }
     
     // MARK: - SwitchCellDelegate
-    mutating func updateSwitchDetail(_ isOn: Bool, for cell: SwitchTableCell) {
+    mutating func updateSwitchDetail(_ isOn: Bool,
+                                     for cell: SwitchTableCell) {
         saleItem.useStandardSizing = isOn
         screenStructure = getScreenStructure()
     }
     
     // MARK: - Public Helpers
-    mutating func setData(_ data: String, at indexPath: IndexPath) {
+    mutating func setData(_ data: String,
+                          at indexPath: IndexPath) {
         let cellStructure = screenStructure[indexPath.row]
         saleItem.fields[cellStructure.serverKey] = data
         

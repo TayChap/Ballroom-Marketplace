@@ -31,7 +31,8 @@ struct FeedVM {
 //        TemplateManager.updateTemplates()
     }
     
-    func viewWillAppear(_ completion: @escaping (_ templates: [SaleItemTemplate], _ saleItems: [SaleItem]) -> Void) {
+    func viewWillAppear(_ completion: @escaping (_ templates: [SaleItemTemplate],
+                                                 _ saleItems: [SaleItem]) -> Void) {
         // refresh templates and pull most recent sale items
         DatabaseManager.sharedInstance.getDocuments(to: .templates,
                                                     of: SaleItemTemplate.self) { templates in
@@ -78,7 +79,9 @@ struct FeedVM {
     }
     
     // MARK: - CollectionView Methods
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
         guard let sectionHeader = FeedSectionHeader.createCell(for: collectionView,
                                                                ofKind: kind,
                                                                at: indexPath) else {
@@ -93,11 +96,13 @@ struct FeedVM {
         Section.allCases.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         section == Section.recentItems.rawValue ? saleItems.count : templates.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == Section.recentItems.rawValue {
             let cellData = saleItems[indexPath.item]
             
@@ -126,15 +131,17 @@ struct FeedVM {
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath, completion: @escaping () -> Void) {
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath,
+                        completion: @escaping () -> Void) {
         if indexPath.section == Section.recentItems.rawValue {
             var saleItem = saleItems[indexPath.row]
             Image.downloadImages(saleItem.images.map({ $0.url })) { images in
                 if !templates.isEmpty {
                     saleItem.images = images
                     delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
-                                                                             templates: templates,
-                                                                             saleItem: saleItem))
+                                                                                 templates: templates,
+                                                                                 saleItem: saleItem))
                 }
             }
             
@@ -159,7 +166,8 @@ struct FeedVM {
     }
     
     // MARK: - Public Helpers
-    mutating func onItemsFetched(templatesFetched: [SaleItemTemplate], saleItemsFetched: [SaleItem]) {
+    mutating func onItemsFetched(templatesFetched: [SaleItemTemplate],
+                                 saleItemsFetched: [SaleItem]) {
         templates = templatesFetched.sorted(by: { $0.order < $1.order })
         saleItems = saleItemsFetched
     }

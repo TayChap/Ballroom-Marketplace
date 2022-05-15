@@ -70,15 +70,20 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
         vm.numberOfSections(in: messagesCollectionView)
     }
     
-    func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
+    func messageForItem(at indexPath: IndexPath,
+                        in messagesCollectionView: MessagesCollectionView) -> MessageType {
         vm.messageForItem(at: indexPath, in: messagesCollectionView)
     }
     
-    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+    func configureAvatarView(_ avatarView: AvatarView,
+                             for message: MessageType,
+                             at indexPath: IndexPath,
+                             in messagesCollectionView: MessagesCollectionView) {
         vm.configureAvatarView(avatarView, for: message, at: indexPath, in: messagesCollectionView)
     }
     
-    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+    func inputBar(_ inputBar: InputBarAccessoryView,
+                  didPressSendButtonWith text: String) {
         vm.inputBar(didPressSendButtonWith: text) {
             inputBar.inputTextView.text = ""
             reload()

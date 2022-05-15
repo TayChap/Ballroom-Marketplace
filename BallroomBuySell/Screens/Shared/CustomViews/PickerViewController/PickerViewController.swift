@@ -43,7 +43,9 @@ class PickerViewController: UIViewController, UIPickerViewDataSource {
     private var delegate: PickerDelegate?
     private var pickerType: PickerViewType?
     
-    static func createViewController(delegate: PickerDelegate?, pickerType: PickerViewType = .picker, owner: UIViewController?) -> PickerViewController {
+    static func createViewController(delegate: PickerDelegate?,
+                                     pickerType: PickerViewType = .picker,
+                                     owner: UIViewController?) -> PickerViewController {
         let pickerViewController = PickerViewController(nibName: String(describing: PickerViewController.self), bundle: nil)
         pickerViewController.owner = owner
         pickerViewController.delegate = delegate

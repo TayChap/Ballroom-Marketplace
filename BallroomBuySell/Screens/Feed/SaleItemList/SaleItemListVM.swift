@@ -20,7 +20,10 @@ struct SaleItemListVM {
     }
     
     // MARK: - Lifecycle Methods
-    init(owner: ViewControllerProtocol, templates: [SaleItemTemplate], selectedTemplate: SaleItemTemplate, unfilteredSaleItems: [SaleItem]) {
+    init(owner: ViewControllerProtocol,
+         templates: [SaleItemTemplate],
+         selectedTemplate: SaleItemTemplate,
+         unfilteredSaleItems: [SaleItem]) {
         delegate = owner
         self.templates = templates
         self.selectedTemplate = selectedTemplate
@@ -88,8 +91,8 @@ struct SaleItemListVM {
             if !templates.isEmpty {
                 saleItem.images = images
                 delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
-                                                                         templates: templates,
-                                                                         saleItem: saleItem))
+                                                                             templates: templates,
+                                                                             saleItem: saleItem))
             }
             
             completion()

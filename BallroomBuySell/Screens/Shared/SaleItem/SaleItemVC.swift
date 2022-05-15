@@ -86,15 +86,18 @@ class SaleItemVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     // MARK: - Table Methods
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView,
+                   numberOfRowsInSection section: Int) -> Int {
         vm.tableView(tableView, numberOfRowsInSection: section)
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         vm.tableView(tableView, cellForRowAt: indexPath, self)
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   didSelectRowAt indexPath: IndexPath) {
         view.endEditing(true) // dismiss keyboard on row selection
         vm.tableView(tableView, didSelectRowAt: indexPath, self)
     }
@@ -118,13 +121,15 @@ class SaleItemVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     // MARK: - PickerCellDelegate
-    func pickerUpdated(with newValues: [String], for cell: PickerTableCell) {
+    func pickerUpdated(with newValues: [String],
+                       for cell: PickerTableCell) {
         setData(newValues.first ?? "", for: cell)
         reload()
     }
     
     // MARK: - TextFieldCellDelegate
-    func textFieldUpdated(with text: String, for cell: TextFieldTableCell) {
+    func textFieldUpdated(with text: String,
+                          for cell: TextFieldTableCell) {
         setData(text, for: cell)
     }
     
@@ -140,7 +145,8 @@ class SaleItemVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     // MARK: - SwitchCellDelegate
-    func updateSwitchDetail(with isOn: Bool, for cell: SwitchTableCell) {
+    func updateSwitchDetail(with isOn: Bool,
+                            for cell: SwitchTableCell) {
         vm.updateSwitchDetail(isOn, for: cell)
         reload()
     }
@@ -154,7 +160,8 @@ class SaleItemVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         tableView.scrollToRow(at: indexPath, at: .top, animated: true)
     }
     
-    func updateTextViewDetail(with text: String, for cell: TextViewTableCell) {
+    func updateTextViewDetail(with text: String,
+                              for cell: TextViewTableCell) {
         setData(text, for: cell)
         tableView.performBatchUpdates(nil, completion: nil) // Need to adjust cell height without reloading the table view
     }
@@ -164,7 +171,8 @@ class SaleItemVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     /// - Parameters:
     ///   - data: data to update
     ///   - cell: cell corresponding to data to update
-    private func setData(_ data: String, for cell: UITableViewCell) {
+    private func setData(_ data: String,
+                         for cell: UITableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else {
             return
         }
@@ -198,7 +206,9 @@ class SaleItemVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     ///   - image: image for bar button item
     ///   - tint: tint of bar button item
     ///   - selector: action of bar button item
-    private func addRightBarButtonItem(for image: UIImage?, with tint: UIColor, performing selector: Selector) {
+    private func addRightBarButtonItem(for image: UIImage?,
+                                       with tint: UIColor,
+                                       performing selector: Selector) {
         guard let image = image else {
             return
         }

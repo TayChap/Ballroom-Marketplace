@@ -87,11 +87,15 @@ class MessageThreadVM {
         thread.messages.count
     }
     
-    func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
+    func messageForItem(at indexPath: IndexPath,
+                        in messagesCollectionView: MessagesCollectionView) -> MessageType {
         thread.messages[indexPath.section]
     }
     
-    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+    func configureAvatarView(_ avatarView: AvatarView,
+                             for message: MessageType,
+                             at indexPath: IndexPath,
+                             in messagesCollectionView: MessagesCollectionView) {
         guard let imageURL = (message.sender as? Sender)?.imageURL else {
             return
         }
