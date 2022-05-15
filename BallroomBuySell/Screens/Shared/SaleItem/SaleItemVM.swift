@@ -93,7 +93,13 @@ struct SaleItemVM {
     }
     
     // MARK: - Lifecycle Methods
-    init(owner: ViewControllerProtocol, mode: Mode, templates: [SaleItemTemplate], selectedTemplate: SaleItemTemplate? = nil, saleItem: SaleItem? = nil, hideContactSeller: Bool, updateFilter: ((SaleItem) -> Void)?) {
+    init(owner: ViewControllerProtocol,
+         mode: Mode,
+         templates: [SaleItemTemplate],
+         selectedTemplate: SaleItemTemplate? = nil,
+         saleItem: SaleItem? = nil,
+         hideContactSeller: Bool,
+         updateFilter: ((SaleItem) -> Void)?) {
         delegate = owner
         self.mode = mode
         self.templates = templates
@@ -167,17 +173,25 @@ struct SaleItemVM {
         
         DatabaseManager.sharedInstance.getDocuments(to: .threads,
                                                     of: MessageThread.self,
-                                                    whereArrayContains: (key: MessageThread.QueryKeys.userIds.rawValue, value: user.id)) { threads in
+                                                    whereFieldEquals: (key: MessageThread.QueryKeys.buyerId.rawValue, value: user.id)) { threads in
             let messageThread = threads.first(where: { $0.saleItemId == saleItem.id }) ??
-            MessageThread(userIds: [user.id, saleItem.userId],
+            MessageThread(buyerId: user.id,
+                          sellerId: saleItem.userId,
                           saleItemId: saleItem.id,
                           saleItemType: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "",
                           imageURL: saleItem.images.first?.url ?? "")
             
+            DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                       of: User.self,
+                                                       with: messageThread.otherUserId) { otherUser in
             delegate?.pushViewController(MessageThreadVC.createViewController(messageThread,
-                                                                              user: user,
+                                                                              currentUser: user,
+                                                                              otherUser: otherUser,
                                                                               templates: templates,
                                                                               hideItemInfo: true))
+            } onFail: {
+                delegate?.showNetworkError()
+            }
         } onFail: {
             delegate?.showNetworkError()
         }

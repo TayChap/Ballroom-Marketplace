@@ -26,9 +26,9 @@ struct Report<Item: Storable & Reportable>: Storable {
             DatabaseManager.sharedInstance.putDocument(in: .reports,
                                                        for: Report(reason: textField.text ?? "",
                                                                    item: item,
-                                                                   reportedUserId: item.userId,
+                                                                   reportedUserId: item.reportableUserId,
                                                                    reportingUserId: reportingUser.id)) {
-                AuthenticationManager.sharedInstance.blockUser(item.userId)
+                AuthenticationManager.sharedInstance.blockUser(item.reportableUserId)
                 
                 // TODO! refactor - put updated user on server
                 guard let user = AuthenticationManager.sharedInstance.user else {

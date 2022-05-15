@@ -16,7 +16,11 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
     private var vm: MessageThreadVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController(_ thread: MessageThread, user: User, templates: [SaleItemTemplate], hideItemInfo: Bool = false) -> UIViewController {
+    static func createViewController(_ thread: MessageThread,
+                                     currentUser: User,
+                                     otherUser: User,
+                                     templates: [SaleItemTemplate],
+                                     hideItemInfo: Bool = false) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
         
         if hideItemInfo { // navigation is from item info page already
@@ -25,17 +29,15 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
         
         vc.vm = MessageThreadVM(owner: vc,
                                 thread: thread,
-                                user: user,
+                                currentUser: currentUser,
+                                otherUser: otherUser,
                                 templates: templates)
         return vc
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        vm.setTitle { otherUserDisplayName in
-            self.title = otherUserDisplayName
-        }
+        self.title = vm.title
         
         // message collection view settings
         messageInputBar.delegate = self

@@ -12,18 +12,33 @@ import UIKit
 class MessageThreadVM {
     private weak var delegate: ViewControllerProtocol?
     
-    private var thread: MessageThread
-    private let user: User
     private let templates: [SaleItemTemplate]
+    private var thread: MessageThread
+    private let currentUser: User
+    private let otherUser: User
+    
+    // MARK: - Computed Properties
+    var title: String {
+        otherUser.displayName
+    }
     
     // MARK: - Lifecycle Methods
-    init(owner: ViewControllerProtocol, thread: MessageThread, user: User, templates: [SaleItemTemplate]) {
+    init(owner: ViewControllerProtocol,
+         thread: MessageThread,
+         currentUser: User,
+         otherUser: User,
+         templates: [SaleItemTemplate]) {
         delegate = owner
         self.thread = thread
-        self.user = user
         self.templates = templates
+        self.currentUser = currentUser
+        self.otherUser = otherUser
         
-        self.thread.userIds.insert(user.id)
+        for (index, message) in thread.messages.enumerated() {
+            let user = currentUser.id == message.senderId ? currentUser : otherUser
+            self.thread.messages[index].imageURL = user.photoURL
+            self.thread.messages[index].displayName = user.displayName
+        }
     }
     
     // MARK: - IBActions
@@ -35,7 +50,7 @@ class MessageThreadVM {
         Report.submitReport(for: thread,
                             with: LocalizedString.string("flag.reason"),
                             delegate: delegate,
-                            reportingUser: user) {
+                            reportingUser: currentUser) {
             self.delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
         } onFail: {
             self.delegate?.showNetworkError()
@@ -51,9 +66,9 @@ class MessageThreadVM {
                 if !self.templates.isEmpty {
                     saleItem.images = images
                     self.delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
-                                                                                  templates: self.templates,
-                                                                                  saleItem: saleItem,
-                                                                                  hideContactSeller: true))
+                                                                                      templates: self.templates,
+                                                                                      saleItem: saleItem,
+                                                                                      hideContactSeller: true))
                 }
             }
         } onFail: {
@@ -63,7 +78,9 @@ class MessageThreadVM {
     
     // MARK: - MessagesDataSource
     func currentSender() -> SenderType {
-        Sender(senderId: user.id, displayName: user.displayName, imageURL: user.photoURL)
+        Sender(senderId: currentUser.id,
+               displayName: currentUser.displayName,
+               imageURL: currentUser.photoURL)
     }
     
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
@@ -86,10 +103,10 @@ class MessageThreadVM {
     
     func inputBar(didPressSendButtonWith text: String, _ completion: () -> Void) {
         let message = Message(content: text,
-                              senderId: user.id,
+                              senderId: currentUser.id,
                               sentDate: Date(),
-                              imageURL: user.photoURL,
-                              displayName: user.displayName)
+                              imageURL: currentUser.photoURL,
+                              displayName: currentUser.displayName)
         
         thread.messages.append(message)
         completion()
@@ -98,17 +115,6 @@ class MessageThreadVM {
             // no action on completion
         } onFail: {
             delegate?.showNetworkError()
-        }
-    }
-    
-    // MARK: - Public Helpers
-    func setTitle(_ completion: @escaping (String) -> Void) {
-        DatabaseManager.sharedInstance.getDocument(in: .users,
-                                                   of: User.self,
-                                                   with: thread.userId) { user in
-            completion(user.displayName)
-        } onFail: {
-            // no action required
         }
     }
 }

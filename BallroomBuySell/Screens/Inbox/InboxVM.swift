@@ -27,22 +27,7 @@ struct InboxVM {
     }
     
     func viewWillAppear(_ completion: @escaping (_ saleItems: [SaleItem], _ threads: [MessageThread]) -> Void) {
-        // TODO! evaluate call to fetch items
-        DatabaseManager.sharedInstance.getDocuments(to: .items,
-                                                    of: SaleItem.self,
-                                                    whereFieldEquals: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id)) { saleItems in
-            DatabaseManager.sharedInstance.getDocuments(to: .threads,
-                                                        of: MessageThread.self,
-                                                        whereArrayContains: (key: MessageThread.QueryKeys.userIds.rawValue, value: user.id)) { threads in
-                
-                
-                completion(saleItems, threads)
-            } onFail: {
-                delegate?.showNetworkError()
-            }
-        } onFail: {
-            delegate?.showNetworkError()
-        }
+        fetchItems(completion)
     }
     
     // MARK: - IBActions
@@ -90,7 +75,7 @@ struct InboxVM {
             cell.configureCell(with: InboxCellDM(imageURL: thread.imageURL,
                                                  title: SaleItemTemplate.getItemTitle(by: thread.saleItemType, in: templates),
                                                  date: lastMessageUnwrapped.sentDate,
-                                                 detail: "\(lastMessageUnwrapped.displayName): \(lastMessageUnwrapped.content)"))
+                                                 detail: "\(lastMessageUnwrapped.displayName): \(lastMessageUnwrapped.content)")) // TODO!
             return cell
         }
         
@@ -107,9 +92,18 @@ struct InboxVM {
         }
         
         if inboxState == .threads {
-            delegate?.pushViewController(MessageThreadVC.createViewController(threads[indexPath.row],
-                                                                              user: user,
-                                                                              templates: templates))
+            let thread = threads[indexPath.row]
+            DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                       of: User.self,
+                                                       with: thread.otherUserId) { otherUser in
+                delegate?.pushViewController(MessageThreadVC.createViewController(threads[indexPath.row],
+                                                                                  currentUser: user,
+                                                                                  otherUser: otherUser,
+                                                                                  templates: templates))
+            } onFail: {
+                delegate?.showNetworkError()
+            }
+            
             return
         }
         
@@ -145,16 +139,26 @@ struct InboxVM {
     }
     
     // MARK: - Private Helpers
-    /// Query server for both sale items and threads
+    /// Query server for both sale items and threads where user is either the buyer or the seller
     /// - Parameter completion: on successfully fetching the saleItem and thread data
     private func fetchItems(_ completion: @escaping (_ saleItems: [SaleItem], _ threads: [MessageThread]) -> Void) {
         DatabaseManager.sharedInstance.getDocuments(to: .items,
                                                     of: SaleItem.self,
                                                     whereFieldEquals: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id)) { saleItems in
+            
+            // include threads where user is EITHER buyer or seller (two calls because Firestore does not support OR operations right now)
             DatabaseManager.sharedInstance.getDocuments(to: .threads,
                                                         of: MessageThread.self,
-                                                        whereArrayContains: (key: MessageThread.QueryKeys.userIds.rawValue, value: user.id)) { threads in
-                completion(saleItems, threads)
+                                                        whereFieldEquals: (key: MessageThread.QueryKeys.buyerId.rawValue, value: user.id)) { threadsWhereBuyer in
+                var threads = threadsWhereBuyer
+                DatabaseManager.sharedInstance.getDocuments(to: .threads,
+                                                            of: MessageThread.self,
+                                                            whereFieldEquals: (key: MessageThread.QueryKeys.sellerId.rawValue, value: user.id)) { threadsWhereSeller in
+                    threads.append(contentsOf: threadsWhereSeller)
+                    completion(saleItems, threads)
+                } onFail: {
+                    delegate?.showNetworkError()
+                }
             } onFail: {
                 delegate?.showNetworkError()
             }

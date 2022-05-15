@@ -14,10 +14,15 @@ struct SaleItem: Storable, Reportable {
     
     var id = UUID().uuidString
     var dateAdded = Date()
-    var userId: String
+    let userId: String
     var images = [Image]()
     var useStandardSizing = false
     var fields: [String: String] = [:] // [serverKey: value]
+    
+    // MARK: - Computed Properties
+    var reportableUserId: String {
+        userId
+    }
     
     func getFilterFields(basedOn template: SaleItemTemplate) -> [String: String] {
         var finalFields = [String: String]()

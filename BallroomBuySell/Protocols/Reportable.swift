@@ -6,11 +6,11 @@
 //
 
 protocol Reportable {
-    var userId: String { get }
+    var reportableUserId: String { get }
 }
 
 extension Reportable {
     func isAcceptable() -> Bool {
-        !(AuthenticationManager.sharedInstance.user?.blockedUserIds.contains(userId) ?? false)
+        !(AuthenticationManager.sharedInstance.user?.blockedUserIds.contains(reportableUserId) ?? false)
     }
 }
