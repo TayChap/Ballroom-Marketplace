@@ -58,11 +58,13 @@ extension AuthenticatorProtocol {
     }
     
     func profilePictureSelected(info: [UIImagePickerController.InfoKey : Any]) {
-        guard let selectedImageData = (info[.editedImage] as? UIImage ?? info[.originalImage] as? UIImage)?.pngData() else {
+        guard let selectedImage = info[.editedImage] as? UIImage ?? info[.originalImage] as? UIImage else {
             return
         }
         
-        let image = Image(data: selectedImageData)
+        let normalizedImage = selectedImage
+        let resizedImage = normalizedImage.resize(newWidth: 800)
+        let image = Image(data: resizedImage.pngData())
         Image.uploadImages([image])
         AuthenticationManager.sharedInstance.setUserImage(url: image.url)
     }
