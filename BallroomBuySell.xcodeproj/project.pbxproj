@@ -28,7 +28,7 @@
 		8D9D451727721F77004C5565 /* ViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D451627721F77004C5565 /* ViewControllerProtocol.swift */; };
 		8D9D451F277228EF004C5565 /* InboxVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D451E277228EF004C5565 /* InboxVC.swift */; };
 		8D9D452127723068004C5565 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D452027723068004C5565 /* LoginVC.swift */; };
-		8D9D4524277231D7004C5565 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D4523277231D7004C5565 /* SignUpVC.swift */; };
+		8D9D4524277231D7004C5565 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D4523277231D7004C5565 /* ProfileVC.swift */; };
 		8D9D452B277A28A2004C5565 /* Staging.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D452A277A28A2004C5565 /* Staging.storyboard */; };
 		8D9D452E277A2BFE004C5565 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D452D277A2BFE004C5565 /* NavigationController.swift */; };
 		8D9D4530277A37C8004C5565 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D452F277A37C8004C5565 /* FeedVC.swift */; };
@@ -39,7 +39,7 @@
 		8D9D453F277CDE09004C5565 /* TextFieldTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D453E277CDE09004C5565 /* TextFieldTableCell.swift */; };
 		8D9D4541277CDEFC004C5565 /* TableCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D4540277CDEFC004C5565 /* TableCellProtocol.swift */; };
 		8D9D4543277CE193004C5565 /* TextFieldTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D4542277CE193004C5565 /* TextFieldTableCell.xib */; };
-		8D9D4545277D1573004C5565 /* SignUpVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D4544277D1573004C5565 /* SignUpVM.swift */; };
+		8D9D4545277D1573004C5565 /* ProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D4544277D1573004C5565 /* ProfileVM.swift */; };
 		8D9D4547277D15AD004C5565 /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D4546277D15AD004C5565 /* LoginVM.swift */; };
 		8D9D455327822B85004C5565 /* ButtonTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D455227822B85004C5565 /* ButtonTableCell.swift */; };
 		8D9D455527822B91004C5565 /* ButtonTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D455427822B91004C5565 /* ButtonTableCell.xib */; };
@@ -141,7 +141,7 @@
 		8D9D451627721F77004C5565 /* ViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerProtocol.swift; sourceTree = "<group>"; };
 		8D9D451E277228EF004C5565 /* InboxVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxVC.swift; sourceTree = "<group>"; };
 		8D9D452027723068004C5565 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
-		8D9D4523277231D7004C5565 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
+		8D9D4523277231D7004C5565 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		8D9D452A277A28A2004C5565 /* Staging.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Staging.storyboard; sourceTree = "<group>"; };
 		8D9D452D277A2BFE004C5565 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		8D9D452F277A37C8004C5565 /* FeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
@@ -152,7 +152,7 @@
 		8D9D453E277CDE09004C5565 /* TextFieldTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTableCell.swift; sourceTree = "<group>"; };
 		8D9D4540277CDEFC004C5565 /* TableCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCellProtocol.swift; sourceTree = "<group>"; };
 		8D9D4542277CE193004C5565 /* TextFieldTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextFieldTableCell.xib; sourceTree = "<group>"; };
-		8D9D4544277D1573004C5565 /* SignUpVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVM.swift; sourceTree = "<group>"; };
+		8D9D4544277D1573004C5565 /* ProfileVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVM.swift; sourceTree = "<group>"; };
 		8D9D4546277D15AD004C5565 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
 		8D9D455227822B85004C5565 /* ButtonTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTableCell.swift; sourceTree = "<group>"; };
 		8D9D455427822B91004C5565 /* ButtonTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ButtonTableCell.xib; sourceTree = "<group>"; };
@@ -243,8 +243,8 @@
 		8D07CCD1283D612B00FE7E18 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				8D07CCD2283E936900FE7E18 /* AppleLoginVC.swift */,
-				8D07CCD4283E938400FE7E18 /* AppleLoginVC.xib */,
+				8D9D4523277231D7004C5565 /* ProfileVC.swift */,
+				8D9D4544277D1573004C5565 /* ProfileVM.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -253,7 +253,6 @@
 			isa = PBXGroup;
 			children = (
 				8D9D452227723183004C5565 /* Login */,
-				8D9D451D2772271C004C5565 /* SignUp */,
 			);
 			path = Staging;
 			sourceTree = "<group>";
@@ -283,6 +282,15 @@
 			path = BallroomBuySell;
 			sourceTree = "<group>";
 		};
+		8D58ECD128401BEE00B39EA7 /* AppleLogin */ = {
+			isa = PBXGroup;
+			children = (
+				8D07CCD2283E936900FE7E18 /* AppleLoginVC.swift */,
+				8D07CCD4283E938400FE7E18 /* AppleLoginVC.xib */,
+			);
+			path = AppleLogin;
+			sourceTree = "<group>";
+		};
 		8D9D44E72770C537004C5565 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -300,6 +308,7 @@
 		8D9D44E82770C549004C5565 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				8D58ECD128401BEE00B39EA7 /* AppleLogin */,
 				8D9D451227721D2D004C5565 /* Feed */,
 				8D9D451427721D77004C5565 /* Inbox */,
 				8DA71D0727A474B10025C1D5 /* MessageThread */,
@@ -388,15 +397,6 @@
 				8D9D45822789F79D004C5565 /* TemplateManager.swift */,
 			);
 			path = Managers;
-			sourceTree = "<group>";
-		};
-		8D9D451D2772271C004C5565 /* SignUp */ = {
-			isa = PBXGroup;
-			children = (
-				8D9D4523277231D7004C5565 /* SignUpVC.swift */,
-				8D9D4544277D1573004C5565 /* SignUpVM.swift */,
-			);
-			path = SignUp;
 			sourceTree = "<group>";
 		};
 		8D9D452227723183004C5565 /* Login */ = {
@@ -793,13 +793,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D9D4524277231D7004C5565 /* SignUpVC.swift in Sources */,
+				8D9D4524277231D7004C5565 /* ProfileVC.swift in Sources */,
 				8D9D457D2788F0E4004C5565 /* SaleItemTemplate.swift in Sources */,
 				8DA71D1127A48F0C0025C1D5 /* InboxVM.swift in Sources */,
 				8D9D451F277228EF004C5565 /* InboxVC.swift in Sources */,
 				8D9D456E27877D4C004C5565 /* SaleItemVM.swift in Sources */,
 				8D9D455327822B85004C5565 /* ButtonTableCell.swift in Sources */,
-				8D9D4545277D1573004C5565 /* SignUpVM.swift in Sources */,
+				8D9D4545277D1573004C5565 /* ProfileVM.swift in Sources */,
 				8D9D45C427A08E34004C5565 /* SaleItemCellDM.swift in Sources */,
 				8D07CCD3283E936900FE7E18 /* AppleLoginVC.swift in Sources */,
 				8D9D453F277CDE09004C5565 /* TextFieldTableCell.swift in Sources */,

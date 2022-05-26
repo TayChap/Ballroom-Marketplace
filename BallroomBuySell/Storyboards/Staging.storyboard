@@ -68,64 +68,21 @@
                         <outlet property="closeButton" destination="95c-ps-5B9" id="Pv6-rN-zfI"/>
                         <outlet property="loginButton" destination="tKo-XV-I0m" id="tNi-ib-rbG"/>
                         <outlet property="tableView" destination="1pm-up-APN" id="4OO-c3-jQ3"/>
-                        <segue destination="p0P-Jy-xTp" kind="show" id="C9S-li-K3s"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-951" y="131"/>
         </scene>
-        <!--Sign UpVC-->
-        <scene sceneID="Uq5-Yx-hfS">
-            <objects>
-                <viewController storyboardIdentifier="SignUpVC" id="p0P-Jy-xTp" customClass="SignUpVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="zZa-l4-fol">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9k3-0z-tr3">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="p0P-Jy-xTp" id="2gW-fh-V4C"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="NhU-in-OYY"/>
-                        <color key="backgroundColor" name="background"/>
-                        <constraints>
-                            <constraint firstItem="NhU-in-OYY" firstAttribute="bottom" secondItem="9k3-0z-tr3" secondAttribute="bottom" id="36o-E2-cbo"/>
-                            <constraint firstItem="NhU-in-OYY" firstAttribute="trailing" secondItem="9k3-0z-tr3" secondAttribute="trailing" id="9ov-GK-UUy"/>
-                            <constraint firstItem="9k3-0z-tr3" firstAttribute="top" secondItem="NhU-in-OYY" secondAttribute="top" id="gDC-dt-pSa"/>
-                            <constraint firstItem="9k3-0z-tr3" firstAttribute="leading" secondItem="NhU-in-OYY" secondAttribute="leading" id="kjr-zX-rHW"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="cMr-r7-528">
-                        <barButtonItem key="rightBarButtonItem" image="checkmark" catalog="system" id="HEc-DF-Yn9">
-                            <color key="tintColor" name="interactivity"/>
-                            <connections>
-                                <action selector="signUpButtonClicked" destination="p0P-Jy-xTp" id="rNm-PD-51K"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="signUpButton" destination="HEc-DF-Yn9" id="QU9-NH-R0B"/>
-                        <outlet property="tableView" destination="9k3-0z-tr3" id="6a0-cH-2P2"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zAa-41-eJK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="51" y="131"/>
-        </scene>
     </scenes>
     <resources>
         <image name="checkmark" catalog="system" width="128" height="114"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="background">
-            <color red="0.14901960784313725" green="0.27450980392156865" blue="0.32549019607843138" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.98500001430511475" green="1" blue="0.97899997234344482" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="interactivity">
-            <color red="0.95686274509803926" green="0.63529411764705879" blue="0.38039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
     </resources>
 </document>

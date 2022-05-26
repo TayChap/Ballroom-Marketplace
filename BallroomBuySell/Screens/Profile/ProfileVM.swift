@@ -1,5 +1,5 @@
 //
-//  SignUpVM.swift
+//  ProfileVM.swift
 //  BallroomBuySell
 //
 //  Created by Taylor Chapman on 2021-12-29.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-struct SignUpVM {
-    enum SignUpItem: CaseIterable {
+struct ProfileVM {
+    enum ProfileItem: CaseIterable {
         case photo
         case email
         case displayName
@@ -37,12 +37,12 @@ struct SignUpVM {
     
     weak var delegate: ViewControllerProtocol?
     private var photo: Image?
-    private var dm = [SignUpItem: String]()
+    private var dm = [ProfileItem: String]()
     
     // MARK: - Lifecycle Methods
-    init(delegate: ViewControllerProtocol) {
+    init(user: User, delegate: ViewControllerProtocol) {
         self.delegate = delegate
-        for item in SignUpItem.allCases {
+        for item in ProfileItem.allCases {
             dm[item] = ""
         }
     }
@@ -53,11 +53,18 @@ struct SignUpVM {
     }
     
     // MARK: - IBActions
+    func backButtonClicked() {
+        delegate?.dismiss()
+    }
+    
     func signUpButtonClicked() {
+        
+        // TODO! update to updating user object rather than Apple or FB Auth
+        
         guard // validity of email and password checked on server side
             let photo = photo,
-            let email = dm[SignUpItem.email],
-            let displayName = dm[SignUpItem.displayName], !displayName.isEmpty
+            let email = dm[ProfileItem.email],
+            let displayName = dm[ProfileItem.displayName], !displayName.isEmpty
         else {
             delegate?.showAlertWith(message: LocalizedString.string("alert.required.fields.message"))
             return
@@ -75,11 +82,11 @@ struct SignUpVM {
     
     // MARK: - Table Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        SignUpItem.allCases.count
+        ProfileItem.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
-        let cellData = SignUpItem.allCases[indexPath.row]
+        let cellData = ProfileItem.allCases[indexPath.row]
         switch cellData {
         case .photo:
             guard let cell = ImageTableCell.createCell(for: tableView) else {
@@ -121,6 +128,6 @@ struct SignUpVM {
     
     // MARK: - Public Helpers
     mutating func setData(_ data: String, at indexPath: IndexPath) {
-        dm[SignUpItem.allCases[indexPath.row]] = data
+        dm[ProfileItem.allCases[indexPath.row]] = data
     }
 }

@@ -100,7 +100,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="fXu-5N-WRt">
                         <rightBarButtonItems>
-                            <barButtonItem image="person" catalog="system" id="gnY-N4-36B">
+                            <barButtonItem image="mail" catalog="system" id="gnY-N4-36B">
                                 <color key="tintColor" name="interactivity"/>
                                 <connections>
                                     <action selector="inboxButtonClicked" destination="tzZ-SI-Im0" id="lXO-mI-IsG"/>
@@ -195,14 +195,14 @@
                                 <color key="separatorColor" name="cardBackground"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="InboxEmptyTableCell" id="9xO-gO-d04" customClass="InboxEmptyTableCell" customModule="BallroomBuySell" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="414" height="37.5"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="37"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9xO-gO-d04" id="i3w-Me-kAD">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="37.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="37"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Table Empty Message" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gtY-dz-abJ">
-                                                    <rect key="frame" x="16" y="8" width="382" height="21.5"/>
+                                                    <rect key="frame" x="16" y="8" width="382" height="21"/>
                                                     <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
                                                     <color key="textColor" name="primaryText"/>
                                                     <nil key="highlightedColor"/>
@@ -221,7 +221,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="InboxTableCell" id="AZV-q8-4VD" customClass="InboxTableCell" customModule="BallroomBuySell" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="82" width="414" height="167.5"/>
+                                        <rect key="frame" x="0.0" y="81.5" width="414" height="167.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="AZV-q8-4VD" id="aoR-eK-P4o">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="167.5"/>
@@ -307,19 +307,29 @@
                                 <action selector="backButtonClicked" destination="vnn-B4-q01" id="nxm-dV-Nhl"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Logout" id="JF4-7o-nsz">
-                            <color key="tintColor" name="interactivity"/>
-                            <connections>
-                                <action selector="signOutButtonClicked" destination="vnn-B4-q01" id="yec-rQ-pgu"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="person" catalog="system" id="q3x-0r-Xvu">
+                                <color key="tintColor" name="interactivity"/>
+                                <connections>
+                                    <action selector="profileButtonClicked" destination="vnn-B4-q01" id="muB-iT-bwv"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Logout" id="JF4-7o-nsz">
+                                <color key="tintColor" name="interactivity"/>
+                                <connections>
+                                    <action selector="signOutButtonClicked" destination="vnn-B4-q01" id="yec-rQ-pgu"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="backButton" destination="itO-6f-Uwo" id="cyc-fL-TG9"/>
+                        <outlet property="profileButton" destination="q3x-0r-Xvu" id="UdM-l2-zO7"/>
                         <outlet property="segmentedControl" destination="C5O-ab-S4a" id="Kcv-LM-nWT"/>
                         <outlet property="signOutButton" destination="JF4-7o-nsz" id="MmH-Yf-a9E"/>
                         <outlet property="tableView" destination="HOP-c9-0Ob" id="hBW-I6-fyE"/>
                         <segue destination="mWj-2a-HLi" kind="show" id="7Tz-QB-BGX"/>
+                        <segue destination="Bvp-2r-pdf" kind="push" id="szZ-l7-h22"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B9R-P6-Hnz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -383,12 +393,62 @@
             </objects>
             <point key="canvasLocation" x="470" y="2084"/>
         </scene>
+        <!--ProfileVC-->
+        <scene sceneID="Rle-Bp-Jpo">
+            <objects>
+                <viewController storyboardIdentifier="ProfileVC" id="Bvp-2r-pdf" customClass="ProfileVC" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Z20-2l-VUn">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9a7-av-1C8">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Bvp-2r-pdf" id="w60-sQ-dKH"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Mqd-ZB-c6u"/>
+                        <color key="backgroundColor" name="background"/>
+                        <constraints>
+                            <constraint firstItem="9a7-av-1C8" firstAttribute="top" secondItem="Mqd-ZB-c6u" secondAttribute="top" id="cs4-tc-rqJ"/>
+                            <constraint firstItem="Mqd-ZB-c6u" firstAttribute="trailing" secondItem="9a7-av-1C8" secondAttribute="trailing" id="n3u-oI-a2q"/>
+                            <constraint firstItem="9a7-av-1C8" firstAttribute="leading" secondItem="Mqd-ZB-c6u" secondAttribute="leading" id="uQv-zs-GAj"/>
+                            <constraint firstItem="Mqd-ZB-c6u" firstAttribute="bottom" secondItem="9a7-av-1C8" secondAttribute="bottom" id="xyd-Mn-I6Y"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="2JR-gG-qcO">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="sNA-UM-QEl">
+                            <color key="tintColor" name="interactivity"/>
+                            <connections>
+                                <action selector="backButtonClicked" destination="Bvp-2r-pdf" id="s8e-td-n8w"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="checkmark" catalog="system" id="P8A-HL-ezq">
+                            <color key="tintColor" name="interactivity"/>
+                            <connections>
+                                <action selector="signUpButtonClicked" destination="Bvp-2r-pdf" id="5XT-Ch-oqd"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="signUpButton" destination="P8A-HL-ezq" id="nxf-bK-QFY"/>
+                        <outlet property="tableView" destination="9a7-av-1C8" id="FKz-v5-MMU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="11r-62-POp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1409" y="640"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="checkmark" catalog="system" width="128" height="114"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="dollarsign.circle" catalog="system" width="128" height="121"/>
         <image name="flag" catalog="system" width="128" height="121"/>
         <image name="info.circle" catalog="system" width="128" height="121"/>
+        <image name="mail" catalog="system" width="128" height="93"/>
         <image name="message" catalog="system" width="128" height="113"/>
         <image name="person" catalog="system" width="128" height="117"/>
         <image name="plus" catalog="system" width="128" height="113"/>

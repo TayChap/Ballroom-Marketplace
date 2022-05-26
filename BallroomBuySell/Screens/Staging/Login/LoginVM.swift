@@ -95,7 +95,7 @@ struct LoginVM {
     
     // MARK: - ButtonCellDelegate
     func buttonClicked(_ owner: ViewControllerProtocol) {
-        owner.pushViewController(SignUpVC.createViewController())
+        owner.pushViewController(ProfileVC.createViewController())
     }
     
     // MARK: - Public Helpers

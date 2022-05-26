@@ -46,6 +46,10 @@ struct InboxVM {
         }
     }
     
+    func profileButtonClicked() {
+        delegate?.pushViewController(ProfileVC.createViewController(user: user))
+    }
+    
     mutating func segmentedControlClicked(_ index: Int) {
         inboxState = InboxState.allCases.first(where: {$0.rawValue == index}) ?? .threads
     }
