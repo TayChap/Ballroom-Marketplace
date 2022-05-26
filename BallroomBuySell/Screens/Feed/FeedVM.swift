@@ -12,13 +12,13 @@ struct FeedVM {
         case recentItems, categories
     }
     
-    private weak var delegate: (ViewControllerProtocol & AuthenticatorProtocol)?
+    private weak var delegate: ViewControllerProtocol?
     private var templates = [SaleItemTemplate]()
     private var saleItems = [SaleItem]()
     private var maxRecentItems: Int { 20 }
     
     // MARK: - Lifecycle Methods
-    init(delegate: ViewControllerProtocol & AuthenticatorProtocol) {
+    init(delegate: ViewControllerProtocol) {
         self.delegate = delegate
     }
     
@@ -51,7 +51,7 @@ struct FeedVM {
     // MARK: - IBActions
     func sellButtonClicked() {
         if AuthenticationManager.sharedInstance.user == nil {
-            delegate?.signIn()
+            delegate?.present(AppleLoginVC.createViewController(), animated: false)
             return
         }
         
@@ -66,7 +66,7 @@ struct FeedVM {
     
     func inboxButtonClicked() {
         guard let user = AuthenticationManager.sharedInstance.user else {
-            delegate?.signIn()
+            delegate?.present(AppleLoginVC.createViewController(), animated: false)
             return
         }
         

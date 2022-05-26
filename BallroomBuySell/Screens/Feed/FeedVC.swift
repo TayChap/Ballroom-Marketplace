@@ -5,10 +5,9 @@
 //  Created by Taylor Chapman on 2021-12-27.
 //
 
-import AuthenticationServices
 import UIKit
 
-class FeedVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ViewControllerProtocol, AuthenticatorProtocol {
+class FeedVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ViewControllerProtocol {
     @IBOutlet weak var sellButton: UIBarButtonItem!
     @IBOutlet weak var inboxButton: UIBarButtonItem!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -74,20 +73,5 @@ class FeedVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     
     func reload() {
         collectionView.reloadData()
-    }
-    
-    // MARK: - ASAuthorizationControllerDelegate
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        authorizationController(controller: controller, authorization: authorization)
-    }
-    
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        authorizationController(controller: controller, error: error)
-    }
-    
-    // MARK: - UIImagePickerController Delegate
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true, completion: nil)
-        profilePictureSelected(info: info)
     }
 }

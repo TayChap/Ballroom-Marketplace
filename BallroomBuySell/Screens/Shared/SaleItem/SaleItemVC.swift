@@ -5,10 +5,9 @@
 //  Created by Taylor Chapman on 2021-12-28.
 //
 
-import AuthenticationServices
 import UIKit
 
-class SaleItemVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol, AuthenticatorProtocol, PickerCellDelegate, TextFieldCellDelegate, ImageCellDelegate, SwitchCellDelegate, TextViewCellDelegate {
+class SaleItemVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol, PickerCellDelegate, TextFieldCellDelegate, ImageCellDelegate, SwitchCellDelegate, TextViewCellDelegate {
     @IBOutlet weak var tableView: UITableView!
     private var vm: SaleItemVM!
     
@@ -219,18 +218,8 @@ class SaleItemVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         navigationItem.rightBarButtonItems?.append(button)
     }
     
-    // MARK: - ASAuthorizationControllerDelegate
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        authorizationController(controller: controller, authorization: authorization)
-    }
-    
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        authorizationController(controller: controller, error: error)
-    }
-    
-    // MARK: - UIImagePickerController Delegate
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true, completion: nil)
-        profilePictureSelected(info: info)
+    // MARK: - Private Methods
+    func signIn() {
+        present(AppleLoginVC.createViewController(), animated: false)
     }
 }

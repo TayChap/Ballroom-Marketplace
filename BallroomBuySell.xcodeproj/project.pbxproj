@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D07CCD3283E936900FE7E18 /* AppleLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D07CCD2283E936900FE7E18 /* AppleLoginVC.swift */; };
+		8D07CCD5283E938400FE7E18 /* AppleLoginVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D07CCD4283E938400FE7E18 /* AppleLoginVC.xib */; };
 		8D0E0D0327B6CA1300E1EEE0 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0E0D0227B6CA1300E1EEE0 /* MediaManager.swift */; };
 		8D0E0D0527B6D14C00E1EEE0 /* AuthenticatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0E0D0427B6D14C00E1EEE0 /* AuthenticatorProtocol.swift */; };
 		8D1BB529273EF97700677EF7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1BB528273EF97700677EF7 /* AppDelegate.swift */; };
@@ -115,6 +117,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8D07CCD2283E936900FE7E18 /* AppleLoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginVC.swift; sourceTree = "<group>"; };
+		8D07CCD4283E938400FE7E18 /* AppleLoginVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppleLoginVC.xib; sourceTree = "<group>"; };
 		8D0E0CFB27B318C000E1EEE0 /* BallroomBuySell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BallroomBuySell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D0E0D0227B6CA1300E1EEE0 /* MediaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaManager.swift; sourceTree = "<group>"; };
 		8D0E0D0427B6D14C00E1EEE0 /* AuthenticatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatorProtocol.swift; sourceTree = "<group>"; };
@@ -236,6 +240,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D07CCD1283D612B00FE7E18 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				8D07CCD2283E936900FE7E18 /* AppleLoginVC.swift */,
+				8D07CCD4283E938400FE7E18 /* AppleLoginVC.xib */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		8D0E0D0127B5BDC900E1EEE0 /* Staging */ = {
 			isa = PBXGroup;
 			children = (
@@ -290,6 +303,7 @@
 				8D9D451227721D2D004C5565 /* Feed */,
 				8D9D451427721D77004C5565 /* Inbox */,
 				8DA71D0727A474B10025C1D5 /* MessageThread */,
+				8D07CCD1283D612B00FE7E18 /* Profile */,
 				8D9D4539277CDDC7004C5565 /* Shared */,
 				8D0E0D0127B5BDC900E1EEE0 /* Staging */,
 			);
@@ -766,6 +780,7 @@
 				8D9D455E278767A4004C5565 /* PickerViewController.xib in Resources */,
 				8D9D45A827922FC9004C5565 /* ImageViewer.xib in Resources */,
 				8DF3B44427EFDB5F00EE6A55 /* TextViewTableCell.xib in Resources */,
+				8D07CCD5283E938400FE7E18 /* AppleLoginVC.xib in Resources */,
 				8D9D4532277A53D0004C5565 /* GoogleService-Info.plist in Resources */,
 				8D677BC8282DF4FF003051F6 /* SaleItemVC.xib in Resources */,
 			);
@@ -786,6 +801,7 @@
 				8D9D455327822B85004C5565 /* ButtonTableCell.swift in Sources */,
 				8D9D4545277D1573004C5565 /* SignUpVM.swift in Sources */,
 				8D9D45C427A08E34004C5565 /* SaleItemCellDM.swift in Sources */,
+				8D07CCD3283E936900FE7E18 /* AppleLoginVC.swift in Sources */,
 				8D9D453F277CDE09004C5565 /* TextFieldTableCell.swift in Sources */,
 				8DCD6E1127F00782008FF5A7 /* SwitchTableCell.swift in Sources */,
 				8D0E0D0327B6CA1300E1EEE0 /* MediaManager.swift in Sources */,
