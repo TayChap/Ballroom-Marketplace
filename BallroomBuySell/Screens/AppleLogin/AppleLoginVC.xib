@@ -27,11 +27,11 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view opaque="NO" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fPx-q7-aLW">
-                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EqF-GB-88H">
-                    <rect key="frame" x="24" y="243.5" width="366" height="409"/>
+                    <rect key="frame" x="24" y="261.5" width="366" height="373.5"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dHr-OF-zfe">
                             <rect key="frame" x="16" y="16" width="50" height="50"/>
@@ -52,8 +52,8 @@
                             <color key="textColor" name="primaryText"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7RE-sJ-M5E">
-                            <rect key="frame" x="16" y="66" width="326" height="252"/>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7RE-sJ-M5E">
+                            <rect key="frame" x="16" y="66" width="326" height="216.5"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                             <color key="textColor" name="primaryText"/>
@@ -61,7 +61,7 @@
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MvA-sw-3B0">
-                            <rect key="frame" x="24" y="342" width="318" height="31"/>
+                            <rect key="frame" x="24" y="306.5" width="318" height="31"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="filled" image="applelogo" catalog="system" title="  Sign in with Apple">
                                 <color key="baseBackgroundColor" name="cardBackground"/>
@@ -92,8 +92,7 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="fPx-q7-aLW" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="6JO-9w-THI"/>
-                <constraint firstItem="EqF-GB-88H" firstAttribute="height" secondItem="fPx-q7-aLW" secondAttribute="height" multiplier="0.5" id="7tv-0r-TOu"/>
+                <constraint firstItem="fPx-q7-aLW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="6JO-9w-THI"/>
                 <constraint firstItem="fPx-q7-aLW" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="B3q-JY-h3a"/>
                 <constraint firstItem="EqF-GB-88H" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="C4O-3u-t1b"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="fPx-q7-aLW" secondAttribute="bottom" id="cBi-jj-Jad"/>
