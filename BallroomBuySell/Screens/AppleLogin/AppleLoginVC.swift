@@ -18,6 +18,10 @@ class AppleLoginVC: UIViewController, ViewControllerProtocol, AuthenticatorProto
     
     // MARK: - Lifecycle Methods
     static func createViewController() -> UIViewController {
+        if Environment.current != .production {
+            return NavigationController(rootViewController: LoginVC.createViewController()) // login for QA instead
+        }
+        
         let vc = AppleLoginVC(nibName: String(describing: AppleLoginVC.self), bundle: nil)
         vc.modalPresentationStyle = .overCurrentContext
         return vc
