@@ -46,26 +46,27 @@ class AuthenticationManager {
     }
     
     // MARK: - Staging only authentication
-    func createStagingUser(email: String, password: String = "Tester", displayName: String, photo: Image, completion: @escaping () -> Void) {
-        Auth.auth().createUser(withEmail: email, password: password) { result, error in
-            guard let userId = result?.user.uid else {
-                return // staging so no error message required
-            }
-            
-            Image.uploadImages([photo])
-            let codableUser = User(id: userId,
-                                   email: email,
-                                   photoURL: photo.url,
-                                   displayName: displayName)
-            DatabaseManager.sharedInstance.putDocument(in: .users,
-                                                       for: codableUser) {
-                self.user = codableUser
-                completion()
-            } onFail: {
-                // staging so no error message required
-            }
-        }
-    }
+    // TODO! Remove since can do this on FB
+//    func createStagingUser(user: User, photo: Image, completion: @escaping () -> Void) {
+//        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+//            guard let userId = result?.user.uid else {
+//                return // staging so no error message required
+//            }
+//
+//            Image.uploadImages([photo])
+//            let codableUser = User(id: userId,
+//                                   email: email,
+//                                   photoURL: photo.url,
+//                                   displayName: displayName)
+//            DatabaseManager.sharedInstance.putDocument(in: .users,
+//                                                       for: codableUser) {
+//                self.user = codableUser
+//                completion()
+//            } onFail: {
+//                // staging so no error message required
+//            }
+//        }
+//    }
     
     func loginStagingUser(email: String, completion: @escaping () -> Void) {
         Auth.auth().signIn(withEmail: email, password: "Tester") { result, error in
@@ -107,6 +108,18 @@ class AuthenticationManager {
     }
     
     // MARK: - User Mutating Methods
+    func updateUser(_ user: User,
+                    with photo: Image,
+                    completion: @escaping () -> Void,
+                    onFail: @escaping () -> Void) {
+        Image.uploadImages([photo])
+        DatabaseManager.sharedInstance.putDocument(in: .users,
+                                                   for: user, {
+            self.user = user
+            completion()
+        }, onFail: onFail)
+    }
+    
     func setUserImage(url: String) {
         user?.photoURL = url
     }

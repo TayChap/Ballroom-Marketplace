@@ -13,11 +13,11 @@ struct ProfileVM {
         case email
         case displayName
         
-        var text: String {
+        var textKey: String {
             switch self {
-            case .photo: return "photo"
-            case .email: return "email"
-            case .displayName: return "name"
+            case .photo: return "user.profile.photo"
+            case .email: return "generic.email"
+            case .displayName: return "user.display.name"
             }
         }
         
@@ -37,14 +37,12 @@ struct ProfileVM {
     
     weak var delegate: ViewControllerProtocol?
     private var photo: Image?
-    private var dm = [ProfileItem: String]()
+    private var user: User
     
     // MARK: - Lifecycle Methods
     init(user: User, delegate: ViewControllerProtocol) {
+        self.user = user
         self.delegate = delegate
-        for item in ProfileItem.allCases {
-            dm[item] = ""
-        }
     }
     
     func viewDidLoad(with tableView: UITableView) {
@@ -58,26 +56,23 @@ struct ProfileVM {
     }
     
     func signUpButtonClicked() {
-        
-        // TODO! update to updating user object rather than Apple or FB Auth
-        
-        guard // validity of email and password checked on server side
-            let photo = photo,
-            let email = dm[ProfileItem.email],
-            let displayName = dm[ProfileItem.displayName], !displayName.isEmpty
-        else {
+        guard let photo = photo, !user.displayName.isEmpty, user.email?.isValidEmail() == true else {
             delegate?.showAlertWith(message: LocalizedString.string("alert.required.fields.message"))
             return
         }
         
         let cancel = UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel)
-        let accept = UIAlertAction(title: LocalizedString.string("generic.accept"), style: .default) { (action) in
-            AuthenticationManager.sharedInstance.createStagingUser(email: email, displayName: displayName, photo: photo) {
-                delegate?.dismiss()
+        let accept = UIAlertAction(title: LocalizedString.string("generic.accept"), style: .default) { _ in
+            AuthenticationManager.sharedInstance.updateUser(user, with: photo) {
+                delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
+            } onFail: {
+                delegate?.showNetworkError()
             }
         }
         
-        delegate?.showAlertWith(title: LocalizedString.string("login.terms.title"), message: LocalizedString.string("login.terms.message"), alertActions: [cancel, accept])
+        delegate?.showAlertWith(title: LocalizedString.string("login.terms.title"),
+                                message: LocalizedString.string("login.terms.message"),
+                                alertActions: [cancel, accept])
     }
     
     // MARK: - Table Methods
@@ -98,7 +93,7 @@ struct ProfileVM {
                 images.append(image)
             }
             
-            cell.configureCell(with: ImageCellDM(title: cellData.text,
+            cell.configureCell(with: ImageCellDM(title: LocalizedString.string(cellData.textKey),
                                                  images: images,
                                                  maxImages: 1))
             cell.delegate = owner as? (ImageCellDelegate & UIViewController)
@@ -109,8 +104,8 @@ struct ProfileVM {
             }
             
             cell.configureCell(with: TextFieldCellDM(inputType: cellData.type,
-                                                     title: cellData.text,
-                                                     detail: dm[cellData] ?? "",
+                                                     title: LocalizedString.string(cellData.textKey),
+                                                     detail: cellData == .email ? user.email ?? "" : user.displayName,
                                                      returnKeyType: .done))
             cell.delegate = owner as? TextFieldCellDelegate
             return cell
@@ -120,6 +115,7 @@ struct ProfileVM {
     // MARK: - ImageCellDelegate
     mutating func newImage(_ data: Data) {
         photo = Image(data: data)
+        user.photoURL = photo?.url
     }
     
     mutating func deleteImage(at index: Int) {
@@ -128,6 +124,14 @@ struct ProfileVM {
     
     // MARK: - Public Helpers
     mutating func setData(_ data: String, at indexPath: IndexPath) {
-        dm[ProfileItem.allCases[indexPath.row]] = data
+        let cellData = ProfileItem.allCases[indexPath.row]
+        switch cellData {
+        case .email:
+            user.email = data
+        case .displayName:
+            user.displayName = data
+        default:
+            break // profile image handled separately
+        }
     }
 }

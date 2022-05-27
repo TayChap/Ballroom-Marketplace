@@ -7,8 +7,8 @@
 
 struct User: Storable {
     let id: String
-    let email: String?
+    var email: String?
     var photoURL: String?
-    let displayName: String
+    var displayName: String
     var blockedUserIds = [String]()
 }
