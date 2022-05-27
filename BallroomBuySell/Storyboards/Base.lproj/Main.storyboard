@@ -428,13 +428,14 @@
                         <barButtonItem key="rightBarButtonItem" image="checkmark" catalog="system" id="P8A-HL-ezq">
                             <color key="tintColor" name="interactivity"/>
                             <connections>
-                                <action selector="signUpButtonClicked" destination="Bvp-2r-pdf" id="5XT-Ch-oqd"/>
+                                <action selector="updateUserButtonClicked" destination="Bvp-2r-pdf" id="5XT-Ch-oqd"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="signUpButton" destination="P8A-HL-ezq" id="nxf-bK-QFY"/>
+                        <outlet property="backButton" destination="sNA-UM-QEl" id="end-Qi-D30"/>
                         <outlet property="tableView" destination="9a7-av-1C8" id="FKz-v5-MMU"/>
+                        <outlet property="updateUserButton" destination="P8A-HL-ezq" id="nxf-bK-QFY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="11r-62-POp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

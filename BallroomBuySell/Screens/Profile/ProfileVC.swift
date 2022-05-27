@@ -8,14 +8,15 @@
 import UIKit
 
 class ProfileVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, ImageCellDelegate, TextFieldCellDelegate {
-    @IBOutlet weak var signUpButton: UIBarButtonItem!
+    @IBOutlet weak var backButton: UIBarButtonItem!
+    @IBOutlet weak var updateUserButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     private var vm: ProfileVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController(user: User) -> UIViewController {
+    static func createViewController(user: User, photo: Image?) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
-        vc.vm = ProfileVM(user: user, delegate: vc)
+        vc.vm = ProfileVM(user: user, photo: photo, delegate: vc)
         return vc
     }
     
@@ -29,8 +30,8 @@ class ProfileVC: UIViewController, UITableViewDataSource, ViewControllerProtocol
         vm.backButtonClicked()
     }
     
-    @IBAction func signUpButtonClicked() {
-        vm.signUpButtonClicked()
+    @IBAction func updateUserButtonClicked() {
+        vm.updateUserButtonClicked()
     }
     
     // MARK: - Table Methods

@@ -35,13 +35,14 @@ struct ProfileVM {
         }
     }
     
-    weak var delegate: ViewControllerProtocol?
-    private var photo: Image?
+    weak private var delegate: ViewControllerProtocol?
     private var user: User
+    private var photo: Image?
     
     // MARK: - Lifecycle Methods
-    init(user: User, delegate: ViewControllerProtocol) {
+    init(user: User, photo: Image?, delegate: ViewControllerProtocol) {
         self.user = user
+        self.photo = photo
         self.delegate = delegate
     }
     
@@ -55,24 +56,21 @@ struct ProfileVM {
         delegate?.dismiss()
     }
     
-    func signUpButtonClicked() {
-        guard let photo = photo, !user.displayName.isEmpty, user.email?.isValidEmail() == true else {
+    func updateUserButtonClicked() {
+        guard let photo = photo, !user.displayName.isEmpty else {
             delegate?.showAlertWith(message: LocalizedString.string("alert.required.fields.message"))
             return
         }
         
-        let cancel = UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel)
-        let accept = UIAlertAction(title: LocalizedString.string("generic.accept"), style: .default) { _ in
-            AuthenticationManager.sharedInstance.updateUser(user, with: photo) {
-                delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
-            } onFail: {
-                delegate?.showNetworkError()
-            }
+        if user.email?.isValidEmail() != true {
+            delegate?.showAlertWith(message: LocalizedString.string("alert.invalid.email"))
         }
         
-        delegate?.showAlertWith(title: LocalizedString.string("login.terms.title"),
-                                message: LocalizedString.string("login.terms.message"),
-                                alertActions: [cancel, accept])
+        AuthenticationManager.sharedInstance.updateUser(user, with: photo) {
+            delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
+        } onFail: {
+            delegate?.showNetworkError()
+        }
     }
     
     // MARK: - Table Methods

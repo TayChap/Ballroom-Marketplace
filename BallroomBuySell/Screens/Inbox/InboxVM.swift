@@ -13,7 +13,7 @@ struct InboxVM {
     }
     
     private weak var delegate: ViewControllerProtocol?
-    private let user: User
+    private var user: User
     private let templates: [SaleItemTemplate]
     private var threads = [MessageThread]()
     private var saleItems = [SaleItem]()
@@ -28,8 +28,13 @@ struct InboxVM {
         self.templates = templates
     }
     
-    func viewWillAppear(_ completion: @escaping (_ saleItems: [SaleItem],
+    mutating func viewWillAppear(_ completion: @escaping (_ saleItems: [SaleItem],
                                                  _ threads: [MessageThread]) -> Void) {
+        // TODO! potentially refactor so user ALWAYS accessed from shared instance to avoid stale
+        if let user = AuthenticationManager.sharedInstance.user {
+            self.user = user
+        }
+        
         fetchItems(completion)
     }
     
@@ -47,7 +52,9 @@ struct InboxVM {
     }
     
     func profileButtonClicked() {
-        delegate?.pushViewController(ProfileVC.createViewController(user: user))
+        Image.downloadImages([user.photoURL ?? ""]) { images in
+            delegate?.pushViewController(ProfileVC.createViewController(user: user, photo: images.first))
+        }
     }
     
     mutating func segmentedControlClicked(_ index: Int) {
