@@ -8,15 +8,13 @@
 import UIKit
 
 protocol ViewControllerProtocol: UIViewController {
-    static func createViewController() -> UIViewController
     func pushViewController(_ vc: UIViewController)
     func presentViewController(_ vc: UIViewController)
     func dismiss()
     func reload()
 }
 
-extension ViewControllerProtocol {
-    static func createViewController() -> UIViewController { UIViewController() }
+extension ViewControllerProtocol { // TODO! remove at least some extensions where possible
     func pushViewController(_ vc: UIViewController) {}
     func presentViewController(_ vc: UIViewController) {}
     func dismiss() {}

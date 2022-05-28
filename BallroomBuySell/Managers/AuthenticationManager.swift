@@ -15,6 +15,49 @@ class AuthenticationManager {
     // MARK: - Private Init
     private init() { } // to ensure sharedInstance is accessed, rather than new instance
     
+    // MARK: - User Methods
+    func signOut(onSuccess: () -> Void, onFail: () -> Void) {
+        do {
+            try Auth.auth().signOut()
+            self.user = nil
+            onSuccess()
+        } catch {
+            onFail()
+        }
+    }
+    
+    func refreshUser() {
+        guard let id = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                   of: User.self,
+                                                   with: id) { user in
+            self.user = user
+        } onFail: {}
+    }
+    
+    func updateUser(_ user: User,
+                    with photo: Image,
+                    completion: @escaping () -> Void,
+                    onFail: @escaping () -> Void) {
+        Image.uploadImages([photo])
+        DatabaseManager.sharedInstance.putDocument(in: .users,
+                                                   for: user, {
+            self.user = user
+            completion()
+        }, onFail: onFail)
+    }
+    
+    func setUserImage(url: String) {
+        user?.photoURL = url
+    }
+    
+    func blockUser(_ id: String) {
+        self.user?.blockedUserIds.append(id)
+    }
+    
     // MARK: - Production only authentication
     func appleSignIn(_ displayName: String, _ email: String?, _ idTokenString: String, _ nonce: String, _ completion: @escaping () -> Void, onFail: @escaping () -> Void) {
         let credential = OAuthProvider.credential(withProviderID: "apple.com",
@@ -46,28 +89,6 @@ class AuthenticationManager {
     }
     
     // MARK: - Staging only authentication
-    // TODO! Remove since can do this on FB
-//    func createStagingUser(user: User, photo: Image, completion: @escaping () -> Void) {
-//        Auth.auth().createUser(withEmail: email, password: password) { result, error in
-//            guard let userId = result?.user.uid else {
-//                return // staging so no error message required
-//            }
-//
-//            Image.uploadImages([photo])
-//            let codableUser = User(id: userId,
-//                                   email: email,
-//                                   photoURL: photo.url,
-//                                   displayName: displayName)
-//            DatabaseManager.sharedInstance.putDocument(in: .users,
-//                                                       for: codableUser) {
-//                self.user = codableUser
-//                completion()
-//            } onFail: {
-//                // staging so no error message required
-//            }
-//        }
-//    }
-    
     func loginStagingUser(email: String, completion: @escaping () -> Void) {
         Auth.auth().signIn(withEmail: email, password: "Tester") { result, error in
             guard let userId = result?.user.uid else {
@@ -83,48 +104,5 @@ class AuthenticationManager {
                 return // staging so no error message required
             }
         }
-    }
-    
-    func signOut(onSuccess: () -> Void, onFail: () -> Void) {
-        do {
-            try Auth.auth().signOut()
-            self.user = nil
-            onSuccess()
-        } catch {
-            onFail()
-        }
-    }
-    
-    func refreshUser() {
-        guard let id = Auth.auth().currentUser?.uid else {
-            return
-        }
-        
-        DatabaseManager.sharedInstance.getDocument(in: .users,
-                                                   of: User.self,
-                                                   with: id) { user in
-            self.user = user
-        } onFail: {}
-    }
-    
-    // MARK: - User Mutating Methods
-    func updateUser(_ user: User,
-                    with photo: Image,
-                    completion: @escaping () -> Void,
-                    onFail: @escaping () -> Void) {
-        Image.uploadImages([photo])
-        DatabaseManager.sharedInstance.putDocument(in: .users,
-                                                   for: user, {
-            self.user = user
-            completion()
-        }, onFail: onFail)
-    }
-    
-    func setUserImage(url: String) {
-        user?.photoURL = url
-    }
-    
-    func blockUser(_ id: String) {
-        self.user?.blockedUserIds.append(id)
     }
 }

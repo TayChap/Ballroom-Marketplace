@@ -74,15 +74,11 @@ class SaleItemVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     @objc func reportButtonClicked() {
-        vm.reportButtonClicked() {
-            signIn()
-        }
+        vm.reportButtonClicked()
     }
     
     @objc func messageButtonClicked() {
-        vm.messageButtonClicked {
-            signIn()
-        }
+        vm.messageButtonClicked()
     }
     
     // MARK: - Table Methods
@@ -216,10 +212,5 @@ class SaleItemVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         let button = UIBarButtonItem(image: image, style: .plain, target: self, action: selector)
         button.tintColor = tint
         navigationItem.rightBarButtonItems?.append(button)
-    }
-    
-    // MARK: - Private Methods
-    func signIn() {
-        present(AppleLoginVC.createViewController(), animated: false)
     }
 }

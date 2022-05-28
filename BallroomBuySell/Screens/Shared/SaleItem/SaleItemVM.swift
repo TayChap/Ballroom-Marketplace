@@ -165,52 +165,22 @@ struct SaleItemVM {
         }
     }
     
-    func messageButtonClicked(_ signIn: () -> Void) {
-        guard let user = AuthenticationManager.sharedInstance.user else {
-            signIn()
+    func messageButtonClicked() {
+        if AuthenticationManager.sharedInstance.user == nil {
+            delegate?.present(AppleLoginVC.createViewController(completion: pushMessageThread), animated: false)
             return
         }
         
-        DatabaseManager.sharedInstance.getDocuments(to: .threads,
-                                                    of: MessageThread.self,
-                                                    whereFieldEquals: (key: MessageThread.QueryKeys.buyerId.rawValue, value: user.id)) { threads in
-            let messageThread = threads.first(where: { $0.saleItemId == saleItem.id }) ??
-            MessageThread(buyerId: user.id,
-                          sellerId: saleItem.userId,
-                          saleItemId: saleItem.id,
-                          saleItemType: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "",
-                          imageURL: saleItem.images.first?.url ?? "")
-            
-            DatabaseManager.sharedInstance.getDocument(in: .users,
-                                                       of: User.self,
-                                                       with: messageThread.otherUserId) { otherUser in
-            delegate?.pushViewController(MessageThreadVC.createViewController(messageThread,
-                                                                              currentUser: user,
-                                                                              otherUser: otherUser,
-                                                                              templates: templates,
-                                                                              hideItemInfo: true))
-            } onFail: {
-                delegate?.showNetworkError()
-            }
-        } onFail: {
-            delegate?.showNetworkError()
-        }
+        pushMessageThread()
     }
     
-    func reportButtonClicked(_ signIn: () -> Void) {
-        guard let user = AuthenticationManager.sharedInstance.user else {
-            signIn()
+    func reportButtonClicked() {
+        if AuthenticationManager.sharedInstance.user == nil {
+            delegate?.present(AppleLoginVC.createViewController(completion: submitReport), animated: false)
             return
         }
         
-        Report.submitReport(for: saleItem,
-                            with: LocalizedString.string("flag.reason"),
-                            delegate: delegate,
-                            reportingUser: user) {
-            delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
-        } onFail: {
-            delegate?.showNetworkError()
-        }
+        submitReport()
     }
     
     // MARK: - Table Methods
@@ -354,5 +324,51 @@ struct SaleItemVM {
         }
         
         return structure
+    }
+    
+    private func pushMessageThread() {
+        guard let user = AuthenticationManager.sharedInstance.user else {
+            return
+        }
+        
+        DatabaseManager.sharedInstance.getDocuments(to: .threads,
+                                                    of: MessageThread.self,
+                                                    whereFieldEquals: (key: MessageThread.QueryKeys.buyerId.rawValue, value: user.id)) { threads in
+            let messageThread = threads.first(where: { $0.saleItemId == saleItem.id }) ??
+            MessageThread(buyerId: user.id,
+                          sellerId: saleItem.userId,
+                          saleItemId: saleItem.id,
+                          saleItemType: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "",
+                          imageURL: saleItem.images.first?.url ?? "")
+            
+            DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                       of: User.self,
+                                                       with: messageThread.otherUserId) { otherUser in
+            delegate?.pushViewController(MessageThreadVC.createViewController(messageThread,
+                                                                              currentUser: user,
+                                                                              otherUser: otherUser,
+                                                                              templates: templates,
+                                                                              hideItemInfo: true))
+            } onFail: {
+                delegate?.showNetworkError()
+            }
+        } onFail: {
+            delegate?.showNetworkError()
+        }
+    }
+    
+    private func submitReport() {
+        guard let user = AuthenticationManager.sharedInstance.user else {
+            return
+        }
+        
+        Report.submitReport(for: saleItem,
+                            with: LocalizedString.string("flag.reason"),
+                            delegate: delegate,
+                            reportingUser: user) {
+            delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
+        } onFail: {
+            delegate?.showNetworkError()
+        }
     }
 }

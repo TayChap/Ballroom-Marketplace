@@ -10,7 +10,6 @@
 		8D07CCD3283E936900FE7E18 /* AppleLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D07CCD2283E936900FE7E18 /* AppleLoginVC.swift */; };
 		8D07CCD5283E938400FE7E18 /* AppleLoginVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D07CCD4283E938400FE7E18 /* AppleLoginVC.xib */; };
 		8D0E0D0327B6CA1300E1EEE0 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0E0D0227B6CA1300E1EEE0 /* MediaManager.swift */; };
-		8D0E0D0527B6D14C00E1EEE0 /* AuthenticatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0E0D0427B6D14C00E1EEE0 /* AuthenticatorProtocol.swift */; };
 		8D1BB529273EF97700677EF7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1BB528273EF97700677EF7 /* AppDelegate.swift */; };
 		8D1BB52B273EF97700677EF7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1BB52A273EF97700677EF7 /* SceneDelegate.swift */; };
 		8D1BB530273EF97700677EF7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D1BB52E273EF97700677EF7 /* Main.storyboard */; };
@@ -121,7 +120,6 @@
 		8D07CCD4283E938400FE7E18 /* AppleLoginVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppleLoginVC.xib; sourceTree = "<group>"; };
 		8D0E0CFB27B318C000E1EEE0 /* BallroomBuySell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BallroomBuySell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D0E0D0227B6CA1300E1EEE0 /* MediaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaManager.swift; sourceTree = "<group>"; };
-		8D0E0D0427B6D14C00E1EEE0 /* AuthenticatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatorProtocol.swift; sourceTree = "<group>"; };
 		8D1BB528273EF97700677EF7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D1BB52A273EF97700677EF7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8D1BB52F273EF97700677EF7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -375,7 +373,6 @@
 		8D9D451527721F66004C5565 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				8D0E0D0427B6D14C00E1EEE0 /* AuthenticatorProtocol.swift */,
 				8D9D45A02791F711004C5565 /* CollectionCellProtocol.swift */,
 				8D34D052282825FA008D690F /* Reportable.swift */,
 				8D677BC5282D8D37003051F6 /* Storable.swift */,
@@ -852,7 +849,6 @@
 				8DCC41C927F382730090EDDE /* UIView.swift in Sources */,
 				8D9D45732788D929004C5565 /* User.swift in Sources */,
 				8D9D453D277CDDFB004C5565 /* TextFieldCellDM.swift in Sources */,
-				8D0E0D0527B6D14C00E1EEE0 /* AuthenticatorProtocol.swift in Sources */,
 				8D408F3527CED7B900F13038 /* LocalizedString.swift in Sources */,
 				8D9D45A12791F711004C5565 /* CollectionCellProtocol.swift in Sources */,
 				8D9D459D2791F69E004C5565 /* ImageTableCell.swift in Sources */,

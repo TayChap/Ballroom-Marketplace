@@ -51,31 +51,20 @@ struct FeedVM {
     // MARK: - IBActions
     func sellButtonClicked() {
         if AuthenticationManager.sharedInstance.user == nil {
-            delegate?.present(AppleLoginVC.createViewController(), animated: false)
+            delegate?.present(AppleLoginVC.createViewController(completion: showSellScreen), animated: false)
             return
         }
         
-        if templates.isEmpty {
-            delegate?.showNetworkError()
-            return
-        }
-        
-        delegate?.pushViewController(SaleItemVC.createViewController(mode: .create,
-                                                                 templates: templates))
+        showSellScreen()
     }
     
     func inboxButtonClicked() {
-        guard let user = AuthenticationManager.sharedInstance.user else {
-            delegate?.present(AppleLoginVC.createViewController(), animated: false)
+        if AuthenticationManager.sharedInstance.user == nil {
+            delegate?.present(AppleLoginVC.createViewController(completion: showInboxScreen), animated: false)
             return
         }
         
-        if templates.isEmpty {
-            delegate?.showNetworkError()
-            return
-        }
-        
-        delegate?.pushViewController(InboxVC.createViewController(user, templates))
+        showInboxScreen()
     }
     
     // MARK: - CollectionView Methods
@@ -183,6 +172,26 @@ struct FeedVM {
             case .categories: return self.generateCategoriesLayout(for: collectionView)
             }
         }
+    }
+    
+    private func showSellScreen() {
+        if templates.isEmpty {
+            delegate?.showNetworkError()
+            return
+        }
+        
+        delegate?.pushViewController(SaleItemVC.createViewController(mode: .create,
+                                                                     templates: templates))
+    }
+    
+    private func showInboxScreen() {
+        guard let user = AuthenticationManager.sharedInstance.user, !templates.isEmpty else {
+            delegate?.showNetworkError()
+            return
+        }
+        
+        delegate?.pushViewController(InboxVC.createViewController(user,
+                                                                  templates))
     }
     
     /// Generate the layout for the recent items section in the collection view
