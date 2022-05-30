@@ -15,7 +15,12 @@ struct Report<Item: Storable & Reportable>: Storable {
     let reportingUserId: String
     var date = Date()
     
-    static func submitReport(for item: Item, with reason: String, delegate: UIViewController?, reportingUser: User, completion: @escaping () -> Void, onFail: @escaping () -> Void) {
+    static func submitReport(for item: Item,
+                             with reason: String,
+                             delegate: UIViewController?,
+                             reportingUser: User,
+                             completion: @escaping () -> Void,
+                             onFail: @escaping () -> Void) {
         let alertController = UIAlertController(title: LocalizedString.string("report.reason.title"), message: LocalizedString.string("report.reason"), preferredStyle: .alert)
         let cancel = UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel)
         let report = UIAlertAction(title: LocalizedString.string("generic.report"), style: .default) { _ in

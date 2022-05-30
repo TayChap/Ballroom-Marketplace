@@ -144,7 +144,13 @@ struct InboxVM {
                     fetchItems(completion)
                 }, onFail)
             } else {
-                DatabaseManager.sharedInstance.deleteSaleItem(with: saleItems[indexPath.row].id, {
+                let saleItem = saleItems[indexPath.row]
+                DatabaseManager.sharedInstance.deleteDocument(in: .items,
+                                                              with: saleItem.id, {
+                    for imageURL in saleItem.images.map({ $0.url }) {
+                        FileSystemManager.deleteFile(at: imageURL)
+                    }
+                    
                     fetchItems(completion)
                 }, onFail)
             }

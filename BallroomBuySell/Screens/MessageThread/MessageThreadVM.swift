@@ -71,8 +71,13 @@ class MessageThreadVM {
                                                                                       hideContactSeller: true))
                 }
             }
-        } onFail: {
-            self.delegate?.showNetworkError()
+        } onFail: { // fail EITHER due to network error or 404
+            if !Reachability.isConnectedToNetwork {
+                self.delegate?.showNetworkError()
+                return
+            }
+            
+            self.delegate?.showAlertWith(message: LocalizedString.string("alert.sale.item.removed"))
         }
     }
     

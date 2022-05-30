@@ -23,6 +23,7 @@
 "alert.network.title" = "Network Error";
 "alert.network.message" = "Please ensure you are connected to the internet and relaunch the app to try again";
 "alert.invalid.email" = "Please enter a valid email";
+"alert.sale.item.removed" = "This sale item has been removed";
 "alert.unsaved.message" = "There are unsaved fields";
 "alert.required.fields.message" = "Please fill out all required fields";
 "report.reason.title" = "Reason for your report";

@@ -103,29 +103,6 @@ struct DatabaseManager {
         }
     }
     
-    // TODO! just try to move this method out into InboxVM
-    func deleteSaleItem(with id: String,
-                        _ completion: @escaping () -> Void,
-                        _ onFail: @escaping () -> Void) {
-        deleteDocument(in: .items, with: id, {
-            // TODO! delete all images associated with that sale item
-            
-            // delete all threads associated with that sale item
-            db.collection(FirebaseCollection.threads.collectionId).whereField(MessageThread.QueryKeys.saleItemId.rawValue, in: [id]).getDocuments { querySnapshot, error in
-                guard let docs = querySnapshot?.documents, error == nil else {
-                    onFail()
-                    return
-                }
-                
-                for doc in docs {
-                    db.collection(FirebaseCollection.threads.collectionId).document(doc.documentID).delete()
-                }
-                
-                completion()
-            }
-        }, onFail)
-    }
-    
     func deleteDocument(in collection: FirebaseCollection,
                         with id: String,
                         _ completion: @escaping () -> Void,
