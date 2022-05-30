@@ -108,6 +108,8 @@ struct DatabaseManager {
                         _ completion: @escaping () -> Void,
                         _ onFail: @escaping () -> Void) {
         deleteDocument(in: .items, with: id, {
+            // TODO! delete all images associated with that sale item
+            
             // delete all threads associated with that sale item
             db.collection(FirebaseCollection.threads.collectionId).whereField(MessageThread.QueryKeys.saleItemId.rawValue, in: [id]).getDocuments { querySnapshot, error in
                 guard let docs = querySnapshot?.documents, error == nil else {

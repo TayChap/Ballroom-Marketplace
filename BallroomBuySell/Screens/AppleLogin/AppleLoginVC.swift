@@ -22,7 +22,7 @@ class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationCon
     // MARK: - Lifecycle Methods
     static func createViewController(completion: @escaping () -> Void) -> UIViewController {
         if Environment.current != .production {
-            return LoginVC.createViewController() // login for QA instead
+            return NavigationController(rootViewController: LoginVC.createViewController()) // login for QA instead
         }
         
         let vc = AppleLoginVC(nibName: String(describing: AppleLoginVC.self), bundle: nil)
@@ -78,7 +78,7 @@ class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationCon
         
         let normalizedImage = selectedImage
         let resizedImage = normalizedImage.resize(newWidth: 800)
-        let image = Image(data: resizedImage.pngData())
+        let image = Image(for: .user, data: resizedImage.pngData())
         Image.uploadImages([image])
         AuthenticationManager.sharedInstance.setUserImage(url: image.url)
         

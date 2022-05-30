@@ -8,11 +8,29 @@
 import Foundation
 
 struct Image: Codable {
-    var url = "\(Environment.current.rawValue)/images/\(UUID().uuidString)"
+    enum ImageCollection: String {
+        case user, saleItems
+        
+        var url: String {
+            "\(Environment.current.rawValue)/\(self.rawValue)/\(UUID().uuidString)"
+        }
+    }
+    
+    var url: String
     var data: Data?
     
     enum CodingKeys: String, CodingKey {
         case url // omit data in Firestore (stored on cloud storage instead)
+    }
+    
+    init(url: String, data: Data?) {
+        self.url = url
+        self.data = data
+    }
+    
+    init(for collection: ImageCollection, data: Data?) {
+        self.url = collection.url
+        self.data = data
     }
     
     // MARK: - Public Helpers
@@ -39,7 +57,7 @@ struct Image: Codable {
         for imageURL in imageURLs {
             FileSystemManager.getFile(at: imageURL) { data, error in
                 if error != nil {
-                    fetchedImages.append(Image()) // if image not in DB, add empty image
+                    fetchedImages.append(Image(url: UUID().uuidString, data: nil)) // if image not in DB, add empty image
                     checkCompletion()
                     return
                 }

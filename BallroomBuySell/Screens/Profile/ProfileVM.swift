@@ -112,7 +112,7 @@ struct ProfileVM {
     
     // MARK: - ImageCellDelegate
     mutating func newImage(_ data: Data) {
-        photo = Image(data: data)
+        photo = Image(for: .user, data: data)
         user.photoURL = photo?.url
     }
     
