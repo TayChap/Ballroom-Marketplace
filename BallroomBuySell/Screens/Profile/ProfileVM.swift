@@ -67,7 +67,11 @@ struct ProfileVM {
         }
         
         AuthenticationManager.sharedInstance.updateUser(user, with: photo) {
-            delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
+            let ok = UIAlertAction(title: LocalizedString.string("generic.ok"), style: .default) { _ in
+                delegate?.dismiss()
+            }
+            
+            delegate?.showAlertWith(message: LocalizedString.string("generic.success"), alertActions: [ok])
         } onFail: {
             delegate?.showNetworkError()
         }

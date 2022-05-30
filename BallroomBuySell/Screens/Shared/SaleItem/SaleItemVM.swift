@@ -141,8 +141,7 @@ struct SaleItemVM {
         }
     }
     
-    mutating func doneButtonClicked() {
-        saleItem.dateAdded = Date()
+    func doneButtonClicked() {
         switch mode {
         case .create, .edit:
             guard requiredFieldsFilled else {
@@ -153,7 +152,12 @@ struct SaleItemVM {
             DatabaseManager.sharedInstance.putDocument(in: .items,
                                                        for: saleItem) {
                 Image.uploadImages(saleItem.images)
-                delegate?.dismiss()
+                
+                let ok = UIAlertAction(title: LocalizedString.string("generic.ok"), style: .default) { _ in
+                    delegate?.dismiss()
+                }
+                
+                delegate?.showAlertWith(message: LocalizedString.string("generic.success"), alertActions: [ok])
             } onFail: {
                 delegate?.showNetworkError()
             }
