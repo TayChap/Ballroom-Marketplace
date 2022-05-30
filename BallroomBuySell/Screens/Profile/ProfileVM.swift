@@ -38,11 +38,13 @@ struct ProfileVM {
     weak private var delegate: ViewControllerProtocol?
     private var user: User
     private var photo: Image?
+    private var initialPhotoURL: String?
     
     // MARK: - Lifecycle Methods
     init(user: User, photo: Image?, delegate: ViewControllerProtocol) {
         self.user = user
         self.photo = photo
+        self.initialPhotoURL = photo?.url
         self.delegate = delegate
     }
     
@@ -67,6 +69,10 @@ struct ProfileVM {
         }
         
         AuthenticationManager.sharedInstance.updateUser(user, with: photo) {
+            if let initialPhotoURL = initialPhotoURL {
+                FileSystemManager.deleteFile(at: initialPhotoURL)
+            }
+            
             let ok = UIAlertAction(title: LocalizedString.string("generic.ok"), style: .default) { _ in
                 delegate?.dismiss()
             }
