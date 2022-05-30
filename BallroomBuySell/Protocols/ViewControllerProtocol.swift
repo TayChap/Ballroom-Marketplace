@@ -14,7 +14,7 @@ protocol ViewControllerProtocol: UIViewController {
     func reload()
 }
 
-extension ViewControllerProtocol { // TODO! remove at least some extensions where possible
+extension ViewControllerProtocol {
     func pushViewController(_ vc: UIViewController) {}
     func presentViewController(_ vc: UIViewController) {}
     func dismiss() {}
