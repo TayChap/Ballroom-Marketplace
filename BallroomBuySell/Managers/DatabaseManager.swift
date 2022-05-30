@@ -9,7 +9,7 @@ import Firebase
 import FirebaseFirestoreSwift
 
 struct DatabaseManager {
-    enum Collection: String, CaseIterable {
+    enum FirebaseCollection: String, CaseIterable {
         case templates, users, items, threads, reports
         
         var collectionId: String {
@@ -24,7 +24,7 @@ struct DatabaseManager {
     private init() { } // to ensure sharedInstance is accessed, rather than new instance
     
     // MARK: - Public Helpers
-    func putDocument<T: Storable>(in collection: Collection,
+    func putDocument<T: Storable>(in collection: FirebaseCollection,
                                   for data: T,
                                   _ completion: () -> Void,
                                   onFail: () -> Void) {
@@ -42,7 +42,7 @@ struct DatabaseManager {
           }
     }
     
-    func getDocument<T: Decodable>(in collection: Collection,
+    func getDocument<T: Decodable>(in collection: FirebaseCollection,
                                    of _: T.Type,
                                    with id: String,
                                    _ completion: @escaping (T) -> Void,
@@ -59,7 +59,7 @@ struct DatabaseManager {
         }, onFail: onFail)
     }
     
-    func getDocuments<T: Decodable>(to collection: Collection,
+    func getDocuments<T: Decodable>(to collection: FirebaseCollection,
                                     of _: T.Type,
                                     whereFieldEquals equalsRelationship: (key: String, value: String)? = nil,
                                     whereArrayContains containsRelationship: (key: String, value: String)? = nil,
@@ -109,14 +109,14 @@ struct DatabaseManager {
                         _ onFail: @escaping () -> Void) {
         deleteDocument(in: .items, with: id, {
             // delete all threads associated with that sale item
-            db.collection(Collection.threads.collectionId).whereField(MessageThread.QueryKeys.saleItemId.rawValue, in: [id]).getDocuments { querySnapshot, error in
+            db.collection(FirebaseCollection.threads.collectionId).whereField(MessageThread.QueryKeys.saleItemId.rawValue, in: [id]).getDocuments { querySnapshot, error in
                 guard let docs = querySnapshot?.documents, error == nil else {
                     onFail()
                     return
                 }
                 
                 for doc in docs {
-                    db.collection(Collection.threads.collectionId).document(doc.documentID).delete()
+                    db.collection(FirebaseCollection.threads.collectionId).document(doc.documentID).delete()
                 }
                 
                 completion()
@@ -124,7 +124,7 @@ struct DatabaseManager {
         }, onFail)
     }
     
-    func deleteDocument(in collection: Collection,
+    func deleteDocument(in collection: FirebaseCollection,
                         with id: String,
                         _ completion: @escaping () -> Void,
                         _ onFail: @escaping () -> Void) {
