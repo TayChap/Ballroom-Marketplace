@@ -10,40 +10,30 @@ struct TemplateManager {
         "\(Environment.current.rawValue)/templates/ballroom/"
     }
     
-    // MARK: - Public Helpers
-    static func refreshTemplates(_ completion: @escaping (_ templates: [SaleItemTemplate]) -> Void, _ onFail: @escaping () -> Void) {
-        DatabaseManager.sharedInstance.getTemplates({ templates in
-            completion(templates)
-        }, {
-            onFail()
-        })
-    }
-    
     /// This method adds a hardcoded template to the templates collection
     /// The templates collection is only accessible when the app is signed into the superuser account and not in release mode
     static func updateTemplates() {
-        DatabaseManager.sharedInstance.stagingDeleteAllDocuments(in: .templates) {
-            let templates = [
-                // Competition
-                getTailsuitTemplate(),
-                getStandardDressTemplate(),
-                getLatinDressTemplate(),
-                getMensLatinTop(),
-                getMensBottom(),
-                // Practice
-                getMensStandardTop(),
-                getWomansPracticeTop(),
-                getWomansPracticeBottom(),
-                getWomansPracticeDressTemplate(),
-                // Shoes
-                getWomansShoesTemplate(),
-                getMensShoesTemplate(),
-                // Misc
-                getMiscTemplate()
-            ]
-            for template in templates {
-                DatabaseManager.sharedInstance.createDocument(.templates, template, nil, {}, onFail: {}) // dev only so no handling
-            }
+        let templates = [
+            // Competition
+            getTailsuitTemplate(),
+            getStandardDressTemplate(),
+            getLatinDressTemplate(),
+            getMensLatinTop(),
+            getMensBottom(),
+            // Practice
+            getMensStandardTop(),
+            getWomansPracticeTop(),
+            getWomansPracticeBottom(),
+            getWomansPracticeDressTemplate(),
+            // Shoes
+            getWomansShoesTemplate(),
+            getMensShoesTemplate(),
+            // Misc
+            getMiscTemplate()
+        ]
+        for template in templates {
+            DatabaseManager.sharedInstance.putDocument(in: .templates,
+                                                       for: template, {}, onFail: {}) // dev only so no handling
         }
     }
     

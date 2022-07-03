@@ -5,7 +5,7 @@
 //  Created by Taylor Chapman on 2022-01-07.
 //
 
-struct SaleItemTemplate: Codable {
+struct SaleItemTemplate: Storable {
     enum serverKey: String {
         case templateId, price
     }
@@ -86,18 +86,6 @@ struct SaleItemTemplate: Codable {
                               inputType: .standard,
                               serverKey: "notes",
                               titleKey: "generic.notes",
-                              subtitleKey: "",
-                              placeholderKey: "",
-                              required: false,
-                              filterEnabled: false,
-                              values: [])
-    }
-    
-    static func getContactSellerCell() -> SaleItemCellStructure {
-        SaleItemCellStructure(type: .button,
-                              inputType: .standard,
-                              serverKey: "",
-                              titleKey: "sale.item.contact.seller",
                               subtitleKey: "",
                               placeholderKey: "",
                               required: false,

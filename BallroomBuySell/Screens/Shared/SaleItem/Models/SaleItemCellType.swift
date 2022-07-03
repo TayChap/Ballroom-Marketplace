@@ -6,5 +6,5 @@
 //
 
 enum SaleItemCellType: String, Codable {
-    case textField, picker, imageCollection, toggle, textView, button
+    case textField, picker, imageCollection, toggle, textView
 }

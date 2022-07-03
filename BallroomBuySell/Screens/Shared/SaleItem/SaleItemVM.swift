@@ -9,7 +9,18 @@ import UIKit
 
 struct SaleItemVM {
     enum Mode {
-        case create, view, filter
+        case create, edit, view, filter
+        
+        var showRequiredAsterisk: Bool {
+            switch self {
+            case .edit, .create: return true
+            case .view, .filter: return false
+            }
+        }
+        
+        var isEditable: Bool {
+            self != .view
+        }
     }
     
     // MARK: - Stored Properties
@@ -20,6 +31,7 @@ struct SaleItemVM {
     private var screenStructure = [SaleItemCellStructure]()
     private let templates: [SaleItemTemplate]
     private let hideContactSeller: Bool
+    private let updateFilter: ((SaleItem) -> Void)?
     
     // MARK: Computed Properties
     private var selectedTemplate: SaleItemTemplate? {
@@ -41,28 +53,59 @@ struct SaleItemVM {
         }
     }
     
+    // MARK: - Navigation Bar
     var title: String {
         switch mode {
         case .view:
             return ""
         case .create:
             return LocalizedString.string("generic.new.listing")
+        case .edit:
+            return LocalizedString.string("generic.edit.listing")
         case .filter:
             guard let selectedTemplate = selectedTemplate else {
                 return ""
             }
             
-            return "\(LocalizedString.string("generic.order")): \(LocalizedString.string(selectedTemplate.name))"
+            return "\(LocalizedString.string("generic.sort")): \(LocalizedString.string(selectedTemplate.name))"
         }
     }
     
+    var backButtonImage: UIImage? {
+        UIImage(systemName: mode == .filter ? "xmark" : "chevron.left")
+    }
+    
+    var doneButtonImage: UIImage? {
+        switch mode {
+        case .edit, .create, .filter:
+            return UIImage(systemName: "checkmark")
+        case .view:
+            return nil
+        }
+    }
+    
+    var reportButtonImage: UIImage? {
+        mode == .view && !hideContactSeller ? UIImage(systemName: "flag")?.withTintColor(Theme.Color.error.value) : nil
+    }
+    
+    var messageButtonImage: UIImage? {
+        mode == .view && !hideContactSeller ? UIImage(systemName: "envelope") : nil
+    }
+    
     // MARK: - Lifecycle Methods
-    init(owner: ViewControllerProtocol, mode: Mode, templates: [SaleItemTemplate], selectedTemplate: SaleItemTemplate? = nil, saleItem: SaleItem? = nil, hideContactSeller: Bool = false) {
+    init(owner: ViewControllerProtocol,
+         mode: Mode,
+         templates: [SaleItemTemplate],
+         selectedTemplate: SaleItemTemplate? = nil,
+         saleItem: SaleItem? = nil,
+         hideContactSeller: Bool,
+         updateFilter: ((SaleItem) -> Void)?) {
         delegate = owner
         self.mode = mode
         self.templates = templates
-        self.saleItem = saleItem ?? SaleItem(userId: AuthenticationManager().user?.id ?? "")
-        self.hideContactSeller = AuthenticationManager().user?.id == self.saleItem.userId || hideContactSeller
+        self.saleItem = saleItem ?? SaleItem(userId: AuthenticationManager.sharedInstance.user?.id ?? "")
+        self.hideContactSeller = AuthenticationManager.sharedInstance.user?.id == self.saleItem.userId || hideContactSeller
+        self.updateFilter = updateFilter
         
         // update pre selected template for filter mode
         guard let selectedTemplateId = selectedTemplate?.id else {
@@ -84,26 +127,64 @@ struct SaleItemVM {
     }
     
     // MARK: - IBActions
-    mutating func doneButtonClicked(_ updateFilter: ((SaleItem) -> Void)? = nil) {
-        saleItem.dateAdded = Date()
+    func backButtonClicked() {
         switch mode {
         case .create:
+            let cancel = UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel)
+            let discard = UIAlertAction(title: LocalizedString.string("generic.discard"), style: .destructive) { _ in
+                delegate?.dismiss()
+            }
+            
+            delegate?.showAlertWith(message: LocalizedString.string("alert.unsaved.message"), alertActions: [cancel, discard])
+        case .view, .filter, .edit:
+            delegate?.dismiss()
+        }
+    }
+    
+    func doneButtonClicked() {
+        switch mode {
+        case .create, .edit:
             guard requiredFieldsFilled else {
                 delegate?.showAlertWith(message: LocalizedString.string("alert.required.fields.message"))
                 return
             }
             
-            DatabaseManager.sharedInstance.createDocument(.items, saleItem, nil) {
+            DatabaseManager.sharedInstance.putDocument(in: .items,
+                                                       for: saleItem) {
                 Image.uploadImages(saleItem.images)
-                delegate?.dismiss()
+                
+                let ok = UIAlertAction(title: LocalizedString.string("generic.ok"), style: .default) { _ in
+                    delegate?.dismiss()
+                }
+                
+                delegate?.showAlertWith(message: LocalizedString.string("generic.success"), alertActions: [ok])
             } onFail: {
                 delegate?.showNetworkError()
             }
         case .filter:
             updateFilter?(saleItem)
+            delegate?.dismiss()
         case .view:
             break
         }
+    }
+    
+    func messageButtonClicked() {
+        if AuthenticationManager.sharedInstance.user == nil {
+            delegate?.present(AppleLoginVC.createViewController(completion: pushMessageThread), animated: false)
+            return
+        }
+        
+        pushMessageThread()
+    }
+    
+    func reportButtonClicked() {
+        if AuthenticationManager.sharedInstance.user == nil {
+            delegate?.present(AppleLoginVC.createViewController(completion: submitReport), animated: false)
+            return
+        }
+        
+        submitReport()
     }
     
     // MARK: - Table Methods
@@ -128,7 +209,9 @@ struct SaleItemVM {
                     return UITableViewCell()
                 }
                 
-                pickerValues = PickerValue.getMeasurements(for: (min: cellStructure.min, max: max), with: cellStructure.increment)
+                pickerValues = PickerValue.getMeasurements(for: (min: cellStructure.min,
+                                                                 max: max),
+                                                           with: cellStructure.increment)
             default:
                 pickerValues = cellStructure.values
             }
@@ -136,7 +219,7 @@ struct SaleItemVM {
             cell.configureCell(with: PickerCellDM(titleText: LocalizedString.string(cellStructure.title),
                                                   selectedValues: [saleItem.fields[cellStructure.serverKey] ?? ""],
                                                   pickerValues: [pickerValues],
-                                                  showRequiredAsterisk: cellStructure.required && mode == .create))
+                                                  showRequiredAsterisk: cellStructure.required && mode.showRequiredAsterisk))
             cell.delegate = owner as? PickerCellDelegate
             return cell
         case .textField:
@@ -148,8 +231,8 @@ struct SaleItemVM {
                                                      title: LocalizedString.string(cellStructure.title),
                                                      detail: saleItem.fields[cellStructure.serverKey] ?? "",
                                                      returnKeyType: .done,
-                                                     showRequiredAsterisk: cellStructure.required && mode == .create,
-                                                     isEnabled: mode != .view))
+                                                     showRequiredAsterisk: cellStructure.required && mode.showRequiredAsterisk,
+                                                     isEnabled: mode.isEditable))
             cell.delegate = owner as? TextFieldCellDelegate
             return cell
         case .imageCollection:
@@ -159,8 +242,8 @@ struct SaleItemVM {
             
             cell.configureCell(with: ImageCellDM(title: LocalizedString.string(cellStructure.title),
                                                  images: saleItem.images.compactMap({ $0.data }),
-                                                 showRequiredAsterisk: cellStructure.required && mode == .create,
-                                                 editable: mode == .create))
+                                                 showRequiredAsterisk: cellStructure.required && mode.showRequiredAsterisk,
+                                                 editable: mode.isEditable))
             cell.delegate = owner as? (ImageCellDelegate & UIViewController)
             return cell
         case .toggle:
@@ -170,7 +253,7 @@ struct SaleItemVM {
             
             cell.configureCell(with: SwitchCellDM(title: LocalizedString.string(cellStructure.title),
                                                   isSelected: saleItem.useStandardSizing,
-                                                  isEnabled: mode != .view))
+                                                  isEnabled: mode.isEditable))
             cell.delegate = owner as? SwitchCellDelegate
             return cell
         case .textView:
@@ -180,30 +263,27 @@ struct SaleItemVM {
             
             cell.configureCell(with: TextViewCellDM(title: cellStructure.title,
                                                     detail: saleItem.fields[cellStructure.serverKey] ?? "",
-                                                    isEnabled: mode != .view))
+                                                    isEnabled: mode.isEditable))
             cell.delegate = owner as? TextViewCellDelegate
-            return cell
-        case .button:
-            guard let cell = ButtonTableCell.createCell(for: tableView) else {
-                return UITableViewCell()
-            }
-            
-            cell.configureCell(with: cellStructure.title)
-            cell.delegate = owner as? ButtonCellDelegate
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath, _ viewController: ViewControllerProtocol) {
+        if mode == .view {
+            return
+        }
+        
         if let selectedCell = tableView.cellForRow(at: indexPath) as? PickerTableCell {
-            let pickerVC = PickerViewController.createViewController(selectedCell)
+            let pickerVC = PickerViewController.createViewController(delegate: selectedCell,
+                                                                     owner: delegate)
             pickerVC.presentLayerIn(viewController: viewController, withDataSource: selectedCell)
         }
     }
     
     // MARK: - ImageCellDelegate
     mutating func newImage(_ data: Data) {
-        saleItem.images.append(Image(data: data))
+        saleItem.images.append(Image(for: .saleItems, data: data))
     }
     
     mutating func deleteImage(at index: Int) {
@@ -211,36 +291,15 @@ struct SaleItemVM {
     }
     
     // MARK: - SwitchCellDelegate
-    mutating func updateSwitchDetail(_ isOn: Bool, for cell: SwitchTableCell) {
+    mutating func updateSwitchDetail(_ isOn: Bool,
+                                     for cell: SwitchTableCell) {
         saleItem.useStandardSizing = isOn
         screenStructure = getScreenStructure()
     }
     
-    // MARK: - ButtonCellDelegate
-    func buttonClicked(_ signIn: () -> Void) {
-        guard let user = AuthenticationManager().user else {
-            signIn()
-            return
-        }
-        
-        DatabaseManager.sharedInstance.getThreads(for: user.id, { threads in
-            let messageThread = threads.first(where: { $0.saleItemId == saleItem.id }) ??
-            MessageThread(userIds: [user.id, saleItem.userId],
-                          saleItemId: saleItem.id,
-                          saleItemType: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "",
-                          imageURL: saleItem.images.first?.url ?? "")
-            
-            delegate?.pushViewController(MessageThreadVC.createViewController(messageThread,
-                                                                              user: user,
-                                                                              templates: templates,
-                                                                              hideItemInfo: true))
-        }, {
-            delegate?.showNetworkError()
-        })
-    }
-    
     // MARK: - Public Helpers
-    mutating func setData(_ data: String, at indexPath: IndexPath) {
+    mutating func setData(_ data: String,
+                          at indexPath: IndexPath) {
         let cellStructure = screenStructure[indexPath.row]
         saleItem.fields[cellStructure.serverKey] = data
         
@@ -259,7 +318,7 @@ struct SaleItemVM {
         structure = structure.filter({ saleItem.useStandardSizing ? $0.inputType != .measurement :  $0.inputType != .standardSize })
         
         switch mode {
-        case .create:
+        case .create, .edit:
             break
         case .view:
             // exclude blank fields for view mode
@@ -268,10 +327,52 @@ struct SaleItemVM {
             structure = structure.filter({ $0.filterEnabled })
         }
         
-        if !hideContactSeller {
-            structure.append(SaleItemTemplate.getContactSellerCell())
+        return structure
+    }
+    
+    private func pushMessageThread() {
+        guard let user = AuthenticationManager.sharedInstance.user else {
+            return
         }
         
-        return structure
+        DatabaseManager.sharedInstance.getDocuments(to: .threads,
+                                                    of: MessageThread.self,
+                                                    whereFieldEquals: (key: MessageThread.QueryKeys.buyerId.rawValue, value: user.id)) { threads in
+            let messageThread = threads.first(where: { $0.saleItemId == saleItem.id }) ??
+            MessageThread(buyerId: user.id,
+                          sellerId: saleItem.userId,
+                          saleItemId: saleItem.id,
+                          saleItemType: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "",
+                          imageURL: saleItem.images.first?.url ?? "")
+            
+            DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                       of: User.self,
+                                                       with: messageThread.otherUserId) { otherUser in
+            delegate?.pushViewController(MessageThreadVC.createViewController(messageThread,
+                                                                              currentUser: user,
+                                                                              otherUser: otherUser,
+                                                                              templates: templates,
+                                                                              hideItemInfo: true))
+            } onFail: {
+                delegate?.showNetworkError()
+            }
+        } onFail: {
+            delegate?.showNetworkError()
+        }
+    }
+    
+    private func submitReport() {
+        guard let user = AuthenticationManager.sharedInstance.user else {
+            return
+        }
+        
+        Report.submitReport(for: saleItem,
+                            with: LocalizedString.string("flag.reason"),
+                            delegate: delegate,
+                            reportingUser: user) {
+            delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
+        } onFail: {
+            delegate?.showNetworkError()
+        }
     }
 }

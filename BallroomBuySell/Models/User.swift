@@ -5,8 +5,10 @@
 //  Created by Taylor Chapman on 2022-01-07.
 //
 
-struct User {
-    let id: String // database uid
-    let photoURL: String?
-    let displayName: String
+struct User: Storable {
+    let id: String
+    var email: String?
+    var photoURL: String?
+    var displayName: String
+    var blockedUserIds = [String]()
 }

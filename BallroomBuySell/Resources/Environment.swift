@@ -6,7 +6,7 @@
 //
 
 enum Environment: String {
-    case staging, production
+    case staging, marketing, production
     
     static var current: Environment {
         staging

@@ -10,20 +10,15 @@ import UIKit
 struct LoginVM {
     enum LoginItem: CaseIterable {
         case email
-        case signUp
         
         var text: String {
             switch self {
             case .email: return "email"
-            case .signUp: return "Sign Up"
             }
         }
         
         var type: InputType {
-            switch self {
-            case .email: return .email
-            default: return .standard
-            }
+            .email
         }
         
         var returnKeyType: UIReturnKeyType {
@@ -31,17 +26,13 @@ struct LoginVM {
             default: return .next
             }
         }
-        
-        var hasData: Bool {
-            self != .signUp
-        }
     }
     
     private var dm = [LoginItem: String]()
     
     // MARK: - Lifecycle Methods
     init() {
-        for item in LoginItem.allCases where item.hasData {
+        for item in LoginItem.allCases {
             dm[item] = ""
         }
     }
@@ -57,7 +48,7 @@ struct LoginVM {
             return
         }
         
-        AuthenticationManager().loginStagingUser(email: email) {
+        AuthenticationManager.sharedInstance.loginStagingUser(email: email) {
             delegate.dismiss()
         }
     }
@@ -69,18 +60,6 @@ struct LoginVM {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
         let cellData = LoginItem.allCases[indexPath.row]
-        // button cell
-        if cellData == .signUp {
-            guard let cell = ButtonTableCell.createCell(for: tableView) else {
-                return UITableViewCell()
-            }
-            
-            cell.configureCell(with: cellData.text)
-            cell.delegate = owner as? ButtonCellDelegate
-            return cell
-        }
-        
-        // text field cell
         guard let cell = TextFieldTableCell.createCell(for: tableView) else {
             return UITableViewCell()
         }
@@ -91,11 +70,6 @@ struct LoginVM {
                                                  returnKeyType: .done))
         cell.delegate = owner as? TextFieldCellDelegate
         return cell
-    }
-    
-    // MARK: - ButtonCellDelegate
-    func buttonClicked(_ owner: ViewControllerProtocol) {
-        owner.pushViewController(SignUpVC.createViewController())
     }
     
     // MARK: - Public Helpers

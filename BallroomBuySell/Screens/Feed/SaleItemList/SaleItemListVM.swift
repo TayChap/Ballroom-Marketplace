@@ -20,7 +20,10 @@ struct SaleItemListVM {
     }
     
     // MARK: - Lifecycle Methods
-    init(owner: ViewControllerProtocol, templates: [SaleItemTemplate], selectedTemplate: SaleItemTemplate, unfilteredSaleItems: [SaleItem]) {
+    init(owner: ViewControllerProtocol,
+         templates: [SaleItemTemplate],
+         selectedTemplate: SaleItemTemplate,
+         unfilteredSaleItems: [SaleItem]) {
         delegate = owner
         self.templates = templates
         self.selectedTemplate = selectedTemplate
@@ -33,8 +36,14 @@ struct SaleItemListVM {
     }
     
     // MARK: - IBActions
+    func backButtonClicked() {
+        delegate?.dismiss()
+    }
+    
     func filterButtonClicked(_ completion: @escaping (SaleItem) -> Void) {
-        delegate?.presentViewController(SaleItemFilterVC.createViewController(templates, selectedTemplate) { saleItem in
+        delegate?.presentViewController(SaleItemVC.createViewController(mode: .filter,
+                                                                        templates: templates,
+                                                                        selectedTemplate: selectedTemplate) { saleItem in
             completion(saleItem)
         })
     }
@@ -71,19 +80,22 @@ struct SaleItemListVM {
         }
         
         cell.configureCell(with: SaleItemCellDM(imageURL: cellData.images.map({ $0.url }).first ?? "",
-                                                price: "$\(cellData.fields["price"] ?? "?")",
-                                                date: cellData.dateAdded))
+                                                price: "$\(cellData.fields["price"] ?? "?")", // TODO! hardcoded sale item field names
+                                                location: Country.getCountryName(cellData.fields["location"]) ?? "?"))
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath, completion: @escaping () -> Void) {
         var saleItem = saleItems[indexPath.item]
         Image.downloadImages(saleItem.images.map({ $0.url })) { images in
             if !templates.isEmpty {
                 saleItem.images = images
-                delegate?.pushViewController(SaleItemViewVC.createViewController(templates: templates,
-                                                                                 saleItem: saleItem))
+                delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
+                                                                             templates: templates,
+                                                                             saleItem: saleItem))
             }
+            
+            completion()
         }
     }
     

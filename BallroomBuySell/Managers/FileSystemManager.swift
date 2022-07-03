@@ -31,6 +31,10 @@ struct FileSystemManager {
         }
     }
     
+    static func deleteFile(at url: String) {
+        storage.reference().child(url).delete()
+    }
+    
     private static func getFileURL(_ url: String) -> URL {
         let fileFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: "")
         return fileFolder.appendingPathComponent(URL(string: url)?.lastPathComponent ?? "")

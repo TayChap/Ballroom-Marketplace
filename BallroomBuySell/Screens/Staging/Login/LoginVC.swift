@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LoginVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol, TextFieldCellDelegate, ButtonCellDelegate {
+class LoginVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol, TextFieldCellDelegate {
     @IBOutlet weak var closeButton: UIBarButtonItem!
     @IBOutlet weak var loginButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
@@ -57,10 +57,5 @@ class LoginVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
         }
         
         vm.setData(newText, at: indexPath)
-    }
-    
-    // MARK: - ButtonCellDelegate
-    func buttonClicked() {
-        vm.buttonClicked(self)
     }
 }

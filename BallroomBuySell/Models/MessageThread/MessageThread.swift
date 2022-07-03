@@ -7,15 +7,25 @@
 
 import Foundation
 
-struct MessageThread: Codable {
+struct MessageThread: Storable, Reportable {
     enum QueryKeys: String {
-        case userIds, saleItemId
+        case buyerId, sellerId, saleItemId
     }
     
     var id = UUID().uuidString
-    var userIds: Set<String>
+    let buyerId: String
+    let sellerId: String
     let saleItemId: String
-    let saleItemType: String
-    let imageURL: String
+    let saleItemType: String // TODO! can change - investigate when review inbox UI/UX
+    let imageURL: String // TODO! can change - investigate when review inbox UI/UX
     var messages: [Message] = []
+    
+    // MARK: - Computed Properties
+    var otherUserId: String {
+        AuthenticationManager.sharedInstance.user?.id == buyerId ? sellerId : buyerId
+    }
+    
+    var reportableUserId: String { // the id of the other user in the conversation
+        otherUserId
+    }
 }

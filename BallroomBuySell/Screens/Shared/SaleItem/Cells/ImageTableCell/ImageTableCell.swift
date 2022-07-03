@@ -23,7 +23,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
     
     private var maxImageCount = 0
-    private let imageWidth = 200
+    private let imageWidth = 800
     private var imagesList = [Data]()
     private var isEditable = true
     var delegate: (ImageCellDelegate & UIViewController)?
@@ -91,8 +91,8 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
             return
         }
         
-        let normalizedImage = normalizedImage(selectedImage)
-        let resizedImage = resize(sourceImage: normalizedImage, newWidth: CGFloat(imageWidth))
+        let normalizedImage = selectedImage.normalizedImage()
+        let resizedImage = normalizedImage.resize(newWidth: CGFloat(imageWidth))
         
         picker.dismiss(animated: true, completion: nil)
         if let imageData = resizedImage.pngData() {
@@ -150,41 +150,5 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         let imageViewer = ImageViewer.createViewController(image)
         imageViewer.modalPresentationStyle = .fullScreen
         self.delegate?.present(imageViewer, animated: true, completion: nil)
-    }
-    
-    /// Return a new image with modified orientation, scale and size
-    /// - Parameter image: the image to modify
-    /// - Returns: the new modified image
-    private func normalizedImage(_ image: UIImage) -> UIImage {
-        if image.imageOrientation == .up {
-            return image
-        }
-        
-        UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale)
-        image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
-        if let normalizedImage = UIGraphicsGetImageFromCurrentImageContext() {
-            UIGraphicsEndImageContext()
-            return normalizedImage
-        }
-        
-        return UIImage()
-    }
-    
-    /// Return a new image with modified size
-    /// - Parameters:
-    ///   - sourceImage: the image to modify
-    ///   - newWidth: the width to make the new image
-    /// - Returns: the new modified image
-    private func resize(sourceImage: UIImage, newWidth: CGFloat) -> UIImage {
-        let oldWidth = sourceImage.size.width
-        let scaleFactor = newWidth / oldWidth
-        let newHeight = sourceImage.size.height * scaleFactor
-        let newWidth = oldWidth * scaleFactor
-        
-        UIGraphicsBeginImageContext(CGSize.init(width: newWidth, height: newHeight))
-        sourceImage.draw(in: CGRect.init(x: 0, y: 0, width: newWidth, height: newHeight))
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return newImage!
     }
 }

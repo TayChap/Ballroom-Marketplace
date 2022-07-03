@@ -12,13 +12,13 @@ struct FeedVM {
         case recentItems, categories
     }
     
-    private weak var delegate: (ViewControllerProtocol & AuthenticatorProtocol)?
+    private weak var delegate: ViewControllerProtocol?
     private var templates = [SaleItemTemplate]()
     private var saleItems = [SaleItem]()
     private var maxRecentItems: Int { 20 }
     
     // MARK: - Lifecycle Methods
-    init(delegate: ViewControllerProtocol & AuthenticatorProtocol) {
+    init(delegate: ViewControllerProtocol) {
         self.delegate = delegate
     }
     
@@ -31,50 +31,46 @@ struct FeedVM {
 //        TemplateManager.updateTemplates()
     }
     
-    func viewWillAppear(_ completion: @escaping (_ templates: [SaleItemTemplate], _ saleItems: [SaleItem]) -> Void) {
+    func viewWillAppear(_ completion: @escaping (_ templates: [SaleItemTemplate],
+                                                 _ saleItems: [SaleItem]) -> Void) {
         // refresh templates and pull most recent sale items
-        TemplateManager.refreshTemplates({ templates in
-            DatabaseManager.sharedInstance.getRecentSaleItems(for: maxRecentItems, { items in
+        DatabaseManager.sharedInstance.getDocuments(to: .templates,
+                                                    of: SaleItemTemplate.self) { templates in
+            DatabaseManager.sharedInstance.getDocuments(to: .items,
+                                                        of: SaleItem.self,
+                                                        withOrderRule: (field: SaleItem.QueryKeys.dateAdded.rawValue, descending: true, limit: maxRecentItems)) { items in
                 completion(templates, items)
-            }, {
+            } onFail: {
                 delegate?.showNetworkError()
-            })
-        }, {
+            }
+        } onFail: {
             delegate?.showNetworkError()
-        })
+        }
     }
     
     // MARK: - IBActions
     func sellButtonClicked() {
-        if AuthenticationManager().user == nil {
-            delegate?.signIn()
+        if AuthenticationManager.sharedInstance.user == nil {
+            delegate?.present(AppleLoginVC.createViewController(completion: showSellScreen), animated: false)
             return
         }
         
-        if templates.isEmpty {
-            delegate?.showNetworkError()
-            return
-        }
-        
-        delegate?.pushViewController(SellVC.createViewController(templates))
+        showSellScreen()
     }
     
     func inboxButtonClicked() {
-        guard let user = AuthenticationManager().user else {
-            delegate?.signIn()
+        if AuthenticationManager.sharedInstance.user == nil {
+            delegate?.present(AppleLoginVC.createViewController(completion: showInboxScreen), animated: false)
             return
         }
         
-        if templates.isEmpty {
-            delegate?.showNetworkError()
-            return
-        }
-        
-        delegate?.pushViewController(InboxVC.createViewController(user, templates))
+        showInboxScreen()
     }
     
     // MARK: - CollectionView Methods
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
         guard let sectionHeader = FeedSectionHeader.createCell(for: collectionView,
                                                                ofKind: kind,
                                                                at: indexPath) else {
@@ -89,11 +85,13 @@ struct FeedVM {
         Section.allCases.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         section == Section.recentItems.rawValue ? saleItems.count : templates.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == Section.recentItems.rawValue {
             let cellData = saleItems[indexPath.item]
             
@@ -107,7 +105,7 @@ struct FeedVM {
             
             cell.configureCell(with: SaleItemCellDM(imageURL: coverImageURL,
                                                     price: "$\(cellData.fields["price"] ?? "?")",
-                                                    date: cellData.dateAdded ?? Date()))
+                                                    location: Country.getCountryName(cellData.fields["location"]) ?? "?"))
             return cell
         }
         
@@ -122,33 +120,43 @@ struct FeedVM {
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath,
+                        completion: @escaping () -> Void) {
         if indexPath.section == Section.recentItems.rawValue {
             var saleItem = saleItems[indexPath.row]
             Image.downloadImages(saleItem.images.map({ $0.url })) { images in
                 if !templates.isEmpty {
                     saleItem.images = images
-                    delegate?.pushViewController(SaleItemViewVC.createViewController(templates: templates,
-                                                                                     saleItem: saleItem))
+                    delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
+                                                                                 templates: templates,
+                                                                                 saleItem: saleItem))
                 }
             }
             
+            completion()
             return
         }
         
+        // category selected
         let selectedTemplate = templates[indexPath.row]
         let templateFilter = (key: "fields.\(SaleItemTemplate.serverKey.templateId.rawValue)", value: selectedTemplate.id)
-        DatabaseManager.sharedInstance.getSaleItems(where: templateFilter, { filteredSaleItems in
+        DatabaseManager.sharedInstance.getDocuments(to: .items,
+                                                    of: SaleItem.self,
+                                                    whereFieldEquals: templateFilter) { filteredSaleItems in
             delegate?.pushViewController(SaleItemListVC.createViewController(templates: templates,
                                                                              selectedTemplate: selectedTemplate,
                                                                              saleItems: filteredSaleItems))
-        }, {
+            completion()
+        } onFail: {
             delegate?.showNetworkError()
-        })
+            completion()
+        }
     }
     
     // MARK: - Public Helpers
-    mutating func onItemsFetched(templatesFetched: [SaleItemTemplate], saleItemsFetched: [SaleItem]) {
+    mutating func onItemsFetched(templatesFetched: [SaleItemTemplate],
+                                 saleItemsFetched: [SaleItem]) {
         templates = templatesFetched.sorted(by: { $0.order < $1.order })
         saleItems = saleItemsFetched
     }
@@ -164,6 +172,26 @@ struct FeedVM {
             case .categories: return self.generateCategoriesLayout(for: collectionView)
             }
         }
+    }
+    
+    private func showSellScreen() {
+        if templates.isEmpty {
+            delegate?.showNetworkError()
+            return
+        }
+        
+        delegate?.pushViewController(SaleItemVC.createViewController(mode: .create,
+                                                                     templates: templates))
+    }
+    
+    private func showInboxScreen() {
+        guard let user = AuthenticationManager.sharedInstance.user, !templates.isEmpty else {
+            delegate?.showNetworkError()
+            return
+        }
+        
+        delegate?.pushViewController(InboxVC.createViewController(user,
+                                                                  templates))
     }
     
     /// Generate the layout for the recent items section in the collection view

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -19,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="BaC-iQ-0W7">
-                        <rect key="frame" x="16" y="52" width="181" height="119.5"/>
+                        <rect key="frame" x="16" y="8" width="181" height="163.5"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="$10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tIG-av-wRJ">
@@ -53,7 +51,7 @@
             <size key="customSize" width="213" height="235"/>
             <connections>
                 <outlet property="coverImage" destination="BaC-iQ-0W7" id="OU7-bP-7MU"/>
-                <outlet property="dateLabel" destination="s43-55-D9f" id="Sdo-El-UvM"/>
+                <outlet property="detailLabel" destination="s43-55-D9f" id="Sdo-El-UvM"/>
                 <outlet property="priceLabel" destination="tIG-av-wRJ" id="Usm-92-owZ"/>
             </connections>
             <point key="canvasLocation" x="255.79710144927537" y="124.88839285714285"/>

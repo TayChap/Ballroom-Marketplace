@@ -10,7 +10,7 @@ import UIKit
 class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var detailLabel: UILabel!
     private var imageURL = ""
     
     static func registerCell(for collectionView: UICollectionView) {
@@ -41,7 +41,7 @@ class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
         }
         
         priceLabel.text = dm.price
-        dateLabel.text = dm.date.toReadableString()
+        detailLabel.text = dm.location
         
         applyRoundedCorners()
     }
@@ -49,6 +49,6 @@ class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
     func clearContent() {
         coverImage.image = nil
         priceLabel.text = ""
-        dateLabel.text = ""
+        detailLabel.text = ""
     }
 }

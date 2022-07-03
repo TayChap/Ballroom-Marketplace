@@ -1,5 +1,5 @@
 //
-//  SignUpVC.swift
+//  ProfileVC.swift
 //  BallroomBuySell
 //
 //  Created by Taylor Chapman on 2021-12-21.
@@ -7,15 +7,16 @@
 
 import UIKit
 
-class SignUpVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, ImageCellDelegate, TextFieldCellDelegate {
-    @IBOutlet weak var signUpButton: UIBarButtonItem!
+class ProfileVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, ImageCellDelegate, TextFieldCellDelegate {
+    @IBOutlet weak var backButton: UIBarButtonItem!
+    @IBOutlet weak var updateUserButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
-    private var vm: SignUpVM!
+    private var vm: ProfileVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController() -> UIViewController {
-        let vc = UIViewController.getVC(from: .staging, of: self)
-        vc.vm = SignUpVM(delegate: vc)
+    static func createViewController(user: User, photo: Image?) -> UIViewController {
+        let vc = UIViewController.getVC(from: .main, of: self)
+        vc.vm = ProfileVM(user: user, photo: photo, delegate: vc)
         return vc
     }
     
@@ -25,8 +26,12 @@ class SignUpVC: UIViewController, UITableViewDataSource, ViewControllerProtocol,
     }
     
     // MARK: - IBActions
-    @IBAction func signUpButtonClicked() {
-        vm.signUpButtonClicked(self)
+    @IBAction func backButtonClicked() {
+        vm.backButtonClicked()
+    }
+    
+    @IBAction func updateUserButtonClicked() {
+        vm.updateUserButtonClicked()
     }
     
     // MARK: - Table Methods
@@ -40,7 +45,7 @@ class SignUpVC: UIViewController, UITableViewDataSource, ViewControllerProtocol,
     
     // MARK: - ViewControllerProtocol
     func dismiss() {
-        dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     func reload() {

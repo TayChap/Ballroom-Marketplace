@@ -1,5 +1,5 @@
 //
-//  SignUpVM.swift
+//  ProfileVM.swift
 //  BallroomBuySell
 //
 //  Created by Taylor Chapman on 2021-12-29.
@@ -7,17 +7,17 @@
 
 import UIKit
 
-struct SignUpVM {
-    enum SignUpItem: CaseIterable {
+struct ProfileVM {
+    enum ProfileItem: CaseIterable {
         case photo
         case email
         case displayName
         
-        var text: String {
+        var textKey: String {
             switch self {
-            case .photo: return "photo"
-            case .email: return "email"
-            case .displayName: return "name"
+            case .photo: return "user.profile.photo"
+            case .email: return "generic.email"
+            case .displayName: return "user.display.name"
             }
         }
         
@@ -35,16 +35,17 @@ struct SignUpVM {
         }
     }
     
-    weak var delegate: ViewControllerProtocol?
+    weak private var delegate: ViewControllerProtocol?
+    private var user: User
     private var photo: Image?
-    private var dm = [SignUpItem: String]()
+    private var initialPhotoURL: String?
     
     // MARK: - Lifecycle Methods
-    init(delegate: ViewControllerProtocol) {
+    init(user: User, photo: Image?, delegate: ViewControllerProtocol) {
+        self.user = user
+        self.photo = photo
+        self.initialPhotoURL = photo?.url
         self.delegate = delegate
-        for item in SignUpItem.allCases {
-            dm[item] = ""
-        }
     }
     
     func viewDidLoad(with tableView: UITableView) {
@@ -53,28 +54,42 @@ struct SignUpVM {
     }
     
     // MARK: - IBActions
-    func signUpButtonClicked(_ delegate: ViewControllerProtocol) {
-        guard // validity of email and password checked on server side
-            let photo = photo,
-            let email = dm[SignUpItem.email],
-            let displayName = dm[SignUpItem.displayName], !displayName.isEmpty
-        else {
-            delegate.showAlertWith(message: LocalizedString.string("alert.required.fields.message"))
+    func backButtonClicked() {
+        delegate?.dismiss()
+    }
+    
+    func updateUserButtonClicked() {
+        guard let photo = photo, !user.displayName.isEmpty else {
+            delegate?.showAlertWith(message: LocalizedString.string("alert.required.fields.message"))
             return
         }
         
-        AuthenticationManager().createStagingUser(email: email, displayName: displayName, photo: photo) {
-            delegate.dismiss()
+        if user.email?.isValidEmail() != true {
+            delegate?.showAlertWith(message: LocalizedString.string("alert.invalid.email"))
+        }
+        
+        AuthenticationManager.sharedInstance.updateUser(user, with: photo) {
+            if let initialPhotoURL = initialPhotoURL {
+                FileSystemManager.deleteFile(at: initialPhotoURL)
+            }
+            
+            let ok = UIAlertAction(title: LocalizedString.string("generic.ok"), style: .default) { _ in
+                delegate?.dismiss()
+            }
+            
+            delegate?.showAlertWith(message: LocalizedString.string("generic.success"), alertActions: [ok])
+        } onFail: {
+            delegate?.showNetworkError()
         }
     }
     
     // MARK: - Table Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        SignUpItem.allCases.count
+        ProfileItem.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
-        let cellData = SignUpItem.allCases[indexPath.row]
+        let cellData = ProfileItem.allCases[indexPath.row]
         switch cellData {
         case .photo:
             guard let cell = ImageTableCell.createCell(for: tableView) else {
@@ -86,7 +101,7 @@ struct SignUpVM {
                 images.append(image)
             }
             
-            cell.configureCell(with: ImageCellDM(title: cellData.text,
+            cell.configureCell(with: ImageCellDM(title: LocalizedString.string(cellData.textKey),
                                                  images: images,
                                                  maxImages: 1))
             cell.delegate = owner as? (ImageCellDelegate & UIViewController)
@@ -97,8 +112,8 @@ struct SignUpVM {
             }
             
             cell.configureCell(with: TextFieldCellDM(inputType: cellData.type,
-                                                     title: cellData.text,
-                                                     detail: dm[cellData] ?? "",
+                                                     title: LocalizedString.string(cellData.textKey),
+                                                     detail: cellData == .email ? user.email ?? "" : user.displayName,
                                                      returnKeyType: .done))
             cell.delegate = owner as? TextFieldCellDelegate
             return cell
@@ -107,7 +122,8 @@ struct SignUpVM {
     
     // MARK: - ImageCellDelegate
     mutating func newImage(_ data: Data) {
-        photo = Image(data: data)
+        photo = Image(for: .user, data: data)
+        user.photoURL = photo?.url
     }
     
     mutating func deleteImage(at index: Int) {
@@ -116,6 +132,14 @@ struct SignUpVM {
     
     // MARK: - Public Helpers
     mutating func setData(_ data: String, at indexPath: IndexPath) {
-        dm[SignUpItem.allCases[indexPath.row]] = data
+        let cellData = ProfileItem.allCases[indexPath.row]
+        switch cellData {
+        case .email:
+            user.email = data
+        case .displayName:
+            user.displayName = data
+        default:
+            break // profile image handled separately
+        }
     }
 }

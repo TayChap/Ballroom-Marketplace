@@ -8,7 +8,9 @@
 import UIKit
 
 class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol {
+    @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var signOutButton: UIBarButtonItem!
+    @IBOutlet weak var profileButton: UIBarButtonItem!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
     private var vm: InboxVM!
@@ -24,12 +26,21 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        signOutButton.title = LocalizedString.string("generic.logout")
         vm.viewWillAppear(onFetch)
     }
     
     // MARK: - IBActions
+    @IBAction func backButtonClicked() {
+        vm.backButtonClicked()
+    }
+    
     @IBAction func signOutButtonClicked() {
         vm.signOutButtonClicked()
+    }
+    
+    @IBAction func profileButtonClicked() {
+        vm.profileButtonClicked()
     }
     
     @IBAction func segmentedControlClicked() {

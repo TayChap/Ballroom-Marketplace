@@ -8,7 +8,6 @@
 import UIKit
 
 protocol ViewControllerProtocol: UIViewController {
-    static func createViewController() -> UIViewController
     func pushViewController(_ vc: UIViewController)
     func presentViewController(_ vc: UIViewController)
     func dismiss()
@@ -16,7 +15,6 @@ protocol ViewControllerProtocol: UIViewController {
 }
 
 extension ViewControllerProtocol {
-    static func createViewController() -> UIViewController { UIViewController() }
     func pushViewController(_ vc: UIViewController) {}
     func presentViewController(_ vc: UIViewController) {}
     func dismiss() {}

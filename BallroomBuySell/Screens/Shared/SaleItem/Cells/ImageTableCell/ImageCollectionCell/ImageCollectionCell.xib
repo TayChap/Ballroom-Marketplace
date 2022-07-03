@@ -20,7 +20,7 @@
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="9NI-PR-bwc">
                         <rect key="frame" x="0.0" y="2" width="50" height="46"/>
-                        <color key="backgroundColor" name="cardBackground"/>
+                        <color key="backgroundColor" name="interactiveBackground"/>
                         <color key="tintColor" name="interactivity"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -51,11 +51,11 @@
     </objects>
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>
-        <namedColor name="cardBackground">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        <namedColor name="interactiveBackground">
+            <color red="0.22428815389416878" green="0.22428815389416878" blue="0.22428815389416878" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="interactivity">
-            <color red="0.0" green="0.035294117647058823" blue="0.90980392156862744" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.0" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
     </resources>
 </document>

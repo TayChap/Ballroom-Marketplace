@@ -9,17 +9,24 @@ import MessageKit
 import UIKit
 
 struct Message: Codable, MessageType {
-    let content: String
+    enum CodingKeys: String, CodingKey {
+        case messageId, content, senderId, sentDate
+    }
     
-    // MessageType
     var messageId = UUID().uuidString
+    let content: String
     let senderId: String
     let sentDate: Date
-    let imageURL: String?
-    let displayName: String
     
+    // MARK: Local Only Fields
+    var imageURL: String?
+    var displayName = ""
+    
+    // MARK: - Computed Properties
     var sender: SenderType {
-        Sender(senderId: senderId, displayName: displayName, imageURL: imageURL)
+        Sender(senderId: senderId,
+               displayName: displayName,
+               imageURL: imageURL)
     }
     
     var kind: MessageKind {

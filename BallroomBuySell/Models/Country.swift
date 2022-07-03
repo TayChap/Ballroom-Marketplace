@@ -14,4 +14,12 @@ struct Country {
     static var getCountryPickerValues: [Country] {
         Locale.isoRegionCodes.compactMap({ Country(code: $0, localizedString: Locale.current.localizedString(forRegionCode: $0) ?? "") })
     }
+    
+    static func getCountryName(_ countryCode: String?) -> String? {
+        guard let countryCode = countryCode else {
+            return nil
+        }
+        
+        return Locale.current.localizedString(forRegionCode: countryCode)
+    }
 }

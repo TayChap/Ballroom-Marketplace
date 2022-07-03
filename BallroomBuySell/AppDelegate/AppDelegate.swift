@@ -14,6 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         Theme.initializeAppTheme()
         FirebaseApp.configure()
+        AuthenticationManager.sharedInstance.refreshUser()
         return true
     }
     

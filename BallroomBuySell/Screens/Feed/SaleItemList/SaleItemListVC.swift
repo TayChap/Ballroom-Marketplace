@@ -8,12 +8,15 @@
 import UIKit
 
 class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, ViewControllerProtocol {
+    @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var filterButton: UIBarButtonItem!
     @IBOutlet weak var collectionView: UICollectionView!
     private var vm: SaleItemListVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController(templates: [SaleItemTemplate], selectedTemplate: SaleItemTemplate, saleItems: [SaleItem]) -> UIViewController {
+    static func createViewController(templates: [SaleItemTemplate],
+                                     selectedTemplate: SaleItemTemplate,
+                                     saleItems: [SaleItem]) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
         vc.vm = SaleItemListVM(owner: vc,
                                templates: templates,
@@ -30,6 +33,10 @@ class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     // MARK: - IBActions
+    @IBAction func backButtonClicked() {
+        vm.backButtonClicked()
+    }
+    
     @IBAction func filterButtonClicked() {
         vm.filterButtonClicked { saleItem in
             self.vm.orderSaleItems(by: saleItem)
@@ -59,7 +66,10 @@ class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        vm.collectionView(collectionView, didSelectItemAt: indexPath)
+        collectionView.isUserInteractionEnabled = false // on click, disable collection view to avoid double clicking
+        vm.collectionView(collectionView, didSelectItemAt: indexPath) {
+            collectionView.isUserInteractionEnabled = true
+        }
     }
     
     // MARK: - ViewControllerProtocol
@@ -69,6 +79,10 @@ class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollection
     
     func presentViewController(_ vc: UIViewController) {
         present(NavigationController(rootViewController: vc), animated: true)
+    }
+    
+    func dismiss() {
+        navigationController?.popViewController(animated: true)
     }
     
     func reload() {

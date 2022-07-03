@@ -1,21 +1,34 @@
 /* Generic */
+"generic.accept" = "Accept";
 "generic.cancel" = "Cancel";
 "generic.category" = "Category";
 "generic.close" = "Close";
+"generic.discard" = "Discard";
+"generic.edit.listing" = "Edit Listing";
+"generic.email" = "Email";
 "generic.later" = "Later";
 "generic.location" = "Location";
+"generic.logout" = "Logout";
 "generic.new.listing" = "New Listing";
 "generic.notes" = "Notes";
 "generic.now" = "Now";
-"generic.order" = "Order";
+"generic.ok" = "OK";
+"generic.sort" = "Sort";
 "generic.remove" = "Remove";
+"generic.report" = "Report";
+"generic.success" = "Success";
 "generic.view" = "View";
 
 /* Warnings and Errors */
 "list.empty.message" = "There's nothing to see here yet";
 "alert.network.title" = "Network Error";
 "alert.network.message" = "Please ensure you are connected to the internet and relaunch the app to try again";
+"alert.invalid.email" = "Please enter a valid email";
+"alert.sale.item.removed" = "This sale item has been removed";
+"alert.unsaved.message" = "There are unsaved fields";
 "alert.required.fields.message" = "Please fill out all required fields";
+"report.reason.title" = "Reason for your report";
+"report.reason" = "Note: You will no longer be able to see any listings or messages from this user";
 
 /* Permissions */
 "apple.settings.app" = "Settings";
@@ -23,9 +36,12 @@
 "apple.photos.app" = "Photo Library";
 "permissions.request" = "Please turn on your %@ permissions in settings";
 
-/* Login */
-"login.success.message" = "Login successful!";
+/* Profile */
+"login.terms.title" = "User Agreement";
+"login.terms.message" = "There is zero tolerance of objectional content or harrasment. Please treat all sellers and buyers with respect.\n\nBallroom Marketplace is not responsible for any lost or damaged items. Please exercise caution and connect with buyers and sellers on other platforms to verify their identity.";
 "login.add.picture.message" = "Add a profile picture?";
+"user.display.name" = "Display Name";
+"user.profile.photo" = "Profile Image";
 
 /* Feed */
 "feed.recent.items" = "Recent Items";
@@ -34,7 +50,6 @@
 "sale.item.price" = "Price (USD)";
 "sale.item.images" = "Images";
 "sale.item.images.actions" = "Image Actions";
-"sale.item.contact.seller" = "Contact Seller";
 
 "sale.item.tailsuit.title" = "Tailsuit";
 "sale.item.womens.standard.dress.title" = "Standard Dress";

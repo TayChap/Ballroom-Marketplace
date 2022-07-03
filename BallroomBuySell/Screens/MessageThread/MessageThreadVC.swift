@@ -10,11 +10,17 @@ import MessageKit
 import UIKit
 
 class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate, InputBarAccessoryViewDelegate {
+    @IBOutlet weak var backButton: UIBarButtonItem!
+    @IBOutlet weak var reportButton: UIBarButtonItem!
     @IBOutlet weak var infoButton: UIBarButtonItem!
     private var vm: MessageThreadVM!
     
     // MARK: - Lifecycle Methods
-    static func createViewController(_ thread: MessageThread, user: User, templates: [SaleItemTemplate], hideItemInfo: Bool = false) -> UIViewController {
+    static func createViewController(_ thread: MessageThread,
+                                     currentUser: User,
+                                     otherUser: User,
+                                     templates: [SaleItemTemplate],
+                                     hideItemInfo: Bool = false) -> UIViewController {
         let vc = UIViewController.getVC(from: .main, of: self)
         
         if hideItemInfo { // navigation is from item info page already
@@ -23,13 +29,17 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
         
         vc.vm = MessageThreadVM(owner: vc,
                                 thread: thread,
-                                user: user,
+                                currentUser: currentUser,
+                                otherUser: otherUser,
                                 templates: templates)
         return vc
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = vm.title
+        
+        // message collection view settings
         messageInputBar.delegate = self
         messagesCollectionView.backgroundColor = Theme.Color.background.value
         messagesCollectionView.messagesDataSource = self
@@ -39,6 +49,14 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
     }
     
     // MARK: - IBActions
+    @IBAction func backButtonClicked() {
+        vm.backButtonClicked()
+    }
+    
+    @IBAction func reportButtonClicked() {
+        vm.reportButtonClicked()
+    }
+    
     @IBAction func infoButtonClicked() {
         vm.infoButtonClicked()
     }
@@ -52,15 +70,20 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
         vm.numberOfSections(in: messagesCollectionView)
     }
     
-    func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
+    func messageForItem(at indexPath: IndexPath,
+                        in messagesCollectionView: MessagesCollectionView) -> MessageType {
         vm.messageForItem(at: indexPath, in: messagesCollectionView)
     }
     
-    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+    func configureAvatarView(_ avatarView: AvatarView,
+                             for message: MessageType,
+                             at indexPath: IndexPath,
+                             in messagesCollectionView: MessagesCollectionView) {
         vm.configureAvatarView(avatarView, for: message, at: indexPath, in: messagesCollectionView)
     }
     
-    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+    func inputBar(_ inputBar: InputBarAccessoryView,
+                  didPressSendButtonWith text: String) {
         vm.inputBar(didPressSendButtonWith: text) {
             inputBar.inputTextView.text = ""
             reload()

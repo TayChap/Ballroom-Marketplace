@@ -13,37 +13,47 @@ struct InboxVM {
     }
     
     private weak var delegate: ViewControllerProtocol?
-    private let user: User
+    private var user: User
     private let templates: [SaleItemTemplate]
     private var threads = [MessageThread]()
     private var saleItems = [SaleItem]()
     private var inboxState = InboxState.threads
     
     // MARK: - Lifecycle Methods
-    init(owner: ViewControllerProtocol, user: User, templates: [SaleItemTemplate]) {
+    init(owner: ViewControllerProtocol,
+         user: User,
+         templates: [SaleItemTemplate]) {
         delegate = owner
         self.user = user
         self.templates = templates
     }
     
-    func viewWillAppear(_ completion: @escaping (_ saleItems: [SaleItem], _ threads: [MessageThread]) -> Void) {
-        DatabaseManager.sharedInstance.getSaleItems(where: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id), { saleItems in
-            DatabaseManager.sharedInstance.getThreads(for: user.id, { threads in
-                completion(saleItems, threads)
-            }, {
-                delegate?.showNetworkError()
-            })
-        }, {
-            delegate?.showNetworkError()
-        })
+    mutating func viewWillAppear(_ completion: @escaping (_ saleItems: [SaleItem],
+                                                 _ threads: [MessageThread]) -> Void) {
+        // TODO! potentially refactor so user ALWAYS accessed from shared instance to avoid stale
+        if let user = AuthenticationManager.sharedInstance.user {
+            self.user = user
+        }
+        
+        fetchItems(completion)
     }
     
     // MARK: - IBActions
+    func backButtonClicked() {
+        delegate?.dismiss()
+    }
+    
     func signOutButtonClicked() {
-        AuthenticationManager().signOut {
+        AuthenticationManager.sharedInstance.signOut {
             delegate?.dismiss()
         } onFail: {
             delegate?.showNetworkError()
+        }
+    }
+    
+    func profileButtonClicked() {
+        Image.downloadImages([user.photoURL ?? ""]) { images in
+            delegate?.pushViewController(ProfileVC.createViewController(user: user, photo: images.first))
         }
     }
     
@@ -56,7 +66,9 @@ struct InboxVM {
         numberOfItems() == 0 ? 1 : numberOfItems()
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, _ owner: UIViewController) -> UITableViewCell {
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath,
+                   _ owner: UIViewController) -> UITableViewCell {
         if numberOfItems() == 0 { // empty message
             guard let cell = InboxEmptyTableCell.createCell(for: tableView) else {
                 return UITableViewCell()
@@ -79,7 +91,7 @@ struct InboxVM {
             cell.configureCell(with: InboxCellDM(imageURL: thread.imageURL,
                                                  title: SaleItemTemplate.getItemTitle(by: thread.saleItemType, in: templates),
                                                  date: lastMessageUnwrapped.sentDate,
-                                                 detail: "\(lastMessageUnwrapped.displayName): \(lastMessageUnwrapped.content)"))
+                                                 detail: lastMessageUnwrapped.content))
             return cell
         }
         
@@ -90,34 +102,55 @@ struct InboxVM {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   didSelectRowAt indexPath: IndexPath) {
         if numberOfItems() == 0 { // empty message
             return
         }
         
         if inboxState == .threads {
-            delegate?.pushViewController(MessageThreadVC.createViewController(threads[indexPath.row],
-                                                                              user: user,
-                                                                              templates: templates))
+            let thread = threads[indexPath.row]
+            DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                       of: User.self,
+                                                       with: thread.otherUserId) { otherUser in
+                delegate?.pushViewController(MessageThreadVC.createViewController(threads[indexPath.row],
+                                                                                  currentUser: user,
+                                                                                  otherUser: otherUser,
+                                                                                  templates: templates))
+            } onFail: {
+                delegate?.showNetworkError()
+            }
+            
             return
         }
         
         var saleItem = saleItems[indexPath.row]
         Image.downloadImages(saleItem.images.map({ $0.url })) { images in
             saleItem.images = images
-            delegate?.pushViewController(SaleItemViewVC.createViewController(templates: templates,
-                                                                             saleItem: saleItem))
+            delegate?.pushViewController(SaleItemVC.createViewController(mode: .edit,
+                                                                         templates: templates,
+                                                                         saleItem: saleItem))
         }
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath, completion: @escaping (_ saleItems: [SaleItem], _ threads: [MessageThread]) -> Void) {
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath,
+                   completion: @escaping (_ saleItems: [SaleItem],
+                                          _ threads: [MessageThread]) -> Void) {
         if editingStyle == .delete {
             if inboxState == .threads {
                 DatabaseManager.sharedInstance.deleteDocument(in: .threads, with: threads[indexPath.row].id, {
                     fetchItems(completion)
                 }, onFail)
             } else {
-                DatabaseManager.sharedInstance.deleteSaleItem(with: saleItems[indexPath.row].id, {
+                let saleItem = saleItems[indexPath.row]
+                DatabaseManager.sharedInstance.deleteDocument(in: .items,
+                                                              with: saleItem.id, {
+                    for imageURL in saleItem.images.map({ $0.url }) {
+                        FileSystemManager.deleteFile(at: imageURL)
+                    }
+                    
                     fetchItems(completion)
                 }, onFail)
             }
@@ -125,24 +158,42 @@ struct InboxVM {
     }
     
     // MARK: - Public Helpers
-    mutating func onFetch(_ saleItemsFetched: [SaleItem], _ threadsFetched: [MessageThread]) {
+    mutating func onFetch(_ saleItemsFetched: [SaleItem],
+                          _ threadsFetched: [MessageThread]) {
         saleItems = saleItemsFetched.sorted(by: { $0.dateAdded.compare($1.dateAdded) == .orderedDescending })
+        
+        // sort and filter threads
         threads = threadsFetched.sorted(by: { $0.messages.last?.sentDate.compare($1.messages.last?.sentDate ?? Date()) == .orderedDescending })
     }
     
     // MARK: - Private Helpers
-    /// Query server for both sale items and threads
+    /// Query server for both sale items and threads where user is either the buyer or the seller
     /// - Parameter completion: on successfully fetching the saleItem and thread data
-    private func fetchItems(_ completion: @escaping (_ saleItems: [SaleItem], _ threads: [MessageThread]) -> Void) {
-        DatabaseManager.sharedInstance.getSaleItems(where: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id), { saleItems in
-            DatabaseManager.sharedInstance.getThreads(for: user.id, { threads in
-                completion(saleItems, threads)
-            }, {
+    private func fetchItems(_ completion: @escaping (_ saleItems: [SaleItem],
+                                                     _ threads: [MessageThread]) -> Void) {
+        DatabaseManager.sharedInstance.getDocuments(to: .items,
+                                                    of: SaleItem.self,
+                                                    whereFieldEquals: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id)) { saleItems in
+            
+            // include threads where user is EITHER buyer or seller (two calls because Firestore does not support OR operations right now)
+            DatabaseManager.sharedInstance.getDocuments(to: .threads,
+                                                        of: MessageThread.self,
+                                                        whereFieldEquals: (key: MessageThread.QueryKeys.buyerId.rawValue, value: user.id)) { threadsWhereBuyer in
+                var threads = threadsWhereBuyer
+                DatabaseManager.sharedInstance.getDocuments(to: .threads,
+                                                            of: MessageThread.self,
+                                                            whereFieldEquals: (key: MessageThread.QueryKeys.sellerId.rawValue, value: user.id)) { threadsWhereSeller in
+                    threads.append(contentsOf: threadsWhereSeller)
+                    completion(saleItems, threads)
+                } onFail: {
+                    delegate?.showNetworkError()
+                }
+            } onFail: {
                 delegate?.showNetworkError()
-            })
-        }, {
+            }
+        } onFail: {
             delegate?.showNetworkError()
-        })
+        }
     }
     
     /// Displays a network error on failied query
