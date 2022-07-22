@@ -14,7 +14,7 @@
 Two things that make this app special are (1) JSON driven templates for clothing items and (2) options for both standard sizes and specific measurements.</p>
   
 <p><font size="3">
-(1) Our JSON driven template system allows a <strong>non-technical</strong> person with no coding experience to add a new item type to the application. Since these screens are driven by JSON stored on the web server, templates can also be added/edited without a new app release. Furthermore, ALL images are stored on the server, so they too can be changed without a new app release.</p>
+(1) Our JSON driven template system allows a <strong>non-technical</strong> person with no coding experience to add a new item type to the application. Since these screens are driven by JSON stored on the web server, templates can also be added/edited without a new app release. Furthermore, all images are stored on the server, so they too can be changed without a new app release.</p>
   
 <h1 align="center">
   <img width="600" alt="image" src="https://user-images.githubusercontent.com/12243409/177051762-f9da2632-3ffd-47a1-9f74-a386edafa11b.png">
