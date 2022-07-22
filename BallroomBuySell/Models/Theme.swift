@@ -24,6 +24,6 @@ struct Theme {
     static func initializeAppTheme() {
         UINavigationBar.appearance().backgroundColor = Color.background.value
         UINavigationBar.appearance().barTintColor = Color.background.value
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: Color.primaryText.value]
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: Color.primaryText.value]
     }
 }
