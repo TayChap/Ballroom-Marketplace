@@ -44,31 +44,25 @@ struct DatabaseManager {
     
     func getDocument<T: Decodable>(in collection: FirebaseCollection,
                                    of _: T.Type,
-                                   with id: String,
-                                   _ completion: @escaping (T) -> Void,
-                                   onFail: @escaping () -> Void) {
-        getDocuments(to: collection,
-                     of: T.self,
-                     whereFieldEquals: (key: "id", value: id), { items in
-            guard let item = items.first else {
-                onFail()
-                return
-            }
-            
-            completion(item)
-        }, onFail: onFail)
+                                   with id: String) async throws -> T {
+        let items = try await getDocuments(to: collection,
+                                           of: T.self,
+                                           whereFieldEquals: (key: "id", value: id))
+        
+        guard let item = items.first else {
+            throw NetworkError.notFound
+        }
+        
+        return item
     }
     
     func getDocuments<T: Decodable>(to collection: FirebaseCollection,
                                     of _: T.Type,
                                     whereFieldEquals equalsRelationship: (key: String, value: String)? = nil,
                                     whereArrayContains containsRelationship: (key: String, value: String)? = nil,
-                                    withOrderRule orderRule: (field: String, descending: Bool, limit: Int)? = nil,
-                                    _ completion: @escaping ([T]) -> Void,
-                                    onFail: @escaping () -> Void) {
+                                    withOrderRule orderRule: (field: String, descending: Bool, limit: Int)? = nil) async throws -> [T] {
         if !Reachability.isConnectedToNetwork {
-            onFail()
-            return
+            throw NetworkError.notConnected
         }
         
         // create the query
@@ -86,21 +80,10 @@ struct DatabaseManager {
             reference = reference.order(by: orderRule.field, descending: orderRule.descending).limit(to: orderRule.limit)
         }
         
-        // fetch from the DB based on the query
-        reference.getDocuments { querySnapshot, error  in
-            guard let docs = querySnapshot?.documents, error == nil else {
-                onFail()
-                return
-            }
-            
-            do {
-                return completion(try docs.compactMap({ doc in
-                        return try doc.data(as: T.self)
-                }).filter({ ($0 as? Reportable)?.isAcceptable() ?? true }))
-            } catch {
-                return
-            }
-        }
+        let docs = try await reference.getDocuments().documents
+        return try docs.compactMap({ doc in
+            return try doc.data(as: T.self)
+        }).filter({ ($0 as? Reportable)?.isAcceptable() ?? true })
     }
     
     func deleteDocument(in collection: FirebaseCollection,

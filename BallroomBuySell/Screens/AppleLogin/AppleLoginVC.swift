@@ -9,6 +9,10 @@ import AuthenticationServices
 import CryptoKit
 import UIKit
 
+//protocol AppleLoginVCDelegate { // TODO!
+//    @MainActor func onLoginComplete() -> Void
+//}
+
 class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var background: UIView!
     @IBOutlet weak var foreground: UIView!
@@ -17,17 +21,19 @@ class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationCon
     @IBOutlet weak var termsTextView: UITextView!
     @IBOutlet weak var appleButton: UIButton!
     
-    private var completion = {}
+//    func onLoginComplete: () -> Void
+    
+//    private var delegate: AppleLoginVCDelegate?
     
     // MARK: - Lifecycle Methods
-    static func createViewController(completion: @escaping () -> Void) -> UIViewController {
+    static func createViewController() -> UIViewController {
         if Environment.current != .production {
             return NavigationController(rootViewController: LoginVC.createViewController()) // login for QA instead
         }
         
         let vc = AppleLoginVC(nibName: String(describing: AppleLoginVC.self), bundle: nil)
         vc.modalPresentationStyle = .overCurrentContext
-        vc.completion = completion
+//        vc.delegate = delegate
         return vc
     }
     
@@ -124,7 +130,9 @@ class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationCon
     
     // MARK: - Private Helpers
     private func loginComplete() {
-        dismiss(animated: true, completion: completion)
+        dismiss(animated: true) {
+//            self.onLoginComplete() // TODO!
+        }
     }
     
     /// Display photo selection options to the user

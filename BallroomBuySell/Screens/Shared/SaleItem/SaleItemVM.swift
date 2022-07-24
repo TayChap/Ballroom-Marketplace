@@ -171,16 +171,18 @@ struct SaleItemVM {
     
     func messageButtonClicked() {
         if AuthenticationManager.sharedInstance.user == nil {
-            delegate?.present(AppleLoginVC.createViewController(completion: pushMessageThread), animated: false)
+            delegate?.present(AppleLoginVC.createViewController(), animated: false) // pushMessageThread
             return
         }
         
-        pushMessageThread()
+        Task {
+            await pushMessageThread()
+        }
     }
     
     func reportButtonClicked() {
         if AuthenticationManager.sharedInstance.user == nil {
-            delegate?.present(AppleLoginVC.createViewController(completion: submitReport), animated: false)
+            delegate?.present(AppleLoginVC.createViewController(), animated: false) // submitReport
             return
         }
         
@@ -330,14 +332,17 @@ struct SaleItemVM {
         return structure
     }
     
-    private func pushMessageThread() {
+    @MainActor
+    func pushMessageThread() async {
         guard let user = AuthenticationManager.sharedInstance.user else {
             return
         }
         
-        DatabaseManager.sharedInstance.getDocuments(to: .threads,
-                                                    of: MessageThread.self,
-                                                    whereFieldEquals: (key: MessageThread.QueryKeys.buyerId.rawValue, value: user.id)) { threads in
+        do {
+            let threads = try await DatabaseManager.sharedInstance.getDocuments(to: .threads,
+                                                                                of: MessageThread.self,
+                                                                                whereFieldEquals: (key: MessageThread.QueryKeys.buyerId.rawValue, value: user.id))
+            
             let messageThread = threads.first(where: { $0.saleItemId == saleItem.id }) ??
             MessageThread(buyerId: user.id,
                           sellerId: saleItem.userId,
@@ -345,18 +350,16 @@ struct SaleItemVM {
                           saleItemType: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "",
                           imageURL: saleItem.images.first?.url ?? "")
             
-            DatabaseManager.sharedInstance.getDocument(in: .users,
-                                                       of: User.self,
-                                                       with: messageThread.otherUserId) { otherUser in
+            let otherUser = try await DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                                                 of: User.self,
+                                                                                 with: messageThread.otherUserId)
+            
             delegate?.pushViewController(MessageThreadVC.createViewController(messageThread,
                                                                               currentUser: user,
                                                                               otherUser: otherUser,
                                                                               templates: templates,
                                                                               hideItemInfo: true))
-            } onFail: {
-                delegate?.showNetworkError()
-            }
-        } onFail: {
+        } catch {
             delegate?.showNetworkError()
         }
     }

@@ -31,11 +31,18 @@ class AuthenticationManager {
             return
         }
         
-        DatabaseManager.sharedInstance.getDocument(in: .users,
-                                                   of: User.self,
-                                                   with: id) { user in
-            self.user = user
-        } onFail: {}
+        Task {
+            do {
+                let user = try await DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                                                of: User.self,
+                                                                                with: id)
+                self.user = user
+            } catch NetworkError.notFound {
+                user = nil
+            } catch NetworkError.notConnected {
+                // do nothing
+            }
+        }
     }
     
     func updateUser(_ user: User,
@@ -63,45 +70,53 @@ class AuthenticationManager {
         let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                   idToken: idTokenString,
                                                   rawNonce: nonce)
-        Auth.auth().signIn(with: credential) { result, error in
+        Auth.auth().signIn(with: credential) { result, error in // TODO! async
             guard let user = result?.user, error == nil else {
                 onFail()
                 return
             }
             
-            DatabaseManager.sharedInstance.getDocument(in: .users,
-                                                       of: User.self,
-                                                       with: user.uid) { codableUser in
-                self.user = codableUser
-                completion()
-            } onFail: {
-                // user does not exist, so add to database
-                let codableUser = User(id: user.uid,
-                                       email: email,
-                                       photoURL: nil,
-                                       displayName: displayName)
-                DatabaseManager.sharedInstance.putDocument(in: .users, for: codableUser, {
+            Task {
+                do {
+                    let codableUser = try await DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                                                           of: User.self,
+                                                                                           with: user.uid)
                     self.user = codableUser
                     completion()
-                }, onFail: onFail)
+                } catch NetworkError.notFound {
+                    // user does not exist, so add to database
+                    let codableUser = User(id: user.uid,
+                                           email: email,
+                                           photoURL: nil,
+                                           displayName: displayName)
+                    DatabaseManager.sharedInstance.putDocument(in: .users, for: codableUser, {
+                        self.user = codableUser
+                        completion()
+                    }, onFail: onFail)
+                } catch NetworkError.notConnected {
+                    // TODO! throw not connected error ?
+                }
             }
         }
     }
     
     // MARK: - Staging only authentication
     func loginStagingUser(email: String, completion: @escaping () -> Void) {
-        Auth.auth().signIn(withEmail: email, password: "Tester") { result, error in
+        Auth.auth().signIn(withEmail: email, password: "Tester") { result, error in // TODO! mark as async
             guard let userId = result?.user.uid else {
                 return // staging so no error message required
             }
             
-            DatabaseManager.sharedInstance.getDocument(in: .users,
-                                                       of: User.self,
-                                                       with: userId) { user in
-                self.user = user
-                completion()
-            } onFail: {
-                return // staging so no error message required
+            Task {
+                do {
+                    let user = try await DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                                                    of: User.self,
+                                                                                    with: userId)
+                    self.user = user
+                    completion()
+                } catch {
+                    // TODO!
+                }
             }
         }
     }

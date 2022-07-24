@@ -57,27 +57,30 @@ class MessageThreadVM {
         }
     }
     
+    @MainActor
     func infoButtonClicked() {
-        DatabaseManager.sharedInstance.getDocument(in: .items,
-                                                   of: SaleItem.self,
-                                                   with: thread.saleItemId) { saleItemFetched in
-            var saleItem = saleItemFetched
-            Image.downloadImages(saleItem.images.map({ $0.url })) { images in
-                if !self.templates.isEmpty {
-                    saleItem.images = images
-                    self.delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
-                                                                                      templates: self.templates,
-                                                                                      saleItem: saleItem,
-                                                                                      hideContactSeller: true))
+        Task {
+            do {
+                var saleItem = try await DatabaseManager.sharedInstance.getDocument(in: .items,
+                                                                                    of: SaleItem.self,
+                                                                                    with: thread.saleItemId)
+                
+                // let images = TODO!
+                
+                Image.downloadImages(saleItem.images.map({ $0.url })) { images in
+                    if !self.templates.isEmpty {
+                        saleItem.images = images
+                        self.delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
+                                                                                          templates: self.templates,
+                                                                                          saleItem: saleItem,
+                                                                                          hideContactSeller: true))
+                    }
                 }
+            } catch NetworkError.notConnected {
+                delegate?.showNetworkError()
+            } catch NetworkError.notFound {
+                delegate?.showAlertWith(message: LocalizedString.string("alert.sale.item.removed"))
             }
-        } onFail: { // fail EITHER due to network error or 404
-            if !Reachability.isConnectedToNetwork {
-                self.delegate?.showNetworkError()
-                return
-            }
-            
-            self.delegate?.showAlertWith(message: LocalizedString.string("alert.sale.item.removed"))
         }
     }
     
