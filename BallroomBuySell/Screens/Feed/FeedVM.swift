@@ -79,7 +79,7 @@ struct FeedVM {
             return UICollectionReusableView()
         }
         
-        sectionHeader.configureCell(with: LocalizedString.string(indexPath.section == 0 ? "feed.recent.items" : "generic.category"))
+        sectionHeader.configureCell(with: LocalizedString.string(indexPath.section == 0 ? "feed.recent.items" : "generic.categories"))
         return sectionHeader
     }
     
