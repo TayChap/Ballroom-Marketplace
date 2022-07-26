@@ -73,8 +73,7 @@ class AuthenticationManager {
         let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                   idToken: idTokenString,
                                                   rawNonce: nonce)
-        let result = try await Auth.auth().signIn(with: credential)
-        let user = result.user
+        let user = try await Auth.auth().signIn(with: credential).user
         
         do {
             let codableUser = try await DatabaseManager.sharedInstance.getDocument(in: .users,
@@ -93,23 +92,11 @@ class AuthenticationManager {
     }
     
     // MARK: - Staging only authentication
-    func loginStagingUser(email: String, completion: @escaping () -> Void) {
-        Auth.auth().signIn(withEmail: email, password: "Tester") { result, error in // TODO! mark as async
-            guard let userId = result?.user.uid else {
-                return // staging so no error message required
-            }
-            
-            Task {
-                do {
-                    let user = try await DatabaseManager.sharedInstance.getDocument(in: .users,
-                                                                                    of: User.self,
-                                                                                    with: userId)
-                    self.user = user
-                    completion()
-                } catch {
-                    // TODO!
-                }
-            }
-        }
+    func loginStagingUser(email: String) async throws {
+        let userId = try await Auth.auth().signIn(withEmail: email, password: "Tester").user.uid
+        let user = try await DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                                        of: User.self,
+                                                                        with: userId)
+        self.user = user
     }
 }
