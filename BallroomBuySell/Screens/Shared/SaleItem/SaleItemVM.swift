@@ -373,10 +373,6 @@ struct SaleItemVM {
         Report.submitReport(for: saleItem,
                             with: LocalizedString.string("flag.reason"),
                             delegate: delegate,
-                            reportingUser: user) { // TODO! async
-            delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
-        } onFail: {
-            delegate?.showNetworkError()
-        }
+                            reportingUser: user)
     }
 }

@@ -50,11 +50,7 @@ class MessageThreadVM {
         Report.submitReport(for: thread,
                             with: LocalizedString.string("flag.reason"),
                             delegate: delegate,
-                            reportingUser: currentUser) {
-            self.delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
-        } onFail: {
-            self.delegate?.showNetworkError()
-        }
+                            reportingUser: currentUser)
     }
     
     @MainActor
@@ -64,9 +60,6 @@ class MessageThreadVM {
                 var saleItem = try await DatabaseManager.sharedInstance.getDocument(in: .items,
                                                                                     of: SaleItem.self,
                                                                                     with: thread.saleItemId)
-                
-                // let images = TODO!
-                
                 Image.downloadImages(saleItem.images.map({ $0.url })) { images in
                     if !self.templates.isEmpty {
                         saleItem.images = images

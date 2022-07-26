@@ -18,9 +18,7 @@ struct Report<Item: Storable & Reportable>: Storable {
     static func submitReport(for item: Item,
                              with reason: String,
                              delegate: UIViewController?,
-                             reportingUser: User,
-                             completion: @escaping () -> Void,
-                             onFail: @escaping () -> Void) {
+                             reportingUser: User) {
         let alertController = UIAlertController(title: LocalizedString.string("report.reason.title"), message: LocalizedString.string("report.reason"), preferredStyle: .alert)
         let cancel = UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel)
         let report = UIAlertAction(title: LocalizedString.string("generic.report"), style: .default) { _ in
@@ -43,9 +41,9 @@ struct Report<Item: Storable & Reportable>: Storable {
                 
                 try DatabaseManager.sharedInstance.putDocument(in: .users,
                                                                for: user)
-                completion()
+                delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
             } catch {
-                onFail()
+                delegate?.showNetworkError()
             }
         }
         
