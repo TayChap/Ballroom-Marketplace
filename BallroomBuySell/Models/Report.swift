@@ -50,6 +50,6 @@ struct Report<Item: Storable & Reportable>: Storable {
         alertController.addTextField()
         alertController.addAction(cancel)
         alertController.addAction(report)
-        delegate?.present(alertController, animated: true, completion: nil)
+        delegate?.present(alertController, animated: true)
     }
 }

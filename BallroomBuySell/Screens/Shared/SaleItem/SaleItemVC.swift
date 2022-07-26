@@ -159,7 +159,7 @@ class SaleItemVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func updateTextViewDetail(with text: String,
                               for cell: TextViewTableCell) {
         setData(text, for: cell)
-        tableView.performBatchUpdates(nil, completion: nil) // Need to adjust cell height without reloading the table view
+        tableView.performBatchUpdates(nil) // Need to adjust cell height without reloading the table view
     }
     
     // MARK: - Private Helpers

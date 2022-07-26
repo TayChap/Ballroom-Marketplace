@@ -71,7 +71,7 @@ class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationCon
     
     // MARK: - UIImagePickerController Delegate
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true)
         guard let selectedImage = info[.editedImage] as? UIImage ?? info[.originalImage] as? UIImage else {
             return
         }

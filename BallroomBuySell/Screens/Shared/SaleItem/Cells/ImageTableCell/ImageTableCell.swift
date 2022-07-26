@@ -94,7 +94,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         let normalizedImage = selectedImage.normalizedImage()
         let resizedImage = normalizedImage.resize(newWidth: imageWidth)
         
-        picker.dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true)
         if let imageData = resizedImage.pngData() {
             delegate?.addImage(imageData)
         }
@@ -149,6 +149,6 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         
         let imageViewer = ImageViewer.createViewController(image)
         imageViewer.modalPresentationStyle = .fullScreen
-        self.delegate?.present(imageViewer, animated: true, completion: nil)
+        delegate?.present(imageViewer, animated: true)
     }
 }

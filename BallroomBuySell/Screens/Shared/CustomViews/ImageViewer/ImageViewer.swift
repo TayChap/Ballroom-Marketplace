@@ -27,6 +27,6 @@ class ImageViewer: UIViewController {
     }
     
     @IBAction func closeButtonClicked() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
 }
