@@ -171,7 +171,7 @@ struct SaleItemVM {
     
     func messageButtonClicked() {
         if AuthenticationManager.sharedInstance.user == nil {
-            delegate?.present(AppleLoginVC.createViewController(), animated: false) // pushMessageThread
+            delegate?.present(AppleLoginVC.createViewController(pushMessageThread), animated: false)
             return
         }
         
@@ -182,11 +182,13 @@ struct SaleItemVM {
     
     func reportButtonClicked() {
         if AuthenticationManager.sharedInstance.user == nil {
-            delegate?.present(AppleLoginVC.createViewController(), animated: false) // submitReport
+            delegate?.present(AppleLoginVC.createViewController(submitReport), animated: false)
             return
         }
         
-        submitReport()
+        Task {
+            await submitReport()
+        }
     }
     
     // MARK: - Table Methods
@@ -333,7 +335,7 @@ struct SaleItemVM {
     }
     
     @MainActor
-    func pushMessageThread() async {
+    private func pushMessageThread() async {
         guard let user = AuthenticationManager.sharedInstance.user else {
             return
         }
@@ -364,7 +366,8 @@ struct SaleItemVM {
         }
     }
     
-    private func submitReport() {
+    @MainActor
+    private func submitReport() async {
         guard let user = AuthenticationManager.sharedInstance.user else {
             return
         }
@@ -372,7 +375,7 @@ struct SaleItemVM {
         Report.submitReport(for: saleItem,
                             with: LocalizedString.string("flag.reason"),
                             delegate: delegate,
-                            reportingUser: user) {
+                            reportingUser: user) { // TODO! async
             delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
         } onFail: {
             delegate?.showNetworkError()

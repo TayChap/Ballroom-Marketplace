@@ -9,10 +9,6 @@ import AuthenticationServices
 import CryptoKit
 import UIKit
 
-//protocol AppleLoginVCDelegate { // TODO!
-//    @MainActor func onLoginComplete() -> Void
-//}
-
 class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var background: UIView!
     @IBOutlet weak var foreground: UIView!
@@ -21,19 +17,17 @@ class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationCon
     @IBOutlet weak var termsTextView: UITextView!
     @IBOutlet weak var appleButton: UIButton!
     
-//    func onLoginComplete: () -> Void
-    
-//    private var delegate: AppleLoginVCDelegate?
+    private var onLoginComplete: @MainActor () async -> Void = {}
     
     // MARK: - Lifecycle Methods
-    static func createViewController() -> UIViewController {
+    static func createViewController(_ onLoginComplete: @MainActor @escaping () async -> Void) -> UIViewController {
         if Environment.current != .production {
             return NavigationController(rootViewController: LoginVC.createViewController()) // login for QA instead
         }
         
         let vc = AppleLoginVC(nibName: String(describing: AppleLoginVC.self), bundle: nil)
         vc.modalPresentationStyle = .overCurrentContext
-//        vc.delegate = delegate
+        vc.onLoginComplete = onLoginComplete
         return vc
     }
     
@@ -131,7 +125,9 @@ class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationCon
     // MARK: - Private Helpers
     private func loginComplete() {
         dismiss(animated: true) {
-//            self.onLoginComplete() // TODO!
+            Task {
+                await self.onLoginComplete()
+            }
         }
     }
     

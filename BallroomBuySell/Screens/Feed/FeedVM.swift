@@ -53,7 +53,7 @@ struct FeedVM {
     // MARK: - IBActions
     func sellButtonClicked() {
         if AuthenticationManager.sharedInstance.user == nil {
-            delegate?.present(AppleLoginVC.createViewController(), animated: false) // TODO! showSellScreen
+            delegate?.present(AppleLoginVC.createViewController(showSellScreen), animated: false)
             return
         }
         
@@ -62,7 +62,7 @@ struct FeedVM {
     
     func inboxButtonClicked() {
         if AuthenticationManager.sharedInstance.user == nil {
-            delegate?.present(AppleLoginVC.createViewController(), animated: false) // TODO! showInboxScreen
+            delegate?.present(AppleLoginVC.createViewController(showInboxScreen), animated: false)
             return
         }
         
