@@ -66,36 +66,29 @@ class AuthenticationManager {
     }
     
     // MARK: - Production only authentication
-    func appleSignIn(_ displayName: String, _ email: String?, _ idTokenString: String, _ nonce: String, _ completion: @escaping () -> Void, onFail: @escaping () -> Void) {
+    func appleSignIn(_ displayName: String,
+                     _ email: String?,
+                     _ idTokenString: String,
+                     _ nonce: String) async throws {
         let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                   idToken: idTokenString,
                                                   rawNonce: nonce)
-        Auth.auth().signIn(with: credential) { result, error in // TODO! async
-            guard let user = result?.user, error == nil else {
-                onFail()
-                return
-            }
-            
-            Task {
-                do {
-                    let codableUser = try await DatabaseManager.sharedInstance.getDocument(in: .users,
-                                                                                           of: User.self,
-                                                                                           with: user.uid)
-                    self.user = codableUser
-                    completion()
-                } catch NetworkError.notFound {
-                    // user does not exist, so add to database
-                    let codableUser = User(id: user.uid,
-                                           email: email,
-                                           photoURL: nil,
-                                           displayName: displayName)
-                    try DatabaseManager.sharedInstance.putDocument(in: .users, for: codableUser)
-                    self.user = codableUser
-                    completion()
-                } catch {
-                    // TODO! throw error
-                }
-            }
+        let result = try await Auth.auth().signIn(with: credential)
+        let user = result.user
+        
+        do {
+            let codableUser = try await DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                                                   of: User.self,
+                                                                                   with: user.uid)
+            self.user = codableUser
+        } catch NetworkError.notFound {
+            // user does not exist, so add to database
+            let codableUser = User(id: user.uid,
+                                   email: email,
+                                   photoURL: nil,
+                                   displayName: displayName)
+            try DatabaseManager.sharedInstance.putDocument(in: .users, for: codableUser)
+            self.user = codableUser
         }
     }
     

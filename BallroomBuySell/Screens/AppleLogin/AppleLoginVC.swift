@@ -97,24 +97,27 @@ class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationCon
             return
         }
         
-        let name = "\(appleIDCredential.fullName?.givenName ?? "") \(appleIDCredential.fullName?.familyName ?? "")"
-        AuthenticationManager.sharedInstance.appleSignIn(name, appleIDCredential.email, idTokenString, nonce) {
-            if AuthenticationManager.sharedInstance.user?.photoURL != nil {
-                self.loginComplete()
-                return
+        Task {
+            do {
+                let name = "\(appleIDCredential.fullName?.givenName ?? "") \(appleIDCredential.fullName?.familyName ?? "")"
+                try await AuthenticationManager.sharedInstance.appleSignIn(name, appleIDCredential.email, idTokenString, nonce)
+                if AuthenticationManager.sharedInstance.user?.photoURL != nil {
+                    self.loginComplete()
+                    return
+                }
+                
+                let now = UIAlertAction(title: LocalizedString.string("generic.now"), style: .default) { _ in
+                    self.displayMediaActionSheet()
+                }
+                
+                let later = UIAlertAction(title: LocalizedString.string("generic.later"), style: .cancel) { _ in
+                    self.loginComplete()
+                }
+                
+                self.showAlertWith(message: LocalizedString.string("login.add.picture.message"), alertActions: [now, later])
+            } catch {
+                showNetworkError(error)
             }
-            
-            let now = UIAlertAction(title: LocalizedString.string("generic.now"), style: .default) { _ in
-                self.displayMediaActionSheet()
-            }
-            
-            let later = UIAlertAction(title: LocalizedString.string("generic.later"), style: .cancel) { _ in
-                self.loginComplete()
-            }
-            
-            self.showAlertWith(message: LocalizedString.string("login.add.picture.message"), alertActions: [now, later])
-        } onFail: {
-            self.showNetworkError()
         }
     }
     
