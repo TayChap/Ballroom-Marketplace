@@ -46,10 +46,11 @@ struct InboxVM {
     }
     
     func signOutButtonClicked() {
-        AuthenticationManager.sharedInstance.signOut {
+        do {
+            try AuthenticationManager.sharedInstance.signOut()
             delegate?.dismiss()
-        } onFail: {
-            delegate?.showNetworkError()
+        } catch {
+            delegate?.showNetworkError(error)
         }
     }
     
@@ -124,7 +125,7 @@ struct InboxVM {
                                                                                       otherUser: otherUser,
                                                                                       templates: templates))
                 } catch {
-                    delegate?.showNetworkError()
+                    delegate?.showNetworkError(error)
                 }
             }
         case .listings:

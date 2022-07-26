@@ -69,10 +69,10 @@ class MessageThreadVM {
                                                                                           hideContactSeller: true))
                     }
                 }
-            } catch NetworkError.notConnected {
-                delegate?.showNetworkError()
             } catch NetworkError.notFound {
                 delegate?.showAlertWith(message: LocalizedString.string("alert.sale.item.removed"))
+            } catch {
+                delegate?.showNetworkError(error)
             }
         }
     }

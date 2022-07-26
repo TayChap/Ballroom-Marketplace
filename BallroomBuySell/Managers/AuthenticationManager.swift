@@ -16,14 +16,9 @@ class AuthenticationManager {
     private init() { } // to ensure sharedInstance is accessed, rather than new instance
     
     // MARK: - User Methods
-    func signOut(onSuccess: () -> Void, onFail: () -> Void) {
-        do {
-            try Auth.auth().signOut()
-            self.user = nil
-            onSuccess()
-        } catch {
-            onFail()
-        }
+    func signOut() throws {
+        try Auth.auth().signOut()
+        user = nil
     }
     
     func refreshUser() {

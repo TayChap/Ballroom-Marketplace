@@ -93,7 +93,7 @@ class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationCon
             let appleIDToken = appleIDCredential.identityToken,
             let idTokenString = String(data: appleIDToken, encoding: .utf8)
         else {
-            self.showNetworkError()
+            self.showNetworkError(NetworkError.internalSystemError)
             return
         }
         

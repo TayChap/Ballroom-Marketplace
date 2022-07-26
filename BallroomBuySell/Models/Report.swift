@@ -43,7 +43,7 @@ struct Report<Item: Storable & Reportable>: Storable {
                                                                for: user)
                 delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
             } catch {
-                delegate?.showNetworkError()
+                delegate?.showNetworkError(error)
             }
         }
         

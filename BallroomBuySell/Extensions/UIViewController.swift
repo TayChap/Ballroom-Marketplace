@@ -14,7 +14,7 @@ extension UIViewController {
     }
     
     // MARK: - Alert Methods
-    func showNetworkError(_ error: Error? = nil) { // TODO! remove default nil
+    func showNetworkError(_ error: Error) {
         showAlertWith(title: LocalizedString.string("alert.network.title"), message: LocalizedString.string((error as? NetworkError)?.errorMessageLocalizedKey ?? NetworkError.internalSystemError.errorMessageLocalizedKey))
     }
     

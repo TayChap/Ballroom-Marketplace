@@ -45,7 +45,7 @@ struct FeedVM {
                 completion(templates, items)
                 
             } catch {
-                delegate?.showNetworkError()
+                delegate?.showNetworkError(error)
             }
         }
     }
@@ -154,7 +154,7 @@ struct FeedVM {
                                                                                  saleItems: filteredSaleItems))
                 completion()
             } catch {
-                delegate?.showNetworkError()
+                delegate?.showNetworkError(error)
                 completion()
             }
         }
@@ -182,7 +182,7 @@ struct FeedVM {
     
     private func showSellScreen() {
         if templates.isEmpty {
-            delegate?.showNetworkError()
+            delegate?.showNetworkError(NetworkError.notConnected)
             return
         }
         
@@ -192,7 +192,7 @@ struct FeedVM {
     
     private func showInboxScreen() {
         guard let user = AuthenticationManager.sharedInstance.user, !templates.isEmpty else {
-            delegate?.showNetworkError()
+            delegate?.showNetworkError(NetworkError.notConnected)
             return
         }
         

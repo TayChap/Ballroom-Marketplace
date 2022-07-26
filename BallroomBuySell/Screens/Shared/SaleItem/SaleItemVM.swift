@@ -361,7 +361,7 @@ struct SaleItemVM {
                                                                               templates: templates,
                                                                               hideItemInfo: true))
         } catch {
-            delegate?.showNetworkError()
+            delegate?.showNetworkError(error)
         }
     }
     
