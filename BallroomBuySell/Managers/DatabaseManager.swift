@@ -83,17 +83,12 @@ struct DatabaseManager {
     }
     
     func deleteDocument(in collection: FirebaseCollection,
-                        with id: String,
-                        _ completion: @escaping () -> Void,
-                        _ onFail: @escaping () -> Void) {
-        db.collection(collection.collectionId).whereField("id", in: [id]).getDocuments { querySnapshot, error in
-            guard let doc = querySnapshot?.documents.first, error == nil else {
-                onFail()
-                return
-            }
-            
-            db.collection(collection.collectionId).document(doc.documentID).delete()
-            completion()
+                        with id: String) async throws {
+        let querySnapshot = try await db.collection(collection.collectionId).whereField("id", in: [id]).getDocuments()
+        guard let doc = querySnapshot.documents.first else {
+            throw NetworkError.accessFailure
         }
+        
+        try await db.collection(collection.collectionId).document(doc.documentID).delete()
     }
 }

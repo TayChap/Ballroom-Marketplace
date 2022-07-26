@@ -27,6 +27,7 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         signOutButton.title = LocalizedString.string("generic.logout")
+        vm.refreshUser()
         vm.viewWillAppear(onFetch)
     }
     

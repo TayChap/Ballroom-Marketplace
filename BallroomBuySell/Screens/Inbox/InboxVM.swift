@@ -29,14 +29,15 @@ struct InboxVM {
     }
     
     @MainActor
-    mutating func viewWillAppear(_ completion: @escaping (_ saleItems: [SaleItem],
-                                                 _ threads: [MessageThread]) -> Void) {
-        // TODO! potentially refactor so user ALWAYS accessed from shared instance to avoid stale
-        if let user = AuthenticationManager.sharedInstance.user {
-            self.user = user
+    func viewWillAppear(_ completion: @escaping ((saleItems: [SaleItem],
+                                                  threads: [MessageThread])) -> Void) {
+        Task {
+            do {
+                try await completion(fetchItems())
+            } catch {
+                delegate?.showNetworkError(error)
+            }
         }
-        
-        fetchItems(completion)
     }
     
     // MARK: - IBActions
@@ -141,28 +142,44 @@ struct InboxVM {
     func tableView(_ tableView: UITableView,
                    commit editingStyle: UITableViewCell.EditingStyle,
                    forRowAt indexPath: IndexPath,
-                   completion: @escaping (_ saleItems: [SaleItem],
-                                          _ threads: [MessageThread]) -> Void) {
-        if editingStyle == .delete {
-            if inboxState == .threads {
-                DatabaseManager.sharedInstance.deleteDocument(in: .threads, with: threads[indexPath.row].id, {
-                    fetchItems(completion)
-                }, onFail)
-            } else {
-                let saleItem = saleItems[indexPath.row]
-                DatabaseManager.sharedInstance.deleteDocument(in: .items,
-                                                              with: saleItem.id, {
+                   completion: @escaping ((saleItems: [SaleItem],
+                                           threads: [MessageThread])) -> Void) {
+        guard editingStyle == .delete else {
+            return
+        }
+        
+        Task {
+            do {
+                switch inboxState {
+                case .threads:
+                    try await DatabaseManager.sharedInstance.deleteDocument(in: .threads,
+                                                                            with: threads[indexPath.row].id)
+                    completion(try await fetchItems())
+                case .listings:
+                    let saleItem = saleItems[indexPath.row]
+                    try await DatabaseManager.sharedInstance.deleteDocument(in: .items,
+                                                                            with: saleItem.id)
+                    
                     for imageURL in saleItem.images.map({ $0.url }) {
                         FileSystemManager.deleteFile(at: imageURL)
                     }
                     
-                    fetchItems(completion)
-                }, onFail)
+                    completion(try await fetchItems())
+                }
+            } catch {
+                delegate?.showNetworkError(error)
             }
         }
     }
     
     // MARK: - Public Helpers
+    mutating func refreshUser() {
+        // TODO! potentially refactor so user ALWAYS accessed from shared instance to avoid stale
+        if let user = AuthenticationManager.sharedInstance.user {
+            self.user = user
+        }
+    }
+    
     mutating func onFetch(_ saleItemsFetched: [SaleItem],
                           _ threadsFetched: [MessageThread]) {
         saleItems = saleItemsFetched.sorted(by: { $0.dateAdded.compare($1.dateAdded) == .orderedDescending })
@@ -175,32 +192,21 @@ struct InboxVM {
     /// Query server for both sale items and threads where user is either the buyer or the seller
     /// - Parameter completion: on successfully fetching the saleItem and thread data
     @MainActor
-    private func fetchItems(_ completion: @escaping (_ saleItems: [SaleItem],
-                                                     _ threads: [MessageThread]) -> Void) {
-        Task {
-            do {
-                let saleItems = try await DatabaseManager.sharedInstance.getDocuments(to: .items,
-                                                                                      of: SaleItem.self,
-                                                                                      whereFieldEquals: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id))
-                // include threads where user is EITHER buyer or seller (two calls because Firestore does not support OR operations right now)
-                let threadsWhereBuyer = try await DatabaseManager.sharedInstance.getDocuments(to: .threads,
-                                                                                              of: MessageThread.self,
-                                                                                              whereFieldEquals: (key: MessageThread.QueryKeys.buyerId.rawValue, value: user.id))
-                var threads = threadsWhereBuyer
-                let threadsWhereSeller = try await DatabaseManager.sharedInstance.getDocuments(to: .threads,
-                                                                                               of: MessageThread.self,
-                                                                                               whereFieldEquals: (key: MessageThread.QueryKeys.sellerId.rawValue, value: user.id))
-                threads.append(contentsOf: threadsWhereSeller)
-                completion(saleItems, threads)
-            } catch {
-                delegate?.showNetworkError()
-            }
-        }
-    }
-    
-    /// Displays a network error on failied query
-    private func onFail() {
-        delegate?.showNetworkError()
+    private func fetchItems() async throws -> (saleItems: [SaleItem],
+                                               threads: [MessageThread]) {
+        let saleItems = try await DatabaseManager.sharedInstance.getDocuments(to: .items,
+                                                                              of: SaleItem.self,
+                                                                              whereFieldEquals: (key: SaleItem.QueryKeys.userId.rawValue, value: user.id))
+        // include threads where user is EITHER buyer or seller (two calls because Firestore does not support OR operations right now)
+        let threadsWhereBuyer = try await DatabaseManager.sharedInstance.getDocuments(to: .threads,
+                                                                                      of: MessageThread.self,
+                                                                                      whereFieldEquals: (key: MessageThread.QueryKeys.buyerId.rawValue, value: user.id))
+        var threads = threadsWhereBuyer
+        let threadsWhereSeller = try await DatabaseManager.sharedInstance.getDocuments(to: .threads,
+                                                                                       of: MessageThread.self,
+                                                                                       whereFieldEquals: (key: MessageThread.QueryKeys.sellerId.rawValue, value: user.id))
+        threads.append(contentsOf: threadsWhereSeller)
+        return (saleItems, threads)
     }
     
     /// get total number of items for the currently active state

@@ -6,15 +6,12 @@
 //
 
 enum NetworkError: Error {
-    case notConnected
-    case notFound
-    case accessFailure
+    case notConnected // Phone is not connected to the network
+    case notFound // GET failed operation
+    case accessFailure // PUT or DELETE failed operation
+    case internalSystemError // Database/File issue
     
-    var errorMessage: String {
-        LocalizedString.string(errorMessageLocalizedKey)
-    }
-    
-    private var errorMessageLocalizedKey: String {
+    var errorMessageLocalizedKey: String {
         "network.error"
     }
 }
