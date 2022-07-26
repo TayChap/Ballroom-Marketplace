@@ -46,15 +46,15 @@ class AuthenticationManager {
     }
     
     func updateUser(_ user: User,
-                    with photo: Image,
-                    completion: @escaping () -> Void,
-                    onFail: @escaping () -> Void) {
+                    with photo: Image) throws {
         Image.uploadImages([photo])
-        DatabaseManager.sharedInstance.putDocument(in: .users,
-                                                   for: user, {
+        do {
+            try DatabaseManager.sharedInstance.putDocument(in: .users,
+                                                           for: user)
             self.user = user
-            completion()
-        }, onFail: onFail)
+        } catch {
+            throw error
+        }
     }
     
     func setUserImage(url: String) {
@@ -89,12 +89,11 @@ class AuthenticationManager {
                                            email: email,
                                            photoURL: nil,
                                            displayName: displayName)
-                    DatabaseManager.sharedInstance.putDocument(in: .users, for: codableUser, {
-                        self.user = codableUser
-                        completion()
-                    }, onFail: onFail)
-                } catch NetworkError.notConnected {
-                    // TODO! throw not connected error ?
+                    try DatabaseManager.sharedInstance.putDocument(in: .users, for: codableUser)
+                    self.user = codableUser
+                    completion()
+                } catch {
+                    // TODO! throw error
                 }
             }
         }

@@ -68,7 +68,8 @@ struct ProfileVM {
             delegate?.showAlertWith(message: LocalizedString.string("alert.invalid.email"))
         }
         
-        AuthenticationManager.sharedInstance.updateUser(user, with: photo) {
+        do {
+            try AuthenticationManager.sharedInstance.updateUser(user, with: photo)
             if let initialPhotoURL = initialPhotoURL {
                 FileSystemManager.deleteFile(at: initialPhotoURL)
             }
@@ -78,8 +79,8 @@ struct ProfileVM {
             }
             
             delegate?.showAlertWith(message: LocalizedString.string("generic.success"), alertActions: [ok])
-        } onFail: {
-            delegate?.showNetworkError()
+        } catch {
+            delegate?.showNetworkError(error)
         }
     }
     

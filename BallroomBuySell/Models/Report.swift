@@ -28,11 +28,12 @@ struct Report<Item: Storable & Reportable>: Storable {
                 return
             }
             
-            DatabaseManager.sharedInstance.putDocument(in: .reports,
-                                                       for: Report(reason: textField.text ?? "",
-                                                                   item: item,
-                                                                   reportedUserId: item.reportableUserId,
-                                                                   reportingUserId: reportingUser.id)) {
+            do {
+                try DatabaseManager.sharedInstance.putDocument(in: .reports,
+                                                               for: Report(reason: textField.text ?? "",
+                                                                           item: item,
+                                                                           reportedUserId: item.reportableUserId,
+                                                                           reportingUserId: reportingUser.id))
                 AuthenticationManager.sharedInstance.blockUser(item.reportableUserId)
                 
                 // TODO! refactor - put updated user on server
@@ -40,13 +41,10 @@ struct Report<Item: Storable & Reportable>: Storable {
                     return
                 }
                 
-                DatabaseManager.sharedInstance.putDocument(in: .users,
-                                                           for: user) {
-                    completion()
-                } onFail: {
-                    onFail()
-                }
-            } onFail: {
+                try DatabaseManager.sharedInstance.putDocument(in: .users,
+                                                               for: user)
+                completion()
+            } catch {
                 onFail()
             }
         }

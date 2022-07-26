@@ -149,8 +149,9 @@ struct SaleItemVM {
                 return
             }
             
-            DatabaseManager.sharedInstance.putDocument(in: .items,
-                                                       for: saleItem) {
+            do {
+                try DatabaseManager.sharedInstance.putDocument(in: .items,
+                                                               for: saleItem)
                 Image.uploadImages(saleItem.images)
                 
                 let ok = UIAlertAction(title: LocalizedString.string("generic.ok"), style: .default) { _ in
@@ -158,8 +159,8 @@ struct SaleItemVM {
                 }
                 
                 delegate?.showAlertWith(message: LocalizedString.string("generic.success"), alertActions: [ok])
-            } onFail: {
-                delegate?.showNetworkError()
+            } catch {
+                delegate?.showNetworkError(error)
             }
         case .filter:
             updateFilter?(saleItem)
@@ -186,9 +187,7 @@ struct SaleItemVM {
             return
         }
         
-        Task {
-            await submitReport()
-        }
+        submitReport()
     }
     
     // MARK: - Table Methods
@@ -366,8 +365,7 @@ struct SaleItemVM {
         }
     }
     
-    @MainActor
-    private func submitReport() async {
+    private func submitReport() {
         guard let user = AuthenticationManager.sharedInstance.user else {
             return
         }

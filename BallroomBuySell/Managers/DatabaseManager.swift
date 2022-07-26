@@ -25,21 +25,17 @@ struct DatabaseManager {
     
     // MARK: - Public Helpers
     func putDocument<T: Storable>(in collection: FirebaseCollection,
-                                  for data: T,
-                                  _ completion: () -> Void,
-                                  onFail: () -> Void) {
+                                  for data: T) throws {
         if !Reachability.isConnectedToNetwork {
-            onFail()
-            return
+            throw NetworkError.notConnected
         }
         
         do {
             try db.collection(collection.collectionId).document(data.id).setData(from: data)
-            completion()
-          }
-          catch {
-            onFail()
-          }
+        }
+        catch {
+            throw NetworkError.accessFailure
+        }
     }
     
     func getDocument<T: Decodable>(in collection: FirebaseCollection,
