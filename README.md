@@ -26,14 +26,12 @@ Two things that make this app special are (1) JSON driven templates for clothing
 <h1 align="center">
 <img width="250" alt="image" src="https://user-images.githubusercontent.com/12243409/177071544-a1a5977f-2556-4b41-9b6c-fae3d88a5c1b.png">
 </h1>
-
-So, in this app, the users are encouraged to enter specific measurements rather than standard sizes; however, our algorithm also allows for estimated conversion between these two sizing methods.</p>
   
 <p><font size="3">
 Three Technical Notes</p>
 
 1. The app uses MVVM architecture and UIKit to ensure proper code isolation and testability. It would have also been appropriate (and likely better) to use SwiftUI; however, at the time of initial development I was not familiar with it.
 
-2. To avoid excessive reliance on completion and error handlers, we adopted the new structured concurrency model solidified in Swift 5.5.
+2. To avoid excessive reliance on completion and error handlers, we adopted the new structured concurrency model solidified in Swift 5.5: https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html
 
-3. All APIs follow Apple's official API design guidelines outlined here: https://www.swift.org/documentation/api-design-guidelines/ - However, for simplicity I have only chosen to document private (non-standard) methods
+3. All APIs follow Apple's official API design guidelines outlined here: https://www.swift.org/documentation/api-design-guidelines/ - However, for simplicity I have only chosen to document private (non-standard) methods.
