@@ -27,6 +27,6 @@ Two things that make this app special are (1) JSON driven templates for clothing
 <img width="250" alt="image" src="https://user-images.githubusercontent.com/12243409/177071544-a1a5977f-2556-4b41-9b6c-fae3d88a5c1b.png">
 </h1>
 
-So, in this app, the users are encouraged to enter specific measurements rather than standard sizes; however, our algorithm allows for estimated conversion between these two sizing methods.</p>
+So, in this app, the users are encouraged to enter specific measurements rather than standard sizes; however, our algorithm also allows for estimated conversion between these two sizing methods.</p>
   
 Note: All APIs follow Apple's official API design guidelines outlined here: https://www.swift.org/documentation/api-design-guidelines/ - However, for simplicity I have only chosen to document private (non-standard) methods
