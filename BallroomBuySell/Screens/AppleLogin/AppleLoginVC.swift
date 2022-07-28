@@ -17,17 +17,17 @@ class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationCon
     @IBOutlet weak var termsTextView: UITextView!
     @IBOutlet weak var appleButton: UIButton!
     
-    private var completion = {}
+    private var onLoginComplete: @MainActor () async -> Void = {}
     
     // MARK: - Lifecycle Methods
-    static func createViewController(completion: @escaping () -> Void) -> UIViewController {
+    static func createViewController(_ onLoginComplete: @MainActor @escaping () async -> Void) -> UIViewController {
         if Environment.current != .production {
             return NavigationController(rootViewController: LoginVC.createViewController()) // login for QA instead
         }
         
         let vc = AppleLoginVC(nibName: String(describing: AppleLoginVC.self), bundle: nil)
         vc.modalPresentationStyle = .overCurrentContext
-        vc.completion = completion
+        vc.onLoginComplete = onLoginComplete
         return vc
     }
     
@@ -71,7 +71,7 @@ class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationCon
     
     // MARK: - UIImagePickerController Delegate
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true)
         guard let selectedImage = info[.editedImage] as? UIImage ?? info[.originalImage] as? UIImage else {
             return
         }
@@ -93,28 +93,31 @@ class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationCon
             let appleIDToken = appleIDCredential.identityToken,
             let idTokenString = String(data: appleIDToken, encoding: .utf8)
         else {
-            self.showNetworkError()
+            self.showNetworkError(NetworkError.internalSystemError)
             return
         }
         
-        let name = "\(appleIDCredential.fullName?.givenName ?? "") \(appleIDCredential.fullName?.familyName ?? "")"
-        AuthenticationManager.sharedInstance.appleSignIn(name, appleIDCredential.email, idTokenString, nonce) {
-            if AuthenticationManager.sharedInstance.user?.photoURL != nil {
-                self.loginComplete()
-                return
+        Task {
+            do {
+                let name = "\(appleIDCredential.fullName?.givenName ?? "") \(appleIDCredential.fullName?.familyName ?? "")"
+                try await AuthenticationManager.sharedInstance.appleSignIn(name, appleIDCredential.email, idTokenString, nonce)
+                if AuthenticationManager.sharedInstance.user?.photoURL != nil {
+                    self.loginComplete()
+                    return
+                }
+                
+                let now = UIAlertAction(title: LocalizedString.string("generic.now"), style: .default) { _ in
+                    self.displayMediaActionSheet()
+                }
+                
+                let later = UIAlertAction(title: LocalizedString.string("generic.later"), style: .cancel) { _ in
+                    self.loginComplete()
+                }
+                
+                self.showAlertWith(message: LocalizedString.string("login.add.picture.message"), alertActions: [now, later])
+            } catch {
+                showNetworkError(error)
             }
-            
-            let now = UIAlertAction(title: LocalizedString.string("generic.now"), style: .default) { _ in
-                self.displayMediaActionSheet()
-            }
-            
-            let later = UIAlertAction(title: LocalizedString.string("generic.later"), style: .cancel) { _ in
-                self.loginComplete()
-            }
-            
-            self.showAlertWith(message: LocalizedString.string("login.add.picture.message"), alertActions: [now, later])
-        } onFail: {
-            self.showNetworkError()
         }
     }
     
@@ -124,7 +127,11 @@ class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationCon
     
     // MARK: - Private Helpers
     private func loginComplete() {
-        dismiss(animated: true, completion: completion)
+        dismiss(animated: true) {
+            Task {
+                await self.onLoginComplete()
+            }
+        }
     }
     
     /// Display photo selection options to the user

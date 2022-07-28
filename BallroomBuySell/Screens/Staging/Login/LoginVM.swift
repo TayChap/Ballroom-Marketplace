@@ -43,13 +43,19 @@ struct LoginVM {
     }
     
     // MARK: - IBActions
+    @MainActor
     func loginButtonClicked(_ delegate: ViewControllerProtocol) {
         guard let email = dm[LoginItem.email] else {
             return
         }
         
-        AuthenticationManager.sharedInstance.loginStagingUser(email: email) {
-            delegate.dismiss()
+        Task {
+            do {
+                try await AuthenticationManager.sharedInstance.loginStagingUser(email: email)
+                delegate.dismiss()
+            } catch {
+                delegate.showNetworkError(error)
+            }
         }
     }
     

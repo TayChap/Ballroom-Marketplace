@@ -31,27 +31,29 @@ struct FeedVM {
 //        TemplateManager.updateTemplates()
     }
     
+    @MainActor
     func viewWillAppear(_ completion: @escaping (_ templates: [SaleItemTemplate],
                                                  _ saleItems: [SaleItem]) -> Void) {
-        // refresh templates and pull most recent sale items
-        DatabaseManager.sharedInstance.getDocuments(to: .templates,
-                                                    of: SaleItemTemplate.self) { templates in
-            DatabaseManager.sharedInstance.getDocuments(to: .items,
-                                                        of: SaleItem.self,
-                                                        withOrderRule: (field: SaleItem.QueryKeys.dateAdded.rawValue, descending: true, limit: maxRecentItems)) { items in
+        Task {
+            do {
+                // refresh templates and pull most recent sale items
+                let templates = try await DatabaseManager.sharedInstance.getDocuments(to: .templates,
+                                                                                       of: SaleItemTemplate.self)
+                let items = try await DatabaseManager.sharedInstance.getDocuments(to: .items,
+                                                                                   of: SaleItem.self,
+                                                                                   withOrderRule: (field: SaleItem.QueryKeys.dateAdded.rawValue, descending: true, limit: maxRecentItems))
                 completion(templates, items)
-            } onFail: {
-                delegate?.showNetworkError()
+                
+            } catch {
+                delegate?.showNetworkError(error)
             }
-        } onFail: {
-            delegate?.showNetworkError()
         }
     }
     
     // MARK: - IBActions
     func sellButtonClicked() {
         if AuthenticationManager.sharedInstance.user == nil {
-            delegate?.present(AppleLoginVC.createViewController(completion: showSellScreen), animated: false)
+            delegate?.present(AppleLoginVC.createViewController(showSellScreen), animated: false)
             return
         }
         
@@ -60,7 +62,7 @@ struct FeedVM {
     
     func inboxButtonClicked() {
         if AuthenticationManager.sharedInstance.user == nil {
-            delegate?.present(AppleLoginVC.createViewController(completion: showInboxScreen), animated: false)
+            delegate?.present(AppleLoginVC.createViewController(showInboxScreen), animated: false)
             return
         }
         
@@ -77,7 +79,7 @@ struct FeedVM {
             return UICollectionReusableView()
         }
         
-        sectionHeader.configureCell(with: LocalizedString.string(indexPath.section == 0 ? "feed.recent.items" : "generic.category"))
+        sectionHeader.configureCell(with: LocalizedString.string(indexPath.section == 0 ? "feed.recent.items" : "generic.categories"))
         return sectionHeader
     }
     
@@ -120,6 +122,7 @@ struct FeedVM {
         return cell
     }
     
+    @MainActor
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath,
                         completion: @escaping () -> Void) {
@@ -141,16 +144,19 @@ struct FeedVM {
         // category selected
         let selectedTemplate = templates[indexPath.row]
         let templateFilter = (key: "fields.\(SaleItemTemplate.serverKey.templateId.rawValue)", value: selectedTemplate.id)
-        DatabaseManager.sharedInstance.getDocuments(to: .items,
-                                                    of: SaleItem.self,
-                                                    whereFieldEquals: templateFilter) { filteredSaleItems in
-            delegate?.pushViewController(SaleItemListVC.createViewController(templates: templates,
-                                                                             selectedTemplate: selectedTemplate,
-                                                                             saleItems: filteredSaleItems))
-            completion()
-        } onFail: {
-            delegate?.showNetworkError()
-            completion()
+        Task {
+            do {
+                let filteredSaleItems = try await DatabaseManager.sharedInstance.getDocuments(to: .items,
+                                                                                              of: SaleItem.self,
+                                                                                              whereFieldEquals: templateFilter)
+                delegate?.pushViewController(SaleItemListVC.createViewController(templates: templates,
+                                                                                 selectedTemplate: selectedTemplate,
+                                                                                 saleItems: filteredSaleItems))
+                completion()
+            } catch {
+                delegate?.showNetworkError(error)
+                completion()
+            }
         }
     }
     
@@ -176,7 +182,7 @@ struct FeedVM {
     
     private func showSellScreen() {
         if templates.isEmpty {
-            delegate?.showNetworkError()
+            delegate?.showNetworkError(NetworkError.notConnected)
             return
         }
         
@@ -186,7 +192,7 @@ struct FeedVM {
     
     private func showInboxScreen() {
         guard let user = AuthenticationManager.sharedInstance.user, !templates.isEmpty else {
-            delegate?.showNetworkError()
+            delegate?.showNetworkError(NetworkError.notConnected)
             return
         }
         

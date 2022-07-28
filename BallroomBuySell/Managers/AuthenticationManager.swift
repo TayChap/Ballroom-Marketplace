@@ -16,14 +16,9 @@ class AuthenticationManager {
     private init() { } // to ensure sharedInstance is accessed, rather than new instance
     
     // MARK: - User Methods
-    func signOut(onSuccess: () -> Void, onFail: () -> Void) {
-        do {
-            try Auth.auth().signOut()
-            self.user = nil
-            onSuccess()
-        } catch {
-            onFail()
-        }
+    func signOut() throws {
+        try Auth.auth().signOut()
+        user = nil
     }
     
     func refreshUser() {
@@ -31,23 +26,30 @@ class AuthenticationManager {
             return
         }
         
-        DatabaseManager.sharedInstance.getDocument(in: .users,
-                                                   of: User.self,
-                                                   with: id) { user in
-            self.user = user
-        } onFail: {}
+        Task {
+            do {
+                let user = try await DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                                                of: User.self,
+                                                                                with: id)
+                self.user = user
+            } catch NetworkError.notFound {
+                user = nil
+            } catch NetworkError.notConnected {
+                // do nothing
+            }
+        }
     }
     
     func updateUser(_ user: User,
-                    with photo: Image,
-                    completion: @escaping () -> Void,
-                    onFail: @escaping () -> Void) {
+                    with photo: Image) throws {
         Image.uploadImages([photo])
-        DatabaseManager.sharedInstance.putDocument(in: .users,
-                                                   for: user, {
+        do {
+            try DatabaseManager.sharedInstance.putDocument(in: .users,
+                                                           for: user)
             self.user = user
-            completion()
-        }, onFail: onFail)
+        } catch {
+            throw error
+        }
     }
     
     func setUserImage(url: String) {
@@ -59,50 +61,37 @@ class AuthenticationManager {
     }
     
     // MARK: - Production only authentication
-    func appleSignIn(_ displayName: String, _ email: String?, _ idTokenString: String, _ nonce: String, _ completion: @escaping () -> Void, onFail: @escaping () -> Void) {
+    func appleSignIn(_ displayName: String,
+                     _ email: String?,
+                     _ idTokenString: String,
+                     _ nonce: String) async throws {
         let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                   idToken: idTokenString,
                                                   rawNonce: nonce)
-        Auth.auth().signIn(with: credential) { result, error in
-            guard let user = result?.user, error == nil else {
-                onFail()
-                return
-            }
-            
-            DatabaseManager.sharedInstance.getDocument(in: .users,
-                                                       of: User.self,
-                                                       with: user.uid) { codableUser in
-                self.user = codableUser
-                completion()
-            } onFail: {
-                // user does not exist, so add to database
-                let codableUser = User(id: user.uid,
-                                       email: email,
-                                       photoURL: nil,
-                                       displayName: displayName)
-                DatabaseManager.sharedInstance.putDocument(in: .users, for: codableUser, {
-                    self.user = codableUser
-                    completion()
-                }, onFail: onFail)
-            }
+        let user = try await Auth.auth().signIn(with: credential).user
+        
+        do {
+            let codableUser = try await DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                                                   of: User.self,
+                                                                                   with: user.uid)
+            self.user = codableUser
+        } catch NetworkError.notFound {
+            // user does not exist, so add to database
+            let codableUser = User(id: user.uid,
+                                   email: email,
+                                   photoURL: nil,
+                                   displayName: displayName)
+            try DatabaseManager.sharedInstance.putDocument(in: .users, for: codableUser)
+            self.user = codableUser
         }
     }
     
     // MARK: - Staging only authentication
-    func loginStagingUser(email: String, completion: @escaping () -> Void) {
-        Auth.auth().signIn(withEmail: email, password: "Tester") { result, error in
-            guard let userId = result?.user.uid else {
-                return // staging so no error message required
-            }
-            
-            DatabaseManager.sharedInstance.getDocument(in: .users,
-                                                       of: User.self,
-                                                       with: userId) { user in
-                self.user = user
-                completion()
-            } onFail: {
-                return // staging so no error message required
-            }
-        }
+    func loginStagingUser(email: String) async throws {
+        let userId = try await Auth.auth().signIn(withEmail: email, password: "Tester").user.uid
+        let user = try await DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                                        of: User.self,
+                                                                        with: userId)
+        self.user = user
     }
 }

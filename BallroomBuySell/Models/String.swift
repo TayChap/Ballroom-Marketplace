@@ -21,9 +21,9 @@ extension String {
     func attributedText(color: UIColor, required: Bool = false) -> NSMutableAttributedString {
         let text = required ? "\(self) \(requiredIndicator)" : self
         
-        let attributedText = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.foregroundColor: color])
+        let attributedText = NSMutableAttributedString(string: text, attributes: [.foregroundColor: color])
         if required {
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: Theme.Color.error.value, range: (text as NSString).range(of: requiredIndicator))
+            attributedText.addAttribute(.foregroundColor, value: Theme.Color.error.value, range: (text as NSString).range(of: requiredIndicator))
         }
         
         return attributedText

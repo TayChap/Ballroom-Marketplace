@@ -18,9 +18,7 @@ struct Report<Item: Storable & Reportable>: Storable {
     static func submitReport(for item: Item,
                              with reason: String,
                              delegate: UIViewController?,
-                             reportingUser: User,
-                             completion: @escaping () -> Void,
-                             onFail: @escaping () -> Void) {
+                             reportingUser: User) {
         let alertController = UIAlertController(title: LocalizedString.string("report.reason.title"), message: LocalizedString.string("report.reason"), preferredStyle: .alert)
         let cancel = UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel)
         let report = UIAlertAction(title: LocalizedString.string("generic.report"), style: .default) { _ in
@@ -28,11 +26,12 @@ struct Report<Item: Storable & Reportable>: Storable {
                 return
             }
             
-            DatabaseManager.sharedInstance.putDocument(in: .reports,
-                                                       for: Report(reason: textField.text ?? "",
-                                                                   item: item,
-                                                                   reportedUserId: item.reportableUserId,
-                                                                   reportingUserId: reportingUser.id)) {
+            do {
+                try DatabaseManager.sharedInstance.putDocument(in: .reports,
+                                                               for: Report(reason: textField.text ?? "",
+                                                                           item: item,
+                                                                           reportedUserId: item.reportableUserId,
+                                                                           reportingUserId: reportingUser.id))
                 AuthenticationManager.sharedInstance.blockUser(item.reportableUserId)
                 
                 // TODO! refactor - put updated user on server
@@ -40,20 +39,17 @@ struct Report<Item: Storable & Reportable>: Storable {
                     return
                 }
                 
-                DatabaseManager.sharedInstance.putDocument(in: .users,
-                                                           for: user) {
-                    completion()
-                } onFail: {
-                    onFail()
-                }
-            } onFail: {
-                onFail()
+                try DatabaseManager.sharedInstance.putDocument(in: .users,
+                                                               for: user)
+                delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
+            } catch {
+                delegate?.showNetworkError(error)
             }
         }
         
         alertController.addTextField()
         alertController.addAction(cancel)
         alertController.addAction(report)
-        delegate?.present(alertController, animated: true, completion: nil)
+        delegate?.present(alertController, animated: true)
     }
 }

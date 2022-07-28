@@ -1,6 +1,7 @@
 /* Generic */
 "generic.accept" = "Accept";
 "generic.cancel" = "Cancel";
+"generic.categories" = "Categories";
 "generic.category" = "Category";
 "generic.close" = "Close";
 "generic.discard" = "Discard";

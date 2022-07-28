@@ -15,7 +15,7 @@ struct MediaManager {
         controller.modalPresentationStyle = .fullScreen
         PermissionManager.checkCameraPermissions(owner: displayingVC) {
             DispatchQueue.main.async {
-                displayingVC?.present(controller, animated: true, completion: nil)
+                displayingVC?.present(controller, animated: true)
             }
         }
     }
@@ -27,7 +27,7 @@ struct MediaManager {
         controller.modalPresentationStyle = .fullScreen
         PermissionManager.checkPhotosPermissions(owner: displayingVC) {
             DispatchQueue.main.async {
-                displayingVC?.present(controller, animated: true, completion: nil)
+                displayingVC?.present(controller, animated: true)
             }
         }
     }

@@ -50,34 +50,30 @@ class MessageThreadVM {
         Report.submitReport(for: thread,
                             with: LocalizedString.string("flag.reason"),
                             delegate: delegate,
-                            reportingUser: currentUser) {
-            self.delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
-        } onFail: {
-            self.delegate?.showNetworkError()
-        }
+                            reportingUser: currentUser)
     }
     
+    @MainActor
     func infoButtonClicked() {
-        DatabaseManager.sharedInstance.getDocument(in: .items,
-                                                   of: SaleItem.self,
-                                                   with: thread.saleItemId) { saleItemFetched in
-            var saleItem = saleItemFetched
-            Image.downloadImages(saleItem.images.map({ $0.url })) { images in
-                if !self.templates.isEmpty {
-                    saleItem.images = images
-                    self.delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
-                                                                                      templates: self.templates,
-                                                                                      saleItem: saleItem,
-                                                                                      hideContactSeller: true))
+        Task {
+            do {
+                var saleItem = try await DatabaseManager.sharedInstance.getDocument(in: .items,
+                                                                                    of: SaleItem.self,
+                                                                                    with: thread.saleItemId)
+                Image.downloadImages(saleItem.images.map({ $0.url })) { images in
+                    if !self.templates.isEmpty {
+                        saleItem.images = images
+                        self.delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
+                                                                                          templates: self.templates,
+                                                                                          saleItem: saleItem,
+                                                                                          hideContactSeller: true))
+                    }
                 }
+            } catch NetworkError.notFound {
+                delegate?.showAlertWith(message: LocalizedString.string("alert.sale.item.removed"))
+            } catch {
+                delegate?.showNetworkError(error)
             }
-        } onFail: { // fail EITHER due to network error or 404
-            if !Reachability.isConnectedToNetwork {
-                self.delegate?.showNetworkError()
-                return
-            }
-            
-            self.delegate?.showAlertWith(message: LocalizedString.string("alert.sale.item.removed"))
         }
     }
     
@@ -119,11 +115,12 @@ class MessageThreadVM {
         
         thread.messages.append(message)
         completion()
-        DatabaseManager.sharedInstance.putDocument(in: .threads,
-                                                   for: thread) {
-            // no action on completion
-        } onFail: {
-            delegate?.showNetworkError()
+        
+        do {
+            try DatabaseManager.sharedInstance.putDocument(in: .threads,
+                                                           for: thread)
+        } catch {
+            delegate?.showNetworkError(error)
         }
     }
 }

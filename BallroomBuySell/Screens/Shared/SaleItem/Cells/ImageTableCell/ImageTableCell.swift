@@ -23,7 +23,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
     
     private var maxImageCount = 0
-    private let imageWidth = 800
+    private let imageWidth = 800.0
     private var imagesList = [Data]()
     private var isEditable = true
     var delegate: (ImageCellDelegate & UIViewController)?
@@ -92,9 +92,9 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         }
         
         let normalizedImage = selectedImage.normalizedImage()
-        let resizedImage = normalizedImage.resize(newWidth: CGFloat(imageWidth))
+        let resizedImage = normalizedImage.resize(newWidth: imageWidth)
         
-        picker.dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true)
         if let imageData = resizedImage.pngData() {
             delegate?.addImage(imageData)
         }
@@ -149,6 +149,6 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         
         let imageViewer = ImageViewer.createViewController(image)
         imageViewer.modalPresentationStyle = .fullScreen
-        self.delegate?.present(imageViewer, animated: true, completion: nil)
+        delegate?.present(imageViewer, animated: true)
     }
 }

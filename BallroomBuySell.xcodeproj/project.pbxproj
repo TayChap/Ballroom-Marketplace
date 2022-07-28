@@ -113,6 +113,7 @@
 		8DF3B44027EFDB4800EE6A55 /* TextViewCellDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF3B43F27EFDB4800EE6A55 /* TextViewCellDM.swift */; };
 		8DF3B44227EFDB5300EE6A55 /* TextViewTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF3B44127EFDB5300EE6A55 /* TextViewTableCell.swift */; };
 		8DF3B44427EFDB5F00EE6A55 /* TextViewTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DF3B44327EFDB5F00EE6A55 /* TextViewTableCell.xib */; };
+		8DF8FDCD288C72CC00638922 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF8FDCC288C72CC00638922 /* NetworkError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -219,6 +220,7 @@
 		8DF3B43F27EFDB4800EE6A55 /* TextViewCellDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewCellDM.swift; sourceTree = "<group>"; };
 		8DF3B44127EFDB5300EE6A55 /* TextViewTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewTableCell.swift; sourceTree = "<group>"; };
 		8DF3B44327EFDB5F00EE6A55 /* TextViewTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextViewTableCell.xib; sourceTree = "<group>"; };
+		8DF8FDCC288C72CC00638922 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -486,6 +488,7 @@
 		8D9D45712788D914004C5565 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8DF8FDCB288C724800638922 /* Error */,
 				8DA71D0F27A48B5D0025C1D5 /* MessageThread */,
 				8DA71D0E27A48B560025C1D5 /* SaleItem */,
 				8DF3B43C27EFD57200EE6A55 /* Country.swift */,
@@ -691,6 +694,14 @@
 			path = TextViewTableCell;
 			sourceTree = "<group>";
 		};
+		8DF8FDCB288C724800638922 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				8DF8FDCC288C72CC00638922 /* NetworkError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -823,6 +834,7 @@
 				8D9D45BE27A07C8B004C5565 /* SaleItemListVM.swift in Sources */,
 				8D9D45A627922FBE004C5565 /* ImageViewer.swift in Sources */,
 				8DF3B44227EFDB5300EE6A55 /* TextViewTableCell.swift in Sources */,
+				8DF8FDCD288C72CC00638922 /* NetworkError.swift in Sources */,
 				8D9D451727721F77004C5565 /* ViewControllerProtocol.swift in Sources */,
 				8D9D4538277BB14C004C5565 /* SaleItemVC.swift in Sources */,
 				8D9D452127723068004C5565 /* LoginVC.swift in Sources */,
@@ -1030,7 +1042,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WHN9X2V7W8;
 				INFOPLIST_FILE = BallroomBuySell/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1051,7 +1063,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WHN9X2V7W8;
 				INFOPLIST_FILE = BallroomBuySell/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -149,8 +149,9 @@ struct SaleItemVM {
                 return
             }
             
-            DatabaseManager.sharedInstance.putDocument(in: .items,
-                                                       for: saleItem) {
+            do {
+                try DatabaseManager.sharedInstance.putDocument(in: .items,
+                                                               for: saleItem)
                 Image.uploadImages(saleItem.images)
                 
                 let ok = UIAlertAction(title: LocalizedString.string("generic.ok"), style: .default) { _ in
@@ -158,8 +159,8 @@ struct SaleItemVM {
                 }
                 
                 delegate?.showAlertWith(message: LocalizedString.string("generic.success"), alertActions: [ok])
-            } onFail: {
-                delegate?.showNetworkError()
+            } catch {
+                delegate?.showNetworkError(error)
             }
         case .filter:
             updateFilter?(saleItem)
@@ -171,16 +172,18 @@ struct SaleItemVM {
     
     func messageButtonClicked() {
         if AuthenticationManager.sharedInstance.user == nil {
-            delegate?.present(AppleLoginVC.createViewController(completion: pushMessageThread), animated: false)
+            delegate?.present(AppleLoginVC.createViewController(pushMessageThread), animated: false)
             return
         }
         
-        pushMessageThread()
+        Task {
+            await pushMessageThread()
+        }
     }
     
     func reportButtonClicked() {
         if AuthenticationManager.sharedInstance.user == nil {
-            delegate?.present(AppleLoginVC.createViewController(completion: submitReport), animated: false)
+            delegate?.present(AppleLoginVC.createViewController(submitReport), animated: false)
             return
         }
         
@@ -330,14 +333,17 @@ struct SaleItemVM {
         return structure
     }
     
-    private func pushMessageThread() {
+    @MainActor
+    private func pushMessageThread() async {
         guard let user = AuthenticationManager.sharedInstance.user else {
             return
         }
         
-        DatabaseManager.sharedInstance.getDocuments(to: .threads,
-                                                    of: MessageThread.self,
-                                                    whereFieldEquals: (key: MessageThread.QueryKeys.buyerId.rawValue, value: user.id)) { threads in
+        do {
+            let threads = try await DatabaseManager.sharedInstance.getDocuments(to: .threads,
+                                                                                of: MessageThread.self,
+                                                                                whereFieldEquals: (key: MessageThread.QueryKeys.buyerId.rawValue, value: user.id))
+            
             let messageThread = threads.first(where: { $0.saleItemId == saleItem.id }) ??
             MessageThread(buyerId: user.id,
                           sellerId: saleItem.userId,
@@ -345,19 +351,17 @@ struct SaleItemVM {
                           saleItemType: saleItem.fields[SaleItemTemplate.serverKey.templateId.rawValue] ?? "",
                           imageURL: saleItem.images.first?.url ?? "")
             
-            DatabaseManager.sharedInstance.getDocument(in: .users,
-                                                       of: User.self,
-                                                       with: messageThread.otherUserId) { otherUser in
+            let otherUser = try await DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                                                 of: User.self,
+                                                                                 with: messageThread.otherUserId)
+            
             delegate?.pushViewController(MessageThreadVC.createViewController(messageThread,
                                                                               currentUser: user,
                                                                               otherUser: otherUser,
                                                                               templates: templates,
                                                                               hideItemInfo: true))
-            } onFail: {
-                delegate?.showNetworkError()
-            }
-        } onFail: {
-            delegate?.showNetworkError()
+        } catch {
+            delegate?.showNetworkError(error)
         }
     }
     
@@ -369,10 +373,6 @@ struct SaleItemVM {
         Report.submitReport(for: saleItem,
                             with: LocalizedString.string("flag.reason"),
                             delegate: delegate,
-                            reportingUser: user) {
-            delegate?.showAlertWith(message: LocalizedString.string("generic.success"))
-        } onFail: {
-            delegate?.showNetworkError()
-        }
+                            reportingUser: user)
     }
 }
