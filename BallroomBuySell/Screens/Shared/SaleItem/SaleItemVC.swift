@@ -44,6 +44,11 @@ class SaleItemVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        reload() // reload the tableView to correct ImageTableCell intrinsic sizing issue
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
     }
