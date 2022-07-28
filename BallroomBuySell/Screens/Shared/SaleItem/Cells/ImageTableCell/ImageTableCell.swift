@@ -17,13 +17,13 @@ extension ImageCellDelegate { // for view only case no need for image update met
     func deleteImage(at index: Int){}
 }
 
-class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ImageTableCell: UITableViewCell, TableCellProtocol, PhotoPicker, UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
     
     private var maxImageCount = 0
-    private let imageWidth = 800.0
+    var imageWidth: Double { 800.0 }
     private var imagesList = [Data]()
     private var isEditable = true
     var delegate: (ImageCellDelegate & UIViewController)?
@@ -100,6 +100,11 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         }
     }
     
+    // MARK: - Photo Picker
+    func didFinishPicking(_ imagesData: [Data]) {
+        
+    }
+    
     // MARK: - Private Helpers
     /// Return all action items when the user wants to add an image
     /// - Returns: set of actions to add a image
@@ -108,11 +113,11 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         actionItems.append(UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel))
         
         actionItems.append(UIAlertAction(title: LocalizedString.string("apple.camera.app"), style: .default) { _ in
-            MediaManager.displayCamera(self, displayingVC: self.delegate)
+//            MediaManager.displayCamera(self, displayingVC: self.delegate) // TODO!
         })
         
         actionItems.append(UIAlertAction(title: LocalizedString.string("apple.photos.app"), style: .default) { _ in
-            MediaManager.displayGallery(self, displayingVC: self.delegate)
+            self.presentPicker(self.delegate)
         })
         
         return actionItems

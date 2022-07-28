@@ -140,11 +140,11 @@ class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationCon
         actionItems.append(UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel))
         
         actionItems.append(UIAlertAction(title: LocalizedString.string("apple.camera.app"), style: .default) { _ in
-            MediaManager.displayCamera(self, displayingVC: self)
+//            MediaManager.displayCamera(self, displayingVC: self) // TODO!
         })
         
         actionItems.append(UIAlertAction(title: LocalizedString.string("apple.photos.app"), style: .default) { _ in
-            MediaManager.displayGallery(self, displayingVC: self)
+//            MediaManager.displayGallery(self, displayingVC: self) // TODO!
         })
         
         showActionSheetOrPopover(message: LocalizedString.string("sale.item.images.actions"), alertActions: actionItems)

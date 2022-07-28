@@ -5,13 +5,12 @@
 //  Created by Taylor Chapman on 2022-01-14.
 //
 
+import UIKit // TODO! remove
 import AVFoundation
-import Photos
-import ContactsUI
 
 struct PermissionManager {
     enum PermissionsType {
-        case camera, photos
+        case camera
         
         var permissionsRequestString: String {
             String(format: LocalizedString.string("permissions.request"), LocalizedString.string(self.appStringKey))
@@ -20,44 +19,24 @@ struct PermissionManager {
         private var appStringKey: String {
                 switch self {
                 case .camera: return "apple.camera.app"
-                case .photos: return "apple.photos.app"
                 }
         }
     }
     
     static func checkCameraPermissions(owner: UIViewController?, _ completion: @escaping () -> Void) {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
-        case .authorized:
+        case .authorized: // The user has previously granted access to the camera.
             completion()
-        case .denied, .restricted:
-            PermissionManager.showAlert(owner, withMessage: PermissionsType.camera.permissionsRequestString)
-        default:
-            AVCaptureDevice.requestAccess(for: .video) { (hasAccess) in
+        case .notDetermined: // The user has not yet been asked for camera access.
+            AVCaptureDevice.requestAccess(for: .video) { hasAccess in // TODO! async
                 if !hasAccess {
                     PermissionManager.showAlert(owner, withMessage: PermissionsType.camera.permissionsRequestString)
                 } else {
                     completion()
                 }
             }
-        }
-    }
-    
-    static func checkPhotosPermissions(owner: UIViewController?, _ completion: @escaping () -> Void) {
-        let status = PHPhotoLibrary.authorizationStatus()
-        switch status {
-        case .authorized:
-            completion()
-        case .denied, .restricted:
-            PermissionManager.showAlert(owner, withMessage: PermissionsType.photos.permissionsRequestString)
-        default:
-            PHPhotoLibrary.requestAuthorization { (status) in
-                switch status {
-                case .authorized:
-                    completion()
-                default:
-                    PermissionManager.showAlert(owner, withMessage: PermissionsType.photos.permissionsRequestString)
-                }
-            }
+        default: // case .denied, .restricted
+            PermissionManager.showAlert(owner, withMessage: PermissionsType.camera.permissionsRequestString)
         }
     }
     
