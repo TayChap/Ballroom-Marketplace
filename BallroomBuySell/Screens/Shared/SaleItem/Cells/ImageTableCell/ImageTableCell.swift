@@ -17,7 +17,7 @@ extension ImageCellDelegate { // for view only case no need for image update met
     func deleteImage(at index: Int){}
 }
 
-class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSource, UICollectionViewDelegate, PHPickerViewControllerDelegate, UINavigationControllerDelegate {
+class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, PHPickerViewControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
@@ -87,6 +87,8 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     
     // MARK: - UIImagePickerController Delegate
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+        
         guard let selectedImage = info[.editedImage] as? UIImage ?? info[.originalImage] as? UIImage else {
             return
         }
@@ -94,7 +96,6 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         let normalizedImage = selectedImage.normalizedImage()
         let resizedImage = normalizedImage.resize(newWidth: imageWidth)
         
-        picker.dismiss(animated: true)
         if let imageData = resizedImage.pngData() {
             delegate?.addImages([imageData])
         }
@@ -144,7 +145,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         actionItems.append(UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel))
         
         actionItems.append(UIAlertAction(title: LocalizedString.string("apple.camera.app"), style: .default) { _ in
-//            MediaManager.displayCamera(self, displayingVC: self.delegate) // TODO!
+            Camera.displayCamera(self, displayingVC: self.delegate)
         })
         
         actionItems.append(UIAlertAction(title: LocalizedString.string("apple.photos.app"), style: .default) { _ in

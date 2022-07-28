@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		8D07CCD3283E936900FE7E18 /* AppleLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D07CCD2283E936900FE7E18 /* AppleLoginVC.swift */; };
 		8D07CCD5283E938400FE7E18 /* AppleLoginVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D07CCD4283E938400FE7E18 /* AppleLoginVC.xib */; };
-		8D0E0D0327B6CA1300E1EEE0 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0E0D0227B6CA1300E1EEE0 /* MediaManager.swift */; };
+		8D0E0D0327B6CA1300E1EEE0 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0E0D0227B6CA1300E1EEE0 /* Camera.swift */; };
 		8D1BB529273EF97700677EF7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1BB528273EF97700677EF7 /* AppDelegate.swift */; };
 		8D1BB52B273EF97700677EF7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1BB52A273EF97700677EF7 /* SceneDelegate.swift */; };
 		8D1BB530273EF97700677EF7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D1BB52E273EF97700677EF7 /* Main.storyboard */; };
@@ -121,7 +121,7 @@
 		8D07CCD2283E936900FE7E18 /* AppleLoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginVC.swift; sourceTree = "<group>"; };
 		8D07CCD4283E938400FE7E18 /* AppleLoginVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppleLoginVC.xib; sourceTree = "<group>"; };
 		8D0E0CFB27B318C000E1EEE0 /* BallroomBuySell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BallroomBuySell.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8D0E0D0227B6CA1300E1EEE0 /* MediaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaManager.swift; sourceTree = "<group>"; };
+		8D0E0D0227B6CA1300E1EEE0 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		8D1BB528273EF97700677EF7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D1BB52A273EF97700677EF7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8D1BB52F273EF97700677EF7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -378,7 +378,6 @@
 			isa = PBXGroup;
 			children = (
 				8D9D45A02791F711004C5565 /* CollectionCellProtocol.swift */,
-				8DC973302891EECD0018DD83 /* PhotoPicker.swift */,
 				8D34D052282825FA008D690F /* Reportable.swift */,
 				8D677BC5282D8D37003051F6 /* Storable.swift */,
 				8D9D4540277CDEFC004C5565 /* TableCellProtocol.swift */,
@@ -394,7 +393,6 @@
 				8D9D45742788DF30004C5565 /* DatabaseManager.swift */,
 				8D9D45932791D4F0004C5565 /* FileSystemManager.swift */,
 				8D773D0D27ACA67D0089FD9F /* ImageManager.swift */,
-				8D0E0D0227B6CA1300E1EEE0 /* MediaManager.swift */,
 				8D9D45A227922303004C5565 /* PermissionsManager.swift */,
 				8D9D45822789F79D004C5565 /* TemplateManager.swift */,
 			);
@@ -494,9 +492,11 @@
 				8DF8FDCB288C724800638922 /* Error */,
 				8DA71D0F27A48B5D0025C1D5 /* MessageThread */,
 				8DA71D0E27A48B560025C1D5 /* SaleItem */,
+				8D0E0D0227B6CA1300E1EEE0 /* Camera.swift */,
 				8DF3B43C27EFD57200EE6A55 /* Country.swift */,
 				8D9D45B1279E1285004C5565 /* Image.swift */,
 				8D408F3427CED7B900F13038 /* LocalizedString.swift */,
+				8DC973302891EECD0018DD83 /* PhotoPicker.swift */,
 				8DCC41CC27F4E0980090EDDE /* Reachability.swift */,
 				8DA8D30328170F9F00F158CE /* Report.swift */,
 				8DCC41CA27F4913E0090EDDE /* String.swift */,
@@ -815,7 +815,7 @@
 				8D07CCD3283E936900FE7E18 /* AppleLoginVC.swift in Sources */,
 				8D9D453F277CDE09004C5565 /* TextFieldTableCell.swift in Sources */,
 				8DCD6E1127F00782008FF5A7 /* SwitchTableCell.swift in Sources */,
-				8D0E0D0327B6CA1300E1EEE0 /* MediaManager.swift in Sources */,
+				8D0E0D0327B6CA1300E1EEE0 /* Camera.swift in Sources */,
 				8D9D45792788F044004C5565 /* SaleItemCellStructure.swift in Sources */,
 				8D9D45A327922303004C5565 /* PermissionsManager.swift in Sources */,
 				8DCC41CF27F60E270090EDDE /* Theme.swift in Sources */,

@@ -5,7 +5,7 @@
 //  Created by Taylor Chapman on 2022-01-14.
 //
 
-import UIKit // TODO! remove
+import UIKit
 import AVFoundation
 
 struct PermissionManager {
@@ -28,7 +28,7 @@ struct PermissionManager {
         case .authorized: // The user has previously granted access to the camera.
             completion()
         case .notDetermined: // The user has not yet been asked for camera access.
-            AVCaptureDevice.requestAccess(for: .video) { hasAccess in // TODO! async
+            AVCaptureDevice.requestAccess(for: .video) { hasAccess in
                 if !hasAccess {
                     PermissionManager.showAlert(owner, withMessage: PermissionsType.camera.permissionsRequestString)
                 } else {
