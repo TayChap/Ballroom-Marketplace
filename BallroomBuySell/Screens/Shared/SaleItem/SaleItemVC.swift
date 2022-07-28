@@ -130,8 +130,8 @@ class SaleItemVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     // MARK: - ImageCellDelegate
-    func addImage(_ data: Data) {
-        vm.newImage(data)
+    func addImages(_ images: [Data]) {
+        vm.newImages(images)
         reload()
     }
     

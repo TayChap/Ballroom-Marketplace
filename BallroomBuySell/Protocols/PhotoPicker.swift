@@ -7,13 +7,8 @@
 
 import PhotosUI
 
-protocol PhotoPicker: PHPickerViewControllerDelegate {
-    var imageWidth: Double { get }
-    func didFinishPicking(_ imagesData: [Data])
-}
-
-extension PhotoPicker {
-    func presentPicker(_ owner: UIViewController?) {
+struct PhotoPicker {
+    static func getConfiguration() -> PHPickerConfiguration {
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
         configuration.filter = PHPickerFilter.any(of: [.images, .livePhotos])
         
@@ -29,12 +24,10 @@ extension PhotoPicker {
         // Set the preselected asset identifiers with the identifiers that the app tracks.
 //        configuration.preselectedAssetIdentifiers = selectedAssetIdentifiers // TODO! evaluate if relevant here?
         
-        let picker = PHPickerViewController(configuration: configuration)
-        picker.delegate = self
-        owner?.present(picker, animated: true)
+        return configuration
     }
     
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+    static func getImageResults(_ results: [PHPickerResult]) async -> [Data] {
 //        Task { // TODO! evaluate
 //            do {
 //                for result in results {
@@ -44,25 +37,6 @@ extension PhotoPicker {
 //                print("parsing_error")
 //            }
 //        }
-        
-        var imagesData = [Data]()
-        for result in results {
-            if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
-                result.itemProvider.loadObject(ofClass: UIImage.self) { image, error in
-                    guard let image = image as? UIImage, error == nil else {
-                        return
-                    }
-                    
-                    let normalizedImage = image.normalizedImage()
-                    let resizedImage = normalizedImage.resize(newWidth: self.imageWidth)
-                    
-                    guard let data = resizedImage.pngData() else {
-                        return
-                    }
-                    
-                    imagesData.append(data)
-                }
-            }
-        }
+        [Data]()
     }
 }

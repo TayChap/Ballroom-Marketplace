@@ -285,8 +285,10 @@ struct SaleItemVM {
     }
     
     // MARK: - ImageCellDelegate
-    mutating func newImage(_ data: Data) {
-        saleItem.images.append(Image(for: .saleItems, data: data))
+    mutating func newImages(_ images: [Data]) {
+        for image in images {
+            saleItem.images.append(Image(for: .saleItems, data: image))
+        }
     }
     
     mutating func deleteImage(at index: Int) {

@@ -44,7 +44,8 @@ struct Image: Codable {
         }
     }
     
-    static func downloadImages(_ imageURLs: [String], _ completion: @escaping (_ images: [Image]) -> Void) { // TODO! async
+    static func downloadImages(_ imageURLs: [String],
+                               _ completion: @escaping (_ images: [Image]) -> Void) {
         var fetchedImages = [Image]()
         func checkCompletion() {
             if fetchedImages.count == imageURLs.count {

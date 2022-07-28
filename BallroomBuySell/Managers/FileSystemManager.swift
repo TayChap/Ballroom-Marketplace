@@ -26,7 +26,7 @@ struct FileSystemManager {
         
         // download from the server
         let fileURL = getFileURL(url)
-        storage.reference().child(url).write(toFile: fileURL) { _ , error in
+        storage.reference().child(url).write(toFile: fileURL) { _ , error in // TODO! transition to async if FB adds async method support to .write
             completion(self.getFile(at: fileURL), error)
         }
     }

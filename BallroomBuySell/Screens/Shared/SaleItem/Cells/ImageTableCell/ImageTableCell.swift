@@ -5,19 +5,19 @@
 //  Created by Taylor Chapman on 2022-01-14.
 //
 
-import UIKit
+import PhotosUI
 
 protocol ImageCellDelegate {
-    func addImage(_ data: Data)
+    func addImages(_ images: [Data])
     func deleteImage(at index: Int)
 }
 
 extension ImageCellDelegate { // for view only case no need for image update methods
-    func addImage(_ data: Data){}
+    func addImages(_ images: [Data]){}
     func deleteImage(at index: Int){}
 }
 
-class ImageTableCell: UITableViewCell, TableCellProtocol, PhotoPicker, UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate {
+class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSource, UICollectionViewDelegate, PHPickerViewControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
@@ -96,13 +96,44 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, PhotoPicker, UICollect
         
         picker.dismiss(animated: true)
         if let imageData = resizedImage.pngData() {
-            delegate?.addImage(imageData)
+            delegate?.addImages([imageData])
         }
     }
     
-    // MARK: - Photo Picker
-    func didFinishPicking(_ imagesData: [Data]) {
+    // MARK: - PHPickerViewController Delegate
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
         
+        var imagesData = [Data]()
+        var imagesRemaining = results.count
+        for result in results {
+//            if result.itemProvider.canLoadObject(ofClass: UIImage.self) { // TODO! deal with so-called live images
+                result.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
+                    guard let image = image as? UIImage, error == nil else {
+                        print("ERROR")
+                        imagesRemaining -= 1
+                        return
+                    }
+                    
+                    let normalizedImage = image.normalizedImage()
+                    let resizedImage = normalizedImage.resize(newWidth: self?.imageWidth ?? 0)
+                    
+                    guard let data = resizedImage.pngData() else {
+                        print("ERROR")
+                        imagesRemaining -= 1
+                        return
+                    }
+                    
+                    imagesData.append(data)
+                    imagesRemaining -= 1
+                    if imagesRemaining == 0 {
+                        DispatchQueue.main.async {
+                            self?.delegate?.addImages(imagesData)
+                        }
+                    }
+                }
+//            }
+        }
     }
     
     // MARK: - Private Helpers
@@ -117,7 +148,9 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, PhotoPicker, UICollect
         })
         
         actionItems.append(UIAlertAction(title: LocalizedString.string("apple.photos.app"), style: .default) { _ in
-            self.presentPicker(self.delegate)
+            let picker = PHPickerViewController(configuration: PhotoPicker.getConfiguration())
+            picker.delegate = self
+            self.delegate?.present(picker, animated: true)
         })
         
         return actionItems
