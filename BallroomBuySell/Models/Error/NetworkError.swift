@@ -12,6 +12,6 @@ enum NetworkError: Error {
     case internalSystemError // Database/File issue
     
     var errorMessageLocalizedKey: String {
-        "network.error"
+        "alert.network.message"
     }
 }
