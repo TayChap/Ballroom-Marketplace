@@ -35,7 +35,7 @@ struct FileSystemManager {
     }
     
     // MARK: - Private Helpers
-    static func getFile(at url: String, _ completion: @escaping (_ data: Data?, _ error: Error?) -> Void) { // TODO! mark as private
+    private static func getFile(at url: String, _ completion: @escaping (_ data: Data?, _ error: Error?) -> Void) {
         // check for file locally
         if let data = getLocalFile(at: getFileURL(url)) {
             completion(data, nil)
@@ -54,7 +54,7 @@ struct FileSystemManager {
         return fileFolder.appendingPathComponent(URL(string: url)?.lastPathComponent ?? "")
     }
     
-    private static func getLocalFile(at fileURL: URL) -> Data? { // TODO! rename
+    private static func getLocalFile(at fileURL: URL) -> Data? {
         guard let data = try? Data(contentsOf: fileURL) else {
             return nil
         }

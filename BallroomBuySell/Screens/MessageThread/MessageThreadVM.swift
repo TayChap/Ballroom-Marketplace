@@ -92,15 +92,19 @@ class MessageThreadVM {
         thread.messages[indexPath.section]
     }
     
+    @MainActor
     func configureAvatarView(_ avatarView: AvatarView,
                              for message: MessageType,
                              at indexPath: IndexPath,
                              in messagesCollectionView: MessagesCollectionView) {
-        guard let imageURL = (message.sender as? Sender)?.imageURL else {
-            return
-        }
-        
-        ImageManager.sharedInstance.downloadImage(at: imageURL) { data in
+        Task {
+            guard
+                let imageURL = (message.sender as? Sender)?.imageURL,
+                let data = await Image.downloadImages([imageURL]).first?.data
+            else {
+                return
+            }
+            
             avatarView.image = UIImage(data: data)
         }
     }
