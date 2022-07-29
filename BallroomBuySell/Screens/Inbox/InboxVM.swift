@@ -54,10 +54,9 @@ struct InboxVM {
         }
     }
     
-    func profileButtonClicked() {
-        Image.downloadImages([user.photoURL ?? ""]) { images in
-            delegate?.pushViewController(ProfileVC.createViewController(user: user, photo: images.first))
-        }
+    func profileButtonClicked() async {
+        let image = await Image.downloadImages([user.photoURL ?? ""]).first
+        await delegate?.pushViewController(ProfileVC.createViewController(user: user, photo: image))
     }
     
     mutating func segmentedControlClicked(_ index: Int) {
@@ -112,9 +111,9 @@ struct InboxVM {
             return
         }
         
-        switch inboxState {
-        case .threads:
-            Task {
+        Task {
+            switch inboxState {
+            case .threads:
                 do {
                     let thread = threads[indexPath.row]
                     let otherUser = try await DatabaseManager.sharedInstance.getDocument(in: .users,
@@ -127,11 +126,9 @@ struct InboxVM {
                 } catch {
                     delegate?.showNetworkError(error)
                 }
-            }
-        case .listings:
-            var saleItem = saleItems[indexPath.row]
-            Image.downloadImages(saleItem.images.map({ $0.url })) { images in
-                saleItem.images = images
+            case .listings:
+                var saleItem = saleItems[indexPath.row]
+                saleItem.images = await Image.downloadImages(saleItem.images.map({ $0.url }))
                 delegate?.pushViewController(SaleItemVC.createViewController(mode: .edit,
                                                                              templates: templates,
                                                                              saleItem: saleItem))

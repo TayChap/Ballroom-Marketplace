@@ -170,15 +170,13 @@ struct SaleItemVM {
         }
     }
     
-    func messageButtonClicked() {
+    func messageButtonClicked() async {
         if AuthenticationManager.sharedInstance.user == nil {
-            delegate?.present(AppleLoginVC.createViewController(pushMessageThread), animated: false)
+            await delegate?.present(AppleLoginVC.createViewController(pushMessageThread), animated: false)
             return
         }
         
-        Task {
-            await pushMessageThread()
-        }
+        await pushMessageThread()
     }
     
     func reportButtonClicked() {

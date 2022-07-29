@@ -41,7 +41,11 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     }
     
     @IBAction func profileButtonClicked() {
-        vm.profileButtonClicked()
+        Task {
+            profileButton.isEnabled = false
+            await vm.profileButtonClicked()
+            profileButton.isEnabled = true
+        }
     }
     
     @IBAction func segmentedControlClicked() {

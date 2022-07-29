@@ -54,26 +54,25 @@ class MessageThreadVM {
     }
     
     @MainActor
-    func infoButtonClicked() {
-        Task {
-            do {
-                var saleItem = try await DatabaseManager.sharedInstance.getDocument(in: .items,
-                                                                                    of: SaleItem.self,
-                                                                                    with: thread.saleItemId)
-                Image.downloadImages(saleItem.images.map({ $0.url })) { images in
-                    if !self.templates.isEmpty {
-                        saleItem.images = images
-                        self.delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
-                                                                                          templates: self.templates,
-                                                                                          saleItem: saleItem,
-                                                                                          hideContactSeller: true))
-                    }
-                }
-            } catch NetworkError.notFound {
-                delegate?.showAlertWith(message: LocalizedString.string("alert.sale.item.removed"))
-            } catch {
-                delegate?.showNetworkError(error)
-            }
+    func infoButtonClicked() async {
+        if templates.isEmpty {
+            return
+        }
+        
+        do {
+            var saleItem = try await DatabaseManager.sharedInstance.getDocument(in: .items,
+                                                                                of: SaleItem.self,
+                                                                                with: thread.saleItemId)
+            let images = await Image.downloadImages(saleItem.images.map({ $0.url }))
+            saleItem.images = images
+            self.delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
+                                                                              templates: self.templates,
+                                                                              saleItem: saleItem,
+                                                                              hideContactSeller: true))
+        } catch NetworkError.notFound {
+            delegate?.showAlertWith(message: LocalizedString.string("alert.sale.item.removed"))
+        } catch {
+            delegate?.showNetworkError(error)
         }
     }
     

@@ -83,7 +83,11 @@ class SaleItemVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     @objc func messageButtonClicked() {
-        vm.messageButtonClicked()
+        Task {
+            navigationItem.rightBarButtonItem?.isEnabled = false
+            await vm.messageButtonClicked()
+            navigationItem.rightBarButtonItem?.isEnabled = true
+        }
     }
     
     // MARK: - Table Methods

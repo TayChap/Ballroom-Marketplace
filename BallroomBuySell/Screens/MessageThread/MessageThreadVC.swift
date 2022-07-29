@@ -58,7 +58,11 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
     }
     
     @IBAction func infoButtonClicked() {
-        vm.infoButtonClicked()
+        Task {
+            infoButton.isEnabled = false
+            await vm.infoButtonClicked()
+            infoButton.isEnabled = true
+        }
     }
     
     // MARK: - MessagesDataSource

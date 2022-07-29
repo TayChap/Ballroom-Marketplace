@@ -85,18 +85,16 @@ struct SaleItemListVM {
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath, completion: @escaping () -> Void) {
-        var saleItem = saleItems[indexPath.item]
-        Image.downloadImages(saleItem.images.map({ $0.url })) { images in
-            if !templates.isEmpty {
-                saleItem.images = images
-                delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
-                                                                             templates: templates,
-                                                                             saleItem: saleItem))
-            }
-            
-            completion()
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) async {
+        if templates.isEmpty {
+            return
         }
+        
+        var saleItem = saleItems[indexPath.item]
+        saleItem.images = await Image.downloadImages(saleItem.images.map({ $0.url }))
+        await delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
+                                                                           templates: templates,
+                                                                           saleItem: saleItem))
     }
     
     // MARK: - Public Helpers

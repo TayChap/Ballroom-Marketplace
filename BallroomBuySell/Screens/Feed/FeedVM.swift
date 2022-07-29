@@ -125,26 +125,24 @@ struct FeedVM {
     @MainActor
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath,
-                        completion: @escaping () -> Void) {
-        if indexPath.section == Section.recentItems.rawValue {
-            var saleItem = saleItems[indexPath.row]
-            Image.downloadImages(saleItem.images.map({ $0.url })) { images in
+                        completion: @escaping () -> Void) { // TODO! evaluate completion necessary?
+        Task {
+            if indexPath.section == Section.recentItems.rawValue {
                 if !templates.isEmpty {
-                    saleItem.images = images
+                    var saleItem = saleItems[indexPath.row]
+                    saleItem.images = await Image.downloadImages(saleItem.images.map({ $0.url }))
                     delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
                                                                                  templates: templates,
                                                                                  saleItem: saleItem))
                 }
+                
+                completion()
+                return
             }
             
-            completion()
-            return
-        }
-        
-        // category selected
-        let selectedTemplate = templates[indexPath.row]
-        let templateFilter = (key: "fields.\(SaleItemTemplate.serverKey.templateId.rawValue)", value: selectedTemplate.id)
-        Task {
+            // category selected
+            let selectedTemplate = templates[indexPath.row]
+            let templateFilter = (key: "fields.\(SaleItemTemplate.serverKey.templateId.rawValue)", value: selectedTemplate.id)
             do {
                 let filteredSaleItems = try await DatabaseManager.sharedInstance.getDocuments(to: .items,
                                                                                               of: SaleItem.self,

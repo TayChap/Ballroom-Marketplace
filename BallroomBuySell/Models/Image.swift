@@ -44,28 +44,18 @@ struct Image: Codable {
         }
     }
     
-    static func downloadImages(_ imageURLs: [String],
-                               _ completion: @escaping (_ images: [Image]) -> Void) {
-        var fetchedImages = [Image]()
-        func checkCompletion() {
-            if fetchedImages.count == imageURLs.count {
-                completion(fetchedImages)
-            }
-        }
-        
-        checkCompletion()
+    static func downloadImages(_ imageURLs: [String]) async -> [Image] {
+        var images = [Image]()
         
         for imageURL in imageURLs {
-            FileSystemManager.getFile(at: imageURL) { data, error in
-                if error != nil {
-                    fetchedImages.append(Image(url: UUID().uuidString, data: nil)) // if image not in DB, add empty image
-                    checkCompletion()
-                    return
-                }
-                
-                fetchedImages.append(Image(url: imageURL, data: data))
-                checkCompletion()
+            do {
+                let imageData = try await FileSystemManager.getFile(at: imageURL)
+                images.append(Image(url: imageURL, data: imageData))
+            } catch {
+                continue
             }
         }
+        
+        return images
     }
 }
