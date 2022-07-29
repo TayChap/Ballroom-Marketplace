@@ -7,12 +7,12 @@
 
 import UIKit
 
-struct InboxVM {
+struct InboxVM: ViewModelProtocol {
     enum InboxState: Int, CaseIterable {
         case threads, listings
     }
     
-    private weak var delegate: ViewControllerProtocol?
+    private weak var delegate: ViewControllerProtocol2?
     private var user: User
     private let templates: [SaleItemTemplate]
     private var threads = [MessageThread]()
@@ -20,7 +20,7 @@ struct InboxVM {
     private var inboxState = InboxState.threads
     
     // MARK: - Lifecycle Methods
-    init(owner: ViewControllerProtocol,
+    init(owner: ViewControllerProtocol2,
          user: User,
          templates: [SaleItemTemplate]) {
         delegate = owner
@@ -28,7 +28,6 @@ struct InboxVM {
         self.templates = templates
     }
     
-    @MainActor
     func viewWillAppear(_ completion: @escaping ((saleItems: [SaleItem],
                                                   threads: [MessageThread])) -> Void) {
         Task {
@@ -56,7 +55,7 @@ struct InboxVM {
     
     func profileButtonClicked() async {
         let image = await Image.downloadImages([user.photoURL ?? ""]).first
-        await delegate?.pushViewController(ProfileVC.createViewController(user: user, photo: image))
+        delegate?.pushViewController(ProfileVC.createViewController(user: user, photo: image))
     }
     
     mutating func segmentedControlClicked(_ index: Int) {
@@ -104,7 +103,6 @@ struct InboxVM {
         return cell
     }
     
-    @MainActor
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
         if numberOfItems() == 0 { // empty message
@@ -136,7 +134,6 @@ struct InboxVM {
         }
     }
     
-    @MainActor
     func tableView(_ tableView: UITableView,
                    commit editingStyle: UITableViewCell.EditingStyle,
                    forRowAt indexPath: IndexPath,
@@ -189,7 +186,6 @@ struct InboxVM {
     // MARK: - Private Helpers
     /// Query server for both sale items and threads where user is either the buyer or the seller
     /// - Parameter completion: on successfully fetching the saleItem and thread data
-    @MainActor
     private func fetchItems() async throws -> (saleItems: [SaleItem],
                                                threads: [MessageThread]) {
         let saleItems = try await DatabaseManager.sharedInstance.getDocuments(to: .items,
