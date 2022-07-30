@@ -104,36 +104,8 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     // MARK: - PHPickerViewController Delegate
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
-        
-        var imagesData = [Data]()
-        var imagesRemaining = results.count
-        for result in results {
-//            if result.itemProvider.canLoadObject(ofClass: UIImage.self) { // TODO! deal with so-called live images
-                result.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
-                    guard let image = image as? UIImage, error == nil else {
-                        print("ERROR")
-                        imagesRemaining -= 1
-                        return
-                    }
-                    
-                    let normalizedImage = image.normalizedImage()
-                    let resizedImage = normalizedImage.resize(newWidth: self?.imageWidth ?? 0)
-                    
-                    guard let data = resizedImage.pngData() else {
-                        print("ERROR")
-                        imagesRemaining -= 1
-                        return
-                    }
-                    
-                    imagesData.append(data)
-                    imagesRemaining -= 1
-                    if imagesRemaining == 0 {
-                        DispatchQueue.main.async {
-                            self?.delegate?.addImages(imagesData)
-                        }
-                    }
-                }
-//            }
+        Task {
+            delegate?.addImages(await PhotoPicker.getImagesResults(results)) // TODO! evaluate lag; consider switching to async let and accessing the results in parallel AAR?
         }
     }
     

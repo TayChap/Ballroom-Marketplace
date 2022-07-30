@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct SaleItemVM {
+struct SaleItemVM: ViewModelProtocol {
     enum Mode {
         case create, edit, view, filter
         
@@ -333,7 +333,6 @@ struct SaleItemVM {
         return structure
     }
     
-    @MainActor
     private func pushMessageThread() async {
         guard let user = AuthenticationManager.sharedInstance.user else {
             return

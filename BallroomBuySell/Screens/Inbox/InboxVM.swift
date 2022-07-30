@@ -12,7 +12,7 @@ struct InboxVM: ViewModelProtocol {
         case threads, listings
     }
     
-    private weak var delegate: ViewControllerProtocol2?
+    private weak var delegate: ViewControllerProtocol?
     private var user: User
     private let templates: [SaleItemTemplate]
     private var threads = [MessageThread]()
@@ -20,7 +20,7 @@ struct InboxVM: ViewModelProtocol {
     private var inboxState = InboxState.threads
     
     // MARK: - Lifecycle Methods
-    init(owner: ViewControllerProtocol2,
+    init(owner: ViewControllerProtocol,
          user: User,
          templates: [SaleItemTemplate]) {
         delegate = owner

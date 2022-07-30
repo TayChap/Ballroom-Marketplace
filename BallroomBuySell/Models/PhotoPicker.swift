@@ -27,16 +27,52 @@ struct PhotoPicker {
         return configuration
     }
     
-    static func getImageResults(_ results: [PHPickerResult]) async -> [Data] {
-//        Task { // TODO! evaluate
-//            do {
-//                for result in results {
-//                    let x = try await result.itemProvider.loadItem(forTypeIdentifier: String(describing: UIImage.self)) as? UIImage
-//                }
-//            } catch {
-//                print("parsing_error")
-//            }
-//        }
-        [Data]()
+    static func getImagesResults(_ results: [PHPickerResult]) async -> [Data] {
+        var imagesData = [Data]()
+        
+        for result in results {
+            do {
+                let imageData = try await getImageResult(result)
+                imagesData.append(imageData)
+            } catch {
+                continue
+            }
+        }
+        
+        return imagesData
+    }
+    
+    private static func getImageResult(_ result: PHPickerResult) async throws -> Data {
+        try await withCheckedThrowingContinuation { continuation in
+            getImageResult(result) { data, error in
+                guard let data = data, error == nil else {
+                    continuation.resume(throwing: NetworkError.internalSystemError)
+                    return
+                }
+                
+                continuation.resume(returning: data)
+            }
+        }
+    }
+    
+    private static func getImageResult(_ result: PHPickerResult, _ completion: @escaping (_ data: Data?, _ error: Error?) -> Void) {
+        //            if result.itemProvider.canLoadObject(ofClass: UIImage.self) { // TODO! deal with so-called live images
+        result.itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+            guard let image = image as? UIImage, error == nil else {
+                completion(nil, NetworkError.internalSystemError)
+                return
+            }
+            
+            let normalizedImage = image.normalizedImage()
+            let resizedImage = normalizedImage.resize(newWidth: 800) // TODO! width
+            
+            guard let data = resizedImage.pngData() else {
+                completion(nil, NetworkError.internalSystemError)
+                return
+            }
+            
+            completion(data, nil)
+        }
+        //            }
     }
 }

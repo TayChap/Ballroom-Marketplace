@@ -7,29 +7,14 @@
 
 import UIKit
 
-protocol ViewControllerProtocol: UIViewController { // TODO! remove
+protocol ViewControllerProtocol: UIViewController {
     func pushViewController(_ vc: UIViewController)
     func presentViewController(_ vc: UIViewController)
     func dismiss()
     func reload()
 }
 
-extension ViewControllerProtocol { // TODO! remove
-    func pushViewController(_ vc: UIViewController) {}
-    func presentViewController(_ vc: UIViewController) {}
-    func dismiss() {}
-    func reload() {}
-}
-
-@MainActor
-protocol ViewControllerProtocol2: UIViewController { // TODO! remove
-    func pushViewController(_ vc: UIViewController)
-    func presentViewController(_ vc: UIViewController)
-    func dismiss()
-    func reload()
-}
-
-extension ViewControllerProtocol2 { // TODO! remove
+extension ViewControllerProtocol {
     func pushViewController(_ vc: UIViewController) {}
     func presentViewController(_ vc: UIViewController) {}
     func dismiss() {}

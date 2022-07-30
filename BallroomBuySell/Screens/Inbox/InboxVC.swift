@@ -7,7 +7,7 @@
 
 import UIKit
 
-class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol2 {
+class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ViewControllerProtocol {
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var signOutButton: UIBarButtonItem!
     @IBOutlet weak var profileButton: UIBarButtonItem!
