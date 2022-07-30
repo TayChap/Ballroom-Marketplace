@@ -29,7 +29,7 @@ extension UIViewController {
             alert.addAction(UIAlertAction(title: LocalizedString.string("generic.close"), style: .default, handler: nil))
         }
         
-        present(alert, animated: true, completion: nil)
+        present(alert, animated: true)
     }
     
     func showActionSheetOrPopover(title: String? = nil, message: String, alertActions: [UIAlertAction], barButtonItem: UIBarButtonItem? = nil) {
@@ -47,6 +47,6 @@ extension UIViewController {
             alert.popoverPresentationController?.permittedArrowDirections = []
         }
         
-        present(alert, animated: true, completion: nil)
+        present(alert, animated: true)
     }
 }

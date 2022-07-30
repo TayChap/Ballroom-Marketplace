@@ -22,10 +22,15 @@ class FeedVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        vm.viewWillAppear { templates, saleItems in
-            self.vm.onItemsFetched(templatesFetched: templates,
-                                   saleItemsFetched: saleItems)
-            self.reload()
+        Task {
+            do {
+                let fetchedItems = try await vm.fetchItems()
+                self.vm.onItemsFetched(templatesFetched: fetchedItems.templates,
+                                       saleItemsFetched: fetchedItems.saleItems)
+                self.reload()
+            } catch {
+                showNetworkError(error)
+            }
         }
     }
     

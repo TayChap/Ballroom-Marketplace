@@ -31,24 +31,6 @@ struct FeedVM: ViewModelProtocol {
 //        TemplateManager.updateTemplates()
     }
     
-    func viewWillAppear(_ completion: @escaping (_ templates: [SaleItemTemplate],
-                                                 _ saleItems: [SaleItem]) -> Void) {
-        Task {
-            do {
-                // refresh templates and pull most recent sale items
-                let templates = try await DatabaseManager.sharedInstance.getDocuments(to: .templates,
-                                                                                       of: SaleItemTemplate.self)
-                let items = try await DatabaseManager.sharedInstance.getDocuments(to: .items,
-                                                                                   of: SaleItem.self,
-                                                                                   withOrderRule: (field: SaleItem.QueryKeys.dateAdded.rawValue, descending: true, limit: maxRecentItems))
-                completion(templates, items)
-                
-            } catch {
-                delegate?.showNetworkError(error)
-            }
-        }
-    }
-    
     // MARK: - IBActions
     func sellButtonClicked() {
         if AuthenticationManager.sharedInstance.user == nil {
@@ -151,6 +133,16 @@ struct FeedVM: ViewModelProtocol {
     }
     
     // MARK: - Public Helpers
+    func fetchItems() async throws -> (templates: [SaleItemTemplate],
+                                           saleItems: [SaleItem]) {
+        // refresh templates and pull most recent sale items
+        (try await DatabaseManager.sharedInstance.getDocuments(to: .templates,
+                                                               of: SaleItemTemplate.self),
+         try await DatabaseManager.sharedInstance.getDocuments(to: .items,
+                                                               of: SaleItem.self,
+                                                               withOrderRule: (field: SaleItem.QueryKeys.dateAdded.rawValue, descending: true, limit: maxRecentItems)))
+    }
+    
     mutating func onItemsFetched(templatesFetched: [SaleItemTemplate],
                                  saleItemsFetched: [SaleItem]) {
         templates = templatesFetched.sorted(by: { $0.order < $1.order })

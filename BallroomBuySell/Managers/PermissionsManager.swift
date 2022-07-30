@@ -45,7 +45,7 @@ struct PermissionManager {
         let cancel = UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .default, handler: nil)
         let setting = UIAlertAction(title: LocalizedString.string("apple.settings.app"), style: .default) { (action) in
             if let url = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(url, options: [.universalLinksOnly : false], completionHandler: nil)
+                UIApplication.shared.open(url, options: [.universalLinksOnly: false])
             }
         }
         
