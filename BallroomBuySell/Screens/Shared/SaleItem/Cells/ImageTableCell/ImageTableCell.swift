@@ -121,7 +121,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         })
         
         actionItems.append(UIAlertAction(title: LocalizedString.string("apple.photos.app"), style: .default) { _ in
-            let picker = PHPickerViewController(configuration: PhotoPicker.getConfiguration())
+            let picker = PHPickerViewController(configuration: PhotoPicker.getConfiguration(with: self.maxImageCount - self.imagesList.count))
             picker.delegate = self
             self.delegate?.present(picker, animated: true)
         })

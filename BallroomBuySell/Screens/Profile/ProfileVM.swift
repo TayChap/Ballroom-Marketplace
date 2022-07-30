@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct ProfileVM {
+struct ProfileVM: ViewModelProtocol {
     enum ProfileItem: CaseIterable {
         case photo
         case email

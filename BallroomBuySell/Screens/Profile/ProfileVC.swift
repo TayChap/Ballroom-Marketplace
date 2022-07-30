@@ -53,9 +53,13 @@ class ProfileVC: UIViewController, UITableViewDataSource, ViewControllerProtocol
     }
     
     // MARK: - ImageCellDelegate
-    func addImages(_ images: [Data]) { // TODO!
-//        vm.newImage(data)
-//        reload()
+    func addImages(_ images: [Data]) {
+        guard let image = images.first else {
+            return
+        }
+        
+        vm.newImage(image)
+        reload()
     }
     
     func deleteImage(at index: Int) {
