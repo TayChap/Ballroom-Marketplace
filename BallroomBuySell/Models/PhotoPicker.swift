@@ -8,21 +8,17 @@
 import PhotosUI
 
 struct PhotoPicker {
+    static let userAddedImageWidth = 800.0 // size for ALL user added images in the app
+    
     static func getConfiguration(with maxSelections: Int) -> PHPickerConfiguration {
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
         configuration.filter = PHPickerFilter.any(of: [.images, .livePhotos])
+        configuration.preferredAssetRepresentationMode = .current // Set the mode to avoid transcoding, if possible, if your app supports arbitrary image/video encodings.
+        configuration.selectionLimit = maxSelections // Set the selection limit to enable multiselection.
         
-        // Set the mode to avoid transcoding, if possible, if your app supports arbitrary image/video encodings.
-        configuration.preferredAssetRepresentationMode = .current
-        
-        // Set the selection behavior to respect the user’s selection order.
-//        configuration.selection = .ordered // TODO! consider adding when drop iOS 14 support
-        
-        // Set the selection limit to enable multiselection.
-        configuration.selectionLimit = maxSelections
-        
-        // Set the preselected asset identifiers with the identifiers that the app tracks.
-//        configuration.preselectedAssetIdentifiers = selectedAssetIdentifiers // TODO! evaluate if relevant here?
+        if #available(iOS 15, *) {
+            configuration.selection = .ordered
+        }
         
         return configuration
     }
@@ -64,7 +60,7 @@ struct PhotoPicker {
             }
             
             let normalizedImage = image.normalizedImage()
-            let resizedImage = normalizedImage.resize(newWidth: 800) // TODO! width ...
+            let resizedImage = normalizedImage.resize(newWidth: PhotoPicker.userAddedImageWidth)
             
             guard let data = resizedImage.pngData() else {
                 completion(nil, NetworkError.internalSystemError)

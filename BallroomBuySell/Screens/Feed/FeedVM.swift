@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct FeedVM {
+struct FeedVM: ViewModelProtocol {
     enum Section: Int, CaseIterable {
         case recentItems, categories
     }
@@ -31,7 +31,6 @@ struct FeedVM {
 //        TemplateManager.updateTemplates()
     }
     
-    @MainActor
     func viewWillAppear(_ completion: @escaping (_ templates: [SaleItemTemplate],
                                                  _ saleItems: [SaleItem]) -> Void) {
         Task {
@@ -122,39 +121,32 @@ struct FeedVM {
         return cell
     }
     
-    @MainActor
     func collectionView(_ collectionView: UICollectionView,
-                        didSelectItemAt indexPath: IndexPath,
-                        completion: @escaping () -> Void) { // TODO! evaluate completion necessary?
-        Task {
-            if indexPath.section == Section.recentItems.rawValue {
-                if !templates.isEmpty {
-                    var saleItem = saleItems[indexPath.row]
-                    saleItem.images = await Image.downloadImages(saleItem.images.map({ $0.url }))
-                    delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
-                                                                                 templates: templates,
-                                                                                 saleItem: saleItem))
-                }
-                
-                completion()
-                return
+                        didSelectItemAt indexPath: IndexPath) async {
+        if indexPath.section == Section.recentItems.rawValue {
+            if !templates.isEmpty {
+                var saleItem = saleItems[indexPath.row]
+                saleItem.images = await Image.downloadImages(saleItem.images.map({ $0.url }))
+                delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
+                                                                             templates: templates,
+                                                                             saleItem: saleItem))
             }
             
-            // category selected
-            let selectedTemplate = templates[indexPath.row]
-            let templateFilter = (key: "fields.\(SaleItemTemplate.serverKey.templateId.rawValue)", value: selectedTemplate.id)
-            do {
-                let filteredSaleItems = try await DatabaseManager.sharedInstance.getDocuments(to: .items,
-                                                                                              of: SaleItem.self,
-                                                                                              whereFieldEquals: templateFilter)
-                delegate?.pushViewController(SaleItemListVC.createViewController(templates: templates,
-                                                                                 selectedTemplate: selectedTemplate,
-                                                                                 saleItems: filteredSaleItems))
-                completion()
-            } catch {
-                delegate?.showNetworkError(error)
-                completion()
-            }
+            return
+        }
+        
+        // category selected
+        let selectedTemplate = templates[indexPath.row]
+        let templateFilter = (key: "fields.\(SaleItemTemplate.serverKey.templateId.rawValue)", value: selectedTemplate.id)
+        do {
+            let filteredSaleItems = try await DatabaseManager.sharedInstance.getDocuments(to: .items,
+                                                                                          of: SaleItem.self,
+                                                                                          whereFieldEquals: templateFilter)
+            delegate?.pushViewController(SaleItemListVC.createViewController(templates: templates,
+                                                                             selectedTemplate: selectedTemplate,
+                                                                             saleItems: filteredSaleItems))
+        } catch {
+            delegate?.showNetworkError(error)
         }
     }
     

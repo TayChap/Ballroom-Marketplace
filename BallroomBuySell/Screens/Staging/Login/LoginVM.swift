@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct LoginVM {
+struct LoginVM: ViewModelProtocol {
     enum LoginItem: CaseIterable {
         case email
         
@@ -43,7 +43,6 @@ struct LoginVM {
     }
     
     // MARK: - IBActions
-    @MainActor
     func loginButtonClicked(_ delegate: ViewControllerProtocol) {
         guard let email = dm[LoginItem.email] else {
             return

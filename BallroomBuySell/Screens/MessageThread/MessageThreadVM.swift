@@ -9,7 +9,7 @@ import InputBarAccessoryView
 import MessageKit
 import UIKit
 
-class MessageThreadVM {
+class MessageThreadVM: ViewModelProtocol {
     private weak var delegate: ViewControllerProtocol?
     
     private let templates: [SaleItemTemplate]
@@ -53,7 +53,6 @@ class MessageThreadVM {
                             reportingUser: currentUser)
     }
     
-    @MainActor
     func infoButtonClicked() async {
         if templates.isEmpty {
             return
@@ -92,7 +91,6 @@ class MessageThreadVM {
         thread.messages[indexPath.section]
     }
     
-    @MainActor
     func configureAvatarView(_ avatarView: AvatarView,
                              for message: MessageType,
                              at indexPath: IndexPath,

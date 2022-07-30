@@ -23,7 +23,6 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
     
     private var maxImageCount = 0
-    var imageWidth: Double { 800.0 }
     private var imagesList = [Data]()
     private var isEditable = true
     var delegate: (ImageCellDelegate & UIViewController)?
@@ -94,7 +93,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
         }
         
         let normalizedImage = selectedImage.normalizedImage()
-        let resizedImage = normalizedImage.resize(newWidth: imageWidth)
+        let resizedImage = normalizedImage.resize(newWidth: PhotoPicker.userAddedImageWidth)
         
         if let imageData = resizedImage.pngData() {
             delegate?.addImages([imageData])

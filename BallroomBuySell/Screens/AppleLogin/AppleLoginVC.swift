@@ -78,7 +78,7 @@ class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationCon
         }
         
         let normalizedImage = selectedImage
-        let resizedImage = normalizedImage.resize(newWidth: 800)
+        let resizedImage = normalizedImage.resize(newWidth: PhotoPicker.userAddedImageWidth)
         let image = Image(for: .user, data: resizedImage.pngData())
         Image.uploadImages([image])
         AuthenticationManager.sharedInstance.setUserImage(url: image.url)
