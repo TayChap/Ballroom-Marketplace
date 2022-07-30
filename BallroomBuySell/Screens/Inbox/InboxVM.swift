@@ -29,7 +29,7 @@ struct InboxVM: ViewModelProtocol {
     }
     
     func viewWillAppear(_ completion: @escaping ((saleItems: [SaleItem],
-                                                  threads: [MessageThread])) -> Void) {
+                                                  threads: [MessageThread])) -> Void) { // TODO! change to fetchItems
         Task {
             do {
                 try await completion(fetchItems())
@@ -104,69 +104,60 @@ struct InboxVM: ViewModelProtocol {
     }
     
     func tableView(_ tableView: UITableView,
-                   didSelectRowAt indexPath: IndexPath) {
+                   didSelectRowAt indexPath: IndexPath) async {
         if numberOfItems() == 0 { // empty message
             return
         }
         
-        Task {
-            switch inboxState {
-            case .threads:
-                do {
-                    let thread = threads[indexPath.row]
-                    let otherUser = try await DatabaseManager.sharedInstance.getDocument(in: .users,
-                                                                                         of: User.self,
-                                                                                         with: thread.otherUserId)
-                    delegate?.pushViewController(MessageThreadVC.createViewController(thread,
-                                                                                      currentUser: user,
-                                                                                      otherUser: otherUser,
-                                                                                      templates: templates))
-                } catch {
-                    delegate?.showNetworkError(error)
-                }
-            case .listings:
-                var saleItem = saleItems[indexPath.row]
-                saleItem.images = await Image.downloadImages(saleItem.images.map({ $0.url }))
-                delegate?.pushViewController(SaleItemVC.createViewController(mode: .edit,
-                                                                             templates: templates,
-                                                                             saleItem: saleItem))
+        switch inboxState {
+        case .threads:
+            do {
+                let thread = threads[indexPath.row]
+                let otherUser = try await DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                                                     of: User.self,
+                                                                                     with: thread.otherUserId)
+                delegate?.pushViewController(MessageThreadVC.createViewController(thread,
+                                                                                  currentUser: user,
+                                                                                  otherUser: otherUser,
+                                                                                  templates: templates))
+            } catch {
+                delegate?.showNetworkError(error)
             }
+        case .listings:
+            var saleItem = saleItems[indexPath.row]
+            saleItem.images = await Image.downloadImages(saleItem.images.map({ $0.url }))
+            delegate?.pushViewController(SaleItemVC.createViewController(mode: .edit,
+                                                                         templates: templates,
+                                                                         saleItem: saleItem))
         }
     }
     
     func tableView(_ tableView: UITableView,
                    commit editingStyle: UITableViewCell.EditingStyle,
-                   forRowAt indexPath: IndexPath,
-                   completion: @escaping ((saleItems: [SaleItem],
-                                           threads: [MessageThread])) -> Void) {
+                   forRowAt indexPath: IndexPath) async throws -> (saleItems: [SaleItem],
+                                                                   threads: [MessageThread]) {
         guard editingStyle == .delete else {
-            return
+            throw NetworkError.internalSystemError
         }
         
-        Task {
-            do {
-                switch inboxState {
-                case .threads:
-                    try await DatabaseManager.sharedInstance.deleteDocument(in: .threads,
-                                                                            with: threads[indexPath.row].id)
-                    completion(try await fetchItems())
-                case .listings:
-                    let saleItem = saleItems[indexPath.row]
-                    try await DatabaseManager.sharedInstance.deleteDocument(in: .items,
-                                                                            with: saleItem.id)
-                    
-                    for imageURL in saleItem.images.map({ $0.url }) {
-                        FileSystemManager.deleteFile(at: imageURL)
-                    }
-                    
-                    completion(try await fetchItems())
-                }
-            } catch {
-                delegate?.showNetworkError(error)
+        switch inboxState {
+        case .threads:
+            try await DatabaseManager.sharedInstance.deleteDocument(in: .threads,
+                                                                    with: threads[indexPath.row].id)
+            return try await fetchItems()
+        case .listings:
+            let saleItem = saleItems[indexPath.row]
+            try await DatabaseManager.sharedInstance.deleteDocument(in: .items,
+                                                                    with: saleItem.id)
+            
+            for imageURL in saleItem.images.map({ $0.url }) {
+                FileSystemManager.deleteFile(at: imageURL)
             }
+            
+            return try await fetchItems()
         }
     }
-    
+        
     // MARK: - Public Helpers
     mutating func refreshUser() {
         // TODO! potentially refactor so user ALWAYS accessed from shared instance to avoid stale

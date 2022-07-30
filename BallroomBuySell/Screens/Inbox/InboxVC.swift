@@ -28,7 +28,7 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
         super.viewWillAppear(animated)
         signOutButton.title = LocalizedString.string("generic.logout")
         vm.refreshUser()
-        vm.viewWillAppear(onFetch)
+        vm.viewWillAppear(refreshItems)
     }
     
     // MARK: - IBActions
@@ -63,11 +63,20 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        vm.tableView(tableView, didSelectRowAt: indexPath)
+        Task {
+            await vm.tableView(tableView, didSelectRowAt: indexPath)
+        }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        vm.tableView(tableView, commit: editingStyle, forRowAt: indexPath, completion: onFetch)
+        Task {
+            do {
+                let itemsFetched = try await vm.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
+                refreshItems(itemsFetched.saleItems, itemsFetched.threads)
+            } catch {
+                showNetworkError(error)
+            }
+        }
     }
     
     // MARK: - ViewControllerProtocol
@@ -88,7 +97,7 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     /// - Parameters:
     ///   - saleItems: the saleItems fetched
     ///   - threads: the threads fetched
-    private func onFetch(_ saleItems: [SaleItem], _ threads: [MessageThread]) {
+    private func refreshItems(_ saleItems: [SaleItem], _ threads: [MessageThread]) {
         vm.onFetch(saleItems, threads)
         reload()
     }

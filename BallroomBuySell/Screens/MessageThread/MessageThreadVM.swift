@@ -94,17 +94,15 @@ class MessageThreadVM: ViewModelProtocol {
     func configureAvatarView(_ avatarView: AvatarView,
                              for message: MessageType,
                              at indexPath: IndexPath,
-                             in messagesCollectionView: MessagesCollectionView) {
-        Task {
-            guard
-                let imageURL = (message.sender as? Sender)?.imageURL,
-                let data = await Image.downloadImages([imageURL]).first?.data
-            else {
-                return
-            }
-            
-            avatarView.image = UIImage(data: data)
+                             in messagesCollectionView: MessagesCollectionView) async {
+        guard
+            let imageURL = (message.sender as? Sender)?.imageURL,
+            let data = await Image.downloadImages([imageURL]).first?.data
+        else {
+            return
         }
+        
+        avatarView.image = UIImage(data: data)
     }
     
     func inputBar(didPressSendButtonWith text: String, _ completion: () -> Void) {
