@@ -12,7 +12,7 @@ class InboxTableCell: UITableViewCell, TableCellProtocol {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var detailLabel: UILabel!
-    private var imageFetchingTask = Task {}
+    private var imageURL = ""
     
     // MARK: - Lifecycle Methods
     static func createCell(for tableView: UITableView) -> InboxTableCell? {
@@ -32,9 +32,14 @@ class InboxTableCell: UITableViewCell, TableCellProtocol {
         dateLabel.text = dm.date?.toReadableString()
         detailLabel.text = dm.detail
         
-        imageFetchingTask = Task {
-            if let image = await Image.downloadImages([dm.imageURL]).first?.data {
-                saleItemImage.image = UIImage(data: image)
+        imageURL = dm.imageURL
+        Task {
+            if let image = await Image.downloadImages([dm.imageURL]).first {
+                if self.imageURL != image.url {
+                    return
+                }
+                
+                saleItemImage.image = UIImage(data: image.data ?? Data())
             }
         }
     }
@@ -44,6 +49,6 @@ class InboxTableCell: UITableViewCell, TableCellProtocol {
         titleLabel.text = ""
         dateLabel.text = ""
         detailLabel.text = ""
-        imageFetchingTask.cancel()
+        imageURL = ""
     }
 }

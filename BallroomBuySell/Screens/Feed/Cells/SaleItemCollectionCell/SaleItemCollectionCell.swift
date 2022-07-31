@@ -11,7 +11,7 @@ class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var detailLabel: UILabel!
-    private var imageFetchingTask = Task {}
+    private var imageURL = ""
     
     static func registerCell(for collectionView: UICollectionView) {
         let identifier = String(describing: SaleItemCollectionCell.self)
@@ -35,9 +35,14 @@ class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
         applyRoundedCorners()
         coverImage.roundViewCorners(5.0)
         
-        imageFetchingTask = Task {
-            if let image = await Image.downloadImages([dm.imageURL]).first?.data {
-                coverImage.image = UIImage(data: image)
+        imageURL = dm.imageURL
+        Task {
+            if let image = await Image.downloadImages([dm.imageURL]).first {
+                if self.imageURL != image.url {
+                    return
+                }
+                
+                coverImage.image = UIImage(data: image.data ?? Data())
             }
         }
     }
@@ -46,6 +51,6 @@ class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
         coverImage.image = nil
         priceLabel.text = ""
         detailLabel.text = ""
-        imageFetchingTask.cancel()
+        imageURL = ""
     }
 }
