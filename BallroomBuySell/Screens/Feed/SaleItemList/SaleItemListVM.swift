@@ -86,10 +86,6 @@ struct SaleItemListVM {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) async {
-        if templates.isEmpty {
-            return
-        }
-        
         var saleItem = saleItems[indexPath.item]
         saleItem.images = await Image.downloadImages(saleItem.images.map({ $0.url }))
         await delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,

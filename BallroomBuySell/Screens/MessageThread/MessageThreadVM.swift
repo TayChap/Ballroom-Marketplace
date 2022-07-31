@@ -54,10 +54,6 @@ class MessageThreadVM: ViewModelProtocol {
     }
     
     func infoButtonClicked() async {
-        if templates.isEmpty {
-            return
-        }
-        
         do {
             var saleItem = try await DatabaseManager.sharedInstance.getDocument(in: .items,
                                                                                 of: SaleItem.self,
