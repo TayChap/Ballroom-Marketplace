@@ -104,7 +104,7 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
         Task {
-            delegate?.addImages(await PhotoPicker.getImagesResults(results)) // TODO! evaluate lag; consider switching to async let and accessing the results in parallel AAR?
+            delegate?.addImages(await PhotoPicker.getImagesResults(results))
         }
     }
     

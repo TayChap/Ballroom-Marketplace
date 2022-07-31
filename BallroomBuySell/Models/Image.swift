@@ -47,15 +47,23 @@ struct Image: Codable {
     static func downloadImages(_ imageURLs: [String]) async -> [Image] {
         var images = [Image]()
         
-        for imageURL in imageURLs {
-            do {
-                let imageData = try await FileSystemManager.getFile(at: imageURL)
-                images.append(Image(url: imageURL, data: imageData))
-            } catch {
-                continue
-            }
+        do {
+            try await withThrowingTaskGroup(of: Image.self, body: { group in
+                for imageURL in imageURLs {
+                    group.addTask {
+                        async let imageData = FileSystemManager.getFile(at: imageURL)
+                        return try await Image(url: imageURL, data: imageData)
+                    }
+                }
+                
+                for try await image in group {
+                    images.append(image)
+                }
+            })
+            
+            return images
+        } catch {
+            return images
         }
-        
-        return images
     }
 }

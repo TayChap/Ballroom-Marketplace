@@ -160,7 +160,6 @@ struct InboxVM: ViewModelProtocol {
         
     // MARK: - Public Helpers
     mutating func refreshUser() {
-        // TODO! potentially refactor so user ALWAYS accessed from shared instance to avoid stale
         if let user = AuthenticationManager.sharedInstance.user {
             self.user = user
         }

@@ -17,10 +17,10 @@ struct FileSystemManager {
         storage.reference().child(url).putData(data)
     }
     
-    static func getFile(at url: String) async throws -> Data? {
+    static func getFile(at url: String) async throws -> Data { // TODO! review change to non-optional
         try await withCheckedThrowingContinuation { continuation in
             getFile(at: url) { data, error in
-                guard error == nil else {
+                guard let data = data, error == nil else {
                     continuation.resume(throwing: NetworkError.notFound)
                     return
                 }

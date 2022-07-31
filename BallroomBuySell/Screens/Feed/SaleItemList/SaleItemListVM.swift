@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct SaleItemListVM {
+struct SaleItemListVM: ViewModelProtocol {
     // MARK: - Stored Properties
     private weak var delegate: ViewControllerProtocol?
     private var saleItems: [SaleItem]
@@ -88,7 +88,7 @@ struct SaleItemListVM {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) async {
         var saleItem = saleItems[indexPath.item]
         saleItem.images = await Image.downloadImages(saleItem.images.map({ $0.url }))
-        await delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
+        delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
                                                                            templates: templates,
                                                                            saleItem: saleItem))
     }
