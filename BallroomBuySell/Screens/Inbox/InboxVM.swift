@@ -28,17 +28,6 @@ struct InboxVM: ViewModelProtocol {
         self.templates = templates
     }
     
-    func viewWillAppear(_ completion: @escaping ((saleItems: [SaleItem],
-                                                  threads: [MessageThread])) -> Void) { // TODO! change to fetchItems
-        Task {
-            do {
-                try await completion(fetchItems())
-            } catch {
-                delegate?.showNetworkError(error)
-            }
-        }
-    }
-    
     // MARK: - IBActions
     func backButtonClicked() {
         delegate?.dismiss()
@@ -165,18 +154,9 @@ struct InboxVM: ViewModelProtocol {
         }
     }
     
-    mutating func onFetch(_ saleItemsFetched: [SaleItem],
-                          _ threadsFetched: [MessageThread]) {
-        saleItems = saleItemsFetched.sorted(by: { $0.dateAdded.compare($1.dateAdded) == .orderedDescending })
-        
-        // sort and filter threads
-        threads = threadsFetched.sorted(by: { $0.messages.last?.sentDate.compare($1.messages.last?.sentDate ?? Date()) == .orderedDescending })
-    }
-    
-    // MARK: - Private Helpers
     /// Query server for both sale items and threads where user is either the buyer or the seller
     /// - Parameter completion: on successfully fetching the saleItem and thread data
-    private func fetchItems() async throws -> (saleItems: [SaleItem],
+    func fetchItems() async throws -> (saleItems: [SaleItem],
                                                threads: [MessageThread]) {
         let saleItems = try await DatabaseManager.sharedInstance.getDocuments(to: .items,
                                                                               of: SaleItem.self,
@@ -193,6 +173,15 @@ struct InboxVM: ViewModelProtocol {
         return (saleItems, threads)
     }
     
+    mutating func onFetch(_ saleItemsFetched: [SaleItem],
+                          _ threadsFetched: [MessageThread]) {
+        saleItems = saleItemsFetched.sorted(by: { $0.dateAdded.compare($1.dateAdded) == .orderedDescending })
+        
+        // sort and filter threads
+        threads = threadsFetched.sorted(by: { $0.messages.last?.sentDate.compare($1.messages.last?.sentDate ?? Date()) == .orderedDescending })
+    }
+    
+    // MARK: - Private Helpers
     /// get total number of items for the currently active state
     /// - Returns: number of items for currently active state
     private func numberOfItems() -> Int {

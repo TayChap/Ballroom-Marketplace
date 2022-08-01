@@ -18,11 +18,8 @@ class FeedVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         super.viewDidLoad()
         vm = FeedVM(delegate: self)
         vm.viewDidLoad(with: collectionView)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        Task {
+        
+        Task { // TODO! could call refresh either on pull down or finished adding a sale item?
             do {
                 let fetchedItems = try await vm.fetchItems()
                 self.vm.onItemsFetched(templatesFetched: fetchedItems.templates,
@@ -32,6 +29,10 @@ class FeedVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
                 showNetworkError(error)
             }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     // MARK: - IBActions

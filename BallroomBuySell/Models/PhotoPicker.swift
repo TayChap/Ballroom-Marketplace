@@ -28,7 +28,7 @@ struct PhotoPicker {
         
         for result in results {
             do {
-                let imageData = try await getImageResult(result) // TODO! transition to parallel code
+                let imageData = try await getImageResult(result)
                 imagesData.append(imageData)
             } catch {
                 continue

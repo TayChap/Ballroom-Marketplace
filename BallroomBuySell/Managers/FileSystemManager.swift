@@ -17,7 +17,7 @@ struct FileSystemManager {
         storage.reference().child(url).putData(data)
     }
     
-    static func getFile(at url: String) async throws -> Data { // TODO! review change to non-optional
+    static func getFile(at url: String) async throws -> Data {
         try await withCheckedThrowingContinuation { continuation in
             getFile(at: url) { data, error in
                 guard let data = data, error == nil else {
@@ -36,7 +36,7 @@ struct FileSystemManager {
     
     // MARK: - Private Helpers
     private static func getFile(at url: String, _ completion: @escaping (_ data: Data?, _ error: Error?) -> Void) {
-        // check for file locally
+        // check fogr file locally
         if let data = getLocalFile(at: getFileURL(url)) {
             completion(data, nil)
             return

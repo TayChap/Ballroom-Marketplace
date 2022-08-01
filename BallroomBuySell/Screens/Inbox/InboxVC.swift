@@ -28,7 +28,15 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
         super.viewWillAppear(animated)
         signOutButton.title = LocalizedString.string("generic.logout")
         vm.refreshUser()
-        vm.viewWillAppear(refreshItems)
+        
+        Task {
+            do {
+                let items = try await vm.fetchItems()
+                refreshItems(items.saleItems, items.threads)
+            } catch {
+                showNetworkError(error)
+            }
+        }
     }
     
     // MARK: - IBActions
