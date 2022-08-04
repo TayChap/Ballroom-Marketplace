@@ -52,7 +52,6 @@ struct PhotoPicker {
     }
     
     private static func getImageResult(_ result: PHPickerResult, _ completion: @escaping (_ data: Data?, _ error: Error?) -> Void) {
-        //            if result.itemProvider.canLoadObject(ofClass: UIImage.self) { // TODO! deal with so-called live images
         result.itemProvider.loadObject(ofClass: UIImage.self) { image, error in
             guard let image = image as? UIImage, error == nil else {
                 completion(nil, NetworkError.internalSystemError)
@@ -69,6 +68,5 @@ struct PhotoPicker {
             
             completion(data, nil)
         }
-        //            }
     }
 }

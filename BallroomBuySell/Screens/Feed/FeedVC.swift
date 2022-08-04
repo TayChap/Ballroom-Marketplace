@@ -11,6 +11,7 @@ class FeedVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     @IBOutlet weak var sellButton: UIBarButtonItem!
     @IBOutlet weak var inboxButton: UIBarButtonItem!
     @IBOutlet weak var collectionView: UICollectionView!
+    private let refreshControl = UIRefreshControl()
     private var loadingSpinner: UIActivityIndicatorView?
     private var vm: FeedVM!
     
@@ -19,18 +20,10 @@ class FeedVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         super.viewDidLoad()
         vm = FeedVM(delegate: self)
         vm.viewDidLoad(with: collectionView)
+        collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         loadingSpinner = addLoadingSpinner()
-        
-        Task { // TODO! could call refresh either on pull down or finished adding a sale item?
-            do {
-                let fetchedItems = try await vm.fetchItems()
-                self.vm.onItemsFetched(templatesFetched: fetchedItems.templates,
-                                       saleItemsFetched: fetchedItems.saleItems)
-                self.reload()
-            } catch {
-                showNetworkError(error)
-            }
-        }
+        refreshData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -84,5 +77,20 @@ class FeedVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     
     func reload() {
         collectionView.reloadData()
+    }
+    
+    // MARK: - Private Helpers
+    @objc private func refreshData() {
+        Task {
+            do {
+                let fetchedItems = try await vm.fetchItems()
+                self.vm.onItemsFetched(templatesFetched: fetchedItems.templates,
+                                       saleItemsFetched: fetchedItems.saleItems)
+                self.reload()
+                self.refreshControl.endRefreshing()
+            } catch {
+                showNetworkError(error)
+            }
+        }
     }
 }
