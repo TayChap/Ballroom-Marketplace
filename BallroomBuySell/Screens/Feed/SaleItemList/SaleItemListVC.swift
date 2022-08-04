@@ -11,6 +11,7 @@ class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var filterButton: UIBarButtonItem!
     @IBOutlet weak var collectionView: UICollectionView!
+    private var loadingSpinner: UIActivityIndicatorView?
     private var vm: SaleItemListVM!
     
     // MARK: - Lifecycle Methods
@@ -30,6 +31,7 @@ class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollection
         super.viewDidLoad()
         title = vm.title
         vm.viewDidLoad(with: collectionView)
+        loadingSpinner = addLoadingSpinner()
     }
     
     // MARK: - IBActions
@@ -67,8 +69,10 @@ class SaleItemListVC: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         Task {
+            loadingSpinner?.startAnimating()
             collectionView.isUserInteractionEnabled = false // on click, disable collection view to avoid double clicking
             await vm.collectionView(collectionView, didSelectItemAt: indexPath)
+            loadingSpinner?.stopAnimating()
             collectionView.isUserInteractionEnabled = true
         }
     }

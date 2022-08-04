@@ -49,4 +49,19 @@ extension UIViewController {
         
         present(alert, animated: true)
     }
+    
+    func addLoadingSpinner() -> UIActivityIndicatorView {
+        //Create Activity Indicator
+        let myActivityIndicator = UIActivityIndicatorView(style: .large)
+        
+        // Position Activity Indicator in the center of the main view
+        myActivityIndicator.center = view.center
+        
+        // If needed, you can prevent Acivity Indicator from hiding when stopAnimating() is called
+//        myActivityIndicator.hidesWhenStopped = false
+        
+        view.addSubview(myActivityIndicator)
+        
+        return  myActivityIndicator
+    }
 }

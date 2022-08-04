@@ -13,6 +13,7 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     @IBOutlet weak var profileButton: UIBarButtonItem!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
+    private var loadingSpinner: UIActivityIndicatorView?
     private var vm: InboxVM!
     
     // MARK: - Lifecycle Methods
@@ -28,6 +29,7 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
         super.viewWillAppear(animated)
         signOutButton.title = LocalizedString.string("generic.logout")
         vm.refreshUser()
+        loadingSpinner = addLoadingSpinner()
         
         Task {
             do {
@@ -50,8 +52,10 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     
     @IBAction func profileButtonClicked() {
         Task {
+            loadingSpinner?.startAnimating()
             profileButton.isEnabled = false
             await vm.profileButtonClicked()
+            loadingSpinner?.stopAnimating()
             profileButton.isEnabled = true
         }
     }
@@ -72,7 +76,11 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         Task {
+            loadingSpinner?.startAnimating()
+            tableView.isUserInteractionEnabled = false
             await vm.tableView(tableView, didSelectRowAt: indexPath)
+            loadingSpinner?.stopAnimating()
+            tableView.isUserInteractionEnabled = true
         }
     }
     
