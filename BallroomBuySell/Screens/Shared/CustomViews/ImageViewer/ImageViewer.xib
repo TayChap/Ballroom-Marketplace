@@ -14,6 +14,11 @@
             <connections>
                 <outlet property="closeButton" destination="bfc-a6-S2D" id="kTm-WC-vQL"/>
                 <outlet property="imageView" destination="kjw-LC-Ur2" id="2yR-Ps-jWN"/>
+                <outlet property="imageViewBottomConstraint" destination="t1y-bX-9gv" id="HU5-BJ-wFu"/>
+                <outlet property="imageViewLeadingConstraint" destination="bQO-aK-Y19" id="HAi-wV-vxl"/>
+                <outlet property="imageViewTopConstraint" destination="L0A-ng-4c9" id="SBR-0i-zv7"/>
+                <outlet property="imageViewTrailingConstraint" destination="bQO-aK-Y19" id="1aL-c1-sg6"/>
+                <outlet property="scrollView" destination="fep-04-7yK" id="S1h-mk-ufe"/>
                 <outlet property="view" destination="KWj-Cm-NRE" id="0J6-2l-BSb"/>
             </connections>
         </placeholder>
@@ -22,10 +27,26 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kjw-LC-Ur2">
-                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                    <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                </imageView>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fep-04-7yK">
+                    <rect key="frame" x="87" y="384" width="240" height="128"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kjw-LC-Ur2">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                            <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="kjw-LC-Ur2" firstAttribute="leading" secondItem="fep-04-7yK" secondAttribute="leading" id="EwV-jw-aD9"/>
+                        <constraint firstItem="kjw-LC-Ur2" firstAttribute="top" secondItem="fep-04-7yK" secondAttribute="top" id="L0A-ng-4c9"/>
+                        <constraint firstAttribute="trailing" secondItem="kjw-LC-Ur2" secondAttribute="trailing" id="bQO-aK-Y19"/>
+                        <constraint firstAttribute="bottom" secondItem="kjw-LC-Ur2" secondAttribute="bottom" id="t1y-bX-9gv"/>
+                    </constraints>
+                    <viewLayoutGuide key="contentLayoutGuide" id="SvL-Fa-ICb"/>
+                    <viewLayoutGuide key="frameLayoutGuide" id="8ZJ-VZ-IgT"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="oEX-g8-oKh"/>
+                    </connections>
+                </scrollView>
                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bfc-a6-S2D">
                     <rect key="frame" x="20" y="64" width="45" height="45"/>
                     <color key="backgroundColor" name="background"/>
@@ -45,11 +66,11 @@
             <viewLayoutGuide key="safeArea" id="HpN-xc-lcZ"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="HpN-xc-lcZ" firstAttribute="bottom" secondItem="fep-04-7yK" secondAttribute="bottom" id="7WH-Q9-9JM"/>
+                <constraint firstItem="fep-04-7yK" firstAttribute="leading" secondItem="HpN-xc-lcZ" secondAttribute="leading" id="FU9-6T-Ouv"/>
                 <constraint firstItem="bfc-a6-S2D" firstAttribute="top" secondItem="HpN-xc-lcZ" secondAttribute="top" constant="20" id="SQ7-nm-g6U"/>
-                <constraint firstItem="HpN-xc-lcZ" firstAttribute="bottom" secondItem="kjw-LC-Ur2" secondAttribute="bottom" id="VVi-9v-tb1"/>
-                <constraint firstItem="kjw-LC-Ur2" firstAttribute="top" secondItem="HpN-xc-lcZ" secondAttribute="top" id="dxN-NC-1kr"/>
-                <constraint firstItem="HpN-xc-lcZ" firstAttribute="trailing" secondItem="kjw-LC-Ur2" secondAttribute="trailing" id="nqr-P4-Ahy"/>
-                <constraint firstItem="kjw-LC-Ur2" firstAttribute="leading" secondItem="HpN-xc-lcZ" secondAttribute="leading" id="rVL-nM-bpo"/>
+                <constraint firstItem="HpN-xc-lcZ" firstAttribute="trailing" secondItem="fep-04-7yK" secondAttribute="trailing" id="k6G-Xu-CXG"/>
+                <constraint firstItem="fep-04-7yK" firstAttribute="top" secondItem="HpN-xc-lcZ" secondAttribute="top" id="ozb-gP-BmK"/>
                 <constraint firstItem="bfc-a6-S2D" firstAttribute="leading" secondItem="HpN-xc-lcZ" secondAttribute="leading" constant="20" id="t6u-A2-h5m"/>
             </constraints>
             <point key="canvasLocation" x="139" y="154"/>
@@ -58,10 +79,10 @@
     <resources>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="background">
-            <color red="0.14901960784313725" green="0.27450980392156865" blue="0.32549019607843138" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.98500001430511475" green="1" blue="0.97899997234344482" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="interactivity">
-            <color red="0.95686274509803926" green="0.63529411764705879" blue="0.38039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
     </resources>
 </document>
