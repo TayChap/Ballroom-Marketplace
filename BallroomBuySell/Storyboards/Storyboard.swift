@@ -7,5 +7,6 @@
 
 enum Storyboard: String {
     case main = "Main"
+    case imageViewer = "ImageViewer"
     case staging = "Staging"
 }

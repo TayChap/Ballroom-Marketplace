@@ -15,6 +15,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Theme.initializeAppTheme()
         FirebaseApp.configure()
         AuthenticationManager.sharedInstance.refreshUser()
+        
+        let pageControl = UIPageControl.appearance()
+        pageControl.pageIndicatorTintColor = UIColor.systemGray
+        pageControl.currentPageIndicatorTintColor = UIColor.systemPurple
+        
         return true
     }
     

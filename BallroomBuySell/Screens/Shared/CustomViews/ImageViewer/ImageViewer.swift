@@ -2,70 +2,51 @@
 //  ImageViewer.swift
 //  BallroomBuySell
 //
-//  Created by Taylor Chapman on 2022-01-14.
+//  Created by Taylor Chapman on 2022-08-06.
 //
 
 import UIKit
 
-class ImageViewer: UIViewController, UIScrollViewDelegate {
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var imageViewTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var imageViewLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var imageViewTrailingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var imageViewBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var closeButton: UIButton!
+class ImageViewer: UIPageViewController, UIPageViewControllerDataSource {
+    private var currentIndex = 1
+    private var images = [UIImage]()
     
-    private var image: UIImage!
-    
-    // MARK: - Life Cycle
-    static func createViewController(_ image: UIImage) -> UIViewController {
-        let vc = ImageViewer(nibName: String(describing: ImageViewer.self), bundle: nil)
-        vc.image = image
-        
+    static func createViewController(_ images: [UIImage]) -> UIViewController {
+        let vc = UIViewController.getVC(from: .imageViewer, of: self)
+        vc.images = images
         return vc
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageView.image = image
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        updateMinZoomScaleForSize(view.bounds.size)
-    }
-    
-    // MARK: - IBActions
-    @IBAction func closeButtonClicked() {
-        dismiss(animated: true)
-    }
-    
-    // MARK: - UIScrollView Delegate
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return imageView
-    }
-    
-    func updateMinZoomScaleForSize(_ size: CGSize) {
-        let widthScale = size.width / imageView.bounds.width
-        let heightScale = size.height / imageView.bounds.height
-        let minScale = min(widthScale, heightScale)
         
-        scrollView.minimumZoomScale = minScale
-        scrollView.zoomScale = minScale
+        dataSource = self
+        setViewControllers([viewImageVC(currentIndex)],
+                           direction: .forward,
+                           animated: false)
     }
     
-    func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        let viewSize = view.bounds.size
-        
-        let yOffset = max(0, (viewSize.height - imageView.frame.height) / 2)
-        imageViewTopConstraint.constant = yOffset
-        imageViewBottomConstraint.constant = yOffset
-        
-        let xOffset = max(0, (viewSize.width - imageView.frame.width) / 2)
-        imageViewLeadingConstraint.constant = xOffset
-        imageViewTrailingConstraint.constant = xOffset
-        
-        view.layoutIfNeeded()
+    // MARK: - UIPageViewController DataSource
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        currentIndex -= 1
+        return viewImageVC(currentIndex)
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        currentIndex += 1
+        return viewImageVC(currentIndex)
+    }
+    
+    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+        images.count
+    }
+    
+    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
+        currentIndex
+    }
+    
+    // MARK: - Private Helpers
+    private func viewImageVC(_ index: Int) -> UIViewController {
+        ImageVC.createViewController(images[index])
     }
 }
