@@ -25,5 +25,8 @@ struct Theme {
         UINavigationBar.appearance().backgroundColor = Color.background.value
         UINavigationBar.appearance().barTintColor = Color.background.value
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: Color.primaryText.value]
+        
+        UIPageControl.appearance().pageIndicatorTintColor = Theme.Color.background.value
+        UIPageControl.appearance().currentPageIndicatorTintColor = Theme.Color.confirmation.value
     }
 }

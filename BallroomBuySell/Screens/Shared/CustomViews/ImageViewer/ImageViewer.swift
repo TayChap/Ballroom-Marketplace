@@ -20,6 +20,7 @@ class ImageViewer: UIPageViewController, UIPageViewControllerDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = Theme.Color.cardBackground.value
         dataSource = self
         setViewControllers([viewImageVC(currentIndex)],
                            direction: .forward,

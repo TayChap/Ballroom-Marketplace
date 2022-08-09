@@ -26,10 +26,6 @@ class FeedVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         refreshData()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     // MARK: - IBActions
     @IBAction func sellButtonClicked() {
         vm.sellButtonClicked()

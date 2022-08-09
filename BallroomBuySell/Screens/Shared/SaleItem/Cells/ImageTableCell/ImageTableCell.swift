@@ -154,8 +154,6 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     /// - Parameter imageData: image to display
     private func displayImage(_ imageData: Data) { // TODO! change to index
         let imageViewer = ImageViewer.createViewController(imagesList.map({ UIImage(data: $0) ?? UIImage() }))
-        imageViewer.modalPresentationStyle = .fullScreen // TODO! remove
-        delegate?.present(imageViewer, animated: true) // TODO! push?
-//        delegate?.navigationController?.pushViewController(imageViewer, animated: true)
+        delegate?.present(imageViewer, animated: true)
     }
 }

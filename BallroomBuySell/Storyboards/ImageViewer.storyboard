@@ -11,7 +11,7 @@
         <!--Image Viewer-->
         <scene sceneID="JBx-i7-pLr">
             <objects>
-                <pageViewController storyboardIdentifier="ImageViewer" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" pageSpacing="8" navigationOrientation="horizontal" spineLocation="none" id="bGf-uJ-5La" customClass="ImageViewer" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
+                <pageViewController storyboardIdentifier="ImageViewer" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="bGf-uJ-5La" customClass="ImageViewer" customModule="BallroomBuySell" customModuleProvider="target" sceneMemberID="viewController">
                     <connections>
                         <segue destination="IjY-C0-5GK" kind="custom" id="cy8-ow-1Gx"/>
                     </connections>
@@ -34,7 +34,7 @@
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="VgF-Hb-JO1"/>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="gfl-Sm-58b" firstAttribute="top" secondItem="VgF-Hb-JO1" secondAttribute="top" id="BVQ-iW-i7K"/>
                             <constraint firstItem="gfl-Sm-58b" firstAttribute="leading" secondItem="VgF-Hb-JO1" secondAttribute="leading" id="PB4-qE-hSD"/>
