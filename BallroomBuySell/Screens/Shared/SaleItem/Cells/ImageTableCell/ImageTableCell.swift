@@ -76,7 +76,8 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let delegate = delegate else {
+        guard let delegate = delegate, isEditable else {
+            displayImage(indexPath.row)
             return
         }
         
@@ -114,7 +115,6 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     private func getEmptyActionSheetItems() -> [UIAlertAction] {
         var actionItems = [UIAlertAction]()
         actionItems.append(UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel))
-        
         actionItems.append(UIAlertAction(title: LocalizedString.string("apple.camera.app"), style: .default) { _ in
             Camera.displayCamera(self, displayingVC: self.delegate)
         })
@@ -132,11 +132,8 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     /// - Parameter indexPath: indexPath referring to the index of the image
     /// - Returns: set of actions to interact with an image
     private func getNonEmptyActionSheetItems(_ indexPath: IndexPath) -> [UIAlertAction] {
-//        let imageData = imagesList[indexPath.row]
         var actionItems = [UIAlertAction]()
-        
         actionItems.append(UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel))
-        
         actionItems.append(UIAlertAction(title: LocalizedString.string("generic.view"), style: .default) { _ in
             self.displayImage(indexPath.row)
         })

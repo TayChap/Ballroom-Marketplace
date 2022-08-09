@@ -30,13 +30,19 @@ class ImageViewer: UIPageViewController, UIPageViewControllerDataSource {
     
     // MARK: - UIPageViewController DataSource
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        currentIndex -= 1
-        return viewImageVC(currentIndex)
+        guard currentIndex > 0 else {
+            return nil
+        }
+        
+        return viewImageVC(currentIndex - 1)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        currentIndex += 1
-        return viewImageVC(currentIndex)
+        guard currentIndex < images.count else {
+            return nil
+        }
+        
+        return viewImageVC(currentIndex + 1)
     }
     
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
@@ -49,6 +55,7 @@ class ImageViewer: UIPageViewController, UIPageViewControllerDataSource {
     
     // MARK: - Private Helpers
     private func viewImageVC(_ index: Int) -> UIViewController {
-        ImageVC.createViewController(images[index])
+        currentIndex = index
+        return ImageVC.createViewController(images[index])
     }
 }
