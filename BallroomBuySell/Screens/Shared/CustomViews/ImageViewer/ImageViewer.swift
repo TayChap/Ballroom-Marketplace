@@ -8,12 +8,13 @@
 import UIKit
 
 class ImageViewer: UIPageViewController, UIPageViewControllerDataSource {
-    private var currentIndex = 1
     private var images = [UIImage]()
+    private var currentIndex = 1
     
-    static func createViewController(_ images: [UIImage]) -> UIViewController {
+    static func createViewController(_ images: [UIImage], at index: Int) -> UIViewController {
         let vc = UIViewController.getVC(from: .imageViewer, of: self)
         vc.images = images
+        vc.currentIndex = index
         return vc
     }
     

@@ -132,13 +132,13 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     /// - Parameter indexPath: indexPath referring to the index of the image
     /// - Returns: set of actions to interact with an image
     private func getNonEmptyActionSheetItems(_ indexPath: IndexPath) -> [UIAlertAction] {
-        let imageData = imagesList[indexPath.row]
+//        let imageData = imagesList[indexPath.row]
         var actionItems = [UIAlertAction]()
         
         actionItems.append(UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel))
         
         actionItems.append(UIAlertAction(title: LocalizedString.string("generic.view"), style: .default) { _ in
-            self.displayImage(imageData)
+            self.displayImage(indexPath.row)
         })
         
         if isEditable {
@@ -152,8 +152,8 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     
     /// Display image to user
     /// - Parameter imageData: image to display
-    private func displayImage(_ imageData: Data) { // TODO! change to index
-        let imageViewer = ImageViewer.createViewController(imagesList.map({ UIImage(data: $0) ?? UIImage() }))
+    private func displayImage(_ index: Int) {
+        let imageViewer = ImageViewer.createViewController(imagesList.map({ UIImage(data: $0) ?? UIImage() }), at: index)
         delegate?.present(imageViewer, animated: true)
     }
 }
