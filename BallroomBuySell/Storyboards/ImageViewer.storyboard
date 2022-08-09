@@ -28,43 +28,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v7h-V9-rIV">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppIcon-Asset" translatesAutoresizingMaskIntoConstraints="NO" id="gfl-Sm-58b">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppIcon-Asset" translatesAutoresizingMaskIntoConstraints="NO" id="gfl-Sm-58b">
-                                        <rect key="frame" x="0.0" y="0.0" width="512" height="512"/>
-                                        <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </imageView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="gfl-Sm-58b" secondAttribute="bottom" id="Hi7-Jm-8Uv"/>
-                                    <constraint firstAttribute="trailing" secondItem="gfl-Sm-58b" secondAttribute="trailing" id="hiq-if-ZMg"/>
-                                    <constraint firstItem="gfl-Sm-58b" firstAttribute="top" secondItem="v7h-V9-rIV" secondAttribute="top" id="iFO-ym-DQH"/>
-                                    <constraint firstItem="gfl-Sm-58b" firstAttribute="leading" secondItem="v7h-V9-rIV" secondAttribute="leading" id="npH-gg-3ai"/>
-                                </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="KP2-se-QCg"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="Vrf-t8-KJb"/>
-                                <connections>
-                                    <outlet property="delegate" destination="IjY-C0-5GK" id="nzZ-fH-J8P"/>
-                                </connections>
-                            </scrollView>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="VgF-Hb-JO1"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="v7h-V9-rIV" firstAttribute="leading" secondItem="VgF-Hb-JO1" secondAttribute="leading" id="RPL-H6-XkO"/>
-                            <constraint firstItem="VgF-Hb-JO1" firstAttribute="bottom" secondItem="v7h-V9-rIV" secondAttribute="bottom" id="dqR-fB-Lua"/>
-                            <constraint firstItem="v7h-V9-rIV" firstAttribute="top" secondItem="VgF-Hb-JO1" secondAttribute="top" id="hKO-dN-raB"/>
-                            <constraint firstItem="VgF-Hb-JO1" firstAttribute="trailing" secondItem="v7h-V9-rIV" secondAttribute="trailing" id="psP-9I-u3U"/>
+                            <constraint firstItem="gfl-Sm-58b" firstAttribute="top" secondItem="VgF-Hb-JO1" secondAttribute="top" id="BVQ-iW-i7K"/>
+                            <constraint firstItem="gfl-Sm-58b" firstAttribute="leading" secondItem="VgF-Hb-JO1" secondAttribute="leading" id="PB4-qE-hSD"/>
+                            <constraint firstItem="VgF-Hb-JO1" firstAttribute="bottom" secondItem="gfl-Sm-58b" secondAttribute="bottom" id="oDg-f9-2A5"/>
+                            <constraint firstAttribute="trailing" secondItem="gfl-Sm-58b" secondAttribute="trailing" id="s1H-VL-D1Y"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="imageView" destination="gfl-Sm-58b" id="Xwt-Te-RNW"/>
-                        <outlet property="imageViewBottomConstraint" destination="Hi7-Jm-8Uv" id="AOT-81-PxK"/>
-                        <outlet property="imageViewLeadingConstraint" destination="npH-gg-3ai" id="ahp-j3-5mi"/>
-                        <outlet property="imageViewTopConstraint" destination="iFO-ym-DQH" id="gG0-uG-pYW"/>
-                        <outlet property="imageViewTrailingConstraint" destination="hiq-if-ZMg" id="8a7-xK-6Tn"/>
-                        <outlet property="scrollView" destination="v7h-V9-rIV" id="cX2-CV-cJx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w12-tY-sk4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
