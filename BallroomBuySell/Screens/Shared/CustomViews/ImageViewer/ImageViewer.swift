@@ -11,7 +11,8 @@ class ImageViewer: UIPageViewController, UIPageViewControllerDataSource {
     private var images = [UIImage]()
     private var currentIndex = 1
     
-    static func createViewController(_ images: [UIImage], at index: Int) -> UIViewController {
+    static func createViewController(_ images: [UIImage],
+                                     at index: Int) -> UIViewController {
         let vc = UIViewController.getVC(from: .imageViewer, of: self)
         vc.images = images
         vc.currentIndex = index
@@ -29,20 +30,28 @@ class ImageViewer: UIPageViewController, UIPageViewControllerDataSource {
     }
     
     // MARK: - UIPageViewController DataSource
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard currentIndex > 0 else {
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        guard
+            let vc = viewController as? ImageVC,
+            let index = vc.index, index > 0
+        else {
             return nil
         }
         
-        return viewImageVC(currentIndex - 1)
+        return viewImageVC(index - 1)
     }
     
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard currentIndex < images.count else {
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        guard
+            let vc = viewController as? ImageVC,
+            let index = vc.index, index < images.count - 1
+        else {
             return nil
         }
         
-        return viewImageVC(currentIndex + 1)
+        return viewImageVC(index + 1)
     }
     
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
@@ -56,6 +65,6 @@ class ImageViewer: UIPageViewController, UIPageViewControllerDataSource {
     // MARK: - Private Helpers
     private func viewImageVC(_ index: Int) -> UIViewController {
         currentIndex = index
-        return ImageVC.createViewController(images[index])
+        return ImageVC.createViewController(images[index], at: index)
     }
 }
