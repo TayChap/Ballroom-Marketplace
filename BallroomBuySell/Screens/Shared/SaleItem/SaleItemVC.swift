@@ -202,7 +202,7 @@ class SaleItemVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                               with: Theme.Color.interactivity.value,
                               performing: #selector(messageButtonClicked))
         addRightBarButtonItem(for: vm.reportButtonImage,
-                              with: Theme.Color.error.value,
+                              with: Theme.Color.destructive.value,
                               performing: #selector(reportButtonClicked))
     }
     

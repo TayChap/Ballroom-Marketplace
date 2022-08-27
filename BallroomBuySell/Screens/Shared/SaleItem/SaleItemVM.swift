@@ -85,7 +85,7 @@ struct SaleItemVM: ViewModelProtocol {
     }
     
     var reportButtonImage: UIImage? {
-        mode == .view && !hideContactSeller ? UIImage(systemName: "flag")?.withTintColor(Theme.Color.error.value) : nil
+        mode == .view && !hideContactSeller ? UIImage(systemName: "flag")?.withTintColor(Theme.Color.destructive.value) : nil
     }
     
     var messageButtonImage: UIImage? {
@@ -123,7 +123,6 @@ struct SaleItemVM: ViewModelProtocol {
         ImageTableCell.registerCell(for: tableView)
         SwitchTableCell.registerCell(for: tableView)
         TextViewTableCell.registerCell(for: tableView)
-        ButtonTableCell.registerCell(for: tableView)
     }
     
     // MARK: - IBActions

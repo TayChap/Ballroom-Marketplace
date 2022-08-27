@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, ImageCellDelegate, TextFieldCellDelegate {
+class ProfileVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, ImageCellDelegate, TextFieldCellDelegate, ButtonCellDelegate {
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var updateUserButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
@@ -74,5 +74,10 @@ class ProfileVC: UIViewController, UITableViewDataSource, ViewControllerProtocol
         }
         
         vm.setData(newText, at: indexPath)
+    }
+    
+    // MARK: - ButtonCell Delegate
+    func buttonClicked() {
+        vm.buttonClicked()
     }
 }

@@ -14,7 +14,7 @@ struct Theme {
         // secondary
         case secondaryText // Text Contrasting with cardBackground
         // tertiary
-        case background, cardBackground, confirmation, divider, error, interactivity
+        case background, cardBackground, confirmation, divider, destructive, interactivity
         
         var value: UIColor {
             UIColor(named: self.rawValue) ?? .black

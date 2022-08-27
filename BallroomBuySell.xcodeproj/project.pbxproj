@@ -21,6 +21,7 @@
 		8D677BC8282DF4FF003051F6 /* SaleItemVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D677BC7282DF4FF003051F6 /* SaleItemVC.xib */; };
 		8D677BCE28317841003051F6 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D677BCD28317841003051F6 /* UIImage.swift */; };
 		8D78664727B0BB1400B1D817 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D78664627B0BB1400B1D817 /* Environment.swift */; };
+		8D967A1428BA977D004BBBAA /* ButtonCellDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D967A1328BA977D004BBBAA /* ButtonCellDM.swift */; };
 		8D9D44ED2770C64A004C5565 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D44EC2770C64A004C5565 /* UIViewController.swift */; };
 		8D9D450927711E44004C5565 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D450727711E44004C5565 /* Localizable.strings */; };
 		8D9D451727721F77004C5565 /* ViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D451627721F77004C5565 /* ViewControllerProtocol.swift */; };
@@ -136,6 +137,7 @@
 		8D677BC7282DF4FF003051F6 /* SaleItemVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SaleItemVC.xib; sourceTree = "<group>"; };
 		8D677BCD28317841003051F6 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		8D78664627B0BB1400B1D817 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		8D967A1328BA977D004BBBAA /* ButtonCellDM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCellDM.swift; sourceTree = "<group>"; };
 		8D9D44EC2770C64A004C5565 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		8D9D450B27711E83004C5565 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8D9D451627721F77004C5565 /* ViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerProtocol.swift; sourceTree = "<group>"; };
@@ -454,6 +456,7 @@
 		8D9D455127822B66004C5565 /* ButtonTableCell */ = {
 			isa = PBXGroup;
 			children = (
+				8D967A1328BA977D004BBBAA /* ButtonCellDM.swift */,
 				8D9D455227822B85004C5565 /* ButtonTableCell.swift */,
 				8D9D455427822B91004C5565 /* ButtonTableCell.xib */,
 			);
@@ -845,6 +848,7 @@
 				8DF8FDCD288C72CC00638922 /* NetworkError.swift in Sources */,
 				8D9D451727721F77004C5565 /* ViewControllerProtocol.swift in Sources */,
 				8D9D4538277BB14C004C5565 /* SaleItemVC.swift in Sources */,
+				8D967A1428BA977D004BBBAA /* ButtonCellDM.swift in Sources */,
 				8D9D452127723068004C5565 /* LoginVC.swift in Sources */,
 				8DA71D0227A36D950025C1D5 /* CategoryCollectionCellDM.swift in Sources */,
 				8D9D455C2787666A004C5565 /* PickerViewController.swift in Sources */,

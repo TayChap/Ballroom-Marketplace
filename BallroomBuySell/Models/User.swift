@@ -6,6 +6,10 @@
 //
 
 struct User: Storable {
+    enum QueryKeys: String {
+        case id
+    }
+    
     let id: String
     var email: String?
     var photoURL: String?

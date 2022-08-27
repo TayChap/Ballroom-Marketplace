@@ -43,6 +43,7 @@ class AuthenticationManager {
     func updateUser(_ user: User,
                     with photo: Image) throws {
         Image.uploadImages([photo])
+        
         do {
             try DatabaseManager.sharedInstance.putDocument(in: .users,
                                                            for: user)
@@ -58,6 +59,18 @@ class AuthenticationManager {
     
     func blockUser(_ id: String) {
         self.user?.blockedUserIds.append(id)
+    }
+    
+    func deleteUser() async throws {
+        guard let userId = user?.id else {
+            throw NetworkError.internalSystemError
+        }
+        
+        try await Auth.auth().currentUser?.delete()
+        try await DatabaseManager.sharedInstance.deleteDocument(in: .items, where: SaleItem.QueryKeys.userId.rawValue, equals: userId)
+        try await DatabaseManager.sharedInstance.deleteDocument(in: .threads, where: MessageThread.QueryKeys.buyerId.rawValue, equals: userId)
+        try await DatabaseManager.sharedInstance.deleteDocument(in: .threads, where: MessageThread.QueryKeys.sellerId.rawValue, equals: userId)
+        try await DatabaseManager.sharedInstance.deleteDocument(in: .users, where: User.QueryKeys.id.rawValue, equals: userId)
     }
     
     // MARK: - Production only authentication

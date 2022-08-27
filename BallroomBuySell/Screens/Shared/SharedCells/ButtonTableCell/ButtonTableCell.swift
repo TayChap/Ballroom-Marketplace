@@ -31,10 +31,14 @@ class ButtonTableCell: UITableViewCell, TableCellProtocol {
         return cell
     }
     
-    func configureCell(with title: String) {
+    func configureCell(with dm: ButtonCellDM) {
         clearContent()
-        button.setTitle(title)
-        button.addBorder(of: 2, with: Theme.Color.interactivity.value.cgColor, cornerRadius: 5.0)
+        let color = dm.isDestructiveAction ? Theme.Color.destructive.value : Theme.Color.interactivity.value
+        button.setTitle(dm.title,
+                        with: color)
+        button.addBorder(of: 2,
+                         with: color.cgColor,
+                         cornerRadius: 5.0)
     }
     
     func clearContent() {

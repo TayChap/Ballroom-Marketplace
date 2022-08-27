@@ -57,12 +57,20 @@
                                 <action selector="closeButtonClicked" destination="Y6W-OH-hqX" id="7Y8-nC-q1F"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="checkmark" catalog="system" id="tKo-XV-I0m">
-                            <color key="tintColor" name="interactivity"/>
-                            <connections>
-                                <action selector="loginButtonClicked" destination="Y6W-OH-hqX" id="lEv-H4-Xxp"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="checkmark" catalog="system" id="tKo-XV-I0m">
+                                <color key="tintColor" name="interactivity"/>
+                                <connections>
+                                    <action selector="loginButtonClicked" destination="Y6W-OH-hqX" id="lEv-H4-Xxp"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="plus" catalog="system" id="CYY-sh-VeN">
+                                <color key="tintColor" name="interactivity"/>
+                                <connections>
+                                    <action selector="addUserButtonClicked" destination="Y6W-OH-hqX" id="V0J-rC-ciS"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="closeButton" destination="95c-ps-5B9" id="Pv6-rN-zfI"/>
@@ -77,6 +85,7 @@
     </scenes>
     <resources>
         <image name="checkmark" catalog="system" width="128" height="114"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="background">
             <color red="0.98500001430511475" green="1" blue="0.97899997234344482" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>

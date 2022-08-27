@@ -39,10 +39,26 @@ struct LoginVM: ViewModelProtocol {
     
     func viewDidLoad(with tableView: UITableView) {
         TextFieldTableCell.registerCell(for: tableView)
-        ButtonTableCell.registerCell(for: tableView)
     }
     
     // MARK: - IBActions
+    func addUserButtonClicked() {
+        guard let email = dm[LoginItem.email] else {
+            return
+        }
+        
+        do {
+            let codableUser = User(id: UUID().uuidString,
+                                   email: email,
+                                   photoURL: nil,
+                                   displayName: "Staging User")
+            try DatabaseManager.sharedInstance.putDocument(in: .users,
+                                                           for: codableUser)
+        } catch {
+            //
+        }
+    }
+    
     func loginButtonClicked(_ delegate: ViewControllerProtocol) {
         guard let email = dm[LoginItem.email] else {
             return

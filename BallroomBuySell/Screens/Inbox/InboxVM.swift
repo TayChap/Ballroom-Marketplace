@@ -132,12 +132,14 @@ struct InboxVM: ViewModelProtocol {
         switch inboxState {
         case .threads:
             try await DatabaseManager.sharedInstance.deleteDocument(in: .threads,
-                                                                    with: threads[indexPath.row].id)
+                                                                    where: MessageThread.QueryKeys.id.rawValue,
+                                                                    equals: threads[indexPath.row].id)
             return try await fetchItems()
         case .listings:
             let saleItem = saleItems[indexPath.row]
             try await DatabaseManager.sharedInstance.deleteDocument(in: .items,
-                                                                    with: saleItem.id)
+                                                                    where: SaleItem.QueryKeys.id.rawValue,
+                                                                    equals: saleItem.id)
             
             for imageURL in saleItem.images.map({ $0.url }) {
                 FileSystemManager.deleteFile(at: imageURL)

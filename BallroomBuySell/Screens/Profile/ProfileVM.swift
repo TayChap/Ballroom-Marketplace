@@ -12,12 +12,14 @@ struct ProfileVM: ViewModelProtocol {
         case photo
         case email
         case displayName
+        case delete
         
         var textKey: String {
             switch self {
             case .photo: return "user.profile.photo"
             case .email: return "generic.email"
             case .displayName: return "user.display.name"
+            case .delete: return "user.delete.account"
             }
         }
         
@@ -51,6 +53,7 @@ struct ProfileVM: ViewModelProtocol {
     func viewDidLoad(with tableView: UITableView) {
         ImageTableCell.registerCell(for: tableView)
         TextFieldTableCell.registerCell(for: tableView)
+        ButtonTableCell.registerCell(for: tableView)
     }
     
     // MARK: - IBActions
@@ -118,6 +121,15 @@ struct ProfileVM: ViewModelProtocol {
                                                      returnKeyType: .done))
             cell.delegate = owner as? TextFieldCellDelegate
             return cell
+        case .delete:
+            guard let cell = ButtonTableCell.createCell(for: tableView) else {
+                return UITableViewCell()
+            }
+            
+            cell.configureCell(with: ButtonCellDM(title: LocalizedString.string(cellData.textKey),
+                                                  isDestructiveAction: true))
+            cell.delegate = owner as? ButtonCellDelegate
+            return cell
         }
     }
     
@@ -129,6 +141,26 @@ struct ProfileVM: ViewModelProtocol {
     
     mutating func deleteImage(at index: Int) {
         photo = nil
+    }
+    
+    // MARK: - ButtonCell Delegate
+    func buttonClicked() {
+        let delete = UIAlertAction(title: LocalizedString.string("generic.delete"),
+                                   style: .destructive) { _ in
+            Task {
+                do {
+                    try await AuthenticationManager.sharedInstance.deleteUser()
+                    delegate?.navigationController?.popToRootViewController(animated: true)
+                } catch {
+                    delegate?.showNetworkError(error)
+                }
+            }
+        }
+        
+        let cancel = UIAlertAction(title: LocalizedString.string("generic.cancel"),
+                                   style: .cancel)
+        delegate?.showAlertWith(message: LocalizedString.string("user.delete.account.alert"),
+                                alertActions: [delete, cancel])
     }
     
     // MARK: - Public Helpers

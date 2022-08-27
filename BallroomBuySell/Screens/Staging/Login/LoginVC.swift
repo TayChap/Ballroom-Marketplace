@@ -28,6 +28,10 @@ class LoginVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
         dismiss()
     }
     
+    @IBAction func addUserButtonClicked() {
+        vm.addUserButtonClicked()
+    }
+    
     @IBAction func loginButtonClicked() {
         vm.loginButtonClicked(self)
     }

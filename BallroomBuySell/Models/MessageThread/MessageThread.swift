@@ -9,7 +9,7 @@ import Foundation
 
 struct MessageThread: Storable, Reportable {
     enum QueryKeys: String {
-        case buyerId, sellerId, saleItemId
+        case id, buyerId, sellerId, saleItemId
     }
     
     var id = UUID().uuidString

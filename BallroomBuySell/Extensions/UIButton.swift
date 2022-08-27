@@ -8,10 +8,16 @@
 import UIKit
 
 extension UIButton {
-    func setTitle(_ title: String) {
+    func setTitle(_ title: String, with color: UIColor? = nil) {
         setTitle(title, for: .normal)
         setTitle(title, for: .selected)
         setTitle(title, for: .highlighted)
         setTitle(title, for: .disabled)
+        
+        guard let color = color else {
+            return
+        }
+        
+        setTitleColor(color, for: .normal)
     }
 }
