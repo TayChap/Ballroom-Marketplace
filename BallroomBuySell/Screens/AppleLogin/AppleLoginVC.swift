@@ -8,8 +8,9 @@
 import AuthenticationServices
 import CryptoKit
 import UIKit
+import PhotosUI
 
-class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationControllerDelegate, UIImagePickerControllerDelegate, PHPickerViewControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var background: UIView!
     @IBOutlet weak var foreground: UIView!
     @IBOutlet weak var closeButton: UIButton!
@@ -77,12 +78,24 @@ class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationCon
         }
         
         let normalizedImage = selectedImage
-        let resizedImage = normalizedImage.resize(newWidth: 800)
+        let resizedImage = normalizedImage.resize(newWidth: PhotoPicker.userAddedImageWidth)
         let image = Image(for: .user, data: resizedImage.pngData())
         Image.uploadImages([image])
         AuthenticationManager.sharedInstance.setUserImage(url: image.url)
         
         loginComplete()
+    }
+    
+    // MARK: - PHPickerViewController Delegate
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        Task {
+            let imageData = await PhotoPicker.getImagesResults(results).first
+            let image = Image(for: .user, data: imageData)
+            Image.uploadImages([image])
+            AuthenticationManager.sharedInstance.setUserImage(url: image.url)
+            loginComplete()
+        }
     }
     
     // MARK: - ASAuthorizationControllerDelegate
@@ -140,11 +153,13 @@ class AppleLoginVC: UIViewController, ViewControllerProtocol, ASAuthorizationCon
         actionItems.append(UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel))
         
         actionItems.append(UIAlertAction(title: LocalizedString.string("apple.camera.app"), style: .default) { _ in
-            MediaManager.displayCamera(self, displayingVC: self)
+            Camera.displayCamera(self, displayingVC: self)
         })
         
         actionItems.append(UIAlertAction(title: LocalizedString.string("apple.photos.app"), style: .default) { _ in
-            MediaManager.displayGallery(self, displayingVC: self)
+            let picker = PHPickerViewController(configuration: PhotoPicker.getConfiguration(with: 1))
+            picker.delegate = self
+            self.present(picker, animated: true)
         })
         
         showActionSheetOrPopover(message: LocalizedString.string("sale.item.images.actions"), alertActions: actionItems)

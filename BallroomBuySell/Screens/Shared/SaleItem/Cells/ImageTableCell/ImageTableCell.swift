@@ -5,25 +5,24 @@
 //  Created by Taylor Chapman on 2022-01-14.
 //
 
-import UIKit
+import PhotosUI
 
 protocol ImageCellDelegate {
-    func addImage(_ data: Data)
+    func addImages(_ images: [Data])
     func deleteImage(at index: Int)
 }
 
 extension ImageCellDelegate { // for view only case no need for image update methods
-    func addImage(_ data: Data){}
+    func addImages(_ images: [Data]){}
     func deleteImage(at index: Int){}
 }
 
-class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, PHPickerViewControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
     
     private var maxImageCount = 0
-    private let imageWidth = 800.0
     private var imagesList = [Data]()
     private var isEditable = true
     var delegate: (ImageCellDelegate & UIViewController)?
@@ -77,7 +76,8 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let delegate = delegate else {
+        guard let delegate = delegate, isEditable else {
+            displayImage(indexPath.row)
             return
         }
         
@@ -87,16 +87,25 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     
     // MARK: - UIImagePickerController Delegate
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+        
         guard let selectedImage = info[.editedImage] as? UIImage ?? info[.originalImage] as? UIImage else {
             return
         }
         
         let normalizedImage = selectedImage.normalizedImage()
-        let resizedImage = normalizedImage.resize(newWidth: imageWidth)
+        let resizedImage = normalizedImage.resize(newWidth: PhotoPicker.userAddedImageWidth)
         
-        picker.dismiss(animated: true)
         if let imageData = resizedImage.pngData() {
-            delegate?.addImage(imageData)
+            delegate?.addImages([imageData])
+        }
+    }
+    
+    // MARK: - PHPickerViewController Delegate
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        Task {
+            delegate?.addImages(await PhotoPicker.getImagesResults(results))
         }
     }
     
@@ -106,13 +115,14 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     private func getEmptyActionSheetItems() -> [UIAlertAction] {
         var actionItems = [UIAlertAction]()
         actionItems.append(UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel))
-        
         actionItems.append(UIAlertAction(title: LocalizedString.string("apple.camera.app"), style: .default) { _ in
-            MediaManager.displayCamera(self, displayingVC: self.delegate)
+            Camera.displayCamera(self, displayingVC: self.delegate)
         })
         
         actionItems.append(UIAlertAction(title: LocalizedString.string("apple.photos.app"), style: .default) { _ in
-            MediaManager.displayGallery(self, displayingVC: self.delegate)
+            let picker = PHPickerViewController(configuration: PhotoPicker.getConfiguration(with: self.maxImageCount - self.imagesList.count))
+            picker.delegate = self
+            self.delegate?.present(picker, animated: true)
         })
         
         return actionItems
@@ -122,13 +132,10 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     /// - Parameter indexPath: indexPath referring to the index of the image
     /// - Returns: set of actions to interact with an image
     private func getNonEmptyActionSheetItems(_ indexPath: IndexPath) -> [UIAlertAction] {
-        let imageData = imagesList[indexPath.row]
         var actionItems = [UIAlertAction]()
-        
         actionItems.append(UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel))
-        
         actionItems.append(UIAlertAction(title: LocalizedString.string("generic.view"), style: .default) { _ in
-            self.displayImage(imageData)
+            self.displayImage(indexPath.row)
         })
         
         if isEditable {
@@ -142,13 +149,8 @@ class ImageTableCell: UITableViewCell, TableCellProtocol, UICollectionViewDataSo
     
     /// Display image to user
     /// - Parameter imageData: image to display
-    private func displayImage(_ imageData: Data) {
-        guard let image = UIImage(data: imageData) else {
-            return
-        }
-        
-        let imageViewer = ImageViewer.createViewController(image)
-        imageViewer.modalPresentationStyle = .fullScreen
+    private func displayImage(_ index: Int) {
+        let imageViewer = ImageViewer.createViewController(imagesList.map({ UIImage(data: $0) ?? UIImage() }), at: index)
         delegate?.present(imageViewer, animated: true)
     }
 }

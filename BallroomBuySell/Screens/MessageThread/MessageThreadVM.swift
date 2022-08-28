@@ -9,7 +9,7 @@ import InputBarAccessoryView
 import MessageKit
 import UIKit
 
-class MessageThreadVM {
+class MessageThreadVM: ViewModelProtocol {
     private weak var delegate: ViewControllerProtocol?
     
     private let templates: [SaleItemTemplate]
@@ -53,27 +53,21 @@ class MessageThreadVM {
                             reportingUser: currentUser)
     }
     
-    @MainActor
-    func infoButtonClicked() {
-        Task {
-            do {
-                var saleItem = try await DatabaseManager.sharedInstance.getDocument(in: .items,
-                                                                                    of: SaleItem.self,
-                                                                                    with: thread.saleItemId)
-                Image.downloadImages(saleItem.images.map({ $0.url })) { images in
-                    if !self.templates.isEmpty {
-                        saleItem.images = images
-                        self.delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
-                                                                                          templates: self.templates,
-                                                                                          saleItem: saleItem,
-                                                                                          hideContactSeller: true))
-                    }
-                }
-            } catch NetworkError.notFound {
-                delegate?.showAlertWith(message: LocalizedString.string("alert.sale.item.removed"))
-            } catch {
-                delegate?.showNetworkError(error)
-            }
+    func infoButtonClicked() async {
+        do {
+            var saleItem = try await DatabaseManager.sharedInstance.getDocument(in: .items,
+                                                                                of: SaleItem.self,
+                                                                                with: thread.saleItemId)
+            let images = await Image.downloadImages(saleItem.images.map({ $0.url }))
+            saleItem.images = images
+            self.delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
+                                                                              templates: self.templates,
+                                                                              saleItem: saleItem,
+                                                                              hideContactSeller: true))
+        } catch NetworkError.notFound {
+            delegate?.showAlertWith(message: LocalizedString.string("alert.sale.item.removed"))
+        } catch {
+            delegate?.showNetworkError(error)
         }
     }
     
@@ -96,14 +90,15 @@ class MessageThreadVM {
     func configureAvatarView(_ avatarView: AvatarView,
                              for message: MessageType,
                              at indexPath: IndexPath,
-                             in messagesCollectionView: MessagesCollectionView) {
-        guard let imageURL = (message.sender as? Sender)?.imageURL else {
+                             in messagesCollectionView: MessagesCollectionView) async {
+        guard
+            let imageURL = (message.sender as? Sender)?.imageURL,
+            let data = await Image.downloadImages([imageURL]).first?.data
+        else {
             return
         }
         
-        ImageManager.sharedInstance.downloadImage(at: imageURL) { data in
-            avatarView.image = UIImage(data: data)
-        }
+        avatarView.image = UIImage(data: data)
     }
     
     func inputBar(didPressSendButtonWith text: String, _ completion: () -> Void) {

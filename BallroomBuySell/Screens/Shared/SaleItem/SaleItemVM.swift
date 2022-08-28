@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct SaleItemVM {
+struct SaleItemVM: ViewModelProtocol {
     enum Mode {
         case create, edit, view, filter
         
@@ -85,7 +85,7 @@ struct SaleItemVM {
     }
     
     var reportButtonImage: UIImage? {
-        mode == .view && !hideContactSeller ? UIImage(systemName: "flag")?.withTintColor(Theme.Color.error.value) : nil
+        mode == .view && !hideContactSeller ? UIImage(systemName: "flag")?.withTintColor(Theme.Color.destructive.value) : nil
     }
     
     var messageButtonImage: UIImage? {
@@ -123,7 +123,6 @@ struct SaleItemVM {
         ImageTableCell.registerCell(for: tableView)
         SwitchTableCell.registerCell(for: tableView)
         TextViewTableCell.registerCell(for: tableView)
-        ButtonTableCell.registerCell(for: tableView)
     }
     
     // MARK: - IBActions
@@ -170,15 +169,13 @@ struct SaleItemVM {
         }
     }
     
-    func messageButtonClicked() {
+    func messageButtonClicked() async {
         if AuthenticationManager.sharedInstance.user == nil {
-            delegate?.present(AppleLoginVC.createViewController(pushMessageThread), animated: false)
+            await delegate?.present(AppleLoginVC.createViewController(pushMessageThread), animated: false)
             return
         }
         
-        Task {
-            await pushMessageThread()
-        }
+        await pushMessageThread()
     }
     
     func reportButtonClicked() {
@@ -285,8 +282,10 @@ struct SaleItemVM {
     }
     
     // MARK: - ImageCellDelegate
-    mutating func newImage(_ data: Data) {
-        saleItem.images.append(Image(for: .saleItems, data: data))
+    mutating func newImages(_ images: [Data]) {
+        for image in images {
+            saleItem.images.append(Image(for: .saleItems, data: image))
+        }
     }
     
     mutating func deleteImage(at index: Int) {
@@ -333,7 +332,6 @@ struct SaleItemVM {
         return structure
     }
     
-    @MainActor
     private func pushMessageThread() async {
         guard let user = AuthenticationManager.sharedInstance.user else {
             return

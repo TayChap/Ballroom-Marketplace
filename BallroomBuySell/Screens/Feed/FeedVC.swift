@@ -11,6 +11,8 @@ class FeedVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     @IBOutlet weak var sellButton: UIBarButtonItem!
     @IBOutlet weak var inboxButton: UIBarButtonItem!
     @IBOutlet weak var collectionView: UICollectionView!
+    private let refreshControl = UIRefreshControl()
+    private var loadingSpinner: UIActivityIndicatorView?
     private var vm: FeedVM!
     
     // MARK: - Lifecycle Methods
@@ -18,15 +20,10 @@ class FeedVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         super.viewDidLoad()
         vm = FeedVM(delegate: self)
         vm.viewDidLoad(with: collectionView)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        vm.viewWillAppear { templates, saleItems in
-            self.vm.onItemsFetched(templatesFetched: templates,
-                                   saleItemsFetched: saleItems)
-            self.reload()
-        }
+        collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        loadingSpinner = addLoadingSpinner()
+        refreshData()
     }
     
     // MARK: - IBActions
@@ -56,8 +53,11 @@ class FeedVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.isUserInteractionEnabled = false // on click, disable collection view to avoid double clicking
-        vm.collectionView(collectionView, didSelectItemAt: indexPath) {
+        Task {
+            loadingSpinner?.startAnimating()
+            collectionView.isUserInteractionEnabled = false // on click, disable collection view to avoid double clicking
+            await vm.collectionView(collectionView, didSelectItemAt: indexPath)
+            loadingSpinner?.stopAnimating()
             collectionView.isUserInteractionEnabled = true
         }
     }
@@ -73,5 +73,20 @@ class FeedVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     
     func reload() {
         collectionView.reloadData()
+    }
+    
+    // MARK: - Private Helpers
+    @objc private func refreshData() {
+        Task {
+            do {
+                let fetchedItems = try await vm.fetchItems()
+                self.vm.onItemsFetched(templatesFetched: fetchedItems.templates,
+                                       saleItemsFetched: fetchedItems.saleItems)
+                self.reload()
+                self.refreshControl.endRefreshing()
+            } catch {
+                showNetworkError(error)
+            }
+        }
     }
 }

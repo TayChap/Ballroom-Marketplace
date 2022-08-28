@@ -30,25 +30,27 @@ class SaleItemCollectionCell: UICollectionViewCell, CollectionCellProtocol {
     func configureCell(with dm: SaleItemCellDM) {
         clearContent()
         
-        coverImage.roundViewCorners(5.0)
-        imageURL = dm.imageURL
-        ImageManager.sharedInstance.downloadImage(at: dm.imageURL) { [weak self] image in // weak self because cell might be deallocated before network call returns
-            guard self?.imageURL == dm.imageURL else { // check if captured imageURL is same as current cell
-                return
-            }
-            
-            self?.coverImage.image = UIImage(data: image)
-        }
-        
         priceLabel.text = dm.price
         detailLabel.text = dm.location
-        
         applyRoundedCorners()
+        coverImage.roundViewCorners(5.0)
+        
+        imageURL = dm.imageURL
+        Task {
+            if let image = await Image.downloadImages([dm.imageURL]).first {
+                if self.imageURL != image.url {
+                    return
+                }
+                
+                coverImage.image = UIImage(data: image.data ?? Data())
+            }
+        }
     }
     
     func clearContent() {
         coverImage.image = nil
         priceLabel.text = ""
         detailLabel.text = ""
+        imageURL = ""
     }
 }

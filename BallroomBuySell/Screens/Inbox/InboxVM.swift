@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct InboxVM {
+struct InboxVM: ViewModelProtocol {
     enum InboxState: Int, CaseIterable {
         case threads, listings
     }
@@ -28,18 +28,6 @@ struct InboxVM {
         self.templates = templates
     }
     
-    @MainActor
-    func viewWillAppear(_ completion: @escaping ((saleItems: [SaleItem],
-                                                  threads: [MessageThread])) -> Void) {
-        Task {
-            do {
-                try await completion(fetchItems())
-            } catch {
-                delegate?.showNetworkError(error)
-            }
-        }
-    }
-    
     // MARK: - IBActions
     func backButtonClicked() {
         delegate?.dismiss()
@@ -54,10 +42,9 @@ struct InboxVM {
         }
     }
     
-    func profileButtonClicked() {
-        Image.downloadImages([user.photoURL ?? ""]) { images in
-            delegate?.pushViewController(ProfileVC.createViewController(user: user, photo: images.first))
-        }
+    func profileButtonClicked() async {
+        let image = await Image.downloadImages([user.photoURL ?? ""]).first
+        delegate?.pushViewController(ProfileVC.createViewController(user: user, photo: image))
     }
     
     mutating func segmentedControlClicked(_ index: Int) {
@@ -105,95 +92,73 @@ struct InboxVM {
         return cell
     }
     
-    @MainActor
     func tableView(_ tableView: UITableView,
-                   didSelectRowAt indexPath: IndexPath) {
+                   didSelectRowAt indexPath: IndexPath) async {
         if numberOfItems() == 0 { // empty message
             return
         }
         
         switch inboxState {
         case .threads:
-            Task {
-                do {
-                    let thread = threads[indexPath.row]
-                    let otherUser = try await DatabaseManager.sharedInstance.getDocument(in: .users,
-                                                                                         of: User.self,
-                                                                                         with: thread.otherUserId)
-                    delegate?.pushViewController(MessageThreadVC.createViewController(thread,
-                                                                                      currentUser: user,
-                                                                                      otherUser: otherUser,
-                                                                                      templates: templates))
-                } catch {
-                    delegate?.showNetworkError(error)
-                }
-            }
-        case .listings:
-            var saleItem = saleItems[indexPath.row]
-            Image.downloadImages(saleItem.images.map({ $0.url })) { images in
-                saleItem.images = images
-                delegate?.pushViewController(SaleItemVC.createViewController(mode: .edit,
-                                                                             templates: templates,
-                                                                             saleItem: saleItem))
-            }
-        }
-    }
-    
-    @MainActor
-    func tableView(_ tableView: UITableView,
-                   commit editingStyle: UITableViewCell.EditingStyle,
-                   forRowAt indexPath: IndexPath,
-                   completion: @escaping ((saleItems: [SaleItem],
-                                           threads: [MessageThread])) -> Void) {
-        guard editingStyle == .delete else {
-            return
-        }
-        
-        Task {
             do {
-                switch inboxState {
-                case .threads:
-                    try await DatabaseManager.sharedInstance.deleteDocument(in: .threads,
-                                                                            with: threads[indexPath.row].id)
-                    completion(try await fetchItems())
-                case .listings:
-                    let saleItem = saleItems[indexPath.row]
-                    try await DatabaseManager.sharedInstance.deleteDocument(in: .items,
-                                                                            with: saleItem.id)
-                    
-                    for imageURL in saleItem.images.map({ $0.url }) {
-                        FileSystemManager.deleteFile(at: imageURL)
-                    }
-                    
-                    completion(try await fetchItems())
-                }
+                let thread = threads[indexPath.row]
+                let otherUser = try await DatabaseManager.sharedInstance.getDocument(in: .users,
+                                                                                     of: User.self,
+                                                                                     with: thread.otherUserId)
+                delegate?.pushViewController(MessageThreadVC.createViewController(thread,
+                                                                                  currentUser: user,
+                                                                                  otherUser: otherUser,
+                                                                                  templates: templates))
             } catch {
                 delegate?.showNetworkError(error)
             }
+        case .listings:
+            var saleItem = saleItems[indexPath.row]
+            saleItem.images = await Image.downloadImages(saleItem.images.map({ $0.url }))
+            delegate?.pushViewController(SaleItemVC.createViewController(mode: .edit,
+                                                                         templates: templates,
+                                                                         saleItem: saleItem))
         }
     }
     
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) async throws -> (saleItems: [SaleItem],
+                                                                   threads: [MessageThread]) {
+        guard editingStyle == .delete else {
+            throw NetworkError.internalSystemError
+        }
+        
+        switch inboxState {
+        case .threads:
+            try await DatabaseManager.sharedInstance.deleteDocuments(in: .threads,
+                                                                    where: MessageThread.QueryKeys.id.rawValue,
+                                                                    equals: threads[indexPath.row].id)
+            return try await fetchItems()
+        case .listings:
+            let saleItem = saleItems[indexPath.row]
+            try await DatabaseManager.sharedInstance.deleteDocuments(in: .items,
+                                                                    where: SaleItem.QueryKeys.id.rawValue,
+                                                                    equals: saleItem.id)
+            
+            for imageURL in saleItem.images.map({ $0.url }) {
+                FileSystemManager.deleteFile(at: imageURL)
+            }
+            
+            return try await fetchItems()
+        }
+    }
+        
     // MARK: - Public Helpers
     mutating func refreshUser() {
-        // TODO! potentially refactor so user ALWAYS accessed from shared instance to avoid stale
         if let user = AuthenticationManager.sharedInstance.user {
             self.user = user
         }
     }
     
-    mutating func onFetch(_ saleItemsFetched: [SaleItem],
-                          _ threadsFetched: [MessageThread]) {
-        saleItems = saleItemsFetched.sorted(by: { $0.dateAdded.compare($1.dateAdded) == .orderedDescending })
-        
-        // sort and filter threads
-        threads = threadsFetched.sorted(by: { $0.messages.last?.sentDate.compare($1.messages.last?.sentDate ?? Date()) == .orderedDescending })
-    }
-    
-    // MARK: - Private Helpers
     /// Query server for both sale items and threads where user is either the buyer or the seller
     /// - Parameter completion: on successfully fetching the saleItem and thread data
-    @MainActor
-    private func fetchItems() async throws -> (saleItems: [SaleItem],
+    func fetchItems() async throws -> (saleItems: [SaleItem],
                                                threads: [MessageThread]) {
         let saleItems = try await DatabaseManager.sharedInstance.getDocuments(to: .items,
                                                                               of: SaleItem.self,
@@ -210,6 +175,15 @@ struct InboxVM {
         return (saleItems, threads)
     }
     
+    mutating func onFetch(_ saleItemsFetched: [SaleItem],
+                          _ threadsFetched: [MessageThread]) {
+        saleItems = saleItemsFetched.sorted(by: { $0.dateAdded.compare($1.dateAdded) == .orderedDescending })
+        
+        // sort and filter threads
+        threads = threadsFetched.sorted(by: { $0.messages.last?.sentDate.compare($1.messages.last?.sentDate ?? Date()) == .orderedDescending })
+    }
+    
+    // MARK: - Private Helpers
     /// get total number of items for the currently active state
     /// - Returns: number of items for currently active state
     private func numberOfItems() -> Int {

@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct FeedVM {
+struct FeedVM: ViewModelProtocol {
     enum Section: Int, CaseIterable {
         case recentItems, categories
     }
@@ -29,25 +29,6 @@ struct FeedVM {
         FeedSectionHeader.registerCell(for: collectionView)
         
 //        TemplateManager.updateTemplates()
-    }
-    
-    @MainActor
-    func viewWillAppear(_ completion: @escaping (_ templates: [SaleItemTemplate],
-                                                 _ saleItems: [SaleItem]) -> Void) {
-        Task {
-            do {
-                // refresh templates and pull most recent sale items
-                let templates = try await DatabaseManager.sharedInstance.getDocuments(to: .templates,
-                                                                                       of: SaleItemTemplate.self)
-                let items = try await DatabaseManager.sharedInstance.getDocuments(to: .items,
-                                                                                   of: SaleItem.self,
-                                                                                   withOrderRule: (field: SaleItem.QueryKeys.dateAdded.rawValue, descending: true, limit: maxRecentItems))
-                completion(templates, items)
-                
-            } catch {
-                delegate?.showNetworkError(error)
-            }
-        }
     }
     
     // MARK: - IBActions
@@ -122,45 +103,46 @@ struct FeedVM {
         return cell
     }
     
-    @MainActor
     func collectionView(_ collectionView: UICollectionView,
-                        didSelectItemAt indexPath: IndexPath,
-                        completion: @escaping () -> Void) {
+                        didSelectItemAt indexPath: IndexPath) async {
         if indexPath.section == Section.recentItems.rawValue {
-            var saleItem = saleItems[indexPath.row]
-            Image.downloadImages(saleItem.images.map({ $0.url })) { images in
-                if !templates.isEmpty {
-                    saleItem.images = images
-                    delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
-                                                                                 templates: templates,
-                                                                                 saleItem: saleItem))
-                }
+            if !templates.isEmpty {
+                var saleItem = saleItems[indexPath.row]
+                saleItem.images = await Image.downloadImages(saleItem.images.map({ $0.url }))
+                delegate?.pushViewController(SaleItemVC.createViewController(mode: .view,
+                                                                             templates: templates,
+                                                                             saleItem: saleItem))
             }
             
-            completion()
             return
         }
         
         // category selected
         let selectedTemplate = templates[indexPath.row]
         let templateFilter = (key: "fields.\(SaleItemTemplate.serverKey.templateId.rawValue)", value: selectedTemplate.id)
-        Task {
-            do {
-                let filteredSaleItems = try await DatabaseManager.sharedInstance.getDocuments(to: .items,
-                                                                                              of: SaleItem.self,
-                                                                                              whereFieldEquals: templateFilter)
-                delegate?.pushViewController(SaleItemListVC.createViewController(templates: templates,
-                                                                                 selectedTemplate: selectedTemplate,
-                                                                                 saleItems: filteredSaleItems))
-                completion()
-            } catch {
-                delegate?.showNetworkError(error)
-                completion()
-            }
+        do {
+            let filteredSaleItems = try await DatabaseManager.sharedInstance.getDocuments(to: .items,
+                                                                                          of: SaleItem.self,
+                                                                                          whereFieldEquals: templateFilter)
+            delegate?.pushViewController(SaleItemListVC.createViewController(templates: templates,
+                                                                             selectedTemplate: selectedTemplate,
+                                                                             saleItems: filteredSaleItems))
+        } catch {
+            delegate?.showNetworkError(error)
         }
     }
     
     // MARK: - Public Helpers
+    func fetchItems() async throws -> (templates: [SaleItemTemplate],
+                                           saleItems: [SaleItem]) {
+        // refresh templates and pull most recent sale items
+        (try await DatabaseManager.sharedInstance.getDocuments(to: .templates,
+                                                               of: SaleItemTemplate.self),
+         try await DatabaseManager.sharedInstance.getDocuments(to: .items,
+                                                               of: SaleItem.self,
+                                                               withOrderRule: (field: SaleItem.QueryKeys.dateAdded.rawValue, descending: true, limit: maxRecentItems)))
+    }
+    
     mutating func onItemsFetched(templatesFetched: [SaleItemTemplate],
                                  saleItemsFetched: [SaleItem]) {
         templates = templatesFetched.sorted(by: { $0.order < $1.order })

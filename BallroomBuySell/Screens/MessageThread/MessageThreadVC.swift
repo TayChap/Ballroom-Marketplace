@@ -58,7 +58,11 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
     }
     
     @IBAction func infoButtonClicked() {
-        vm.infoButtonClicked()
+        Task {
+            infoButton.isEnabled = false
+            await vm.infoButtonClicked()
+            infoButton.isEnabled = true
+        }
     }
     
     // MARK: - MessagesDataSource
@@ -79,7 +83,9 @@ class MessageThreadVC: MessagesViewController, ViewControllerProtocol, MessagesD
                              for message: MessageType,
                              at indexPath: IndexPath,
                              in messagesCollectionView: MessagesCollectionView) {
-        vm.configureAvatarView(avatarView, for: message, at: indexPath, in: messagesCollectionView)
+        Task {
+            await vm.configureAvatarView(avatarView, for: message, at: indexPath, in: messagesCollectionView)
+        }
     }
     
     func inputBar(_ inputBar: InputBarAccessoryView,

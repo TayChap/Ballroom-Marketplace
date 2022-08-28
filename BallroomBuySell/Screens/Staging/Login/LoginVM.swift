@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct LoginVM {
+struct LoginVM: ViewModelProtocol {
     enum LoginItem: CaseIterable {
         case email
         
@@ -29,21 +29,33 @@ struct LoginVM {
     }
     
     private var dm = [LoginItem: String]()
+    private var delegate: UIViewController?
     
     // MARK: - Lifecycle Methods
-    init() {
-        for item in LoginItem.allCases {
-            dm[item] = ""
-        }
+    init(delegate: UIViewController) {
+        self.delegate = delegate
     }
     
     func viewDidLoad(with tableView: UITableView) {
         TextFieldTableCell.registerCell(for: tableView)
-        ButtonTableCell.registerCell(for: tableView)
     }
     
     // MARK: - IBActions
-    @MainActor
+    func addUserButtonClicked() {
+        guard let email = dm[LoginItem.email] else {
+            return
+        }
+        
+        Task {
+            do {
+                try await AuthenticationManager.sharedInstance.createStagingUser(email: email)
+                delegate?.dismiss(animated: true)
+            } catch {
+                delegate?.showNetworkError(error)
+            }
+        }
+    }
+    
     func loginButtonClicked(_ delegate: ViewControllerProtocol) {
         guard let email = dm[LoginItem.email] else {
             return

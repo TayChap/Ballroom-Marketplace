@@ -28,18 +28,20 @@ class InboxTableCell: UITableViewCell, TableCellProtocol {
         clearContent()
         
         saleItemImage.roundViewCorners(5.0)
-        imageURL = dm.imageURL
-        ImageManager.sharedInstance.downloadImage(at: dm.imageURL) { [weak self] image in // weak self because cell might be deallocated before network call returns
-            guard self?.imageURL == dm.imageURL else { // check if captured imageURL is same as current cell
-                return
-            }
-            
-            self?.saleItemImage.image = UIImage(data: image)
-        }
-        
         titleLabel.text = dm.title
         dateLabel.text = dm.date?.toReadableString()
         detailLabel.text = dm.detail
+        
+        imageURL = dm.imageURL
+        Task {
+            if let image = await Image.downloadImages([dm.imageURL]).first {
+                if self.imageURL != image.url {
+                    return
+                }
+                
+                saleItemImage.image = UIImage(data: image.data ?? Data())
+            }
+        }
     }
     
     func clearContent() {
@@ -47,5 +49,6 @@ class InboxTableCell: UITableViewCell, TableCellProtocol {
         titleLabel.text = ""
         dateLabel.text = ""
         detailLabel.text = ""
+        imageURL = ""
     }
 }

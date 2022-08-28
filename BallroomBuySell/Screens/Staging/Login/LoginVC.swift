@@ -11,11 +11,13 @@ class LoginVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     @IBOutlet weak var closeButton: UIBarButtonItem!
     @IBOutlet weak var loginButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
-    private var vm = LoginVM()
+    private var vm: LoginVM!
     
     // MARK: - Lifecycle Methods
     static func createViewController() -> UIViewController {
-        UIViewController.getVC(from: .staging, of: self)
+        let vc = UIViewController.getVC(from: .staging, of: self)
+        vc.vm = LoginVM(delegate: vc)
+        return vc
     }
     
     override func viewDidLoad() {
@@ -26,6 +28,10 @@ class LoginVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     // MARK: - IBActions
     @IBAction func closeButtonClicked() {
         dismiss()
+    }
+    
+    @IBAction func addUserButtonClicked() {
+        vm.addUserButtonClicked()
     }
     
     @IBAction func loginButtonClicked() {

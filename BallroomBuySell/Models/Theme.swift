@@ -14,7 +14,7 @@ struct Theme {
         // secondary
         case secondaryText // Text Contrasting with cardBackground
         // tertiary
-        case background, cardBackground, confirmation, divider, error, interactivity
+        case background, cardBackground, confirmation, divider, destructive, interactivity
         
         var value: UIColor {
             UIColor(named: self.rawValue) ?? .black
@@ -25,5 +25,8 @@ struct Theme {
         UINavigationBar.appearance().backgroundColor = Color.background.value
         UINavigationBar.appearance().barTintColor = Color.background.value
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: Color.primaryText.value]
+        
+        UIPageControl.appearance().pageIndicatorTintColor = Theme.Color.background.value
+        UIPageControl.appearance().currentPageIndicatorTintColor = Theme.Color.confirmation.value
     }
 }

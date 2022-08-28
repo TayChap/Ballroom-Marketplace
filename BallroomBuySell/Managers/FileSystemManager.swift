@@ -17,17 +17,16 @@ struct FileSystemManager {
         storage.reference().child(url).putData(data)
     }
     
-    static func getFile(at url: String, _ completion: @escaping (_ data: Data?, _ error: Error?) -> Void) {
-        // check for file locally
-        if let data = getFile(at: getFileURL(url)) {
-            completion(data, nil)
-            return
-        }
-        
-        // download from the server
-        let fileURL = getFileURL(url)
-        storage.reference().child(url).write(toFile: fileURL) { _ , error in
-            completion(self.getFile(at: fileURL), error)
+    static func getFile(at url: String) async throws -> Data {
+        try await withCheckedThrowingContinuation { continuation in
+            getFile(at: url) { data, error in
+                guard let data = data, error == nil else {
+                    continuation.resume(throwing: NetworkError.notFound)
+                    return
+                }
+                
+                continuation.resume(returning: data)
+            }
         }
     }
     
@@ -35,12 +34,27 @@ struct FileSystemManager {
         storage.reference().child(url).delete()
     }
     
+    // MARK: - Private Helpers
+    private static func getFile(at url: String, _ completion: @escaping (_ data: Data?, _ error: Error?) -> Void) {
+        // check fogr file locally
+        if let data = getLocalFile(at: getFileURL(url)) {
+            completion(data, nil)
+            return
+        }
+        
+        // download from the server
+        let fileURL = getFileURL(url)
+        storage.reference().child(url).write(toFile: fileURL) { _ , error in
+            completion(self.getLocalFile(at: fileURL), error)
+        }
+    }
+    
     private static func getFileURL(_ url: String) -> URL {
         let fileFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: "")
         return fileFolder.appendingPathComponent(URL(string: url)?.lastPathComponent ?? "")
     }
     
-    private static func getFile(at fileURL: URL) -> Data? {
+    private static func getLocalFile(at fileURL: URL) -> Data? {
         guard let data = try? Data(contentsOf: fileURL) else {
             return nil
         }

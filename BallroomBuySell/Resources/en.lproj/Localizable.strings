@@ -4,6 +4,7 @@
 "generic.categories" = "Categories";
 "generic.category" = "Category";
 "generic.close" = "Close";
+"generic.delete" = "Delete";
 "generic.discard" = "Discard";
 "generic.edit.listing" = "Edit Listing";
 "generic.email" = "Email";
@@ -43,6 +44,8 @@
 "login.add.picture.message" = "Add a profile picture?";
 "user.display.name" = "Display Name";
 "user.profile.photo" = "Profile Image";
+"user.delete.account" = "Delete Account";
+"user.delete.account.alert" = "Are you sure you want to delete your account? Deleted accounts cannot be recovered.";
 
 /* Feed */
 "feed.recent.items" = "Recent Items";

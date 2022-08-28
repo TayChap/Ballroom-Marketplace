@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, ImageCellDelegate, TextFieldCellDelegate {
+class ProfileVC: UIViewController, UITableViewDataSource, ViewControllerProtocol, ImageCellDelegate, TextFieldCellDelegate, ButtonCellDelegate {
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var updateUserButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
@@ -53,8 +53,12 @@ class ProfileVC: UIViewController, UITableViewDataSource, ViewControllerProtocol
     }
     
     // MARK: - ImageCellDelegate
-    func addImage(_ data: Data) {
-        vm.newImage(data)
+    func addImages(_ images: [Data]) {
+        guard let image = images.first else {
+            return
+        }
+        
+        vm.newImage(image)
         reload()
     }
     
@@ -70,5 +74,10 @@ class ProfileVC: UIViewController, UITableViewDataSource, ViewControllerProtocol
         }
         
         vm.setData(newText, at: indexPath)
+    }
+    
+    // MARK: - ButtonCell Delegate
+    func buttonClicked() {
+        vm.buttonClicked()
     }
 }
