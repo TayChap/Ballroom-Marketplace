@@ -10,6 +10,7 @@ import Firebase
 class AuthenticationManager {
     static let sharedInstance = AuthenticationManager()
     static var currentNonce: String?
+    private let stagingPassword = "Tester"
     private(set) var user: User?
     
     // MARK: - Private Init
@@ -66,11 +67,27 @@ class AuthenticationManager {
             throw NetworkError.internalSystemError
         }
         
+        do {
+            try await DatabaseManager.sharedInstance.deleteDocuments(in: .threads, where: MessageThread.QueryKeys.buyerId.rawValue, equals: userId)
+        } catch {
+            // take no action
+        }
+        
+        do {
+            try await DatabaseManager.sharedInstance.deleteDocuments(in: .threads, where: MessageThread.QueryKeys.sellerId.rawValue, equals: userId)
+        } catch {
+            // take no action
+        }
+        
+        do {
+            try await DatabaseManager.sharedInstance.deleteDocuments(in: .items, where: SaleItem.QueryKeys.userId.rawValue, equals: userId)
+        } catch {
+            // take no action
+        }
+        
+        try await DatabaseManager.sharedInstance.deleteDocuments(in: .users, where: User.QueryKeys.id.rawValue, equals: userId)
         try await Auth.auth().currentUser?.delete()
-        try await DatabaseManager.sharedInstance.deleteDocument(in: .items, where: SaleItem.QueryKeys.userId.rawValue, equals: userId)
-        try await DatabaseManager.sharedInstance.deleteDocument(in: .threads, where: MessageThread.QueryKeys.buyerId.rawValue, equals: userId)
-        try await DatabaseManager.sharedInstance.deleteDocument(in: .threads, where: MessageThread.QueryKeys.sellerId.rawValue, equals: userId)
-        try await DatabaseManager.sharedInstance.deleteDocument(in: .users, where: User.QueryKeys.id.rawValue, equals: userId)
+        user = nil
     }
     
     // MARK: - Production only authentication
@@ -100,8 +117,19 @@ class AuthenticationManager {
     }
     
     // MARK: - Staging only authentication
+    func createStagingUser(email: String) async throws {
+        let result = try await Auth.auth().createUser(withEmail: email,
+                                                      password: stagingPassword)
+        let codableUser = User(id: result.user.uid,
+                               email: email,
+                               photoURL: nil,
+                               displayName: "Staging User")
+        try DatabaseManager.sharedInstance.putDocument(in: .users, for: codableUser)
+        self.user = codableUser
+    }
+    
     func loginStagingUser(email: String) async throws {
-        let userId = try await Auth.auth().signIn(withEmail: email, password: "Tester").user.uid
+        let userId = try await Auth.auth().signIn(withEmail: email, password: stagingPassword).user.uid
         let user = try await DatabaseManager.sharedInstance.getDocument(in: .users,
                                                                         of: User.self,
                                                                         with: userId)

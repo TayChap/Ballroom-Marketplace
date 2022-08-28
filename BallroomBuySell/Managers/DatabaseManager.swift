@@ -82,14 +82,12 @@ struct DatabaseManager {
         }).filter({ ($0 as? Reportable)?.isAcceptable() ?? true })
     }
     
-    func deleteDocument(in collection: FirebaseCollection,
+    func deleteDocuments(in collection: FirebaseCollection,
                         where field: String,
-                        equals value: String) async throws { // TODO! test delete thread, sale item, then user
-        let querySnapshot = try await db.collection(collection.collectionId).whereField(field, in: [value]).getDocuments()
-        guard let doc = querySnapshot.documents.first else {
-            throw NetworkError.accessFailure
+                        equals value: String) async throws {
+        let documents = try await db.collection(collection.collectionId).whereField(field, isEqualTo: value).getDocuments().documents
+        for doc in documents {
+            try await db.collection(collection.collectionId).document(doc.documentID).delete()
         }
-        
-        try await db.collection(collection.collectionId).document(doc.documentID).delete()
     }
 }

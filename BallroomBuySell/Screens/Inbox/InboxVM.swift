@@ -131,13 +131,13 @@ struct InboxVM: ViewModelProtocol {
         
         switch inboxState {
         case .threads:
-            try await DatabaseManager.sharedInstance.deleteDocument(in: .threads,
+            try await DatabaseManager.sharedInstance.deleteDocuments(in: .threads,
                                                                     where: MessageThread.QueryKeys.id.rawValue,
                                                                     equals: threads[indexPath.row].id)
             return try await fetchItems()
         case .listings:
             let saleItem = saleItems[indexPath.row]
-            try await DatabaseManager.sharedInstance.deleteDocument(in: .items,
+            try await DatabaseManager.sharedInstance.deleteDocuments(in: .items,
                                                                     where: SaleItem.QueryKeys.id.rawValue,
                                                                     equals: saleItem.id)
             

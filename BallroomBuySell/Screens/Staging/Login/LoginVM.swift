@@ -29,12 +29,11 @@ struct LoginVM: ViewModelProtocol {
     }
     
     private var dm = [LoginItem: String]()
+    private var delegate: UIViewController?
     
     // MARK: - Lifecycle Methods
-    init() {
-        for item in LoginItem.allCases {
-            dm[item] = ""
-        }
+    init(delegate: UIViewController) {
+        self.delegate = delegate
     }
     
     func viewDidLoad(with tableView: UITableView) {
@@ -47,15 +46,13 @@ struct LoginVM: ViewModelProtocol {
             return
         }
         
-        do {
-            let codableUser = User(id: UUID().uuidString,
-                                   email: email,
-                                   photoURL: nil,
-                                   displayName: "Staging User")
-            try DatabaseManager.sharedInstance.putDocument(in: .users,
-                                                           for: codableUser)
-        } catch {
-            //
+        Task {
+            do {
+                try await AuthenticationManager.sharedInstance.createStagingUser(email: email)
+                delegate?.dismiss(animated: true)
+            } catch {
+                delegate?.showNetworkError(error)
+            }
         }
     }
     
