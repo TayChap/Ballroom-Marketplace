@@ -30,7 +30,7 @@ Two things that make this app special are (1) JSON driven templates for clothing
 <p><font size="3">
 Three Technical Notes</p>
 
-1. The app uses MVVM architecture and UIKit to ensure proper code isolation and testability. It would have also been appropriate (and likely better) to use SwiftUI; however, at the time of initial development I was not familiar with it.
+1. The app uses MVVM architecture and UIKit to ensure proper code isolation and testability.
 
 2. To avoid excessive reliance on completion and error handlers, we adopted the new structured concurrency model solidified in Swift 5.5: https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html
 
