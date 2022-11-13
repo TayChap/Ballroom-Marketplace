@@ -24,6 +24,10 @@
 		8D95E40629206DAA009BA90E /* BallroomBuySellUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D95E40529206DAA009BA90E /* BallroomBuySellUITests.swift */; };
 		8D95E40829206DAA009BA90E /* BallroomBuySellUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D95E40729206DAA009BA90E /* BallroomBuySellUITestsLaunchTests.swift */; };
 		8D95E41529206F34009BA90E /* BallroomBuySellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D95E41429206F34009BA90E /* BallroomBuySellTests.swift */; };
+		8D95E427292182D4009BA90E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8D95E426292182D4009BA90E /* FirebaseFirestore */; };
+		8D95E429292182F0009BA90E /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 8D95E428292182F0009BA90E /* FirebaseStorage */; };
+		8D95E42B29218303009BA90E /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8D95E42A29218303009BA90E /* FirebaseAuth */; };
+		8D95E42D29218319009BA90E /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 8D95E42C29218319009BA90E /* FirebaseAppCheck */; };
 		8D967A1428BA977D004BBBAA /* ButtonCellDM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D967A1328BA977D004BBBAA /* ButtonCellDM.swift */; };
 		8D9D44ED2770C64A004C5565 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9D44EC2770C64A004C5565 /* UIViewController.swift */; };
 		8D9D450927711E44004C5565 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D9D450727711E44004C5565 /* Localizable.strings */; };
@@ -279,6 +283,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D95E42D29218319009BA90E /* FirebaseAppCheck in Frameworks */,
+				8D95E427292182D4009BA90E /* FirebaseFirestore in Frameworks */,
+				8D95E42B29218303009BA90E /* FirebaseAuth in Frameworks */,
+				8D95E429292182F0009BA90E /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +319,7 @@
 				8D95E40429206DAA009BA90E /* BallroomBuySellUITests */,
 				8D95E41229206F34009BA90E /* BallroomBuySellTests.xctest */,
 				8D95E41329206F34009BA90E /* BallroomBuySellTests */,
+				8D95E425292182D4009BA90E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -355,6 +364,13 @@
 				8D95E41429206F34009BA90E /* BallroomBuySellTests.swift */,
 			);
 			path = BallroomBuySellTests;
+			sourceTree = "<group>";
+		};
+		8D95E425292182D4009BA90E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		8D9D44E72770C537004C5565 /* Extensions */ = {
@@ -831,6 +847,12 @@
 				8D95E41729206F34009BA90E /* PBXTargetDependency */,
 			);
 			name = BallroomBuySellTests;
+			packageProductDependencies = (
+				8D95E426292182D4009BA90E /* FirebaseFirestore */,
+				8D95E428292182F0009BA90E /* FirebaseStorage */,
+				8D95E42A29218303009BA90E /* FirebaseAuth */,
+				8D95E42C29218319009BA90E /* FirebaseAppCheck */,
+			);
 			productName = BallroomBuySellTests;
 			productReference = 8D95E41229206F34009BA90E /* BallroomBuySellTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -1378,6 +1400,26 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		8D95E426292182D4009BA90E /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8DE4E45C27B30D5D002980D3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		8D95E428292182F0009BA90E /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8DE4E45C27B30D5D002980D3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		8D95E42A29218303009BA90E /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8DE4E45C27B30D5D002980D3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		8D95E42C29218319009BA90E /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8DE4E45C27B30D5D002980D3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
 		8DE4E45D27B30D5D002980D3 /* FirebaseAppCheck */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8DE4E45C27B30D5D002980D3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

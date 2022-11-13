@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import BallroomBuySell
 
 final class BallroomBuySellTests: XCTestCase {
     override func setUpWithError() throws {
@@ -17,7 +18,16 @@ final class BallroomBuySellTests: XCTestCase {
     }
     
     // MARK: - My Test Example
-    func testExample() throws {
+    func testStandard() throws {
+        let item = SaleItem(userId: "test")
+        XCTAssertEqual(item.userId, "test")
+    }
+    
+    func testBoundary() throws {
+        // TODO!
+    }
+    
+    func testSpecialCase() throws {
         // TODO!
     }
     
