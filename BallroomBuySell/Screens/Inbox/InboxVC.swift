@@ -85,14 +85,19 @@ class InboxVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Vie
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        Task {
-            do {
-                let itemsFetched = try await vm.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
-                refreshItems(itemsFetched.saleItems, itemsFetched.threads)
-            } catch {
-                showNetworkError(error)
+        let now = UIAlertAction(title: LocalizedString.string("generic.delete"), style: .destructive) { _ in
+            Task {
+                do {
+                    let itemsFetched = try await self.vm.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
+                    self.refreshItems(itemsFetched.saleItems, itemsFetched.threads)
+                } catch {
+                    self.showNetworkError(error)
+                }
             }
         }
+        
+        let cancel = UIAlertAction(title: LocalizedString.string("generic.cancel"), style: .cancel)
+        showAlertWith(message: LocalizedString.string("inbox.delete.item"), alertActions: [now, cancel])
     }
     
     // MARK: - ViewControllerProtocol
