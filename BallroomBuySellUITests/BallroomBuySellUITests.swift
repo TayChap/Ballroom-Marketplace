@@ -9,24 +9,40 @@ import XCTest
 
 final class BallroomBuySellUITests: XCTestCase {
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        
+        let app = XCUIApplication()
+        app.launch()
+        
+        // login
+        app.buttons["addItem"].tap()
+        if !app.buttons["loginButton"].exists {
+            return
+        }
+        
+        let textField = app.textFields["textField"]
+        textField.tap()
+        textField.typeText("seller@1.com")
+        app.buttons["loginButton"].tap()
     }
-
+    
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
+    
+    // MARK: - My UI Test Example
     func testExample() throws {
-        // UI tests must launch the application that they test.
+        // start app
         let app = XCUIApplication()
         app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        // execute test
+        app.buttons["addItem"].tap()
+        
+        // validate test
+        let notes = app.textViews["textView"]
+        XCTAssert(notes.isEnabled)
+        XCTAssert(notes.value as? String == "")
     }
 
     func testLaunchPerformance() throws {

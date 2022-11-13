@@ -15,4 +15,5 @@ struct TextFieldCellDM {
     let returnKeyType: UIReturnKeyType
     var showRequiredAsterisk = false
     var isEnabled = true
+    let accessibilityIdentifier = "textField" // TODO! pass in
 }

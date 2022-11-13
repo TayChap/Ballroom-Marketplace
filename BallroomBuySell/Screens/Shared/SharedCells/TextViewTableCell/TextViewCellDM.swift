@@ -9,4 +9,5 @@ struct TextViewCellDM {
     let title: String
     let detail: String
     var isEnabled: Bool = true
+    let accessibilityIdentifier = "textView" // TODO! pass in
 }

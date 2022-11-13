@@ -45,6 +45,7 @@ class TextFieldTableCell: UITableViewCell, TableCellProtocol, UITextFieldDelegat
         textField.text = dm.detail
         textField.keyboardType = dm.inputType.keyboardType
         textField.isSecureTextEntry = dm.inputType == .password
+        textField.accessibilityIdentifier = dm.accessibilityIdentifier
         textField.textContentType = .oneTimeCode // force disable strong password
         textField.autocorrectionType = dm.inputType.autocorrectionType
         textField.autocapitalizationType = dm.inputType.autoCapitalization

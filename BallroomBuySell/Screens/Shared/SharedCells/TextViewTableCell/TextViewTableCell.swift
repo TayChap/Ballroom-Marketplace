@@ -50,6 +50,7 @@ class TextViewTableCell: UITableViewCell, UITextViewDelegate, TableCellProtocol 
         titleLabel.text = dm.title
         textView.text = dm.detail
         textView.isEditable = dm.isEnabled
+        textView.accessibilityIdentifier = dm.accessibilityIdentifier
         textView.layer.borderWidth = 1.0
         textView.layer.borderColor = Theme.Color.primaryText.value.cgColor
         textView.delegate = self
