@@ -47,6 +47,9 @@
 "user.delete.account" = "Delete Account";
 "user.delete.account.alert" = "Are you sure you want to delete your account? Deleted accounts cannot be recovered.";
 
+/* Inbox */
+"inbox.delete.item" = "Are you sure you want to delete this item?";
+
 /* Feed */
 "feed.recent.items" = "Recent Items";
 
