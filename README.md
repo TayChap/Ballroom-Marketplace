@@ -4,7 +4,7 @@
   <br> Ballroom Marketplace </br>
 </h1>
 <p><font size="3">
-<strong>Ballroom Marketplace</strong> is a C2C (customer to customer) buy and sell app that enables people to exchange used ballroom dance performance wear. I have removed this old version app from the App Store since I am developing a more general buy/sell app for performance wear using the same concept.
+<strong>Ballroom Marketplace</strong> is a C2C (customer to customer) buy and sell app that enables people to exchange used ballroom dance performance wear. App Store Link: https://apps.apple.com/us/app/ballroom-marketplace/id1619576867
 
 <h1 align="center">
 <img width="974" alt="image" src="https://user-images.githubusercontent.com/12243409/177062383-ca196213-3b7c-4470-bd48-735df9348c4d.png">
