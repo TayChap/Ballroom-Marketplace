@@ -3,11 +3,13 @@
   ![github_50](https://user-images.githubusercontent.com/12243409/163683336-f5338315-d5b5-4154-ad29-240d66feff3b.png)
   <br> Ballroom Marketplace </br>
 </h1>
+
 <p><font size="3">
 <strong>Ballroom Marketplace</strong> is a C2C (customer to customer) buy and sell app that enables people to exchange used ballroom dance performance wear. App Store Link: https://apps.apple.com/us/app/ballroom-marketplace/id1619576867
 
+
 <p><font size="3">
-Three Technical Notes</p>
+Three Technical Notes:</p>
 
 1. The app uses MVVM architecture and UIKit to ensure proper code isolation and testability.
 
